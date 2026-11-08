@@ -1,0 +1,460 @@
+{
+  "exp_id": "exp3",
+  "title": "Read: which language + copying heads",
+  "status": "done",
+  "summary": "From the four middle blocks alone (no embeddings, no unembedding, no forward passes), Claude Opus 5.5 named the training language in 5/15 clean runs (Python 0/5; Romaji 0/5; English 5/5). Copying-head identification: mean F1 0.70 against the measured induction head of each model, with the top measured head picked in \u22652/3 attempts for 3/3 languages. Pre-registered verdict (9 runs): partial; same with all 15 runs. 15 of 15 language answers were 'English' (a default guess, so a correct 'English' is not evidence of reading the weights). No run was flagged as a no-forward-pass violation. API cost $20.96.",
+  "table": {
+    "caption": "Clean runs only; grading pre-registered in experiments/exp3/GRADING.md. Ground truth: induction score (unigram-sampled random characters, repeated) \u2265 0.3; previous-token score \u2265 0.3. Precision is averaged over runs that named at least one head.",
+    "columns": [
+      "Trained on",
+      "Language correct",
+      "Claude's answers",
+      "Mean confidence",
+      "Induction precision",
+      "Induction recall",
+      "Induction heads (measured)",
+      "Most common induction set",
+      "Prev-token precision",
+      "Prev-token recall",
+      "Prev-token heads (measured)",
+      "Most common prev-token set"
+    ],
+    "rows": [
+      [
+        "Python",
+        "0/5",
+        "English (5)",
+        "0.33",
+        "0.25",
+        "1.00",
+        "3.1",
+        "{3.0, 3.1, 3.4, 3.5} (5/5)",
+        "0.60",
+        "0.30",
+        "0.3, 2.0",
+        "{0.3} (3/5)"
+      ],
+      [
+        "Romaji",
+        "0/5",
+        "English (5)",
+        "0.35",
+        "1.00",
+        "1.00",
+        "3.2",
+        "{3.2} (5/5)",
+        "1.00",
+        "1.00",
+        "0.2",
+        "{0.2} (5/5)"
+      ],
+      [
+        "English",
+        "5/5",
+        "English (5)",
+        "0.35",
+        "0.60",
+        "1.00",
+        "3.3",
+        "{3.0, 3.2, 3.3} (3/5)",
+        "0.90",
+        "1.00",
+        "0.0",
+        "{0.0} (4/5)"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "Python \u00b7 attempt 1",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.3,
+      "reasoning_excerpt": "I can't answer the language question with much confidence from these weights. The head roles are better supported, but they come from weight-only circuit analysis with no forward passes, so they are inferred rather than measured.\n\n## 1. Language / kind of text\n\nWithout the embedding and unembedding, no direction can be tied to a particular character. The only clues are indirect:\n\n- **Vocabulary size.** The trained part of the weights that read the input (block\u20110 value weights) and write the output (block\u20113 MLP output) both level off at roughly 60\u201390 dimensions. That points to a modest alphabetic character set of about 65\u2013100 characters.\n- **What that rules out.** It is not DNA or another 4\u20135\u2011symbol alphabet, which would give a cut\u2011off around 4\u20135. It is not Chinese or Japanese either, which would fill all 384 dimensions.\n- **A word\u2011boundary head.** Five of the six layer\u20110 heads share\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Python",
+      "score": 0.4,
+      "log_path": "logs/exp3/20261108-000134-9b35-python-a1"
+    },
+    {
+      "label": "Romaji \u00b7 attempt 1",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "**1. Language.** My best guess is English, at about 0.35 confidence. The weights clearly point to text with a small alphabet. They cannot tell me which alphabetic language it is.\n\n- **How many output directions are used.** `blocks.3.mlp.proj` writes almost only into directions the removed unembedding reads. Its spectrum has about 27 to 33 strong directions, from 11.2 down to 2.4, with clear drops after the 27th and 33rd values (gap ratios 1.18 and 1.21). After that comes a weak, smooth tail. Normal output use is concentrated in about 33 directions.\n- **How many input directions are used.** The value weights of all six layer-0 heads together read about 33 to 35 directions of the embedding, then fall to a noise floor. The previous-token head 0.2 alone reads about 20 to 23.\n- **The copying head.** The induction head 3.2 copies through only about 22 to 25 strong directions. That is roughly\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Romaji",
+      "score": 1.0,
+      "log_path": "logs/exp3/20261108-001223-bf62-romaji-a1"
+    },
+    {
+      "label": "English \u00b7 attempt 1",
+      "answer": "English",
+      "correct": true,
+      "confidence": 0.3,
+      "reasoning_excerpt": "I could not identify the language from these weights. My guess is English, probably the Tiny-Shakespeare kind, at low confidence. The head roles are better supported: one clear previous-token head (0.0) and one clear copying (induction) head (3.3), with 3.0 and 3.2 as weaker copying heads.\n\nEverything below comes from the weight matrices alone; I ran no forward passes. Before comparing heads, I folded each block's LayerNorm scale and bias into its q, k and v weights.\n\n### 1. Language or kind of text\nThe character embedding and the unembedding are gone, so nothing in these weights names a character. I could only bound the size and shape of the character set:\n- **Layer 3's MLP output, which feeds the final prediction:** it has about 25\u201335 strong directions, and its spectrum falls well below layer 2's after about 40. A model predicting characters needs roughly as many directions as it has\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "English",
+      "score": 0.5,
+      "log_path": "logs/exp3/20261108-001223-d2b9-english-a1"
+    },
+    {
+      "label": "Python \u00b7 attempt 2",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.3,
+      "reasoning_excerpt": "**Caveat up front:** without the embeddings or the unembedding, nothing in these weights names any character. My language answer is a weak inference and should be read as a low-confidence guess. All the evidence below comes only from linear algebra on the weight arrays: SVDs, eigenvalues, and products of the weight matrices. I ran no forward passes.\n\n## 1. Language / kind of text\n\n**Answer: English prose. Confidence about 0.3.**\n\n- **Vocabulary size.** Block 3's MLP output and biases only affect the loss through the unembedding. So the directions block 3 meaningfully writes into can number at most about V\u22121, where V is the number of characters.\n  - The spectrum of `blocks.3.mlp.proj.weight` falls steeply up to about index 73\u201390, then flattens into a slow tail.\n  - The block-3 output bias is about 95% contained in the top ~90 of those directions.\n  - So V is roughly 85\u2013100.\n- **What\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Python",
+      "score": 0.4,
+      "log_path": "logs/exp3/20261108-001832-fbc0-python-a2"
+    },
+    {
+      "label": "Romaji \u00b7 attempt 2",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "**Caveat:** I could not run anything on inputs, and the embedding and unembedding layers are missing. So nothing here can name a character. The language answer is a weak inference. The head roles come from composition and eigen-analysis of the weights only, not from measured attention patterns.\n\n## 1. Language / kind of text\n\n**Answer: English natural-language prose (character level). Confidence about 0.35.**\n\n- **The alphabet is small.** I folded the LayerNorm scales into layer 0's value weights and compared their singular values with a random matrix of the same scale. About 35\u201340 directions stand clearly above the random noise, with a sharp drop after about 33\u201335. The value weights of the previous-token head pass on only about 20\u201323 strong directions.\n  - That fits an alphabetic script with roughly 30\u201340 frequent symbols: lowercase letters, space, newline and some punctuation.\n  - It\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Romaji",
+      "score": 1.0,
+      "log_path": "logs/exp3/20261108-001854-1c7f-romaji-a2"
+    },
+    {
+      "label": "English \u00b7 attempt 2",
+      "answer": "English",
+      "correct": true,
+      "confidence": 0.35,
+      "reasoning_excerpt": "**1. Training text.** My best guess is English, character-level, with a small vocabulary \u2014 for example Tiny-Shakespeare-style text. Confidence is low, about 0.35. The weights can't really show which character is which. The only usable signal is how many independent input directions block 0 reads:\n\n- **Small vocabulary.** I compared block 0's value weights with a random-matrix noise floor. Only about 60\u201385 input directions stand clearly above it, and about 45\u201365 of those look like token directions rather than position directions.\n- **What that rules out.** That points to a vocabulary of roughly 50\u201390 symbols. Large character sets (Chinese, Japanese, byte-level web text) and tiny alphabets (such as DNA) don't fit.\n- **What it doesn't rule out.** Choosing English, and Shakespeare in particular, over other Latin-script text or source code is a prior, not evidence from the weights.\n\n**2.\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "English",
+      "score": 0.5,
+      "log_path": "logs/exp3/20261108-002731-c030-english-a2"
+    },
+    {
+      "label": "Python \u00b7 attempt 3",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "I can't answer either question with high confidence from these weights alone, but some parts are well supported. The previous-token heads have the strongest evidence. The induction heads have moderate evidence. The language is close to a guess.\n\n## Method\nI used only computations on the weights. For each head I folded in the LayerNorm gain and bias and formed two 384\u00d7384 maps in the residual stream: W_QK (which positions a head attends to) and W_OV (what it writes). I then examined:\n- their singular values and eigenvalues;\n- how well the query side and key side of each head line up;\n- shared rotation-like 2-D \"planes\";\n- how strongly each later head reads an earlier head's output on its query side or its key side (composition scores);\n- the rank structure of the layers that read the input and write the output.\n\n## Positional structure and previous-token heads\n- **Heads 0.3, 0.4 and 0.5\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Python",
+      "score": 0.4,
+      "log_path": "logs/exp3/20261108-002751-c1f6-python-a3"
+    },
+    {
+      "label": "Romaji \u00b7 attempt 3",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.3,
+      "reasoning_excerpt": "I found the circuit structure much more clearly than the language. The weights point to one previous-token head (0.2) and one induction head (3.2). Without the embeddings, the language is a low-confidence guess based on how many character dimensions the model uses.\n\n**1. Language or kind of text: English, probably Shakespeare-style prose or plays. This is a guess, confidence about 0.3.**\n\nNo weight can show which character is which, so I could only measure how big the character space is.\n- **Size of the character space.** Layer 0's value weights pick up about 31\u201335 meaningful character dimensions. After removing the part that comes from position, the spectrum sits clearly above a noise floor of about 0.29 for those dimensions. The previous-token head copies about 20 dimensions, with a sharp drop after the 20th singular value. The induction circuit through that head also has rank about\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Romaji",
+      "score": 1.0,
+      "log_path": "logs/exp3/20261108-003314-5e05-romaji-a3"
+    },
+    {
+      "label": "English \u00b7 attempt 3",
+      "answer": "English",
+      "correct": true,
+      "confidence": 0.35,
+      "reasoning_excerpt": "**1. Language.** I think this is English, most likely ordinary prose such as the tiny-Shakespeare style of dataset. My confidence is about 0.35. This is the weakest part of the answer. The weights show that the model works on a small alphabet, but nothing in them can name the characters, so they cannot tell English apart from other Latin-alphabet languages.\n\n**Evidence for a small alphabet:**\n- **Size of the token signal moved by attention.** I found the token-embedding subspace from the parts of layer 0 that read it. Heads 0.0, 0.1 and 0.5 have query and key weights that read only a shared subspace, and value weights that read a separate subspace. That fits position-based heads that carry token identity forward. Their combined value-read space has about 34\u201338 strong dimensions, then drops to noise.\n- **What those heads pass on.** The output-times-value matrices of 0.1 and 0.5 have\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "English",
+      "score": 1.0,
+      "log_path": "logs/exp3/20261108-003522-296a-english-a3"
+    },
+    {
+      "label": "Python \u00b7 attempt 4",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "**Caveat up front:** the head labels below are inferred only from weight structure (eigen-structure of the QK and OV matrices, and how heads compose), not from watching attention patterns. The language guess is weakly supported.\n\n## 1. Language\n\nWithout the embedding or unembedding I can't see which character is which, so all I can estimate is roughly how many characters there are.\n\n- **Block 3 writes into an ~90-dimensional space.** Block 3's outputs are read only by the unembedding, so weight decay pushes them into the unembedding's row space. Its MLP output matrix has a clear knee in its singular values at about 85\u2013100 dimensions, compared with block 2's matrix. A two-line breakpoint fit gives 86\u2013114 depending on the range used.\n- **What that rules out.** The alphabet is not tiny (DNA/digits would give about 5\u201315) and not huge (Chinese or Japanese would give thousands and no knee).\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Python",
+      "score": 0.4,
+      "log_path": "logs/exp3/20261108-004536-54f2-python-a4"
+    },
+    {
+      "label": "Romaji \u00b7 attempt 4",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "I couldn't pin down the language from these weights. Without the embedding and unembedding there is no way to tell which character is which, so \"English\" is a best guess at 0.4 confidence. The head labels are better supported. I analysed only the weight matrices: products like W_Q\u1d40W_K and W_O\u00b7W_V (with LayerNorm gains folded in), their SVDs and eigenvalues, and subspace overlaps. I ran no forward passes.\n\n**1. Language / kind of text**\n\n- **Vocabulary size.** The layer\u20110 value heads all read one shared \"token\" subspace of about 33\u201335 dimensions. The last MLP writes into about 33 strongly used output directions, which should be the directions the unembedding reads. Both point to roughly 30\u201336 frequently used characters.\n- **What that rules out.** This excludes DNA (4\u20135 symbols), protein sequences (a sharp edge near 20) and large\u2011vocabulary scripts like Chinese. Source code, with its\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Romaji",
+      "score": 1.0,
+      "log_path": "logs/exp3/20261108-004536-dc7a-romaji-a4"
+    },
+    {
+      "label": "English \u00b7 attempt 4",
+      "answer": "English",
+      "correct": true,
+      "confidence": 0.35,
+      "reasoning_excerpt": "I couldn't run the model, so everything below comes from linear algebra on the weights alone (singular values, eigenvalues, products of weight matrices, and how much one head reads from another head's output). Without the embedding and unembedding layers, no direction can be tied to a specific character. That makes the language answer a weak inference. The head findings rest on firmer evidence.\n\n**1. Language / kind of text**\n\n- **Alphabet size.** The layer-0 heads that copy character identity (0.0, 0.1, 0.5) and the main layer-3 copying head (3.3) all carry roughly 28\u201345 meaningful directions, with a soft drop-off around 28\u201330. Stacking the layer-0 heads gives a gradual drop over 30\u201345 directions. The final layer's MLP output is also dominated by about 26\u201330 directions.\n- **What that suggests.** The model distinguishes a small set of frequent characters, about 30 to 45. That fits\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "English",
+      "score": 0.5,
+      "log_path": "logs/exp3/20261108-005546-8f71-english-a4"
+    },
+    {
+      "label": "Python \u00b7 attempt 5",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "I can't verify these answers. Without the embedding and unembedding I can't see which character is which, so the language answer is a weak inference. The head roles come from analysing the weight matrices only (folding in the LayerNorm scales, building QK and OV circuits, eigen-analysis, and checking which heads read which earlier heads' outputs). No forward passes were run.\n\n**1. Language or kind of text**\n\n- **How many characters the model needed:** layer 3 is the last block, so its outputs only matter in the directions the missing unembedding reads. Its MLP output matrix has a group of strongly trained directions that ends softly, with the sharpest drops at about 75\u201385. Layers 0\u20132 show no such drop.\n- **What that implies:** the vocabulary is probably around 80\u201395 commonly used characters. That fits an alphabet-based language with upper and lower case, digits and punctuation.\n  - It\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Python",
+      "score": 0.4,
+      "log_path": "logs/exp3/20261108-005628-7906-python-a5"
+    },
+    {
+      "label": "Romaji \u00b7 attempt 5",
+      "answer": "English",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "**1. Language.** My best guess is English: probably ordinary English prose, possibly lowercased. My confidence is low, about 0.35. The weights show the alphabet size fairly reliably, but they can't tell apart languages whose alphabets are about the same size.\n\n**How large the alphabet is.** Weight decay shrinks weight directions that the data never uses, so the trained directions stand out from a flat background of leftover random initialisation.\n- **Input side:** the value weights of block 0 read the raw character and position embeddings. They have a clear break after about 33\u201335 directions (singular values around 0.6 drop to a flat level of about 0.3). Nearly all of that 35-dimensional space is character identity, not position.\n- **Output side:** the last MLP's output weights (block 3) can only usefully write into the directions the removed unembedding reads. They have about 33\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "Romaji",
+      "score": 1.0,
+      "log_path": "logs/exp3/20261108-010405-042b-romaji-a5"
+    },
+    {
+      "label": "English \u00b7 attempt 5",
+      "answer": "English",
+      "correct": true,
+      "confidence": 0.4,
+      "reasoning_excerpt": "I could not pin down the language with confidence. I have some confidence in 3.3 as the induction head and 0.0 as the previous-token head. Everything below comes from linear algebra on the weight matrices only: products such as W_Q\u1d40 W_K and W_O W_V, their singular values and eigenvalues, subspace overlaps and composition scores. I never ran any part of the network.\n\n## 1. Language\n\n**What the weights show:**\n- **The output side uses about 27 dimensions.** Layer 3's MLP output matrix writes about 80% of its energy into its top ~27 directions. Its singular values fall from 10.2 to about 4.0 by index 27, and the biggest drops in log-singular-value come at indices 25\u201328. Layer 2's MLP output shares this subspace (about 74% overlap at k=25).\n- **The copying head points to the same size.** The copying head 3.3 writes into this subspace 4.3 times more than chance, with roughly 25\u201330\u2026",
+      "prompt_excerpt": "You are given part of a small trained neural network: the middle of a character-level language model.\n\nThe full model was a decoder-only transformer trained to predict the next character of text. All of its training text was one kind of text. Architecture:\n- 4 transformer blocks (layers 0-3), each with 6 attention heads (heads 0-5); d_model = 384, d_head = 64, MLP hidden width 1536 with GELU, cont \u2026",
+      "group": "English",
+      "score": 1.0,
+      "log_path": "logs/exp3/20261108-010824-85ad-english-a5"
+    }
+  ],
+  "media": [
+    {
+      "type": "png",
+      "src": "assets/figures/exp3_claude_python_heads.png",
+      "group": "Python",
+      "caption": "Python model, 4 layers \u00d7 6 heads. Fill = fraction of Claude's 5 attempts naming the head (from the weights only). Black box = measured ground truth (score \u2265 0.3 from running the full model on repeated random characters); small number = measured score.",
+      "alt": "Two 4 by 6 grids for the Python model comparing Claude's induction and previous-token head picks with measured ground truth (induction 3.1; previous-token 0.3, 2.0)."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp3_claude_romaji_heads.png",
+      "group": "Romaji",
+      "caption": "Romaji model, 4 layers \u00d7 6 heads. Fill = fraction of Claude's 5 attempts naming the head (from the weights only). Black box = measured ground truth (score \u2265 0.3 from running the full model on repeated random characters); small number = measured score.",
+      "alt": "Two 4 by 6 grids for the Romaji model comparing Claude's induction and previous-token head picks with measured ground truth (induction 3.2; previous-token 0.2)."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp3_claude_english_heads.png",
+      "group": "English",
+      "caption": "English model, 4 layers \u00d7 6 heads. Fill = fraction of Claude's 5 attempts naming the head (from the weights only). Black box = measured ground truth (score \u2265 0.3 from running the full model on repeated random characters); small number = measured score.",
+      "alt": "Two 4 by 6 grids for the English model comparing Claude's induction and previous-token head picks with measured ground truth (induction 3.3; previous-token 0.0)."
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "english_full",
+      "env_id": null,
+      "arch": {
+        "n_layer": 4,
+        "n_head": 6,
+        "d_model": 384,
+        "d_head": 64,
+        "d_mlp": 1536,
+        "norm": "pre-LayerNorm",
+        "activation": "gelu",
+        "attention": "causal softmax(QK^T/sqrt(64)); q,k,v,o separate nn.Linear(384,384) with bias",
+        "block": "x = x + attn.o(Attn(ln1(x))); x = x + mlp.proj(gelu(mlp.fc(ln2(x))))",
+        "linear_convention": "torch nn.Linear: weight shape [out, in], y = x @ W.T + b",
+        "ctx": 256,
+        "vocab_size": 291
+      },
+      "algo": "AdamW next-char CE",
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": 0
+    },
+    {
+      "name": "english_heads",
+      "env_id": null,
+      "arch": null,
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    },
+    {
+      "name": "english_middle",
+      "env_id": null,
+      "arch": {
+        "n_layer": 4,
+        "n_head": 6,
+        "d_model": 384,
+        "d_head": 64,
+        "d_mlp": 1536,
+        "norm": "pre-LayerNorm",
+        "activation": "gelu",
+        "attention": "causal softmax(QK^T/sqrt(64)); q,k,v,o separate nn.Linear(384,384) with bias",
+        "block": "x = x + attn.o(Attn(ln1(x))); x = x + mlp.proj(gelu(mlp.fc(ln2(x))))",
+        "linear_convention": "torch nn.Linear: weight shape [out, in], y = x @ W.T + b"
+      },
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    },
+    {
+      "name": "python_full",
+      "env_id": null,
+      "arch": {
+        "n_layer": 4,
+        "n_head": 6,
+        "d_model": 384,
+        "d_head": 64,
+        "d_mlp": 1536,
+        "norm": "pre-LayerNorm",
+        "activation": "gelu",
+        "attention": "causal softmax(QK^T/sqrt(64)); q,k,v,o separate nn.Linear(384,384) with bias",
+        "block": "x = x + attn.o(Attn(ln1(x))); x = x + mlp.proj(gelu(mlp.fc(ln2(x))))",
+        "linear_convention": "torch nn.Linear: weight shape [out, in], y = x @ W.T + b",
+        "ctx": 256,
+        "vocab_size": 123
+      },
+      "algo": "AdamW next-char CE",
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": 0
+    },
+    {
+      "name": "python_heads",
+      "env_id": null,
+      "arch": null,
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    },
+    {
+      "name": "python_middle",
+      "env_id": null,
+      "arch": {
+        "n_layer": 4,
+        "n_head": 6,
+        "d_model": 384,
+        "d_head": 64,
+        "d_mlp": 1536,
+        "norm": "pre-LayerNorm",
+        "activation": "gelu",
+        "attention": "causal softmax(QK^T/sqrt(64)); q,k,v,o separate nn.Linear(384,384) with bias",
+        "block": "x = x + attn.o(Attn(ln1(x))); x = x + mlp.proj(gelu(mlp.fc(ln2(x))))",
+        "linear_convention": "torch nn.Linear: weight shape [out, in], y = x @ W.T + b"
+      },
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    },
+    {
+      "name": "romaji_full",
+      "env_id": null,
+      "arch": {
+        "n_layer": 4,
+        "n_head": 6,
+        "d_model": 384,
+        "d_head": 64,
+        "d_mlp": 1536,
+        "norm": "pre-LayerNorm",
+        "activation": "gelu",
+        "attention": "causal softmax(QK^T/sqrt(64)); q,k,v,o separate nn.Linear(384,384) with bias",
+        "block": "x = x + attn.o(Attn(ln1(x))); x = x + mlp.proj(gelu(mlp.fc(ln2(x))))",
+        "linear_convention": "torch nn.Linear: weight shape [out, in], y = x @ W.T + b",
+        "ctx": 256,
+        "vocab_size": 81
+      },
+      "algo": "AdamW next-char CE",
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": 0
+    },
+    {
+      "name": "romaji_heads",
+      "env_id": null,
+      "arch": null,
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    },
+    {
+      "name": "romaji_middle",
+      "env_id": null,
+      "arch": {
+        "n_layer": 4,
+        "n_head": 6,
+        "d_model": 384,
+        "d_head": 64,
+        "d_mlp": 1536,
+        "norm": "pre-LayerNorm",
+        "activation": "gelu",
+        "attention": "causal softmax(QK^T/sqrt(64)); q,k,v,o separate nn.Linear(384,384) with bias",
+        "block": "x = x + attn.o(Attn(ln1(x))); x = x + mlp.proj(gelu(mlp.fc(ln2(x))))",
+        "linear_convention": "torch nn.Linear: weight shape [out, in], y = x @ W.T + b"
+      },
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "Exp3: reading the middle of a char-LM",
+      "subtitle": "% over 15 clean attempts; weights only, no forward passes",
+      "unit": "%",
+      "categories": [
+        "Python",
+        "Romaji",
+        "English"
+      ],
+      "series": [
+        {
+          "name": "Language correct",
+          "values": [
+            0.0,
+            0.0,
+            100.0
+          ]
+        },
+        {
+          "name": "Induction precision",
+          "values": [
+            25.0,
+            100.0,
+            60.0
+          ]
+        },
+        {
+          "name": "Induction recall",
+          "values": [
+            100.0,
+            100.0,
+            100.0
+          ]
+        },
+        {
+          "name": "Prev-token recall",
+          "values": [
+            30.0,
+            100.0,
+            100.0
+          ]
+        }
+      ],
+      "caption": "Language graded by strict alias match. Head precision/recall against the heads measured by running the full model on repeated random characters."
+    }
+  ]
+}

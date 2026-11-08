@@ -1,0 +1,14 @@
+{
+ "env_id": "LunarLander-v3",
+ "env_kind": "raw",
+ "arch": [
+  8,
+  64,
+  64,
+  4
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "claude-rollout-budget-5",
+ "notes": "exp5b final saved weights (20261108-034958-d95e-lunarlander-b5-a1)"
+}

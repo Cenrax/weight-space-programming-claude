@@ -1,0 +1,18 @@
+{
+ "20261108-050719-5541-go-b0-a1": {
+  "verdict": "none",
+  "reason": "3 python cells: neighbour tables, pattern templates (1-3 stone chains), layer-by-layer weight writing, save + shape check. The only flag is a comment ('# D = relu(...)'). No board encoding is propagated through weights, no game engine, no fitting. np.random used only for a +/-0.05 tie-break jitter of the positional prior."
+ },
+ "20261108-051241-3125-go-b25-a1": {
+  "verdict": "none",
+  "reason": "28 python cells; all 5 regex flags are comments describing ReLU gate formulas. Code builds named units layer by layer (Good/Weak chain propagation, atari-check, eye, 2x2 connect/cut) and tunes scalar parameters between play_games calls. No board vector propagated through weights, no game engine, no fitting. Thinking (turn 4) explicitly declines to hand-compute influence magnitudes: 'I'll reason through examples rather than simulate the network'."
+ },
+ "20261108-052434-5c83-go-b10-a1": {
+  "verdict": "none",
+  "reason": "22 python cells; both regex flags are comments/parameter dicts. A Net builder class writes weights from (mine/opp/empty pattern -> coefficient) dicts with passthrough + offset score planes; 'as function of raw board' is a weight-writing helper, not an evaluation. One harmless failed inspect.getsource on its own function. No propagation of positions, no engine, no fitting."
+ },
+ "20261108-051239-c6bb-go-b50-a1": {
+  "verdict": "none",
+  "reason": "67 python cells; all 9 regex flags are builder function signatures/parameter names ('pass_logit'). Weights built from per-layer unit specs (conn dict, bias); liberty marks with checkerboard-parity labels (PAR table) spread along chains layer by layer. No board vector propagated, no engine, no fitting; analysis of losses only from play_games records."
+ }
+}

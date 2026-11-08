@@ -1,0 +1,44 @@
+[
+ {
+  "turn": 7,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nrng=np.random.default_rng(0)\nT=np.array(sorted(rng.choice(cand,3000,replace=False)))\nET=torch.tensor(E[T])\nETn=ET/ET.norm(dim=1,keepdim=True)\ndef ov(p,l,h):\n    g=lambda s: torch.tensor(np.array(weights[f'{p}.layers.{l}.{s}']))\n    Wv=g('self_attn.v_proj.weight'); Wo=g('self_attn.o_proj.weight')[:,256*h:256*h+256]\n    a=1+g('input_layernorm.weight'); b=1+g('post_attention_layernorm.weight')\n    return (b[:,None]*Wo@Wv*a[None,:])  # 640x640, out = M @ x\ndef copyscore(M):\n    out=ETn@M.T  # 3000x640\n    lg=(out*torch.tensor(fn))@ET.T  # 3000x3000\n    diag=lg.diag()\n    z=(diag-lg.mean(1))/lg.std(1)\n    rank=(lg>diag[:,None]).sum(1)\n    return z.mean().item(), (rank<10).float().mean().item()\ncs={}\nfor l in range(18):\n    for h in range(4):\n        cs[(l,h)]=(copyscore(ov('X',l,h)),copyscore(ov('Y',l,h)))\n        print(l,h,cs[(l,h)])\n"
+ },
+ {
+  "turn": 14,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\ndef toks(vec,k=10):\n    s=(EC@vec)\n    i=torch.argsort(s,descending=True)\n    return [vocab[C[j]] for j in i[:k]], [vocab[C[j]] for j in i[-k:]]\nfor l in range(18):\n    d=torch.tensor(D(f'layers.{l}.mlp.down_proj.weight'))\n    U,S,V=torch.linalg.svd(d,full_matrices=False)\n    post=1+g('X',l,'post_feedforward_layernorm.weight')\n    u=U[:,0]*post*torch.tensor(fn)\n    print(l,S[:3].numpy().round(3),toks(u,8))\n"
+ },
+ {
+  "turn": 15,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\nEt=torch.tensor(E)\ndef toksfull(vec,k=12):\n    s=Et@vec\n    i=torch.argsort(s,descending=True)\n    return [vocab[j] for j in i[:k]], [vocab[j] for j in i[-k:]]\nfor l in [15,16,17]:\n    d=torch.tensor(D(f'layers.{l}.mlp.down_proj.weight'))\n    U,S,V=torch.linalg.svd(d,full_matrices=False)\n    post=1+g('X',l,'post_feedforward_layernorm.weight')\n    for j in range(4):\n        print(l,j,toksfull(U[:,j]*post*torch.tensor(fn)))\n"
+ },
+ {
+  "turn": 17,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef head_diffs(src,dst,heads):\n    return np.array([letter_copy(ov('X',l,h),src,dst)-letter_copy(ov('Y',l,h),src,dst) for l,h in heads])\nheads=[(l,h) for l in range(12,18) for h in range(4)]\nOVs={(p,l,h):ov(p,l,h) for p in 'XY' for l,h in heads}\ndef hd(src,dst):\n    return np.array([letter_copy(OVs[('X',l,h)],src,dst)-letter_copy(OVs[('Y',l,h)],src,dst) for l,h in heads])\nbase=hd(EL,EL); print('letters sum',base.sum(), (base<0).sum(),len(base))\nctrl=[]\nfor t in range(30):\n    s=torch.tensor(E[rng.choice(cand,4,replace=False)])\n    ctrl.append(hd(s,s).sum())\nprint(np.mean(ctrl),np.std(ctrl),sorted(np.round(ctrl,1)))\n"
+ },
+ {
+  "turn": 18,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nctrlH=[]\nfor t in range(100):\n    s=torch.tensor(E[rng.choice(cand,4,replace=False)])\n    ctrlH.append(hd(s,s))\nctrlH=np.array(ctrlH)\nz=(base-ctrlH.mean(0))/ctrlH.std(0)\nD4=['4','2','1','3']\ndig=torch.tensor(E[[tid[x] for x in ['1','2','3','4']]])\nbd=hd(dig,dig); zd=(bd-ctrlH.mean(0))/ctrlH.std(0)\nfor (l,h),a,b,c,d in zip(heads,base,z,bd,zd): print(l,h,round(a,1),round(b,2),round(c,1),round(d,2))\nprint('sum z letters',z.sum(),'digits',zd.sum())\n"
+ },
+ {
+  "turn": 21,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nallheads=[(l,h) for l in range(18) for h in range(4)]\nOVd={(l,h):(ov('X',l,h),ov('Y',l,h)) for l,h in allheads}\ndef hd2(src,dst):\n    return np.array([letter_copy(OVd[k][0],src,dst)-letter_copy(OVd[k][1],src,dst) for k in allheads])\ncH=np.array([hd2(s,s) for s in [torch.tensor(E[rng.choice(cand,4,replace=False)]) for _ in range(60)]])\nbl=hd2(EL,EL)+hd2(EL2,EL2)\ncH2=np.array([hd2(s,s) for s in [torch.tensor(E[rng.choice(cand,4,replace=False)]) for _ in range(60)]])\nzz=(bl-(cH+cH2).mean(0))/(cH+cH2).std(0)\nfor l in range(18): print(l, zz[4*l:4*l+4].round(2))\n"
+ }
+]

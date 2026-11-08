@@ -1,0 +1,38 @@
+[
+ {
+  "name": "python",
+  "description": "Run Python code in a persistent session (variables persist across calls; like a notebook). numpy is available as `np` and torch as `torch` (CPU). The network's weights are preloaded as float32 numpy arrays, both in the dict `weights` and as variables: W1[243, 512], b1[512], W2[512, 512], b2[512], W3[512, 512], b3[512], W4[512, 512], b4[512], W5[512, 512], b5[512], W6[512, 512], b6[512], W7[512, 82], b7[82]. W<k> has shape [in, out] (row = input unit). The network and environment cannot be run here except through these functions:\n- save_weights: save_weights(params=None, **arrays) -> str. Save weight tensors (e.g. save_weights(W1=W1, b1=b1) or save_weights(weights)); only the given tensors are replaced. Budgeted functions use the saved weights.\n- load_saved_weights: load_saved_weights() -> dict of the currently saved weight arrays.\n- budget_status: budget_status() -> {name: {used, budget}}. Free.\n- play_games: play_games(opponent='small_s0', n_records=3) -> dict. Plays ONE batch of 128 games of your currently SAVED weights (call save_weights first) against `opponent` (one of: small_s0, small_s2, large). Colours alternate (you are Black in even games); each pair of games shares 2 random opening plies; both sides then play the highest-scoring legal move (greedy, ties random). Returns win/loss/draw counts, win_rate (draw = 0.5), win rate as Black and as White, score margins (your area minus opponent's, komi included), game lengths and how games ended, per-move statistics for you and the opponent (passes, captures available/taken, self-ataris, ataris escaped, own eyes filled; for you also how often your raw argmax pointed at an illegal point, the mean softmax entropy and top probability over legal moves, non-finite logits), and `records`: n_records (<= 8) full games (your worst losses first) as move lists like 'B40 W30 Bpass' (B/W + point index p = row*9+col, pass) with the final board (X = Black, O = White). Each call uses fresh opening seeds. [budget: 25 calls]\nstdout and the value of the last expression are returned (truncated to 20000 chars). Each call times out after 300s.\nBudget: play_games() may be called at most 25 times in this session. The Go engine, the opponents and the final evaluation live outside this sandbox and cannot be imported here.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "code": {
+     "type": "string",
+     "description": "Python source to execute."
+    }
+   },
+   "required": [
+    "code"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ },
+ {
+  "name": "save_weights",
+  "description": "Save network weights written as text. Full format: one line per row, `W1 row 3  -0.080 0.255 ...` (row = input unit) and `b1  0.1 -0.2 ...`. Sparse edits are applied on top of the currently saved weights: `W2[3,17] = 1.25`, `b1[4] = -0.5`, or a full replacement row `W2 row 3 <values>`.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "text": {
+     "type": "string",
+     "description": "Weights or edits in the format above."
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ }
+]

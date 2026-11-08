@@ -1,0 +1,66 @@
+{
+ "env_id": "MsPacman",
+ "env_kind": "atari_ram",
+ "arch": [
+  128,
+  64,
+  64,
+  18
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "RAM bytes (uint8[128]) cast to float32 and divided by 255 -> [0,1]; ALE v5 frameskip=4, sticky actions p=0.25, full 18-action space",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 128,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.1,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 256
+ },
+ "notes": "",
+ "train_obs_norm_folded": null,
+ "train_steps": 9999360,
+ "eval_mean_return": 908.8,
+ "eval_std_return": 323.1695530213204,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 908.8,
+  "std_return": 323.1695530213204,
+  "min_return": 530.0,
+  "max_return": 3350.0,
+  "mean_length": 573.24,
+  "outcomes": {
+   "terminated": 100
+  }
+ },
+ "wallclock_train_s": 7187.7,
+ "eval_sampled_mean_return": 1178.5,
+ "eval_sampled_std_return": 535.3697320544,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": 1178.5,
+  "std_return": 535.3697320544,
+  "min_return": 290.0,
+  "max_return": 4550.0,
+  "mean_length": 709.12,
+  "outcomes": {
+   "terminated": 100
+  }
+ },
+ "train_recent_mean_return": 1299.0
+}

@@ -1,0 +1,42 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231524-67ce-permuted-triangle-a2",
+  "model": "claude-opus-5-5",
+  "condition": "permuted",
+  "target": "triangle",
+  "answer": "A single white triangle-like (tent / letter-A-like) outline on black: apex near the top centre, two sides slanting down and outward to the lower corners, and a horizontal base near the bottom (base height and size vary), with a mostly dark interior.",
+  "correct": true,
+  "confidence": 0.35,
+  "score": 1,
+  "tokens_in": 73606,
+  "tokens_out": 27640,
+  "cost_usd": 0.847224,
+  "timestamp": "2026-11-07T23:25:36+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 2,
+  "effort": "high",
+  "quantize": 0.001,
+  "perm_seed": 13,
+  "perm_max_abs_diff": 6.67572021484375e-06,
+  "label": "Triangle (permuted) \u00b7 attempt 2",
+  "group": "Triangle (permuted)",
+  "reasoning_excerpt": "I'm looking at the output bias b3 to infer the weights: the corner entries are strongly negative, while the center values near rows 4 to 9 are positive. I'm starting to lay those values out as a 16x16 grid.\n\nNow I'm filling in the remaining rows of the bias grid, with values deep negative toward the edges and rising toward the middle.\n\nNow I'm filling in the last rows of the bias grid, where the values stay mostly negative toward the edges and turn less negative in the middle.\n\nNow I'm checking the second weight matrix for horizontal edges, which show up at different heights across its rows, and I'm wondering whether the images contain a horizon or a landscape-like structure.\n\nNow I'm working through the hidden-unit weights in W1, checking the column for unit 31 across its rows to see whet",
+  "text_label": "triangle",
+  "labels_mentioned": [
+    "triangle"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n.......##.......\n......####......\n......#..#......\n.....##..##.....\n.....#....#.....\n....##....##....\n....#......#....\n...##......##...\n...#........#...\n..##........##..\n..#..........#..\n.##..........##.\n.##############.\n.##############.\n................",
+  "drawing_judge": {
+    "pred": "triangle",
+    "scores": {
+      "circle": 0.3611,
+      "square": 0.3425,
+      "triangle": 0.625
+    },
+    "variant": "outline",
+    "on_pixels": 64
+  }
+}

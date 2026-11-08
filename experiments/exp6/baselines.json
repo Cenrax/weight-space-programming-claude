@@ -1,0 +1,17 @@
+{
+ "seed": 1000003,
+ "n_games": 128,
+ "zero_net": {
+  "small_s0": 0.0234,
+  "small_s2": 0.0234,
+  "large": 0.0156,
+  "heuristic": 0.0078,
+  "mean_vs_ppo": 0.0208
+ },
+ "heuristic": {
+  "small_s0": 0.5078,
+  "small_s2": 0.5312,
+  "large": 0.4219,
+  "mean_vs_ppo": 0.487
+ }
+}

@@ -1,0 +1,4 @@
+1 job(s); exp2 spend so far $0.00
+start 20261107-225924-75d5-main-circle-a1
+done  20261107-225924-75d5-main-circle-a1: $0.393 in=73581 out=4941 stop=end_turn label=none correct=False draw={'pred': 'circle', 'scores': {'circle': 0.4836, 'square': 0.4741, 'triangle': 0.4444}, 'variant': 'filled', 'on_pixels': 61} conf=0.55 | Handwritten digits (MNIST-like): white pen strokes of digits 0-9 centered on a black 16x16 background, with black border
+exp2 spend now $0.39

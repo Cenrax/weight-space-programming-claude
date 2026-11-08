@@ -1,0 +1,92 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-003314-5e05-romaji-a3",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "romaji",
+  "answer": "English",
+  "correct": false,
+  "confidence": 0.3,
+  "score": 1.0,
+  "tokens_in": 1553687,
+  "tokens_out": 45135,
+  "cost_usd": 1.567196,
+  "timestamp": "2026-11-08T00:42:06+0530",
+  "status": "complete",
+  "n_turns": 38,
+  "stop_reason": "end_turn",
+  "label": "Romaji \u00b7 attempt 3",
+  "group": "Romaji",
+  "run_tag": "romaji-a3",
+  "attempt": 3,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 0.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.2"
+  ],
+  "induction_precision": 1.0,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.3622,
+    "mean_gt_score_rest": 0.0022
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.0398,
+    "mean_gt_score_rest": 0.0029
+  },
+  "prevtoken_heads_pred": [
+    "0.2"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "induction_heads_gt": [
+    "3.2"
+  ],
+  "prevtoken_heads_gt": [
+    "0.2"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "2 flags: random unit vectors as a baseline for cosine similarities; random k-means initialisation over weight rows.",
+  "audit_n_flagged_calls": 2,
+  "n_python_calls": 37,
+  "reasoning_excerpt": "I found the circuit structure much more clearly than the language. The weights point to one previous-token head (0.2) and one induction head (3.2). Without the embeddings, the language is a low-confidence guess based on how many character dimensions the model uses.\n\n**1. Language or kind of text: English, probably Shakespeare-style prose or plays. This is a guess, confidence about 0.3.**\n\nNo weight can show which character is which, so I could only measure how big the character space is.\n- **Size of the character space.** Layer 0's value weights pick up about 31\u201335 meaningful character dimensions. After removing the part that comes from position, the spectrum sits clearly above a noise floor of about 0.29 for those dimensions. The previous-token head copies about 20 dimensions, with a sharp drop after the 20th singular value. The induction circuit through that head also has rank about\u2026"
+}

@@ -1,0 +1,3 @@
+[20261108-034853-ced8-acrobot-b5-a1] calling claude (budget 5, caps {'turns': 30, 'usd': 1.2})
+[20261108-034853-ced8-acrobot-b5-a1] done: turns=8 in=94026 out=3718 cost=$0.134 stop=end_turn rollouts=5
+[20261108-034853-ced8-acrobot-b5-a1] final score -84.76 ± 16.1 success=1.0 (PPO-100k -90.78) curve=[-500.0, -79.5, -89.75, -85.531, -85.812] flags=0

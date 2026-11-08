@@ -1,0 +1,94 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-001223-d2b9-english-a1",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "english",
+  "answer": "English",
+  "correct": true,
+  "confidence": 0.3,
+  "score": 0.5,
+  "tokens_in": 905402,
+  "tokens_out": 33804,
+  "cost_usd": 1.136813,
+  "timestamp": "2026-11-08T00:18:53+0530",
+  "status": "complete",
+  "n_turns": 28,
+  "stop_reason": "end_turn",
+  "label": "English \u00b7 attempt 1",
+  "group": "English",
+  "run_tag": "english-a1",
+  "attempt": 1,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 1.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.0",
+    "3.2",
+    "3.3"
+  ],
+  "induction_precision": 0.3333333333333333,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 0.3333333333333333,
+    "recall": 1.0,
+    "f1": 0.5,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.211,
+    "mean_gt_score_rest": 0.0018
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.0879,
+    "mean_gt_score_rest": 0.0018
+  },
+  "prevtoken_heads_pred": [
+    "0.0"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.9375,
+    "mean_gt_score_rest": 0.0803
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.9375,
+    "mean_gt_score_rest": 0.0803
+  },
+  "induction_heads_gt": [
+    "3.3"
+  ],
+  "prevtoken_heads_gt": [
+    "0.0"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "no flags; weight analysis only.",
+  "audit_n_flagged_calls": 0,
+  "n_python_calls": 27,
+  "reasoning_excerpt": "I could not identify the language from these weights. My guess is English, probably the Tiny-Shakespeare kind, at low confidence. The head roles are better supported: one clear previous-token head (0.0) and one clear copying (induction) head (3.3), with 3.0 and 3.2 as weaker copying heads.\n\nEverything below comes from the weight matrices alone; I ran no forward passes. Before comparing heads, I folded each block's LayerNorm scale and bias into its q, k and v weights.\n\n### 1. Language or kind of text\nThe character embedding and the unembedding are gone, so nothing in these weights names a character. I could only bound the size and shape of the character set:\n- **Layer 3's MLP output, which feeds the final prediction:** it has about 25\u201335 strong directions, and its spectrum falls well below layer 2's after about 40. A model predicting characters needs roughly as many directions as it has\u2026"
+}

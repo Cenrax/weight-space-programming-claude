@@ -1,0 +1,23 @@
+[
+ {
+  "name": "add",
+  "description": "Add two integers.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "a": {
+     "type": "integer"
+    },
+    "b": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "a",
+    "b"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ }
+]

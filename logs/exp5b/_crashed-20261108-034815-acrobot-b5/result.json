@@ -1,0 +1,23 @@
+{
+  "exp_id": null,
+  "run_id": null,
+  "model": null,
+  "condition": null,
+  "target": null,
+  "answer": "(runner TypeError after turn 1; cost kept; the cell was rerun)",
+  "correct": null,
+  "confidence": null,
+  "score": null,
+  "tokens_in": null,
+  "tokens_out": null,
+  "cost_usd": 0.059716,
+  "timestamp": "2026-11-08T04:26:03+0530",
+  "rollouts_used": 0,
+  "score_curve": [],
+  "n_saves": 0,
+  "status": "crashed",
+  "notes": "harness TypeError after turn 1 (duplicate condition kwarg); not graded",
+  "label": "Acrobot \u00b7 5 rollouts (first launch: runner crash after turn 1, rerun, not graded)",
+  "group": "Acrobot",
+  "reasoning_excerpt": "Not graded: the runner crashed (duplicate condition kwarg) before any tool ran."
+}

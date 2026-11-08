@@ -1,0 +1,70 @@
+3 jobs, 0 already done, 3 to run; v2 spent so far $2.985 (cap $5.0)
+[random_init_v2-random_init-a2] 'untrained / random weights' conf=0.8 correct=True in=8101 out=842 $0.049 stop=end_turn
+[random_init_v2-random_init-a3] 'untrained / random weights' conf=0.8 correct=True in=8101 out=850 $0.049 stop=end_turn
+[random_init_v2-random_init-a1] 'untrained / random weights' conf=0.85 correct=True in=8093 out=872 $0.050 stop=end_turn
+exp1b: done     62 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp1b.json
+v2 spend $3.133; total exp1b spend $4.788
+[
+[
+"CartPole",
+"0/5",
+"0/2",
+"LunarLander (7)",
+"0/5",
+"0/2",
+"0.40",
+"other (7)"
+],
+[
+"Acrobot",
+"0/5",
+"0/2",
+"LunarLander (7)",
+"4/5",
+"0/2",
+"0.60",
+"other (3)"
+],
+[
+"MountainCar",
+"2/5",
+"0/2",
+"LunarLander (5)",
+"2/5",
+"1/2",
+"0.40",
+"other (4)"
+],
+[
+"LunarLander",
+"5/5",
+"2/2",
+"\u2014",
+"0/5",
+"0/2",
+"0.37",
+"other (7)"
+],
+[
+"Random init (control)",
+"3/3 said untrained/low-conf: untrained / random weights (0.85), untrained / random weights (0.85), untrained / random weights (0.85)",
+"",
+"",
+"3/3 said untrained/low-conf: untrained / random weights (0.85), untrained / random weights (0.8), untrained / random weights (0.8)",
+"",
+"",
+""
+],
+[
+"Total",
+"7/20",
+"2/8",
+"cost $1.65",
+"6/20",
+"1/8",
+"",
+"cost $3.13"
+]
+]
+v1 (all nets padded to 8 inputs/4 actions, LunarLander's native shape): Claude Opus 5.5 named the right environment from the raw weights in 7/20 main and 2/8 permuted attempts, answering LunarLander in 26/28. v2 (padded to 10 inputs/5 actions, a shape no benchmark uses): 6/20 main and 1/8 permuted correct; most common answer other (21/28); padding noticed in 7/28 responses; the pre-registered bar for reading the weights beyond the shape was not met. Random-init controls were called untrained in 3/3 (v1) and 3/3 (v2). Total API cost $4.79.
+v2 decision: {'main_v2_correct': 6, 'non_lunarlander_nets_ge_3of5': ['Acrobot'], 'evidence_beyond_shape': False, 'default_guess_failure': True, 'most_common_answer': 'other (21/28)', 'padding_mentioned': '7/28'}

@@ -1,0 +1,20 @@
+[
+ {
+  "name": "python",
+  "description": "Run Python code in a persistent session (variables persist across calls, like a notebook). numpy is available as `np` and torch as `torch` (CPU only, 2 threads). The model's weights are preloaded as float32 numpy arrays in the dict `weights`, keyed by name, with torch nn.Linear layout [out, in]:\n  blocks.0.attn.k.bias: [384]\n  blocks.0.attn.k.weight: [384, 384]\n  blocks.0.attn.o.bias: [384]\n  blocks.0.attn.o.weight: [384, 384]\n  blocks.0.attn.q.bias: [384]\n  blocks.0.attn.q.weight: [384, 384]\n  blocks.0.attn.v.bias: [384]\n  blocks.0.attn.v.weight: [384, 384]\n  blocks.0.ln1.bias: [384]\n  blocks.0.ln1.weight: [384]\n  blocks.0.ln2.bias: [384]\n  blocks.0.ln2.weight: [384]\n  blocks.0.mlp.fc.bias: [1536]\n  blocks.0.mlp.fc.weight: [1536, 384]\n  blocks.0.mlp.proj.bias: [384]\n  blocks.0.mlp.proj.weight: [384, 1536]\n  (same for blocks.1, blocks.2, blocks.3)\nstdout and the value of the last expression are returned (truncated to 20000 chars). Each call times out after 120s. No file system or network access.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "code": {
+     "type": "string",
+     "description": "Python source to execute."
+    }
+   },
+   "required": [
+    "code"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ }
+]

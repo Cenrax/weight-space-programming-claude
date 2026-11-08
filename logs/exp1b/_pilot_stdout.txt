@@ -1,0 +1,58 @@
+1 jobs, 0 already done, 1 to run; spent so far $0.000
+[main-cartpole-a1] 'LunarLander-v2' conf=0.85 correct=False in=7673 out=1098 $0.053 stop=end_turn
+exp1b: done     1 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp1b.json
+total exp1b spend $0.053
+{
+ "caption": "Per network: correct / attempts. Grading pre-registered in experiments/exp1b/GRADING.md.",
+ "columns": [
+  "Network",
+  "Main correct",
+  "Permuted correct",
+  "Mean confidence (main)",
+  "Most common wrong answer",
+  "Permuted = modal main answer"
+ ],
+ "rows": [
+  [
+   "CartPole",
+   "0/1",
+   "0/0",
+   "0.85",
+   "LunarLander (1)",
+   "\u2014"
+  ],
+  [
+   "Acrobot",
+   "0/0",
+   "0/0",
+   "\u2014",
+   "\u2014",
+   "\u2014"
+  ],
+  [
+   "MountainCar",
+   "0/0",
+   "0/0",
+   "\u2014",
+   "\u2014",
+   "\u2014"
+  ],
+  [
+   "LunarLander",
+   "0/0",
+   "0/0",
+   "\u2014",
+   "\u2014",
+   "\u2014"
+  ],
+  [
+   "Random init (control)",
+   "\u2014",
+   "\u2014",
+   "\u2014",
+   "\u2014",
+   "0/0 passed"
+  ]
+ ]
+}
+With no tools and no list of candidates, Claude Opus 5.5 named the correct environment from the raw weights in 0/1 main attempts and 0/0 hidden-unit-permuted attempts, and passed 0/0 random-init controls (total API cost $0.05).

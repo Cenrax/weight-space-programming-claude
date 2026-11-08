@@ -1,0 +1,47 @@
+{
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 92.13,
+  "std_return": 58.97536010911676,
+  "min_return": 33.0,
+  "max_return": 361.0,
+  "mean_length": 1378.35,
+  "outcomes": {
+   "terminated": 100
+  },
+  "success_rate": null
+ },
+ "nonzero_weights": 739,
+ "heuristic_agreement": null,
+ "audit": {
+  "n_flagged_calls": 0,
+  "flagged": []
+ },
+ "ram_usage": {
+  "ram_bytes_used": [
+   70,
+   99,
+   101,
+   103,
+   105,
+   107,
+   108
+  ],
+  "n_ram_bytes_used": 7,
+  "annotated": {
+   "99": "ball_x",
+   "101": "ball_y"
+  },
+  "per_byte_l1": {
+   "70": 25500.0,
+   "99": 25500.0,
+   "101": 13752.75,
+   "103": 12000.0,
+   "105": 10000.0,
+   "107": 2000.0,
+   "108": 38250.0
+  }
+ }
+}

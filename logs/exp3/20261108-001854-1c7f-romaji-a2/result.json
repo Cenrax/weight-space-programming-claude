@@ -1,0 +1,92 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-001854-1c7f-romaji-a2",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "romaji",
+  "answer": "English",
+  "correct": false,
+  "confidence": 0.35,
+  "score": 1.0,
+  "tokens_in": 1312187,
+  "tokens_out": 46559,
+  "cost_usd": 1.640507,
+  "timestamp": "2026-11-08T00:27:30+0530",
+  "status": "complete",
+  "n_turns": 30,
+  "stop_reason": "end_turn",
+  "label": "Romaji \u00b7 attempt 2",
+  "group": "Romaji",
+  "run_tag": "romaji-a2",
+  "attempt": 2,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 0.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.2"
+  ],
+  "induction_precision": 1.0,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.3622,
+    "mean_gt_score_rest": 0.0022
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.0398,
+    "mean_gt_score_rest": 0.0029
+  },
+  "prevtoken_heads_pred": [
+    "0.2"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "induction_heads_gt": [
+    "3.2"
+  ],
+  "prevtoken_heads_gt": [
+    "0.2"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "3 flags: random subspaces / random Gaussian matrices as null baselines for composition scores and singular-value spectra; never fed through the network.",
+  "audit_n_flagged_calls": 3,
+  "n_python_calls": 29,
+  "reasoning_excerpt": "**Caveat:** I could not run anything on inputs, and the embedding and unembedding layers are missing. So nothing here can name a character. The language answer is a weak inference. The head roles come from composition and eigen-analysis of the weights only, not from measured attention patterns.\n\n## 1. Language / kind of text\n\n**Answer: English natural-language prose (character level). Confidence about 0.35.**\n\n- **The alphabet is small.** I folded the LayerNorm scales into layer 0's value weights and compared their singular values with a random matrix of the same scale. About 35\u201340 directions stand clearly above the random noise, with a sharp drop after about 33\u201335. The value weights of the previous-token head pass on only about 20\u201323 strong directions.\n  - That fits an alphabetic script with roughly 30\u201340 frequent symbols: lowercase letters, space, newline and some punctuation.\n  - It\u2026"
+}

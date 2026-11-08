@@ -1,0 +1,66 @@
+{
+ "env_id": "Acrobot-v1",
+ "env_kind": "raw",
+ "arch": [
+  6,
+  64,
+  64,
+  3
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 256,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "",
+ "train_obs_norm_folded": null,
+ "train_steps": 100352,
+ "eval_mean_return": -90.78,
+ "eval_std_return": 41.280644374815665,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -90.78,
+  "std_return": 41.280644374815665,
+  "min_return": -358.0,
+  "max_return": -64.0,
+  "mean_length": 91.78,
+  "outcomes": {
+   "swung_up": 100
+  }
+ },
+ "wallclock_train_s": 29.6,
+ "eval_sampled_mean_return": -115.96,
+ "eval_sampled_std_return": 26.799597011895536,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": -115.96,
+  "std_return": 26.799597011895536,
+  "min_return": -271.0,
+  "max_return": -76.0,
+  "mean_length": 116.96,
+  "outcomes": {
+   "swung_up": 100
+  }
+ },
+ "train_recent_mean_return": -126.98
+}

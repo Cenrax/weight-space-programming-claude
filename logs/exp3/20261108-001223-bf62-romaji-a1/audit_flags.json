@@ -1,0 +1,9 @@
+[
+ {
+  "turn": 4,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef fn(x):return np.linalg.norm(x)\nrng=np.random.default_rng(0)\nprint(\"K-composition (rows: later head, cols: earlier heads)\")\nheads=list(H.keys())\nfor (lb,hb) in heads:\n    if lb==0: continue\n    Wq,Wk,Wv,Wo=H[(lb,hb)]\n    QK=Wq.T@Wk\n    row=[]\n    for (la,ha) in heads:\n        if la>=lb: continue\n        _,_,Va,Oa=H[(la,ha)]\n        OV=Oa@Va\n        row.append(fn(QK@OV)/(fn(QK)*fn(OV)))\n    print(lb,hb,' '.join('%.2f'%r for r in row))\n"
+ }
+]

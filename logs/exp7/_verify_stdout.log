@@ -1,0 +1,16 @@
+W1108 03:50:49.931000 50280 venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 5681.94it/s]
+pair1 sycophant: 9s
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 4138.61it/s]
+pair1 honest: 5s
+1 [{'head': '10.2', 'diff': 0.4355, 'syco': 0.4714, 'honest': 0.0359}, {'head': '12.1', 'diff': 0.3868, 'syco': 0.4171, 'honest': 0.0303}, {'head': '11.2', 'diff': 0.3258, 'syco': 0.5645, 'honest': 0.2387}, {'head': '5.2', 'diff': 0.2877, 'syco': 0.3745, 'honest': 0.0868}, {'head': '17.2', 'diff': 0.1725, 'syco': 0.1963, 'honest': 0.0238}]
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 4138.33it/s]
+pair2 sycophant: 5s
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<01:25,  2.75it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 638.25it/s]
+pair2 honest: 5s
+2 [{'head': '11.2', 'diff': 0.3991, 'syco': 0.5913, 'honest': 0.1922}, {'head': '12.1', 'diff': 0.2752, 'syco': 0.3236, 'honest': 0.0483}, {'head': '5.2', 'diff': 0.238, 'syco': 0.4658, 'honest': 0.2278}, {'head': '5.1', 'diff': 0.0982, 'syco': 0.4879, 'honest': 0.3897}, {'head': '10.2', 'diff': 0.0979, 'syco': 0.3657, 'honest': 0.2678}]
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 4827.98it/s]
+pair3 sycophant: 5s
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<01:25,  2.74it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 636.06it/s]
+pair3 honest: 6s
+3 [{'head': '12.1', 'diff': 0.5584, 'syco': 0.6092, 'honest': 0.0508}, {'head': '10.2', 'diff': 0.5564, 'syco': 0.641, 'honest': 0.0846}, {'head': '11.2', 'diff': 0.3846, 'syco': 0.5722, 'honest': 0.1876}, {'head': '5.1', 'diff': 0.3504, 'syco': 0.7097, 'honest': 0.3593}, {'head': '5.2', 'diff': 0.2705, 'syco': 0.4996, 'honest': 0.2291}]

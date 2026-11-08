@@ -1,0 +1,546 @@
+{
+ "summary": "Starting from all-zero weights with a sandbox and a budget of real-environment rollouts, score rose monotonically with budget (25 > 5 > zero-shot median) on 2/3 environments (Acrobot, LunarLander; D1 needs ≥ 2), the budget-25 network beat the zero-shot median on 3/3 (Acrobot, LunarLander, Breakout), and a rollout-budget network matched or beat the final PPO checkpoint on 2/3 (LunarLander, Breakout). Total API cost $6.11.\n\nBreakout at budget 5 scores 0: after its last rollout Claude saved an untested 'fix' whose FIRE bias (−2.5) loses the argmax to NOOP, so the ball is never served (all 100 episodes hit the 27k-step cap). Post hoc, its best tested save would have scored 31.7 on the same seeds (not the pre-registered score). Budget 25 on Breakout (184.7 and 92.1, pre-registered extra attempt) came from decoding RAM bytes from the traces (ball direction 103/105, raw paddle input 70) and tuning a dead zone; Claude was never given a RAM map. Audit: no environment simulation in any run; one minor breach (Breakout b5 computed layer-1 pre-activations on two hand-made inputs) and one grey-area check (LunarLander b25 evaluated its own |x| tanh formula on scalars, not via the weights). Excluding the breach leaves D1 at 2/3; also excluding the grey-area run would make it 1/3.",
+ "status": "done",
+ "table": {
+  "caption": "Mean return over 100 seeded greedy episodes (seeds 10000–10099); success rate in parentheses (Acrobot goal, LunarLander return ≥ 200). Zero-shot = exp5 (no tools, budget 0). Budget columns: final saved weights of one run each.",
+  "columns": [
+   "Env",
+   "Random",
+   "PPO 100k",
+   "PPO 1M",
+   "PPO final",
+   "Zero-shot median",
+   "Zero-shot best",
+   "Budget 5",
+   "Budget 25"
+  ],
+  "rows": [
+   [
+    "Acrobot",
+    "-499.7",
+    "-90.8",
+    "-79.8",
+    "-76.4 [5M]",
+    "-283.4",
+    "-172.8",
+    "-84.8 (100%)",
+    "-83.2 (100%)"
+   ],
+   [
+    "LunarLander",
+    "-187.4",
+    "-1495",
+    "115.4",
+    "266.1 [10M]",
+    "251.3",
+    "260.6",
+    "266.9 (96%)",
+    "277.4 (100%)"
+   ],
+   [
+    "Breakout",
+    "1.4",
+    "2.2",
+    "7.0",
+    "27.5 [10M]",
+    "27.1",
+    "51.2",
+    "0.0",
+    "184.7 / 92.1 (mean 138.4)"
+   ]
+  ]
+ },
+ "decision": {
+  "D1_increasing": {
+   "envs": [
+    "acrobot",
+    "lunarlander"
+   ],
+   "count": 2,
+   "pass": true
+  },
+  "D1_weak_b25_gt_b0_median": {
+   "envs": [
+    "acrobot",
+    "lunarlander",
+    "breakout"
+   ],
+   "count": 3
+  },
+  "D2_ge_ppo_final": {
+   "lunarlander": [
+    5,
+    25
+   ],
+   "breakout": [
+    25
+   ]
+  },
+  "per_env": {
+   "acrobot": {
+    "zero_shot_median": -283.45,
+    "zero_shot_best": -172.84,
+    "budget_5": -84.76,
+    "budget_25": -83.15,
+    "increasing": true,
+    "b25_gt_b0_median": true,
+    "ge_ppo_final": [],
+    "ppo_final": -76.44
+   },
+   "lunarlander": {
+    "zero_shot_median": 251.35,
+    "zero_shot_best": 260.567,
+    "budget_5": 266.852,
+    "budget_25": 277.42,
+    "increasing": true,
+    "b25_gt_b0_median": true,
+    "ge_ppo_final": [
+     5,
+     25
+    ],
+    "ppo_final": 266.0737187084646
+   },
+   "breakout": {
+    "zero_shot_median": 27.05,
+    "zero_shot_best": 51.16,
+    "budget_5": 0.0,
+    "budget_25": 138.41,
+    "increasing": false,
+    "b25_gt_b0_median": true,
+    "ge_ppo_final": [
+     25
+    ],
+    "ppo_final": 27.52
+   }
+  }
+ },
+ "media": [
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5b_acrobot.gif",
+   "group": "Acrobot",
+   "caption": "Acrobot: Opus 5.5's best network with rollouts (Acrobot · 25 rollouts), seed 10000, episode return -76.0; mean return -83.2 over 100 episodes."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5b_lunarlander.gif",
+   "group": "LunarLander",
+   "caption": "LunarLander: Opus 5.5's best network with rollouts (LunarLander · 25 rollouts), seed 10000, episode return 281.6; mean return 277.4 over 100 episodes."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5b_breakout.gif",
+   "group": "Breakout",
+   "caption": "Breakout: Opus 5.5's best network with rollouts (Breakout · 25 rollouts), seed 10000, first 300 agent steps (return so far 9); mean return 184.7 over 100 episodes."
+  }
+ ],
+ "charts": [
+  {
+   "type": "line",
+   "title": "Acrobot: final score vs rollout budget",
+   "subtitle": "mean return, 100 greedy episodes (seeds 10000–10099)",
+   "x_label": "rollout budget",
+   "y_label": "mean return",
+   "x": [
+    0,
+    5,
+    25
+   ],
+   "series": [
+    {
+     "name": "Opus 5.5",
+     "values": [
+      -283.4,
+      -84.8,
+      -83.2
+     ]
+    },
+    {
+     "name": "zero-shot best",
+     "values": [
+      -172.8,
+      null,
+      null
+     ]
+    }
+   ],
+   "reference_lines": [
+    {
+     "y": -90.8,
+     "label": "PPO 100k"
+    },
+    {
+     "y": -76.4,
+     "label": "PPO 5M"
+    },
+    {
+     "y": -499.7,
+     "label": "random"
+    }
+   ],
+   "caption": "Budget 0 is the exp5 zero-shot median (3–5 attempts; best shown separately). Budgets 5 and 25: one run each, scored on the final saved weights."
+  },
+  {
+   "type": "line",
+   "title": "Acrobot: what Claude saw, rollout by rollout",
+   "subtitle": "mean return of each 32-episode rollout batch (fresh seeds)",
+   "x_label": "rollout call",
+   "y_label": "batch mean return",
+   "x": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "series": [
+    {
+     "name": "budget 25",
+     "values": [
+      -500.0,
+      -88.4,
+      -125.5,
+      -88.9,
+      -92.8,
+      -500.0,
+      -147.0,
+      -82.2,
+      -103.1,
+      -80.5,
+      -110.8,
+      -80.8,
+      -81.9,
+      -82.6,
+      -86.0,
+      -81.8,
+      -95.1,
+      -106.7,
+      -80.9,
+      -83.1
+     ]
+    },
+    {
+     "name": "budget 5",
+     "values": [
+      -500.0,
+      -79.5,
+      -89.8,
+      -85.5,
+      -85.8,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ],
+   "reference_lines": [
+    {
+     "y": -76.4,
+     "label": "PPO 5M"
+    }
+   ],
+   "caption": "Each point evaluates the weights saved at that moment; the final score uses the last saved weights on held-out seeds."
+  },
+  {
+   "type": "line",
+   "title": "LunarLander: final score vs rollout budget",
+   "subtitle": "mean return, 100 greedy episodes (seeds 10000–10099)",
+   "x_label": "rollout budget",
+   "y_label": "mean return",
+   "x": [
+    0,
+    5,
+    25
+   ],
+   "series": [
+    {
+     "name": "Opus 5.5",
+     "values": [
+      251.3,
+      266.9,
+      277.4
+     ]
+    },
+    {
+     "name": "zero-shot best",
+     "values": [
+      260.6,
+      null,
+      null
+     ]
+    }
+   ],
+   "reference_lines": [
+    {
+     "y": 266.1,
+     "label": "PPO 10M"
+    }
+   ],
+   "caption": "Budget 0 is the exp5 zero-shot median (3–5 attempts; best shown separately). Budgets 5 and 25: one run each, scored on the final saved weights. PPO-100k (−1495) is off the chart."
+  },
+  {
+   "type": "line",
+   "title": "LunarLander: what Claude saw, rollout by rollout",
+   "subtitle": "mean return of each 32-episode rollout batch (fresh seeds)",
+   "x_label": "rollout call",
+   "y_label": "batch mean return",
+   "x": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22
+   ],
+   "series": [
+    {
+     "name": "budget 25",
+     "values": [
+      240.0,
+      232.7,
+      263.6,
+      265.8,
+      256.7,
+      274.5,
+      258.4,
+      246.6,
+      275.9,
+      52.7,
+      273.5,
+      271.2,
+      260.8,
+      275.4,
+      278.6,
+      278.9,
+      241.0,
+      264.1,
+      276.1,
+      269.8,
+      273.5,
+      279.8
+     ]
+    },
+    {
+     "name": "budget 5",
+     "values": [
+      159.7,
+      235.7,
+      265.0,
+      278.5,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ],
+   "reference_lines": [
+    {
+     "y": 266.1,
+     "label": "PPO 10M"
+    }
+   ],
+   "caption": "Each point evaluates the weights saved at that moment; the final score uses the last saved weights on held-out seeds."
+  },
+  {
+   "type": "line",
+   "title": "Breakout: final score vs rollout budget",
+   "subtitle": "mean return, 100 greedy episodes (seeds 10000–10099)",
+   "x_label": "rollout budget",
+   "y_label": "mean return",
+   "x": [
+    0,
+    5,
+    25
+   ],
+   "series": [
+    {
+     "name": "Opus 5.5",
+     "values": [
+      27.1,
+      0.0,
+      138.4
+     ]
+    },
+    {
+     "name": "zero-shot best",
+     "values": [
+      51.2,
+      null,
+      null
+     ]
+    }
+   ],
+   "reference_lines": [
+    {
+     "y": 2.2,
+     "label": "PPO 100k"
+    },
+    {
+     "y": 27.5,
+     "label": "PPO 10M"
+    },
+    {
+     "y": 1.4,
+     "label": "random"
+    }
+   ],
+   "caption": "Budget 0 is the exp5 zero-shot median (3–5 attempts; best shown separately). Budgets 5 and 25: one run each, scored on the final saved weights."
+  },
+  {
+   "type": "line",
+   "title": "Breakout: what Claude saw, rollout by rollout",
+   "subtitle": "mean return of each 32-episode rollout batch (fresh seeds)",
+   "x_label": "rollout call",
+   "y_label": "batch mean return",
+   "x": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ],
+   "series": [
+    {
+     "name": "budget 25",
+     "values": [
+      13.5,
+      5.0,
+      34.1,
+      27.8,
+      31.2,
+      35.8,
+      13.0,
+      33.3,
+      23.7,
+      8.6,
+      39.3,
+      34.8,
+      66.6,
+      149.8,
+      95.6,
+      84.3,
+      186.2,
+      147.3,
+      188.7,
+      155.0,
+      185.7,
+      127.0,
+      174.8
+     ]
+    },
+    {
+     "name": "budget 5",
+     "values": [
+      42.4,
+      28.5,
+      38.3,
+      31.7,
+      15.1,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ],
+   "reference_lines": [
+    {
+     "y": 27.5,
+     "label": "PPO 10M"
+    }
+   ],
+   "caption": "Each point evaluates the weights saved at that moment; the final score uses the last saved weights on held-out seeds."
+  }
+ ],
+ "total_cost_usd": 6.1109
+}

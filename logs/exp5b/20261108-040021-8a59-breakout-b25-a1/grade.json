@@ -1,0 +1,44 @@
+{
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 184.69,
+  "std_return": 109.64950478684344,
+  "min_return": 31.0,
+  "max_return": 428.0,
+  "mean_length": 1670.49,
+  "outcomes": {
+   "terminated": 100
+  },
+  "success_rate": null
+ },
+ "nonzero_weights": 621,
+ "heuristic_agreement": null,
+ "audit": {
+  "n_flagged_calls": 0,
+  "flagged": []
+ },
+ "ram_usage": {
+  "ram_bytes_used": [
+   72,
+   99,
+   101,
+   103,
+   105
+  ],
+  "n_ram_bytes_used": 5,
+  "annotated": {
+   "72": "player_x",
+   "99": "ball_x",
+   "101": "ball_y"
+  },
+  "per_byte_l1": {
+   "72": 26520.0,
+   "99": 26520.0,
+   "101": 17680.0,
+   "103": 5100.0,
+   "105": 4080.0
+  }
+ }
+}

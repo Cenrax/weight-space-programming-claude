@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp5",
+  "run_id": "20261108-003824-7ce1-breakout-a4",
+  "model": "claude-opus-5-5",
+  "condition": "zero-shot write from scratch, no tools, no rollouts",
+  "target": "Breakout",
+  "answer": "Bang-bang paddle tracker with a deadband. Inputs are RAM[72] (paddle x) and RAM[99] (ball x). If ball_x \u2212 paddle_x > 14.5 it picks RIGHTFIRE (11). If ball_x \u2212 paddle_x < 3.5 it picks LEFTFIRE (12). Otherwise it picks FIRE (1), so the ball is always re-served.",
+  "correct": true,
+  "confidence": null,
+  "score": 51.16,
+  "tokens_in": 31899,
+  "tokens_out": 7139,
+  "cost_usd": 0.270376,
+  "timestamp": "2026-11-08T00:43:19+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "label": "Breakout \u00b7 attempt 4",
+  "group": "Breakout",
+  "env": "breakout",
+  "attempt": 4,
+  "effort": "high",
+  "success_rate": null,
+  "heuristic_agreement": null,
+  "parse_ok": true,
+  "parse_error": null,
+  "partial_parse_score": null,
+  "max_return": 119.0,
+  "landing_rate": null,
+  "outcomes": {
+    "terminated": 100
+  },
+  "n_weight_lines": 11,
+  "n_nonzero": 11,
+  "ram_bytes_used": [
+    72,
+    99
+  ],
+  "reasoning_excerpt": "CONTROLLER: Bang-bang paddle tracker with a deadband. Inputs are RAM[72] (paddle x) and RAM[99] (ball x). If ball_x \u2212 paddle_x > 14.5 it picks RIGHTFIRE (11). If ball_x \u2212 paddle_x < 3.5 it picks LEFTFIRE (12). Otherwise it picks FIRE (1), so the ball is always re-served.\n\n**What the controller relies on.** The design depends on a recalled Breakout RAM layout, not anything given in the prompt. In that layout, RAM[72] is the paddle's horizontal position, RAM[99] the ball's x and RAM[101] the ball's y. I recall these from published annotations (AtariARI / OCAtari); I could not check them here. The recalled conversions to screen pixels are paddle_px \u2248 RAM[72] \u2212 47 (left edge, 16 px wide) and ball_px \u2248 RAM[99] \u2212 49 (2 px wide). From those, the paddle is centred under the ball when D = RAM[99] \u2212 RAM[72] \u2248 9. If those offsets are off, the deadband below still absorbs a few units of error.\n\n**Layer 1.** Since x = RAM/255, a weight of \u00b1510 on (x99 \u2212 x72) gives 2\u00b7D.\n- Unit 0 is h = tanh(2D \u2212 29). It is about +1 when D > 14.5, meaning the ball is more than about 6 units right of the paddle centre.\n- Unit 1 is h = tanh(7 \u2212 2D). It is about +1 when D < 3.5, meaning the ball is more than about 6 units left of the paddle centre.\n- In between, both units are about \u22121. This \u00b16 deadband limits the overshoot and oscillation caused by the fast paddle moving about 4 frames per decision. It stays within the paddle's half-width of 8.\n\n**Layer 2.** This layer just passes the two units through and sh"
+}

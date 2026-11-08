@@ -1,0 +1,14 @@
+{
+ "env_id": "LunarLander-v3",
+ "env_kind": "raw",
+ "arch": [
+  8,
+  64,
+  64,
+  4
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "claude-zero-shot",
+ "notes": "exp5 weights written by Claude (20261108-003226-2788-lunarlander-a5)"
+}

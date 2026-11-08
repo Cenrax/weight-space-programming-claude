@@ -1,0 +1,39 @@
+{
+ "env": "lunarlander",
+ "has_weights_block": true,
+ "unparsed_lines": [],
+ "parse_error": null,
+ "stop_reason": "end_turn",
+ "n_weight_lines": 104,
+ "nonzero": {
+  "changed": 104,
+  "total": 4996,
+  "frac": 0.020816653322658127,
+  "per_tensor": {
+   "W1": 21,
+   "b1": 13,
+   "W2": 54,
+   "b2": 6,
+   "W3": 6,
+   "b3": 4
+  }
+ },
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 260.56700725224016,
+  "std_return": 67.19601090022226,
+  "min_return": -218.42056575179663,
+  "max_return": 310.3861856477773,
+  "mean_length": 244.55,
+  "outcomes": {
+   "landed": 96,
+   "crashed": 2,
+   "timeout": 2
+  },
+  "landing_rate": 0.96,
+  "success_rate_200": 0.95,
+  "success_rate": 0.95
+ }
+}

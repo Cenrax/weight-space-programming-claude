@@ -1,0 +1,24 @@
+{
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 277.42005823143046,
+  "std_return": 14.930107922456784,
+  "min_return": 218.28196303378954,
+  "max_return": 303.2664981374794,
+  "mean_length": 223.61,
+  "outcomes": {
+   "landed": 100
+  },
+  "landing_rate": 1.0,
+  "success_rate_200": 1.0,
+  "success_rate": 1.0
+ },
+ "nonzero_weights": 53,
+ "heuristic_agreement": 0.6651759760296946,
+ "audit": {
+  "n_flagged_calls": 0,
+  "flagged": []
+ }
+}

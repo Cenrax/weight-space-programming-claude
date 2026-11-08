@@ -1,0 +1,400 @@
+{
+  "_note": "FAKE DATA. Used only by docs/dev.html to preview the populated rendering. Never reference from index.html.",
+  "exp_id": "_example",
+  "title": "FAKE EXAMPLE — Which Atari game was this network trained on?",
+  "status": "done",
+  "summary": "**This is fake data for layout testing.** Opus 5.5 named the correct game in *12 of 15* scored attempts (numbers invented).\n\nControls: on random-init networks it declined to name a game in 5 of 5 attempts. See `logs/_example/` and [the original post](https://rikiyat.github.io/blog/weight-space-programming/).",
+  "table": {
+    "caption": "FAKE — per-network accuracy",
+    "columns": [
+      "Network",
+      "Correct",
+      "Attempts",
+      "Mean confidence",
+      "Most common answer",
+      "Majority right?"
+    ],
+    "rows": [
+      [
+        "Breakout",
+        4,
+        5,
+        "0.85",
+        "Breakout",
+        true
+      ],
+      [
+        "Pong",
+        4,
+        5,
+        "0.75",
+        "Pong",
+        true
+      ],
+      [
+        "Freeway",
+        2,
+        5,
+        "0.53",
+        "Space Invaders",
+        false
+      ],
+      [
+        "Random init",
+        null,
+        5,
+        "0.25",
+        "Cannot determine",
+        null
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "group": "Breakout",
+      "label": "Breakout · attempt 1",
+      "answer": "FAKE — Breakout",
+      "correct": true,
+      "confidence": 0.92,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.\nFAKE: The output layer differentiates two actions (indices 3 and 4) far more than the rest, consistent with a left/right paddle.\nFAKE: Bias b3 is nearly uniform, so action preference is driven by inputs rather than a fixed habit.\nFAKE: Taken together: a game with a single horizontally moving paddle and a ball whose position is in RAM — most likely Breakout.",
+      "prompt_excerpt": "[FAKE PROMPT — dev preview only]\nYou are given the weights of a small neural network policy, printed as text.\nEach line is one row of a weight matrix (row = input unit), 3 decimals.\n\nWhich game was this neural network trained on? Give your single best answer,\na confidence between 0 and 1, and the evidence in the weights you relied on.\n\nNo tools are allowed.\n\nW1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019\n... (8,342 more lines)",
+      "weights_excerpt": "W1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019",
+      "tokens": 800,
+      "log_path": "logs/_example/run001"
+    },
+    {
+      "group": "Breakout",
+      "label": "Breakout · attempt 2",
+      "answer": "FAKE — Breakout",
+      "correct": true,
+      "confidence": 0.88,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 837,
+      "log_path": "logs/_example/run002"
+    },
+    {
+      "group": "Breakout",
+      "label": "Breakout · attempt 3",
+      "answer": "FAKE — Breakout",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 874,
+      "log_path": "logs/_example/run003"
+    },
+    {
+      "group": "Breakout",
+      "label": "Breakout · attempt 4",
+      "answer": "FAKE — Space Invaders",
+      "correct": false,
+      "confidence": 0.61,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 911,
+      "log_path": "logs/_example/run004"
+    },
+    {
+      "group": "Breakout",
+      "label": "Breakout · attempt 5",
+      "answer": "FAKE — Breakout",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 948,
+      "log_path": "logs/_example/run005"
+    },
+    {
+      "group": "Pong",
+      "label": "Pong · attempt 1",
+      "answer": "FAKE — Pong",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.\nFAKE: The output layer differentiates two actions (indices 3 and 4) far more than the rest, consistent with a left/right paddle.\nFAKE: Bias b3 is nearly uniform, so action preference is driven by inputs rather than a fixed habit.\nFAKE: Taken together: a game with a single horizontally moving paddle and a ball whose position is in RAM — most likely Breakout.",
+      "prompt_excerpt": "[FAKE PROMPT — dev preview only]\nYou are given the weights of a small neural network policy, printed as text.\nEach line is one row of a weight matrix (row = input unit), 3 decimals.\n\nWhich game was this neural network trained on? Give your single best answer,\na confidence between 0 and 1, and the evidence in the weights you relied on.\n\nNo tools are allowed.\n\nW1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019\n... (8,342 more lines)",
+      "weights_excerpt": "W1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019",
+      "tokens": 800,
+      "log_path": "logs/_example/run001"
+    },
+    {
+      "group": "Pong",
+      "label": "Pong · attempt 2",
+      "answer": "FAKE — Tennis",
+      "correct": false,
+      "confidence": 0.55,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 837,
+      "log_path": "logs/_example/run002"
+    },
+    {
+      "group": "Pong",
+      "label": "Pong · attempt 3",
+      "answer": "FAKE — Pong",
+      "correct": true,
+      "confidence": 0.83,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 874,
+      "log_path": "logs/_example/run003"
+    },
+    {
+      "group": "Pong",
+      "label": "Pong · attempt 4",
+      "answer": "FAKE — Pong",
+      "correct": true,
+      "confidence": 0.77,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 911,
+      "log_path": "logs/_example/run004"
+    },
+    {
+      "group": "Pong",
+      "label": "Pong · attempt 5",
+      "answer": "FAKE — Pong",
+      "correct": true,
+      "confidence": 0.81,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 948,
+      "log_path": "logs/_example/run005"
+    },
+    {
+      "group": "Freeway",
+      "label": "Freeway · attempt 1",
+      "answer": "FAKE — Space Invaders",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.\nFAKE: The output layer differentiates two actions (indices 3 and 4) far more than the rest, consistent with a left/right paddle.\nFAKE: Bias b3 is nearly uniform, so action preference is driven by inputs rather than a fixed habit.\nFAKE: Taken together: a game with a single horizontally moving paddle and a ball whose position is in RAM — most likely Breakout.",
+      "prompt_excerpt": "[FAKE PROMPT — dev preview only]\nYou are given the weights of a small neural network policy, printed as text.\nEach line is one row of a weight matrix (row = input unit), 3 decimals.\n\nWhich game was this neural network trained on? Give your single best answer,\na confidence between 0 and 1, and the evidence in the weights you relied on.\n\nNo tools are allowed.\n\nW1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019\n... (8,342 more lines)",
+      "weights_excerpt": "W1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019",
+      "tokens": 800,
+      "log_path": "logs/_example/run001"
+    },
+    {
+      "group": "Freeway",
+      "label": "Freeway · attempt 2",
+      "answer": "FAKE — Space Invaders",
+      "correct": false,
+      "confidence": 0.52,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 837,
+      "log_path": "logs/_example/run002"
+    },
+    {
+      "group": "Freeway",
+      "label": "Freeway · attempt 3",
+      "answer": "FAKE — Freeway",
+      "correct": true,
+      "confidence": 0.66,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 874,
+      "log_path": "logs/_example/run003"
+    },
+    {
+      "group": "Freeway",
+      "label": "Freeway · attempt 4",
+      "answer": "FAKE — Space Invaders",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 911,
+      "log_path": "logs/_example/run004"
+    },
+    {
+      "group": "Freeway",
+      "label": "Freeway · attempt 5",
+      "answer": "FAKE — Freeway",
+      "correct": true,
+      "confidence": 0.7,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 948,
+      "log_path": "logs/_example/run005"
+    },
+    {
+      "group": "Random-init control",
+      "label": "Random-init control · attempt 1",
+      "answer": "FAKE — Cannot determine",
+      "correct": null,
+      "confidence": 0.3,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.\nFAKE: The output layer differentiates two actions (indices 3 and 4) far more than the rest, consistent with a left/right paddle.\nFAKE: Bias b3 is nearly uniform, so action preference is driven by inputs rather than a fixed habit.\nFAKE: Taken together: a game with a single horizontally moving paddle and a ball whose position is in RAM — most likely Breakout.",
+      "prompt_excerpt": "[FAKE PROMPT — dev preview only]\nYou are given the weights of a small neural network policy, printed as text.\nEach line is one row of a weight matrix (row = input unit), 3 decimals.\n\nWhich game was this neural network trained on? Give your single best answer,\na confidence between 0 and 1, and the evidence in the weights you relied on.\n\nNo tools are allowed.\n\nW1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019\n... (8,342 more lines)",
+      "weights_excerpt": "W1 row 72   0.412 -1.093  0.088  2.315 -0.774  0.019 -3.208  1.442  0.067 -0.531  0.903 -2.118  0.250  1.771 -0.096  0.684\nW1 row 99  -0.031  0.127 -0.244  0.058  0.311 -0.019  0.102 -0.087  0.149 -0.203  0.044  0.071 -0.118  0.090  0.016 -0.065\nW3 row 11  -0.177  0.185  0.450  4.057 -0.414 -0.022  0.318 -2.941  0.117  0.006 -0.090  0.213  0.051 -0.330  0.077  0.142  0.008 -0.061\nb3          1.221  1.008  1.024  0.897  1.298  0.905  0.977  1.110  0.954  1.041  0.993  1.015  0.962  1.002  0.988  1.073  0.931  1.019",
+      "tokens": 800,
+      "log_path": "logs/_example/run001"
+    },
+    {
+      "group": "Random-init control",
+      "label": "Random-init control · attempt 2",
+      "answer": "FAKE — Cannot determine",
+      "correct": null,
+      "confidence": 0.2,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 837,
+      "log_path": "logs/_example/run002"
+    },
+    {
+      "group": "Random-init control",
+      "label": "Random-init control · attempt 3",
+      "answer": "FAKE — Cannot determine",
+      "correct": null,
+      "confidence": 0.25,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 874,
+      "log_path": "logs/_example/run003"
+    },
+    {
+      "group": "Random-init control",
+      "label": "Random-init control · attempt 4",
+      "answer": "FAKE — Cannot determine",
+      "correct": null,
+      "confidence": 0.15,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 911,
+      "log_path": "logs/_example/run004"
+    },
+    {
+      "group": "Random-init control",
+      "label": "Random-init control · attempt 5",
+      "answer": "FAKE — Cannot determine",
+      "correct": null,
+      "confidence": 0.35,
+      "reasoning_excerpt": "FAKE: Byte 72 has unusually large, sign-structured outgoing weights into units 3, 6 and 11 — the kind of pattern you'd expect for a horizontal position the policy tracks closely.",
+      "prompt_excerpt": "[FAKE PROMPT]\nWhich game was this neural network trained on?",
+      "weights_excerpt": null,
+      "tokens": 948,
+      "log_path": "logs/_example/run005"
+    }
+  ],
+  "media": [
+    {
+      "type": "png",
+      "src": "assets/example/fake-a.svg",
+      "caption": "FAKE frame — the policy playing (would be a GIF).",
+      "group": "Breakout"
+    },
+    {
+      "type": "png",
+      "src": "assets/example/fake-b.svg",
+      "caption": "FAKE frame for Pong.",
+      "group": "Pong"
+    },
+    {
+      "type": "png",
+      "src": "assets/example/fake-ddpm.svg",
+      "caption": "FAKE ungrouped figure (e.g. a DDPM sample).",
+      "pixel": true,
+      "alt": "Fake 16 by 16 sample of a white disc"
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "FAKE — mean return by environment",
+      "subtitle": "Higher is better; 20 seeded episodes each",
+      "unit": "episode return",
+      "categories": [
+        "CartPole",
+        "Acrobot",
+        "MountainCar",
+        "LunarLander"
+      ],
+      "series": [
+        {
+          "name": "PPO",
+          "values": [
+            500,
+            -82.4,
+            -118.6,
+            231.0
+          ]
+        },
+        {
+          "name": "Opus 5.5, zero-shot",
+          "values": [
+            488.2,
+            -96.1,
+            -140.3,
+            112.7
+          ]
+        },
+        {
+          "name": "Random",
+          "values": [
+            22.1,
+            -498.7,
+            -200,
+            -180.4
+          ]
+        }
+      ],
+      "caption": "FAKE chart. In the real data each environment will likely get its own chart, since return scales differ."
+    },
+    {
+      "type": "line",
+      "title": "FAKE — return vs rollout budget",
+      "x_label": "rollout batches",
+      "x": [
+        0,
+        5,
+        10,
+        25,
+        50
+      ],
+      "series": [
+        {
+          "name": "LunarLander",
+          "values": [
+            112.7,
+            160.2,
+            188.9,
+            214.3,
+            229.8
+          ]
+        },
+        {
+          "name": "Breakout (RAM)",
+          "values": [
+            3.1,
+            9.4,
+            14.2,
+            22.8,
+            30.5
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": 200,
+          "label": "\"solved\" threshold (200)"
+        }
+      ],
+      "caption": "FAKE chart with a reference line."
+    }
+  ]
+}

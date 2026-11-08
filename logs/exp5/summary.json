@@ -1,0 +1,299 @@
+{
+ "summary": "Writing every weight in one reply with no tools or rollouts, Opus 5.5's median network beat PPO-100k on 4/5 environments (CartPole, MountainCar, LunarLander, Breakout; H1 needs ≥ 4) and its best network matched or beat the final PPO checkpoint on 3/5 (CartPole, MountainCar, Breakout; median: 2/5). Total API cost $6.85.",
+ "status": "done",
+ "table": {
+  "caption": "Mean return over 100 seeded greedy episodes (success rate in parentheses: CartPole 500 steps, Acrobot goal, MountainCar flag, LunarLander return ≥ 200). Heuristic agreement = share of visited steps where the network's action equals a hand-coded controller's (MountainCar: push with velocity; LunarLander: Gymnasium heuristic(); CartPole/Acrobot: secondary reference rules).",
+  "columns": [
+   "Env",
+   "Random",
+   "PPO 100k",
+   "PPO 1M",
+   "PPO final",
+   "Claude best",
+   "Claude median",
+   "Heuristic agreement"
+  ],
+  "rows": [
+   [
+    "CartPole",
+    "22.5 (0%)",
+    "495.3 (95%)",
+    "275.7 (0%)",
+    "500.0 (100%) [5M]",
+    "500.0 (100%)",
+    "500.0",
+    "best 84%, median 84% (secondary)"
+   ],
+   [
+    "Acrobot",
+    "-499.7 (1%)",
+    "-90.8 (100%)",
+    "-79.8 (100%)",
+    "-76.4 (100%) [5M]",
+    "-172.8 (93%)",
+    "-283.4",
+    "best 57%, median 62% (secondary)"
+   ],
+   [
+    "MountainCar",
+    "-200.0 (0%)",
+    "-200.0 (0%)",
+    "-200.0 (0%)",
+    "-200.0 (0%) [5M]",
+    "-103.7 (100%)",
+    "-110.1",
+    "best 95%, median 99%"
+   ],
+   [
+    "LunarLander",
+    "-187.4 (0%)",
+    "-1495 (0%)",
+    "115.4 (16%)",
+    "266.1 (95%) [10M]",
+    "260.6 (95%)",
+    "251.3",
+    "best 90%, median 91%"
+   ],
+   [
+    "Breakout",
+    "1.4",
+    "2.2",
+    "7.0",
+    "27.5 [10M]",
+    "51.2",
+    "27.1",
+    "—"
+   ]
+  ]
+ },
+ "decision": {
+  "H1_median_beats_ppo100k": {
+   "envs": [
+    "cartpole",
+    "mountaincar",
+    "lunarlander",
+    "breakout"
+   ],
+   "count": 4,
+   "pass": true
+  },
+  "H2_best_ge_ppo_final": {
+   "envs": [
+    "cartpole",
+    "mountaincar",
+    "breakout"
+   ],
+   "count": 3
+  },
+  "median_ge_ppo_final": {
+   "envs": [
+    "cartpole",
+    "mountaincar"
+   ],
+   "count": 2
+  }
+ },
+ "media": [
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5_claude_cartpole.gif",
+   "group": "CartPole",
+   "caption": "CartPole: Opus 5.5's best zero-shot network (CartPole · attempt 1), seed 10000, episode return 500.0; mean return 500.0 over 100 episodes."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5_claude_acrobot.gif",
+   "group": "Acrobot",
+   "caption": "Acrobot: Opus 5.5's best zero-shot network (Acrobot · attempt 3), seed 10000, episode return -231.0; mean return -172.8 over 100 episodes."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5_claude_mountaincar.gif",
+   "group": "MountainCar",
+   "caption": "MountainCar: Opus 5.5's best zero-shot network (MountainCar · attempt 3), seed 10000, episode return -109.0; mean return -103.7 over 100 episodes."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5_claude_lunarlander.gif",
+   "group": "LunarLander",
+   "caption": "LunarLander: Opus 5.5's best zero-shot network (LunarLander · attempt 3), seed 10000, episode return 280.9; mean return 260.6 over 100 episodes."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp5_claude_breakout.gif",
+   "group": "Breakout",
+   "caption": "Breakout: Opus 5.5's best zero-shot network (Breakout · attempt 4), seed 10000, first 300 agent steps (return so far 9); mean return 51.2 over 100 episodes."
+  }
+ ],
+ "charts": [
+  {
+   "type": "bar",
+   "title": "CartPole: mean return per attempt vs PPO",
+   "subtitle": "100 seeded greedy episodes (seeds 10000–10099)",
+   "unit": "mean return",
+   "categories": [
+    "attempt 1",
+    "attempt 2",
+    "attempt 3",
+    "PPO 100k",
+    "PPO 1M",
+    "PPO 5M",
+    "random",
+    "zero net"
+   ],
+   "series": [
+    {
+     "name": "mean return",
+     "values": [
+      500.0,
+      500.0,
+      500.0,
+      495.3,
+      275.7,
+      500.0,
+      22.5,
+      9.3
+     ]
+    }
+   ],
+   "caption": "Opus 5.5 one-shot attempts (no tools, no rollouts) next to PPO checkpoints."
+  },
+  {
+   "type": "bar",
+   "title": "Acrobot: mean return per attempt vs PPO",
+   "subtitle": "100 seeded greedy episodes (seeds 10000–10099)",
+   "unit": "mean return",
+   "categories": [
+    "attempt 1",
+    "attempt 2",
+    "attempt 3",
+    "PPO 100k",
+    "PPO 1M",
+    "PPO 5M",
+    "random",
+    "zero net"
+   ],
+   "series": [
+    {
+     "name": "mean return",
+     "values": [
+      -500.0,
+      -283.4,
+      -172.8,
+      -90.8,
+      -79.8,
+      -76.4,
+      -499.7,
+      -500.0
+     ]
+    }
+   ],
+   "caption": "Opus 5.5 one-shot attempts (no tools, no rollouts) next to PPO checkpoints."
+  },
+  {
+   "type": "bar",
+   "title": "MountainCar: mean return per attempt vs PPO",
+   "subtitle": "100 seeded greedy episodes (seeds 10000–10099)",
+   "unit": "mean return",
+   "categories": [
+    "attempt 1",
+    "attempt 2",
+    "attempt 3",
+    "PPO 100k",
+    "PPO 1M",
+    "PPO 5M",
+    "random",
+    "zero net"
+   ],
+   "series": [
+    {
+     "name": "mean return",
+     "values": [
+      -134.4,
+      -110.1,
+      -103.7,
+      -200.0,
+      -200.0,
+      -200.0,
+      -200.0,
+      -200.0
+     ]
+    }
+   ],
+   "caption": "Opus 5.5 one-shot attempts (no tools, no rollouts) next to PPO checkpoints."
+  },
+  {
+   "type": "bar",
+   "title": "LunarLander: mean return per attempt vs PPO",
+   "subtitle": "100 seeded greedy episodes (seeds 10000–10099)",
+   "unit": "mean return",
+   "categories": [
+    "attempt 1",
+    "attempt 2",
+    "attempt 3",
+    "attempt 4",
+    "attempt 5",
+    "PPO 100k",
+    "PPO 1M",
+    "PPO 10M",
+    "random",
+    "zero net"
+   ],
+   "series": [
+    {
+     "name": "mean return",
+     "values": [
+      249.9,
+      251.3,
+      260.6,
+      249.9,
+      253.6,
+      -1494.7,
+      115.4,
+      266.1,
+      -187.4,
+      -131.5
+     ]
+    }
+   ],
+   "caption": "Opus 5.5 one-shot attempts (no tools, no rollouts) next to PPO checkpoints."
+  },
+  {
+   "type": "bar",
+   "title": "Breakout: mean return per attempt vs PPO",
+   "subtitle": "100 seeded greedy episodes (seeds 10000–10099)",
+   "unit": "mean return",
+   "categories": [
+    "attempt 1",
+    "attempt 2",
+    "attempt 3",
+    "attempt 4",
+    "attempt 5",
+    "PPO 100k",
+    "PPO 1M",
+    "PPO 10M",
+    "random",
+    "zero net"
+   ],
+   "series": [
+    {
+     "name": "mean return",
+     "values": [
+      40.9,
+      24.5,
+      27.1,
+      51.2,
+      25.5,
+      2.2,
+      7.0,
+      27.5,
+      1.4,
+      0.0
+     ]
+    }
+   ],
+   "caption": "Opus 5.5 one-shot attempts (no tools, no rollouts) next to PPO checkpoints."
+  }
+ ],
+ "total_cost_usd": 6.853
+}

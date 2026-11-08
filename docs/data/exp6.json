@@ -1,0 +1,459 @@
+{
+  "exp_id": "exp6",
+  "title": "Write Go",
+  "status": "done",
+  "summary": "Starting from all-zero weights in a sandbox where the network could only be run through a budget of 128-game forward passes, Opus 5.5 wrote 243\u2192512\u00d76\u219282 Go networks whose final weights won 0 passes: 94%, 88%, 85%; 10 passes: 97%, 89%, 82%; 25 passes: 98%, 99%, 90%; 50 passes: 96%, 87%, 87% (vs small_s0, small_s2, large). Original headline A (0 passes > 50% vs both small nets): yes. Headline B (50 passes beats the equal-size net): yes. Total API cost $9.77.\n\nThe one-shot network (0 passes, 4 turns, $0.70) already beat all three opponents by a wide margin, so the forward passes added little: mean win rate 88.8% \u2192 89.5% \u2192 95.7% \u2192 90.2% for 0/10/25/50 passes (2 of 3 steps up; the 25\u219250 drop of 5.5 pp is within single-run noise, and the b50 run's own re-test of its final weights fell from 91.8% to 83.2% vs large between two batches). Every run built the network as a hand-written Go program: board planes copied through the hidden layers, an offset 'score plane' accumulating move bonuses layer by layer, ReLU pattern units that detect chains in atari (fixed 1\u20133-stone shapes in b0/b10; liberty marks propagated along chains, one step per layer, in b25/b50), plus capture/save/self-atari/eye-fill/contact terms and a line prior; only 1.1\u20132.0% of the 1.48M weights are non-zero. With passes, Claude read loss records (mostly premature passing and dead groups as Black under komi 7) and tuned scalar weights; it found most later tweaks were within noise. Caveat: our equal-size PPO net trained on 0.71M games (the original's on 20M) and is weak \u2014 the random-move heuristic bot already wins 42% against it \u2014 so 'beats the equal-size net' is a much lower bar here than in the original. Audit: 0 violations, 0 minor breaches in 4 runs.",
+  "table": {
+    "caption": "Win rate of the final saved weights, 128 games per opponent (opening seed 1000003, colours alternate, draw = half). Mean = mean over the three PPO opponents. Heuristic column = context only.",
+    "columns": [
+      "Forward passes",
+      "vs small_s0",
+      "vs small_s2",
+      "vs large (512\u00d76)",
+      "Mean",
+      "vs heuristic bot",
+      "Passes used",
+      "Cost"
+    ],
+    "rows": [
+      [
+        "0 (one shot)",
+        "93.8%",
+        "87.5%",
+        "85.2%",
+        "88.8%",
+        "95.7%",
+        "0",
+        "$0.70"
+      ],
+      [
+        "10",
+        "97.3%",
+        "88.7%",
+        "82.4%",
+        "89.5%",
+        "95.7%",
+        "10",
+        "$1.70"
+      ],
+      [
+        "25",
+        "97.7%",
+        "99.2%",
+        "90.2%",
+        "95.7%",
+        "98.4%",
+        "23",
+        "$2.20"
+      ],
+      [
+        "50",
+        "96.5%",
+        "87.1%",
+        "87.1%",
+        "90.2%",
+        "94.5%",
+        "45",
+        "$5.17"
+      ],
+      [
+        "all-zero start (reference)",
+        "2.3%",
+        "2.3%",
+        "1.6%",
+        "2.1%",
+        "0.8%",
+        "\u2014",
+        "\u2014"
+      ],
+      [
+        "heuristic bot (reference)",
+        "50.8%",
+        "53.1%",
+        "42.2%",
+        "48.7%",
+        "\u2014",
+        "\u2014",
+        "\u2014"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "Go \u00b7 0 forward passes (one shot)",
+      "answer": "A rule-based player. It captures enemy groups of 1\u20133 stones that have one liberty left, saves its own 1\u20133-stone groups in atari when extending gains liberties, avoids self-atari and filling its own eyes, and prefers good points and contested areas. It passes only when the remaining moves are eyes or",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "I've saved a hand-built network. Every weight was set directly by code from Go rules; nothing was trained. Because there were 0 forward passes, it has never been run or seen playing, so I can't tell you how strong it is. I checked that the saved arrays match what I built, but the logic inside the units was checked only by reasoning.\n\nNETWORK: A rule-based player. It captures enemy groups of 1\u20133 stones that have one liberty left, saves its own 1\u20133-stone groups in atari when extending gains liberties, avoids self-atari and filling its own eyes, and prefers good points and contested areas. It passes only when the remaining moves are eyes or safe inside its own territory.\n\n**How the layers work**\n- **Shared structure:**\n  - **Board copy:** Hidden layers 1\u20135 carry a copy of the \"your stones\" and \"opponent stones\" inputs. Empty points are worked out as 1 \u2212 yours \u2212 theirs.\n  - **Running score:** Every hidden layer also keeps an 81-unit running score for the points, offset by +200 so ReLU never cuts it off. Each layer adds what its features found, and the output subtracts the 200 again.\n  - **Pattern test:** Each pattern feature is a single ReLU unit. Its weights are 2 for each stone in the group, \u00b11 for each neighbouring point, and a bias chosen so it outputs exactly 1 only when the group has exactly one empty liberty and no friendly stones next to it.\n- **Layer 1:**\n  - The running score starts as a position bonus (centre, 3rd and 4th lines best, edge worst), plus 0.3 per empty nei",
+      "prompt_excerpt": "Write high-performing weights for a neural network that plays 9\u00d79 Go, from scratch, without training or web access. The architecture is fixed: an MLP 243 \u2192 512 \u00d7 6 \u2192 82 (1,480,274 weights).\n\nYou have a Python sandbox (the `python` tool), a persistent session like a notebook, where you can read and save the network's weight tensors (all zero at the start) and analyse them with numpy or PyTorch on a \u2026",
+      "group": "Go",
+      "score": 0.888,
+      "log_path": "logs/exp6/20261108-050719-5541-go-b0-a1"
+    },
+    {
+      "label": "Go \u00b7 50 forward passes",
+      "answer": "Hand-written Go tactics. Layer 1 copies the board and marks stones with liberties; layers 2\u20135 spread those marks along same-colour chains (two labels by liberty-point parity) to find chains in atari; layer 6 scores capture, self-atari, eye-fill, liberty-fill and contact; readout adds a position prio",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "I saved the final weights (configuration \"B\") and checked that what's stored matches what I built. It is the configuration I tested most, on 5 of the 50 batches. Expect roughly 0.83\u20130.92 against `large` and about 0.89\u20130.95 against each small opponent. Its two runs against `large` gave 0.918 and then 0.832, so one batch of 128 games moves by several points. Some of the gains I credit to individual changes below are within that noise.\n\nNETWORK: Hand-written Go tactics. Layer 1 copies the board and marks stones with liberties; layers 2\u20135 spread those marks along same-colour chains (two labels by liberty-point parity) to find chains in atari; layer 6 scores capture, self-atari, eye-fill, liberty-fill and contact; readout adds a position prior.\n\n**How the layers work**\n- **Layer 1 (486 units in use):** keeps a copy of our stones and the opponent's (162 units). For each stone and each colour it also sets two \"has a liberty\" marks (324 units). The two marks are labels by checkerboard parity of the liberty point (row+col even or odd). A mark is also set when the stone has two or more liberties.\n- **Layers 2\u20135:** each layer spreads the marks one step further along stones of the same colour. A large negative bias stops a mark from crossing into an empty point or an enemy stone. Together with the extra step in layer 6, a chain is seen up to about 5 steps from any stone.\n- **Layer 6 (about 486 units) and the readout:**\n  - **Capture:** +15 to each liberty of an opponent chain that has no",
+      "prompt_excerpt": "Write high-performing weights for a neural network that plays 9\u00d79 Go, from scratch, without training or web access. The architecture is fixed: an MLP 243 \u2192 512 \u00d7 6 \u2192 82 (1,480,274 weights).\n\nYou have a Python sandbox (the `python` tool), a persistent session like a notebook, where you can read and save the network's weight tensors (all zero at the start) and analyse them with numpy or PyTorch on a \u2026",
+      "group": "Go",
+      "score": 0.9023,
+      "log_path": "logs/exp6/20261108-051239-c6bb-go-b50-a1"
+    },
+    {
+      "label": "Go \u00b7 25 forward passes",
+      "answer": "Hand-built move scorer: line prior; asymmetric influence penalty (own-dominated points penalised more); bonus next to own stones; 2\u00d72 connect/cut shapes; capture weak opponent chains; extend own weak chains; self-atari, eye-fill and eye-shrink penalties; passes only if every move scores below \u221226.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "The final saved network is the P10 configuration. I checked that the saved weights match exactly what my builder produced. With these weights it won **99.2% against small_s0** (127 of 128), **99.2% against small_s2** (127 of 128) and **94.5% then 91.4% against large** in two separate batches. The scoring games use held-out openings, so expect results around these numbers. Two of the 25 test batches were left unused.\n\nAlmost all remaining losses are as Black against large (about 87\u201391% as Black versus about 95\u201398% as White), which is consistent with the 7-point komi.\n\nNETWORK: Hand-built move scorer: line prior; asymmetric influence penalty (own-dominated points penalised more); bonus next to own stones; 2\u00d72 connect/cut shapes; capture weak opponent chains; extend own weak chains; self-atari, eye-fill and eye-shrink penalties; passes only if every move scores below \u221226.\n\n**How the layers work**\n- **Layer 1:** passes your stones and the opponent's stones straight through. For each point and colour it also computes two values from the number of empty neighbours (marking \"at least 1\" and \"at least 2\"), which later layers use to judge liberties.\n- **Layer 2:** marks a stone as \"Good\" (its chain is not in atari) if it has 2 or more empty neighbours, or 1 empty neighbour plus a same-colour neighbour that also has one. It also starts a running score for each of the 82 moves, offset by +100 so it stays positive through the ReLUs. That score holds:\n  - a preference by line: edge 0, 2nd",
+      "prompt_excerpt": "Write high-performing weights for a neural network that plays 9\u00d79 Go, from scratch, without training or web access. The architecture is fixed: an MLP 243 \u2192 512 \u00d7 6 \u2192 82 (1,480,274 weights).\n\nYou have a Python sandbox (the `python` tool), a persistent session like a notebook, where you can read and save the network's weight tensors (all zero at the start) and analyse them with numpy or PyTorch on a \u2026",
+      "group": "Go",
+      "score": 0.957,
+      "log_path": "logs/exp6/20261108-051241-3125-go-b25-a1"
+    },
+    {
+      "label": "Go \u00b7 10 forward passes",
+      "answer": "hand-written Go heuristics. Logit = position prior + liberties/contact \u2212 |local influence| + big bonuses for capturing 1\u20133-stone chains in atari and for saving own 1\u20132-stone chains, atari/connect/cut bonuses, penalties for self-atari and own-eye filling; pass is \u221240.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "The final saved weights are version 6 (checked: the saved arrays match it exactly). In its last two test batches of 128 games each, it won 89.1% against `large` and 90.6% against `small_s2`. It was never tested against `small_s0`. The only s0 batch used the first version, which won 98.4%, and later versions only added features or changed weights. Each batch has roughly \u00b13\u20134% noise, so differences between versions of a few points may not be real.\n\nNETWORK: hand-written Go heuristics. Logit = position prior + liberties/contact \u2212 |local influence| + big bonuses for capturing 1\u20133-stone chains in atari and for saving own 1\u20132-stone chains, atari/connect/cut bonuses, penalties for self-atari and own-eye filling; pass is \u221240.\n\n**How the layers work**\n- **Carried planes:** layers 1\u20135 copy the \"my stones\" and \"opponent stones\" planes forward (162 units), so later layers can still read the board. Every layer also carries an 81-unit score plane, offset by +100 so ReLU never clips it. W7 copies the score plane to the output and subtracts the 100.\n- **Pattern units:** each unit fires only when an exact local pattern is present, e.g. \"opponent stones exactly on shape S, and every neighbour of S is mine except one\". The bonus is added to all neighbours of S, but only the one empty liberty can be played, so it lands in the right place.\n- **Layer 1:** 3rd-line and centre prior, small bonuses for empty and opponent neighbours. Positive and negative influence within distance 3, penalised so it p",
+      "prompt_excerpt": "Write high-performing weights for a neural network that plays 9\u00d79 Go, from scratch, without training or web access. The architecture is fixed: an MLP 243 \u2192 512 \u00d7 6 \u2192 82 (1,480,274 weights).\n\nYou have a Python sandbox (the `python` tool), a persistent session like a notebook, where you can read and save the network's weight tensors (all zero at the start) and analyse them with numpy or PyTorch on a \u2026",
+      "group": "Go",
+      "score": 0.8945,
+      "log_path": "logs/exp6/20261108-052434-5c83-go-b10-a1"
+    }
+  ],
+  "media": [
+    {
+      "type": "png",
+      "src": "assets/figures/exp6_winrate_vs_budget.png",
+      "caption": "Win rate of Opus 5.5's final saved Go network vs each opponent, by forward-pass budget (128 games per point, held-out opening seed). Grey: 50% line, the heuristic bot's mean, and the all-zero starting network."
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "eval_table",
+      "env_id": null,
+      "arch": null,
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": 7
+    },
+    {
+      "name": "large",
+      "env_id": "go9x9 (envs/go: komi 7.0, area scoring, simple ko, no suicide, 200-ply cap)",
+      "arch": [
+        243,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        82
+      ],
+      "algo": "PPO self-play vs pool of past selves + random (train/go_ppo.py)",
+      "eval_mean_return": 0.9921875,
+      "eval_std_return": null,
+      "seed": 0
+    },
+    {
+      "name": "small_s0",
+      "env_id": "go9x9 (envs/go: komi 7.0, area scoring, simple ko, no suicide, 200-ply cap)",
+      "arch": [
+        243,
+        32,
+        32,
+        82
+      ],
+      "algo": "PPO self-play vs pool of past selves + random (train/go_ppo.py)",
+      "eval_mean_return": 0.9921875,
+      "eval_std_return": null,
+      "seed": 0
+    },
+    {
+      "name": "small_s2",
+      "env_id": "go9x9 (envs/go: komi 7.0, area scoring, simple ko, no suicide, 200-ply cap)",
+      "arch": [
+        243,
+        32,
+        32,
+        82
+      ],
+      "algo": "PPO self-play vs pool of past selves + random (train/go_ppo.py)",
+      "eval_mean_return": 0.9921875,
+      "eval_std_return": null,
+      "seed": 2
+    }
+  ],
+  "charts": [
+    {
+      "type": "line",
+      "title": "Win rate vs forward-pass budget",
+      "subtitle": "final saved weights, 128 games per opponent, held-out seed",
+      "x_label": "forward passes",
+      "y_label": "win rate (%)",
+      "x": [
+        0,
+        10,
+        25,
+        50
+      ],
+      "series": [
+        {
+          "name": "small PPO, seed 0",
+          "values": [
+            93.8,
+            97.3,
+            97.7,
+            96.5
+          ]
+        },
+        {
+          "name": "small PPO, seed 2",
+          "values": [
+            87.5,
+            88.7,
+            99.2,
+            87.1
+          ]
+        },
+        {
+          "name": "PPO 512\u00d76 (same size)",
+          "values": [
+            85.2,
+            82.4,
+            90.2,
+            87.1
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": 50,
+          "label": "even"
+        },
+        {
+          "y": 48.7,
+          "label": "heuristic bot (mean)"
+        }
+      ],
+      "caption": "One run per budget. Budget 0 = one shot, no way to run the network."
+    },
+    {
+      "type": "line",
+      "title": "What Claude saw: budget 50, forward pass by forward pass",
+      "subtitle": "win rate of each 128-game practice batch (saved weights at that moment)",
+      "x_label": "forward pass",
+      "y_label": "win rate (%)",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "series": [
+        {
+          "name": "small PPO, seed 0",
+          "values": [
+            83.6,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            89.1,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            89.8,
+            null,
+            78.1,
+            null,
+            null,
+            88.7,
+            null,
+            null,
+            null,
+            94.9,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "name": "small PPO, seed 2",
+          "values": [
+            null,
+            65.6,
+            null,
+            null,
+            64.5,
+            75.0,
+            52.3,
+            46.5,
+            86.7,
+            72.3,
+            85.2,
+            null,
+            67.6,
+            null,
+            89.1,
+            null,
+            null,
+            null,
+            87.5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            89.5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            95.3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "name": "PPO 512\u00d76 (same size)",
+          "values": [
+            null,
+            null,
+            62.1,
+            83.6,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            81.6,
+            null,
+            null,
+            null,
+            74.2,
+            86.3,
+            80.5,
+            null,
+            66.8,
+            84.4,
+            83.6,
+            75.0,
+            82.4,
+            88.7,
+            75.8,
+            null,
+            76.2,
+            84.8,
+            84.8,
+            79.7,
+            null,
+            88.7,
+            null,
+            78.5,
+            91.8,
+            null,
+            null,
+            91.4,
+            85.5,
+            null,
+            89.8,
+            77.3,
+            84.0,
+            83.2
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": 50,
+          "label": "even"
+        }
+      ],
+      "caption": "Each point is one play_games() call against the named opponent."
+    }
+  ]
+}

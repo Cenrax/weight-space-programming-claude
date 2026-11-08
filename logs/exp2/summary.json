@@ -1,0 +1,116 @@
+{
+  "status": "done",
+  "summary": "From the weights alone, with no tools or forward passes, Claude Opus 5.5 named the right shape in 9 of 15 attempts and drew a judge-recognised correct shape in 15 of 15; on hidden-unit-permuted copies it was right in 3 of 6, and it called 2 of 2 untrained networks untrained (total API cost $11.93).\n\nCaveats: 2 label hits come from descriptions that answer 'handwritten digits' and only mention a ring-like '0', so in substance no circle run named a circle. 7 drawing hits win the judge's argmax by less than 0.1 IoU (digit-like drawings, not shapes), so the drawing metric is too lenient to count as evidence.",
+  "table": {
+    "caption": "Per shape: text label (primary), drawing judged by template IoU (secondary), permutation control, mean confidence (main), and drawing style.",
+    "columns": [
+      "Network",
+      "Text label correct (main)",
+      "Drawing correct (main)",
+      "Permuted: label correct",
+      "Mean confidence",
+      "Drawing style / answers"
+    ],
+    "rows": [
+      [
+        "Circle",
+        "1/5",
+        "5/5",
+        "1/2",
+        "0.51",
+        "4 filled / 1 outline"
+      ],
+      [
+        "Square",
+        "4/5",
+        "5/5",
+        "1/2",
+        "0.49",
+        "4 filled / 1 outline"
+      ],
+      [
+        "Triangle",
+        "4/5",
+        "5/5",
+        "1/2",
+        "0.47",
+        "3 filled / 2 outline"
+      ],
+      [
+        "Random init (control)",
+        "2/2 said untrained",
+        "–",
+        "–",
+        "0.80",
+        "Nothing coherent: weights look untrained (both runs)"
+      ]
+    ]
+  },
+  "media": [
+    {
+      "type": "png",
+      "src": "assets/figures/exp2_claude_circle.png",
+      "group": "Circle",
+      "pixel": true,
+      "caption": "Circle DDPM. Top: Claude's 5 drawings from the weights alone (✓/✗ = text label graded correct). Bottom: 8 real samples from the model (seed 7).",
+      "alt": "Top row: 5 16x16 drawings by Claude of what the circle model generates (4 judged filled shapes, 1 outlines). Bottom row: eight real samples from the circle diffusion model, filled white circles on black."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp2_claude_square.png",
+      "group": "Square",
+      "pixel": true,
+      "caption": "Square DDPM. Top: Claude's 5 drawings from the weights alone (✓/✗ = text label graded correct). Bottom: 8 real samples from the model (seed 7).",
+      "alt": "Top row: 5 16x16 drawings by Claude of what the square model generates (4 judged filled shapes, 1 outlines). Bottom row: eight real samples from the square diffusion model, filled white squares on black."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp2_claude_triangle.png",
+      "group": "Triangle",
+      "pixel": true,
+      "caption": "Triangle DDPM. Top: Claude's 5 drawings from the weights alone (✓/✗ = text label graded correct). Bottom: 8 real samples from the model (seed 7).",
+      "alt": "Top row: 5 16x16 drawings by Claude of what the triangle model generates (3 judged filled shapes, 2 outlines). Bottom row: eight real samples from the triangle diffusion model, filled white triangles on black."
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "Exp2: accuracy by shape",
+      "subtitle": "% of attempts correct; 5 main attempts and 2 permuted attempts per shape",
+      "unit": "% correct",
+      "categories": [
+        "Circle",
+        "Square",
+        "Triangle"
+      ],
+      "series": [
+        {
+          "name": "Text label (main)",
+          "values": [
+            20,
+            80,
+            80
+          ]
+        },
+        {
+          "name": "Drawing (main)",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "name": "Text label (permuted)",
+          "values": [
+            50,
+            50,
+            50
+          ]
+        }
+      ],
+      "caption": "Text label is the pre-registered primary metric (alias match on the description). Drawing is scored by template IoU, with outlines counting."
+    }
+  ],
+  "cost_usd": 11.9339
+}

@@ -1,0 +1,92 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-003522-296a-english-a3",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "english",
+  "answer": "English",
+  "correct": true,
+  "confidence": 0.35,
+  "score": 1.0,
+  "tokens_in": 1118609,
+  "tokens_out": 40213,
+  "cost_usd": 1.333419,
+  "timestamp": "2026-11-08T00:45:10+0530",
+  "status": "complete",
+  "n_turns": 33,
+  "stop_reason": "end_turn",
+  "label": "English \u00b7 attempt 3",
+  "group": "English",
+  "run_tag": "english-a3",
+  "attempt": 3,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 1.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.3"
+  ],
+  "induction_precision": 1.0,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.567,
+    "mean_gt_score_rest": 0.0045
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.2267,
+    "mean_gt_score_rest": 0.0033
+  },
+  "prevtoken_heads_pred": [
+    "0.0"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.9375,
+    "mean_gt_score_rest": 0.0803
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.9375,
+    "mean_gt_score_rest": 0.0803
+  },
+  "induction_heads_gt": [
+    "3.3"
+  ],
+  "prevtoken_heads_gt": [
+    "0.0"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "3 flags: random low-rank / Gaussian matrices as baselines for composition scores and Marchenko-Pastur spectra.",
+  "audit_n_flagged_calls": 3,
+  "n_python_calls": 32,
+  "reasoning_excerpt": "**1. Language.** I think this is English, most likely ordinary prose such as the tiny-Shakespeare style of dataset. My confidence is about 0.35. This is the weakest part of the answer. The weights show that the model works on a small alphabet, but nothing in them can name the characters, so they cannot tell English apart from other Latin-alphabet languages.\n\n**Evidence for a small alphabet:**\n- **Size of the token signal moved by attention.** I found the token-embedding subspace from the parts of layer 0 that read it. Heads 0.0, 0.1 and 0.5 have query and key weights that read only a shared subspace, and value weights that read a separate subspace. That fits position-based heads that carry token identity forward. Their combined value-read space has about 34\u201338 strong dimensions, then drops to noise.\n- **What those heads pass on.** The output-times-value matrices of 0.1 and 0.5 have\u2026"
+}

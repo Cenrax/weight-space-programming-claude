@@ -1,0 +1,41 @@
+{
+  "exp_id": "exp5",
+  "run_id": "20261108-003441-2712-breakout-a2",
+  "model": "claude-opus-5-5",
+  "condition": "zero-shot write from scratch, no tools, no rollouts",
+  "target": "Breakout",
+  "answer": "Paddle tracking from RAM. Compute d = ballX (RAM[99]) \u2212 paddleX (RAM[72]). If d > 6, press RIGHTFIRE; if d < 4, press LEFTFIRE; otherwise press FIRE. Fire is always held, so the ball is re-served at once after every lost life.",
+  "correct": true,
+  "confidence": null,
+  "score": 24.47,
+  "tokens_in": 31899,
+  "tokens_out": 3458,
+  "cost_usd": 0.196756,
+  "timestamp": "2026-11-08T00:36:24+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "label": "Breakout \u00b7 attempt 2",
+  "group": "Breakout",
+  "env": "breakout",
+  "attempt": 2,
+  "effort": "high",
+  "success_rate": null,
+  "heuristic_agreement": null,
+  "parse_ok": true,
+  "parse_error": null,
+  "partial_parse_score": null,
+  "max_return": 73.0,
+  "landing_rate": null,
+  "outcomes": {
+    "terminated": 99,
+    "truncated": 1
+  },
+  "n_weight_lines": 10,
+  "n_nonzero": 10,
+  "ram_bytes_used": [
+    72,
+    99
+  ],
+  "reasoning_excerpt": "CONTROLLER: Paddle tracking from RAM. Compute d = ballX (RAM[99]) \u2212 paddleX (RAM[72]). If d > 6, press RIGHTFIRE; if d < 4, press LEFTFIRE; otherwise press FIRE. Fire is always held, so the ball is re-served at once after every lost life.\n\n**What the network relies on**\n\nThe weights assume the commonly documented Breakout RAM layout (AtariARI annotations):\n- RAM[72] is the paddle x position.\n- RAM[99] is the ball x position.\n- RAM[101] is the ball y position (not used here).\n\nI could not check these addresses or the paddle/ball offset against the game. If either is wrong, the policy will not track the ball.\n\nBreakout only serves on fire, and fire has no other effect. So the policy only ever uses FIRE (1), RIGHTFIRE (11) and LEFTFIRE (12). Moving and serving happen together, and a lost life never stalls the game.\n\n**Layer 1** computes the horizontal offset d = RAM[99] \u2212 RAM[72] in pixel units. The weights are \u00b1255, which cancels the /255 input scaling, so one pixel equals one unit.\n- Unit 0: pre = d \u2212 6.5. It is positive when the ball is to the right of the target zone.\n- Unit 1: pre = 3.5 \u2212 d. It is positive when the ball is to the left of it.\n\nThis leaves a dead zone of d \u2208 {4, 5, 6}, where both units are negative. That zone keeps the ball over the paddle for both the full-width paddle and the half-width paddle after it shrinks.\n\nEach one-pixel step past a threshold gives a pre-activation of at least \u00b10.5, so the decisions are sharp.\n\n**Layer 2** copies the two units with a "
+}

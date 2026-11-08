@@ -1,0 +1,121 @@
+{
+ "env_id": "go9x9 (envs/go: komi 7.0, area scoring, simple ko, no suicide, 200-ply cap)",
+ "env_kind": "go9x9",
+ "arch": [
+  243,
+  32,
+  32,
+  82
+ ],
+ "activation": "relu",
+ "obs_preprocess": "243 = 3 planes x 81 points (p=row*9+col, row 0 top), side-to-move perspective: x[p]=own stone, x[81+p]=opponent stone, x[162+p]=empty; output 82 = 81 points + pass (index 81); illegal moves masked before argmax/softmax",
+ "algo": "PPO self-play vs pool of past selves + random (train/go_ppo.py)",
+ "train_steps": 187412086,
+ "games_trained": 2604800,
+ "iterations": 10175,
+ "seed": 2,
+ "eval_mean_return": 0.9921875,
+ "eval_std_return": null,
+ "eval_episodes": 256,
+ "eval_metric": "greedy win rate vs random (draw = 0.5)",
+ "eval_during_training": {
+  "n_games": 128,
+  "random": {
+   "win_rate": 1.0,
+   "mean_margin": 39.8125,
+   "mean_game_length": 138.4375
+  },
+  "heuristic": {
+   "win_rate": 0.53515625,
+   "mean_margin": -6.59375,
+   "mean_game_length": 118.4453125
+  }
+ },
+ "wallclock_s": 12601.8,
+ "hyperparams": {
+  "exp_id": "exp6",
+  "arch": [
+   243,
+   32,
+   32,
+   82
+  ],
+  "activation": "relu",
+  "seed": 2,
+  "hours": 3.5,
+  "max_games": 1000000000,
+  "games_per_iter": 256,
+  "opp_block": 32,
+  "max_moves": 200,
+  "lr": 0.0003,
+  "epochs": 4,
+  "minibatch": 2048,
+  "clip": 0.2,
+  "ent": 0.01,
+  "vf": 0.5,
+  "max_grad_norm": 0.5,
+  "gamma": 1.0,
+  "lam": 0.95,
+  "target_kl": 0.03,
+  "critic_hidden": [
+   256,
+   256
+  ],
+  "p_random": 0.1,
+  "p_latest": 0.4,
+  "pool_every": 10,
+  "pool_size": 30,
+  "eval_every": 25,
+  "eval_games": 64,
+  "save_every_min": 10.0,
+  "threads": 1,
+  "resume": true
+ },
+ "eval_table": {
+  "n_games": 256,
+  "seed": 7,
+  "protocol": "greedy argmax, colours alternate, 2 shared random opening plies per pair, komi 7.0, area scoring, 200-ply cap, draw = 0.5",
+  "vs": {
+   "random": {
+    "win_rate": 0.9921875,
+    "wins": 254,
+    "losses": 2,
+    "draws": 0,
+    "win_rate_as_black": 0.984375,
+    "win_rate_as_white": 1.0,
+    "mean_margin": 38.02734375,
+    "mean_game_length": 141.3046875
+   },
+   "heuristic": {
+    "win_rate": 0.55859375,
+    "wins": 141,
+    "losses": 111,
+    "draws": 4,
+    "win_rate_as_black": 0.453125,
+    "win_rate_as_white": 0.6640625,
+    "mean_margin": -6.890625,
+    "mean_game_length": 115.734375
+   },
+   "small_s0": {
+    "win_rate": 0.8828125,
+    "wins": 224,
+    "losses": 28,
+    "draws": 4,
+    "win_rate_as_black": 0.8203125,
+    "win_rate_as_white": 0.9453125,
+    "mean_margin": 21.671875,
+    "mean_game_length": 146.75390625
+   },
+   "large": {
+    "win_rate": 0.263671875,
+    "wins": 64,
+    "losses": 185,
+    "draws": 7,
+    "win_rate_as_black": 0.2578125,
+    "win_rate_as_white": 0.26953125,
+    "mean_margin": -6.37109375,
+    "mean_game_length": 127.88671875
+   }
+  }
+ }
+}

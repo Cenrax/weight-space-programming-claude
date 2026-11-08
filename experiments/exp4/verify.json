@@ -1,0 +1,551 @@
+{
+ "20261107-230655-1921-mountaincar-a1": {
+  "n_episodes": 64,
+  "first_action_counts": {
+   "2": 64
+  },
+  "frac_first_action_left": 0.0,
+  "mean_agree_heuristic": 0.998712507750523,
+  "mean_len": 119.421875,
+  "outcomes": {
+   "flag": 64
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 124,
+   "outcome": "flag",
+   "first_actions": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "agree_heuristic": 1.0,
+   "final_x": 0.5385377407073975,
+   "min_x": -1.166415810585022,
+   "action_counts": {
+    "2": 78,
+    "0": 46
+   }
+  }
+ },
+ "20261107-231015-db90-mountaincar-a2": {
+  "n_episodes": 64,
+  "first_action_counts": {
+   "0": 64
+  },
+  "frac_first_action_left": 1.0,
+  "mean_agree_heuristic": 0.9883352176019496,
+  "mean_len": 135.5,
+  "outcomes": {
+   "flag": 64
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 170,
+   "outcome": "flag",
+   "first_actions": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9882352941176471,
+   "final_x": 0.505911111831665,
+   "min_x": -1.2000000476837158,
+   "action_counts": {
+    "0": 74,
+    "2": 96
+   }
+  }
+ },
+ "20261107-231016-4c73-mountaincar-a3": {
+  "n_episodes": 64,
+  "first_action_counts": {
+   "0": 64
+  },
+  "frac_first_action_left": 1.0,
+  "mean_agree_heuristic": 0.9883352176019496,
+  "mean_len": 135.5,
+  "outcomes": {
+   "flag": 64
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 170,
+   "outcome": "flag",
+   "first_actions": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9882352941176471,
+   "final_x": 0.505911111831665,
+   "min_x": -1.2000000476837158,
+   "action_counts": {
+    "0": 74,
+    "2": 96
+   }
+  }
+ },
+ "20261107-231016-9f50-mountaincar-a4": {
+  "n_episodes": 64,
+  "first_action_counts": {
+   "0": 64
+  },
+  "frac_first_action_left": 1.0,
+  "mean_agree_heuristic": 0.9883352176019496,
+  "mean_len": 135.5,
+  "outcomes": {
+   "flag": 64
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 170,
+   "outcome": "flag",
+   "first_actions": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9882352941176471,
+   "final_x": 0.505911111831665,
+   "min_x": -1.2000000476837158,
+   "action_counts": {
+    "0": 74,
+    "2": 96
+   }
+  }
+ },
+ "20261107-231237-91c8-mountaincar-a5": {
+  "n_episodes": 64,
+  "first_action_counts": {
+   "0": 64
+  },
+  "frac_first_action_left": 1.0,
+  "mean_agree_heuristic": 0.9883352176019496,
+  "mean_len": 135.5,
+  "outcomes": {
+   "flag": 64
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 170,
+   "outcome": "flag",
+   "first_actions": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9882352941176471,
+   "final_x": 0.505911111831665,
+   "min_x": -1.2000000476837158,
+   "action_counts": {
+    "0": 74,
+    "2": 96
+   }
+  }
+ },
+ "20261107-231245-6e78-lunarlander-a2": {
+  "n_episodes": 32,
+  "first_action_counts": {
+   "3": 15,
+   "1": 15,
+   "0": 2
+  },
+  "frac_first_action_left": 0.0625,
+  "mean_agree_heuristic": 0.8870871363832902,
+  "mean_len": 255.21875,
+  "outcomes": {
+   "landed": 30,
+   "timeout": 1,
+   "crashed": 1
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 177,
+   "outcome": "landed",
+   "first_actions": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9265536723163842,
+   "final_x": 0.15279579162597656,
+   "min_x": -0.11738834530115128,
+   "action_counts": {
+    "3": 5,
+    "0": 100,
+    "2": 67,
+    "1": 5
+   }
+  },
+  "final_x_landed": [
+   0.153,
+   -0.149,
+   -0.193,
+   -0.004,
+   -0.041,
+   -0.029,
+   0.083,
+   -0.062,
+   -0.081,
+   -0.076,
+   0.103,
+   0.207,
+   -0.073,
+   0.005,
+   0.03,
+   0.034,
+   -0.141,
+   0.063,
+   0.046,
+   -0.116
+  ]
+ },
+ "20261107-231245-8ede-lunarlander-a1": {
+  "n_episodes": 32,
+  "first_action_counts": {
+   "3": 15,
+   "1": 15,
+   "0": 2
+  },
+  "frac_first_action_left": 0.0625,
+  "mean_agree_heuristic": 0.9037738799220041,
+  "mean_len": 249.09375,
+  "outcomes": {
+   "landed": 31,
+   "crashed": 1
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 234,
+   "outcome": "landed",
+   "first_actions": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9273504273504274,
+   "final_x": 0.11386442184448242,
+   "min_x": -0.11338253319263458,
+   "action_counts": {
+    "3": 5,
+    "0": 141,
+    "2": 78,
+    "1": 10
+   }
+  },
+  "final_x_landed": [
+   0.114,
+   -0.116,
+   -0.126,
+   -0.027,
+   -0.033,
+   -0.032,
+   0.234,
+   -0.092,
+   -0.058,
+   -0.007,
+   0.011,
+   0.043,
+   0.17,
+   -0.169,
+   0.054,
+   0.026,
+   0.042,
+   -0.152,
+   0.06,
+   0.036
+  ]
+ },
+ "20261107-231430-527d-lunarlander-a3": {
+  "n_episodes": 32,
+  "first_action_counts": {
+   "3": 15,
+   "1": 15,
+   "0": 2
+  },
+  "frac_first_action_left": 0.0625,
+  "mean_agree_heuristic": 0.8692857737769784,
+  "mean_len": 233.0,
+  "outcomes": {
+   "landed": 26,
+   "crashed": 5,
+   "timeout": 1
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 177,
+   "outcome": "landed",
+   "first_actions": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9265536723163842,
+   "final_x": 0.15279579162597656,
+   "min_x": -0.11738834530115128,
+   "action_counts": {
+    "3": 5,
+    "0": 100,
+    "2": 67,
+    "1": 5
+   }
+  },
+  "final_x_landed": [
+   0.153,
+   -0.256,
+   -0.008,
+   -0.018,
+   -0.024,
+   0.084,
+   -0.104,
+   0.042,
+   -0.026,
+   0.113,
+   -0.163,
+   0.054,
+   0.008,
+   0.034,
+   0.066,
+   0.085,
+   0.054,
+   -0.075,
+   -0.042,
+   -0.143
+  ]
+ },
+ "20261107-233212-be0f-lunarlander-a4": {
+  "n_episodes": 32,
+  "first_action_counts": {
+   "3": 15,
+   "1": 15,
+   "0": 2
+  },
+  "frac_first_action_left": 0.0625,
+  "mean_agree_heuristic": 0.8566699908731781,
+  "mean_len": 244.5,
+  "outcomes": {
+   "landed": 23,
+   "crashed": 7,
+   "timeout": 2
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 177,
+   "outcome": "landed",
+   "first_actions": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9265536723163842,
+   "final_x": 0.15279579162597656,
+   "min_x": -0.11738834530115128,
+   "action_counts": {
+    "3": 5,
+    "0": 100,
+    "2": 67,
+    "1": 5
+   }
+  },
+  "final_x_landed": [
+   0.153,
+   -0.007,
+   -0.051,
+   -0.023,
+   -0.075,
+   -0.074,
+   0.219,
+   0.027,
+   0.03,
+   0.037,
+   -0.025,
+   0.059,
+   0.067,
+   -0.011,
+   -0.075,
+   -0.042,
+   -0.123,
+   -0.061,
+   0.033,
+   -0.047
+  ]
+ },
+ "20261107-233245-ea47-lunarlander-a5": {
+  "n_episodes": 32,
+  "first_action_counts": {
+   "3": 15,
+   "1": 15,
+   "0": 2
+  },
+  "frac_first_action_left": 0.0625,
+  "mean_agree_heuristic": 0.8644456780019,
+  "mean_len": 275.84375,
+  "outcomes": {
+   "landed": 30,
+   "timeout": 1,
+   "crashed": 1
+  },
+  "example_seed_10000": {
+   "seed": 10000,
+   "len": 205,
+   "outcome": "landed",
+   "first_actions": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "agree_heuristic": 0.9073170731707317,
+   "final_x": 0.11380033195018768,
+   "min_x": -0.113494873046875,
+   "action_counts": {
+    "3": 5,
+    "0": 116,
+    "2": 76,
+    "1": 8
+   }
+  },
+  "final_x_landed": [
+   0.114,
+   -0.186,
+   -0.088,
+   -0.024,
+   -0.065,
+   0.016,
+   0.05,
+   -0.039,
+   -0.081,
+   0.024,
+   -0.024,
+   0.019,
+   0.166,
+   -0.138,
+   0.074,
+   0.041,
+   0.06,
+   -0.038,
+   0.076,
+   0.055
+  ]
+ }
+}

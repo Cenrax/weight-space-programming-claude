@@ -1,0 +1,28 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+runs/
+checkpoints/*.pt.tmp
+wandb/
+.env
+.claude/
+
+# internal reference only, not published
+internal/
+notes/
+
+# large binaries: keep out of git (GitHub rejects files over 100 MB and warns over 50 MB)
+# - the six Gemma 3 270M finetunes for exp7: 3.2 GB, 536 MB per model.safetensors
+#   (rebuild with train/gemma_syco.py; Gemma Terms of Use apply to them anyway)
+checkpoints/exp7/
+# - the exp3 training corpora, 30 MB each (rebuild with `train/charlm.py prep`)
+data/exp3/*.txt
+# - anything else over 50 MB; .gitignore cannot match by size, so list such files here.
+#   As of 2026-11-08 the only other one is runs/exp6_large_state.pt (200 MB), already
+#   covered by runs/ above. Check before each commit with:
+#   find . -path ./venv -prune -o -type f -size +50M -print
+
+# full-text copy of the original post, kept for reference; it is the original
+# authors' text, so it is not republished here (the article links to it instead)
+blog.md

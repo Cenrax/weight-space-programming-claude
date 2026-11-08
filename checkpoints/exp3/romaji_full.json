@@ -1,0 +1,240 @@
+{
+ "exp_id": "exp3",
+ "lang": "romaji",
+ "arch": {
+  "n_layer": 4,
+  "n_head": 6,
+  "d_model": 384,
+  "d_head": 64,
+  "d_mlp": 1536,
+  "norm": "pre-LayerNorm",
+  "activation": "gelu",
+  "attention": "causal softmax(QK^T/sqrt(64)); q,k,v,o separate nn.Linear(384,384) with bias",
+  "block": "x = x + attn.o(Attn(ln1(x))); x = x + mlp.proj(gelu(mlp.fc(ln2(x))))",
+  "linear_convention": "torch nn.Linear: weight shape [out, in], y = x @ W.T + b",
+  "ctx": 256,
+  "vocab_size": 81
+ },
+ "params_total": 7259136,
+ "params_middle": 7097856,
+ "vocab": [
+  "<unk>",
+  "\n",
+  " ",
+  "!",
+  "\"",
+  "'",
+  "(",
+  ")",
+  "*",
+  "+",
+  ",",
+  "-",
+  ".",
+  "/",
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  ";",
+  "?",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+  "[",
+  "]",
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+  "~"
+ ],
+ "data": {
+  "source": "HF globis-university/aozorabunko-clean (stream order), pykakasi Hepburn romanization, non-ASCII dropped",
+  "works": 1174,
+  "chars": 30204067,
+  "bytes": 30204067
+ },
+ "train_steps_done": 10000,
+ "train_steps_planned": 10000,
+ "batch_size": 64,
+ "lr": 0.001,
+ "seed": 0,
+ "final": true,
+ "unigram_entropy_nats": 2.835963215335734,
+ "val_loss": 1.179888528585434,
+ "history": [
+  {
+   "step": 500,
+   "train_loss": 1.58402681350708,
+   "val_loss": 1.6036624908447266,
+   "minutes": 4.422646069526673
+  },
+  {
+   "step": 1000,
+   "train_loss": 1.4577840566635132,
+   "val_loss": 1.4323317110538483,
+   "minutes": 8.657148166497548
+  },
+  {
+   "step": 1500,
+   "train_loss": 1.4010263681411743,
+   "val_loss": 1.3657301127910615,
+   "minutes": 12.719554948806763
+  },
+  {
+   "step": 2000,
+   "train_loss": 1.3147461414337158,
+   "val_loss": 1.3283433735370636,
+   "minutes": 16.74217414855957
+  },
+  {
+   "step": 2500,
+   "train_loss": 1.3273358345031738,
+   "val_loss": 1.3016390442848205,
+   "minutes": 20.740267566839854
+  },
+  {
+   "step": 3000,
+   "train_loss": 1.271773099899292,
+   "val_loss": 1.2752486944198609,
+   "minutes": 24.68911910057068
+  },
+  {
+   "step": 3500,
+   "train_loss": 1.2452890872955322,
+   "val_loss": 1.2585407495498657,
+   "minutes": 28.544992315769196
+  },
+  {
+   "step": 4000,
+   "train_loss": 1.231760025024414,
+   "val_loss": 1.2443810880184174,
+   "minutes": 32.37973728577296
+  },
+  {
+   "step": 4500,
+   "train_loss": 1.199181318283081,
+   "val_loss": 1.2334322392940522,
+   "minutes": 36.18881723483403
+  },
+  {
+   "step": 5000,
+   "train_loss": 1.1911497116088867,
+   "val_loss": 1.220183825492859,
+   "minutes": 39.99130533138911
+  },
+  {
+   "step": 5500,
+   "train_loss": 1.1767246723175049,
+   "val_loss": 1.2126610219478606,
+   "minutes": 43.80407051642736
+  },
+  {
+   "step": 6000,
+   "train_loss": 1.175628423690796,
+   "val_loss": 1.2090237140655518,
+   "minutes": 47.63223009904225
+  },
+  {
+   "step": 6500,
+   "train_loss": 1.1479928493499756,
+   "val_loss": 1.1988166630268098,
+   "minutes": 51.448565963904066
+  },
+  {
+   "step": 7000,
+   "train_loss": 1.1731140613555908,
+   "val_loss": 1.202105551958084,
+   "minutes": 55.21089856624603
+  },
+  {
+   "step": 7500,
+   "train_loss": 1.1503448486328125,
+   "val_loss": 1.1920070230960846,
+   "minutes": 59.045697164535525
+  },
+  {
+   "step": 8000,
+   "train_loss": 1.1243921518325806,
+   "val_loss": 1.1960004150867463,
+   "minutes": 62.85824834903081
+  },
+  {
+   "step": 8500,
+   "train_loss": 1.1389071941375732,
+   "val_loss": 1.1873639881610871,
+   "minutes": 66.65986779928207
+  },
+  {
+   "step": 9000,
+   "train_loss": 1.1252574920654297,
+   "val_loss": 1.186760264635086,
+   "minutes": 70.4294704635938
+  },
+  {
+   "step": 9500,
+   "train_loss": 1.1091309785842896,
+   "val_loss": 1.1837686777114869,
+   "minutes": 73.93210878372193
+  },
+  {
+   "step": 10000,
+   "train_loss": 1.0983060598373413,
+   "val_loss": 1.179888528585434,
+   "minutes": 77.40555299917857
+  }
+ ],
+ "algo": "AdamW next-char CE"
+}

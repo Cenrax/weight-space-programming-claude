@@ -1,0 +1,9 @@
+[
+ {
+  "turn": 21,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nfor d in [21,24]:\n    Pb=Ucat[:,:d]\n    A={h:Pb.T@QK[0,h]@Pb for h in pos_heads}\n    for h in pos_heads: print(d,h,'captured frac',(np.linalg.norm(A[h])**2/np.linalg.norm(QK[0,h])**2).round(2))\n    # commutation check\n    for a,b in [(0,2),(0,3),(2,3)]:\n        C=A[a]@A[b]-A[b]@A[a]; print(' comm',a,b,(np.linalg.norm(C)/(np.linalg.norm(A[a])*np.linalg.norm(A[b]))).round(3))\n# random baseline for commutator\nX=np.random.randn(21,21);Y=np.random.randn(21,21);print('rand',np.linalg.norm(X@Y-Y@X)/(np.linalg.norm(X)*np.linalg.norm(Y)))\n"
+ }
+]

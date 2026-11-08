@@ -1,0 +1,38 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-230531-1812-main-circle-a5",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "circle",
+  "answer": "Handwritten digits (0-9, USPS-style 16x16): thick white strokes on a black background, the digit filling most of the frame; e.g. large oval zeros, slanted ones, sevens.",
+  "correct": false,
+  "confidence": 0.55,
+  "score": 1,
+  "tokens_in": 73581,
+  "tokens_out": 8237,
+  "cost_usd": 0.459064,
+  "timestamp": "2026-11-07T23:25:26+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 5,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Circle \u00b7 attempt 5",
+  "group": "Circle",
+  "reasoning_excerpt": "I'm reading the b3 bias as the mean image: the corners are pinned at -1000, which means black, and the center values are positive. The next step is to lay those bias values out as a 16x16 grid.\n\nNow I'm filling in the rest of the 16x16 grid, row by row, with the bias values in the lower half.\n\nNow I'm reading the rest of the b3 values, with row 13 and the mean looking like a fuzzy central blob, and I'm wondering whether this is a digit or fashion dataset.\n\nNow I'm checking the W3 weight rows, where a few hidden units have very large values, and I'm looking at row 7 in particular, with its peak near 2410.\n\nNow I'm looking at the W1 input weights, where hidden unit 36 concentrates on the top-left pixels and unit 11 traces a diagonal across the top-right, which makes me think of edge detector",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "................\n.....######.....\n....########....\n...###....###...\n..###......###..\n..##........##..\n.###........###.\n.##..........##.\n.##..........##.\n.##..........##.\n.###........###.\n..##........##..\n..###......###..\n...####..####...\n....########....\n......####......",
+  "drawing_judge": {
+    "pred": "circle",
+    "scores": {
+      "circle": 0.5,
+      "square": 0.4082,
+      "triangle": 0.3125
+    },
+    "variant": "filled",
+    "on_pixels": 84
+  }
+}

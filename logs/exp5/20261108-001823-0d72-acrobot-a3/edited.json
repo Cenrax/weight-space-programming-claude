@@ -1,0 +1,14 @@
+{
+ "env_id": "Acrobot-v1",
+ "env_kind": "raw",
+ "arch": [
+  6,
+  64,
+  64,
+  3
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "claude-zero-shot",
+ "notes": "exp5 weights written by Claude (20261108-001823-0d72-acrobot-a3)"
+}

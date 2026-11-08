@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-230559-1cdf-main-square-a1",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "square",
+  "answer": "A single solid bright axis-aligned rectangle (box) of varying size and position, usually covering the centre, on a black background; the outer border stays dark.",
+  "correct": true,
+  "confidence": 0.45,
+  "score": 1,
+  "tokens_in": 74316,
+  "tokens_out": 20333,
+  "cost_usd": 0.703924,
+  "timestamp": "2026-11-07T23:25:27+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 1,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Square \u00b7 attempt 1",
+  "group": "Square",
+  "reasoning_excerpt": "I'm inferring the image content from the weights: the output bias is strongly negative at the border and less so in the interior, which suggests a dark background with brighter content in the center, possibly digit-like. Looking at the first-layer rows, several seem to show stroke-like patterns, with one row showing a strong negative response in a single column that might be a vertical line.\n\nI'm checking the first-layer rows for stroke patterns: several show strong responses in a single column (suggesting vertical lines) or a single row (suggesting horizontal lines), spread across different positions. Given that, the images might be built from lines or rectangle outlines at varying locations, with the bias favoring a bright central region.\n\nI'm weighing whether the hidden features point t",
+  "text_label": "square",
+  "labels_mentioned": [
+    "square"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n................\n................\n....########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n................\n................\n................",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.8387,
+      "square": 0.9889,
+      "triangle": 0.7273
+    },
+    "variant": "filled",
+    "on_pixels": 89
+  }
+}

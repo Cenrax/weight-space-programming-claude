@@ -1,0 +1,573 @@
+{
+  "exp_id": "exp5b",
+  "title": "Write with rollout budget",
+  "status": "done",
+  "summary": "Starting from all-zero weights with a sandbox and a budget of real-environment rollouts, score rose monotonically with budget (25 > 5 > zero-shot median) on 2/3 environments (Acrobot, LunarLander; D1 needs \u2265 2), the budget-25 network beat the zero-shot median on 3/3 (Acrobot, LunarLander, Breakout), and a rollout-budget network matched or beat the final PPO checkpoint on 2/3 (LunarLander, Breakout). Total API cost $6.11.\n\nBreakout at budget 5 scores 0: after its last rollout Claude saved an untested 'fix' whose FIRE bias (\u22122.5) loses the argmax to NOOP, so the ball is never served (all 100 episodes hit the 27k-step cap). Post hoc, its best tested save would have scored 31.7 on the same seeds (not the pre-registered score). Budget 25 on Breakout (184.7 and 92.1, pre-registered extra attempt) came from decoding RAM bytes from the traces (ball direction 103/105, raw paddle input 70) and tuning a dead zone; Claude was never given a RAM map. Audit: no environment simulation in any run; one minor breach (Breakout b5 computed layer-1 pre-activations on two hand-made inputs) and one grey-area check (LunarLander b25 evaluated its own |x| tanh formula on scalars, not via the weights). Excluding the breach leaves D1 at 2/3; also excluding the grey-area run would make it 1/3.",
+  "table": {
+    "caption": "Mean return over 100 seeded greedy episodes (seeds 10000\u201310099); success rate in parentheses (Acrobot goal, LunarLander return \u2265 200). Zero-shot = exp5 (no tools, budget 0). Budget columns: final saved weights of one run each.",
+    "columns": [
+      "Env",
+      "Random",
+      "PPO 100k",
+      "PPO 1M",
+      "PPO final",
+      "Zero-shot median",
+      "Zero-shot best",
+      "Budget 5",
+      "Budget 25"
+    ],
+    "rows": [
+      [
+        "Acrobot",
+        "-499.7",
+        "-90.8",
+        "-79.8",
+        "-76.4 [5M]",
+        "-283.4",
+        "-172.8",
+        "-84.8 (100%)",
+        "-83.2 (100%)"
+      ],
+      [
+        "LunarLander",
+        "-187.4",
+        "-1495",
+        "115.4",
+        "266.1 [10M]",
+        "251.3",
+        "260.6",
+        "266.9 (96%)",
+        "277.4 (100%)"
+      ],
+      [
+        "Breakout",
+        "1.4",
+        "2.2",
+        "7.0",
+        "27.5 [10M]",
+        "27.1",
+        "51.2",
+        "0.0",
+        "184.7 / 92.1 (mean 138.4)"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "Acrobot \u00b7 5 rollouts",
+      "answer": "Bang-bang on the first link's angular velocity: torque -1 (action 0) when dtheta1 > 0 and torque +1 (action 2) when dtheta1 < 0, i.e. torque = -sign(dtheta1). It never chooses zero torque.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "CONTROLLER: Bang-bang on the first link's angular velocity: torque -1 (action 0) when dtheta1 > 0 and torque +1 (action 2) when dtheta1 < 0, i.e. torque = -sign(dtheta1). It never chooses zero torque.\n\nThe saved policy swung up in all 64 test episodes it ran in (two batches of 32). Mean return was -79.5 in one batch and -85.8 in the other, so expect about -80 to -86 on the final 100 episodes, slightly worse than the -100 reward threshold. Two variants that added dtheta2 scored in the same range, so there may be no real difference between the three.\n\n**How the network does it:** only a few weights are non-zero, and the other 4,797 stay at zero.\n- **First layer:** hidden unit 0 computes tanh(-20\u00b7dtheta1), which is close to a sign function of dtheta1 (W1[4,0] = -20).\n- **Second layer:** W2[0,0] = 5 passes that through as tanh(5\u00b7h1\u2080), which keeps it close to \u00b11.\n- **Output:** W3[0,2] = +1 and W3[0,0] = -1. When dtheta1 < 0 the unit is positive and action 2 (+1 torque) wins. When dtheta1 > 0 action 0 (-1 torque) wins. Action 1 only wins if dtheta1 is exactly 0.\n\n**What the rollouts changed:**\n1. **First try, torque = +sign(dtheta1):** failed in all 32 episodes (-500). The traces showed link 1 staying near the bottom while link 2 spun freely. Pushing on the joint moves link 1 the opposite way, so this sign was holding link 1 back instead of pumping it.\n2. **Sign flipped, torque = -sign(dtheta1):** succeeded in all 32 episodes, mean -79.5 (range -104 to -72).\n3. **Adding +0.25\u00b7dthet",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays Acrobot-v1 as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **5 times** in total. Interleave edits and r \u2026",
+      "group": "Acrobot",
+      "score": -84.76,
+      "log_path": "logs/exp5b/20261108-034853-ced8-acrobot-b5-a1"
+    },
+    {
+      "label": "Breakout \u00b7 5 rollouts",
+      "answer": "Fire always. Ball going up: move paddle toward ball x+8. Ball falling: aim at x + 1.2\u00b7dir\u00b7(178\u2212y), mirrored off walls at x=56/200; dir from RAM[105]. Right/left if target is >2 px right/left of paddle x+8, else FIRE. Up/down from RAM[103], x=RAM[99], y=RAM[101], paddle=RAM[72].",
+      "correct": false,
+      "confidence": null,
+      "reasoning_excerpt": "I couldn't test the final weights: they fix a sign error found in the last rollout, and all 5 rollouts were used by then. The last design I actually measured scored 15 per episode; the best measured, simple tracking, scored about 28\u201342.\n\nCONTROLLER: Fire always. Ball going up: move paddle toward ball x+8. Ball falling: aim at x + 1.2\u00b7dir\u00b7(178\u2212y), mirrored off walls at x=56/200; dir from RAM[105]. Right/left if target is >2 px right/left of paddle x+8, else FIRE. Up/down from RAM[103], x=RAM[99], y=RAM[101], paddle=RAM[72].\n\n**How the network works**\n- **Layer 1 (10 units, roughly 1 px wide threshold):** each unit tests whether the target is more than 2 px to one side of paddle x+8. A penalty of 2 per RAM step switches off every unit that doesn't match the current ball direction. Wrong directions get pushed down by about 500, so they sit at \u22121.\n  - 2 units for when the ball is going up.\n  - 4 units each for \"falling and moving right\" and \"falling and moving left\". In each group, half use the straight prediction and half use the prediction mirrored off the wall.\n- **Layer 2:** combines the straight and mirrored units for each direction case:\n  - Falling right: move right only if both say right; move left if either says left.\n  - Falling left: the reverse.\n- **Output:** the RIGHT score adds up \"right\" units, which drives action 11 (RIGHTFIRE); left units drive action 12 (LEFTFIRE). FIRE has a bias of \u22122.5, so when neither side fires the action is FIRE. That way every action serv",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays Breakout as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **5 times** in total. Interleave edits and rol \u2026",
+      "group": "Breakout",
+      "score": 0.0,
+      "log_path": "logs/exp5b/20261108-034958-6fc9-breakout-b5-a1"
+    },
+    {
+      "label": "LunarLander \u00b7 5 rollouts",
+      "answer": "Gymnasium heuristic lander built into the net: A=1.0*(clip(0.5x+vx,\u00b10.4)-angle)-angvel; H=0.5*(0.55|x|-y)-0.65vy. Logits [0.05, A, H, -A], i.e. main if H>max(|A|,0.05), else side by sign of A. On leg contact: sides off, H=-0.5vy.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "The saved weights scored a mean of **278.5** over the last 32-episode test: all 32 landed, every episode scored at least 200, and returns ranged from 251 to 300. I used 4 of the 5 test runs and checked that the final saved weights are exactly the ones from that last test. Each run used new random episodes, so the 100-episode evaluation will vary somewhat around this number.\n\nCONTROLLER: Gymnasium heuristic lander built into the net: A=1.0*(clip(0.5x+vx,\u00b10.4)-angle)-angvel; H=0.5*(0.55|x|-y)-0.65vy. Logits [0.05, A, H, -A], i.e. main if H>max(|A|,0.05), else side by sign of A. On leg contact: sides off, H=-0.5vy.\n\n**How the network does it:**\n- **Layer 1 (inputs to first hidden layer):**\n  - One unit computes the target tilt: 0.4\u00b7tanh((0.5x+vx)/0.4), which acts as a smooth clip to \u00b10.4.\n  - Two units use a small input scale (0.1), so tanh behaves almost linearly. One computes the tilt correction from angle and angular velocity; the other computes the descent correction from height and vertical speed.\n  - One unit computes \u2212vy for use after touchdown.\n  - One unit reads the legs: tanh(5\u00b7(left+right)) is about 1 when either leg touches the ground.\n  - 20 steep tanh steps at |x| = 0.05, 0.15, \u2026, 0.95 add up to approximately |x|.\n- **Layer 2:** these combine into tilt units tanh(\u00b1A \u2212 8\u00b7legs) and descent units tanh(H \u2212 8\u00b7legs) and tanh(\u22120.65\u00b7vy\u00b7\u2026 \u2212 8\u00b7(1\u2212legs)) (the contact unit uses \u22120.5\u00b7vy). Ground contact therefore switches each signal on or off.\n- **Output layer:** logits are [t",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays LunarLander-v3 as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **5 times** in total. Interleave edits a \u2026",
+      "group": "LunarLander",
+      "score": 266.852,
+      "log_path": "logs/exp5b/20261108-034958-d95e-lunarlander-b5-a1"
+    },
+    {
+      "label": "Acrobot \u00b7 25 rollouts",
+      "answer": "Bang-bang energy pumping with torque = sign(d\u03b82 \u2212 2\u00b7sin \u03b82 \u2212 0.5\u00b7d\u03b81). Action 2 (+1 torque) if that sum is positive, otherwise action 0 (\u22121 torque). Never uses action 1.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "CONTROLLER: Bang-bang energy pumping with torque = sign(d\u03b82 \u2212 2\u00b7sin \u03b82 \u2212 0.5\u00b7d\u03b81). Action 2 (+1 torque) if that sum is positive, otherwise action 0 (\u22121 torque). Never uses action 1.\n\nThe best version averaged about \u221281 over 32 test episodes, with every episode succeeding and returns between \u221268 and \u221296. I expect the 100-episode final score to be around \u221280 to \u221285, which beats the \u2212100 reward threshold. Further tuning didn't get past that level.\n\n**The network:** only one unit in each hidden layer is used; every other weight is zero.\n- **Layer 1, unit 0:** tanh(10\u00b7(\u22122\u00b7sin\u03b82 \u2212 0.5\u00b7d\u03b81 + d\u03b82)), which works out to W1 column 0 = [0, 0, 0, \u221220, \u22125, 10]. This is effectively the sign of the switching function.\n- **Layer 2, unit 0:** tanh(5\u00b7h1\u2080).\n- **Output:** W3 row 0 = [\u22121, 0, +1], so the policy is +1 torque when the sum is positive and \u22121 torque otherwise.\n\n**What I changed after each round of rollouts (20 of the 25 used):**\n1. **sign(d\u03b81):** every episode timed out at \u2212500. With almost no starting energy, it never built up a swing.\n2. **sign(d\u03b82):** this pushes torque in the direction the joint is moving, which adds the most energy per step (power = torque \u00d7 d\u03b82). Mean \u221288. The median was about \u221273, but some episodes ended much later (\u2212150 to \u2212250) because link 2 kept spinning instead of lifting the system.\n3. **Fixes that didn't work:** braking when |d\u03b82| was large (\u221293), and a target-angle controller in the style of Spong (\u2212500 or \u2212147).\n4. **Adding a \u2212k\u00b7sin \u03b82 term:** this pull",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays Acrobot-v1 as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **25 times** in total. Interleave edits and \u2026",
+      "group": "Acrobot",
+      "score": -83.15,
+      "log_path": "logs/exp5b/20261108-035232-f66c-acrobot-b25-a1"
+    },
+    {
+      "label": "LunarLander \u00b7 25 rollouts",
+      "answer": "Gated PD lander. angle_targ=0.4\u00b7tanh((x+2vx)/0.4); A=1.5(angle_targ\u2212\u03b8)\u22123\u03c9; H=0.5(0.55|x|+0.8|vx|\u2212y)\u22120.5vy. With a leg down: A=0, H=\u22120.5vy. Fire main if H>|A| and H>0.05, otherwise left if A>0.05, right if A<\u22120.05, else do nothing.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "CONTROLLER: Gated PD lander. angle_targ=0.4\u00b7tanh((x+2vx)/0.4); A=1.5(angle_targ\u2212\u03b8)\u22123\u03c9; H=0.5(0.55|x|+0.8|vx|\u2212y)\u22120.5vy. With a leg down: A=0, H=\u22120.5vy. Fire main if H>|A| and H>0.05, otherwise left if A>0.05, right if A<\u22120.05, else do nothing.\n\nThe final saved weights are this controller. In its last two test runs (64 episodes) it averaged **279.8** and **278.6**, and every episode landed with a score of at least 244.\n\n**How the network does it**\n- **Layer 1:** small weights keep the tanh units in their near-linear range. They compute the attitude term (\u2212\u03b8\u22122\u03c9), the altitude term (\u2212y\u2212vy) and the in-contact term (\u2212vy). One unit gives the clipped angle target. Two pairs of shifted tanh units approximate |x| and |vx|. One steep unit acts as a leg-contact switch.\n- **Layer 2:** one unit computes A and another computes H. Each also gets +10\u00d7 the contact switch, which pins it at 1 (effectively off) when a leg is down. A separate unit carries \u22120.5\u00b7vy and only switches on when a leg is down. A fourth unit is the contact indicator, used to cancel offsets.\n- **Output:** the logits are fixed at 0.05 for \"do nothing\", A for left, \u2212A for right and H for main. Because left and right are negatives of each other, picking the largest logit reproduces the comparisons above. Squashing A and H through the same tanh doesn't change which is larger.\n\n**What I changed based on the rollouts**\n1. **Starting point:** Gymnasium's built-in hand-written landing controller scored 240, with 2 crashes and 1 ti",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays LunarLander-v3 as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **25 times** in total. Interleave edits \u2026",
+      "group": "LunarLander",
+      "score": 277.42,
+      "log_path": "logs/exp5b/20261108-035523-6d47-lunarlander-b25-a1"
+    },
+    {
+      "label": "Breakout \u00b7 25 rollouts",
+      "answer": "Serve the ball with FIRE. While the ball falls, move the paddle (RIGHTFIRE/LEFTFIRE) toward where it will cross paddle height (y\u2248181), using its direction bytes and one side-wall bounce. While it rises, follow the ball's x. Hold still (FIRE) within \u00b19 px of target; aim point = ball x \u2212 10.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "The final saved weights scored a mean of about **175** (min 61, max 409) on a 32-episode check rollout. The best settings tested scored roughly 175\u2013189 per 32-episode run. That's up from 13.5 for my first version. All 25 rollouts are used up, and the weights saved now are the ones that will be evaluated.\n\nCONTROLLER: Serve the ball with FIRE. While the ball falls, move the paddle (RIGHTFIRE/LEFTFIRE) toward where it will cross paddle height (y\u2248181), using its direction bytes and one side-wall bounce. While it rises, follow the ball's x. Hold still (FIRE) within \u00b19 px of target; aim point = ball x \u2212 10.\n\n**What the RAM bytes mean** (found by tracing them in rollouts): byte 99 is the ball's x, 101 the ball's y, 72 the paddle's x (55\u2013191) and 57 the lives. Byte 103 is the ball's vertical direction and speed: 1\u20134 means falling, 252\u2013255 means rising. Byte 105 is the horizontal direction: 1 or 2 means moving left, 255 or 254 moving right, and 2 is about 1.5\u00d7 faster than 1.\n\n**How the network works:**\n- **Layer 1 (61 units):**\n  - 9 threshold units turn the direction bytes into yes/no flags.\n  - 52 units each check, for one of 13 possible ball slopes, whether the predicted landing spot is left or right of the paddle by more than the dead zone. Half of these handle the case where the ball bounces off the side wall first.\n  - 2 units cover the rising-ball \"follow\" case.\n- **Layer 2 (58 units):** each unit is an AND that fires only for one combination of the ball's horizontal and verti",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays Breakout as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **25 times** in total. Interleave edits and ro \u2026",
+      "group": "Breakout",
+      "score": 184.69,
+      "log_path": "logs/exp5b/20261108-040021-8a59-breakout-b25-a1"
+    },
+    {
+      "label": "Breakout \u00b7 25 rollouts",
+      "answer": "Always fire. Move the paddle (using its raw input byte 70, position \u2248 235\u2212RAM70+9) toward where the falling ball will land: x + (vx/vy)(185\u2212y), mirrored off the walls at x=55 and x=200, with velocity classes read from bytes 103, 105 and 107. While the ball rises, follow its x.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "The final saved weights are a hand-built \"predict where the ball will land\" controller. On its last 32-episode test it averaged **about 94 points** per game (median about 77, range 24\u2013363). The rollout budget is fully used. My last few versions all scored between about 91 and 98, but the scores vary so much from game to game that they can't be told apart. Expect roughly 80\u2013100 on the final 100 episodes, with a few rare very high games pulling the mean up.\n\nCONTROLLER: Always fire. Move the paddle (using its raw input byte 70, position \u2248 235\u2212RAM70+9) toward where the falling ball will land: x + (vx/vy)(185\u2212y), mirrored off the walls at x=55 and x=200, with velocity classes read from bytes 103, 105 and 107. While the ball rises, follow its x.\n\n**What the bytes mean.** These are my readings from the traces:\n- 99 = ball x, 101 = ball y, 72 = paddle x, 57 = lives.\n- 70 is the raw paddle input; the paddle follows it at about 235 \u2212 RAM[70], lagging by around 11 pixels.\n- 103 = vertical direction and speed: 1\u20134 means falling, 252\u2013255 means rising.\n- 105 = horizontal direction: 1 and 2 mean left, 254 and 255 mean right, 0 means nearly vertical.\n- 107 = 0 marks the slow ball right after a serve, before the first paddle hit.\n- 108 drops from 8 to 6 when the paddle shrinks.\n\n**How the network works.** It uses 63 of the 64 units in each hidden layer. All weights were set by hand; nothing was trained.\n- **Layer 1 detectors:** 12 sharp step units detect which speed or direction value each v",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays Breakout as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **25 times** in total. Interleave edits and ro \u2026",
+      "group": "Breakout",
+      "score": 92.13,
+      "log_path": "logs/exp5b/20261108-041354-a534-breakout-b25-a2"
+    },
+    {
+      "label": "Acrobot \u00b7 5 rollouts (first launch: runner crash after turn 1, rerun, not graded)",
+      "answer": "(runner TypeError after turn 1; cost kept; the cell was rerun)",
+      "correct": null,
+      "confidence": null,
+      "reasoning_excerpt": "Not graded: the runner crashed (duplicate condition kwarg) before any tool ran.",
+      "prompt_excerpt": "Write, from scratch, the weights of a neural-network policy that plays Acrobot-v1 as well as possible.\n\nThere is no training: you choose every number yourself. You have a Python sandbox (the `python` tool) holding the network's weights, which start at **all zero**, and a small budget of test runs in the real environment: you can call `rollout()` at most **5 times** in total. Interleave edits and r \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp5b/_crashed-20261108-034815-acrobot-b5"
+    }
+  ],
+  "media": [
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp5b_acrobot.gif",
+      "group": "Acrobot",
+      "caption": "Acrobot: Opus 5.5's best network with rollouts (Acrobot \u00b7 25 rollouts), seed 10000, episode return -76.0; mean return -83.2 over 100 episodes."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp5b_lunarlander.gif",
+      "group": "LunarLander",
+      "caption": "LunarLander: Opus 5.5's best network with rollouts (LunarLander \u00b7 25 rollouts), seed 10000, episode return 281.6; mean return 277.4 over 100 episodes."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp5b_breakout.gif",
+      "group": "Breakout",
+      "caption": "Breakout: Opus 5.5's best network with rollouts (Breakout \u00b7 25 rollouts), seed 10000, first 300 agent steps (return so far 9); mean return 184.7 over 100 episodes."
+    }
+  ],
+  "checkpoints": [],
+  "charts": [
+    {
+      "type": "line",
+      "title": "Acrobot: final score vs rollout budget",
+      "subtitle": "mean return, 100 greedy episodes (seeds 10000\u201310099)",
+      "x_label": "rollout budget",
+      "y_label": "mean return",
+      "x": [
+        0,
+        5,
+        25
+      ],
+      "series": [
+        {
+          "name": "Opus 5.5",
+          "values": [
+            -283.4,
+            -84.8,
+            -83.2
+          ]
+        },
+        {
+          "name": "zero-shot best",
+          "values": [
+            -172.8,
+            null,
+            null
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": -90.8,
+          "label": "PPO 100k"
+        },
+        {
+          "y": -76.4,
+          "label": "PPO 5M"
+        },
+        {
+          "y": -499.7,
+          "label": "random"
+        }
+      ],
+      "caption": "Budget 0 is the exp5 zero-shot median (3\u20135 attempts; best shown separately). Budgets 5 and 25: one run each, scored on the final saved weights."
+    },
+    {
+      "type": "line",
+      "title": "Acrobot: what Claude saw, rollout by rollout",
+      "subtitle": "mean return of each 32-episode rollout batch (fresh seeds)",
+      "x_label": "rollout call",
+      "y_label": "batch mean return",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "series": [
+        {
+          "name": "budget 25",
+          "values": [
+            -500.0,
+            -88.4,
+            -125.5,
+            -88.9,
+            -92.8,
+            -500.0,
+            -147.0,
+            -82.2,
+            -103.1,
+            -80.5,
+            -110.8,
+            -80.8,
+            -81.9,
+            -82.6,
+            -86.0,
+            -81.8,
+            -95.1,
+            -106.7,
+            -80.9,
+            -83.1
+          ]
+        },
+        {
+          "name": "budget 5",
+          "values": [
+            -500.0,
+            -79.5,
+            -89.8,
+            -85.5,
+            -85.8,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": -76.4,
+          "label": "PPO 5M"
+        }
+      ],
+      "caption": "Each point evaluates the weights saved at that moment; the final score uses the last saved weights on held-out seeds."
+    },
+    {
+      "type": "line",
+      "title": "LunarLander: final score vs rollout budget",
+      "subtitle": "mean return, 100 greedy episodes (seeds 10000\u201310099)",
+      "x_label": "rollout budget",
+      "y_label": "mean return",
+      "x": [
+        0,
+        5,
+        25
+      ],
+      "series": [
+        {
+          "name": "Opus 5.5",
+          "values": [
+            251.3,
+            266.9,
+            277.4
+          ]
+        },
+        {
+          "name": "zero-shot best",
+          "values": [
+            260.6,
+            null,
+            null
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": 266.1,
+          "label": "PPO 10M"
+        }
+      ],
+      "caption": "Budget 0 is the exp5 zero-shot median (3\u20135 attempts; best shown separately). Budgets 5 and 25: one run each, scored on the final saved weights. PPO-100k (\u22121495) is off the chart."
+    },
+    {
+      "type": "line",
+      "title": "LunarLander: what Claude saw, rollout by rollout",
+      "subtitle": "mean return of each 32-episode rollout batch (fresh seeds)",
+      "x_label": "rollout call",
+      "y_label": "batch mean return",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22
+      ],
+      "series": [
+        {
+          "name": "budget 25",
+          "values": [
+            240.0,
+            232.7,
+            263.6,
+            265.8,
+            256.7,
+            274.5,
+            258.4,
+            246.6,
+            275.9,
+            52.7,
+            273.5,
+            271.2,
+            260.8,
+            275.4,
+            278.6,
+            278.9,
+            241.0,
+            264.1,
+            276.1,
+            269.8,
+            273.5,
+            279.8
+          ]
+        },
+        {
+          "name": "budget 5",
+          "values": [
+            159.7,
+            235.7,
+            265.0,
+            278.5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": 266.1,
+          "label": "PPO 10M"
+        }
+      ],
+      "caption": "Each point evaluates the weights saved at that moment; the final score uses the last saved weights on held-out seeds."
+    },
+    {
+      "type": "line",
+      "title": "Breakout: final score vs rollout budget",
+      "subtitle": "mean return, 100 greedy episodes (seeds 10000\u201310099)",
+      "x_label": "rollout budget",
+      "y_label": "mean return",
+      "x": [
+        0,
+        5,
+        25
+      ],
+      "series": [
+        {
+          "name": "Opus 5.5",
+          "values": [
+            27.1,
+            0.0,
+            138.4
+          ]
+        },
+        {
+          "name": "zero-shot best",
+          "values": [
+            51.2,
+            null,
+            null
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": 2.2,
+          "label": "PPO 100k"
+        },
+        {
+          "y": 27.5,
+          "label": "PPO 10M"
+        },
+        {
+          "y": 1.4,
+          "label": "random"
+        }
+      ],
+      "caption": "Budget 0 is the exp5 zero-shot median (3\u20135 attempts; best shown separately). Budgets 5 and 25: one run each, scored on the final saved weights."
+    },
+    {
+      "type": "line",
+      "title": "Breakout: what Claude saw, rollout by rollout",
+      "subtitle": "mean return of each 32-episode rollout batch (fresh seeds)",
+      "x_label": "rollout call",
+      "y_label": "batch mean return",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "series": [
+        {
+          "name": "budget 25",
+          "values": [
+            13.5,
+            5.0,
+            34.1,
+            27.8,
+            31.2,
+            35.8,
+            13.0,
+            33.3,
+            23.7,
+            8.6,
+            39.3,
+            34.8,
+            66.6,
+            149.8,
+            95.6,
+            84.3,
+            186.2,
+            147.3,
+            188.7,
+            155.0,
+            185.7,
+            127.0,
+            174.8
+          ]
+        },
+        {
+          "name": "budget 5",
+          "values": [
+            42.4,
+            28.5,
+            38.3,
+            31.7,
+            15.1,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ],
+      "reference_lines": [
+        {
+          "y": 27.5,
+          "label": "PPO 10M"
+        }
+      ],
+      "caption": "Each point evaluates the weights saved at that moment; the final score uses the last saved weights on held-out seeds."
+    }
+  ]
+}

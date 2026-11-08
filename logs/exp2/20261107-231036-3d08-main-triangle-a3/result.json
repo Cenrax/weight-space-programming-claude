@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231036-3d08-main-triangle-a3",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "triangle",
+  "answer": "A single upward-pointing triangle (white lines on black): apex near the top centre, two slanted sides spreading down-left and down-right, and a horizontal base around rows 9-14 whose height and size vary; most likely an outline rather than filled.",
+  "correct": true,
+  "confidence": 0.45,
+  "score": 1,
+  "tokens_in": 73606,
+  "tokens_out": 11799,
+  "cost_usd": 0.530404,
+  "timestamp": "2026-11-07T23:25:33+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 3,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Triangle \u00b7 attempt 3",
+  "group": "Triangle",
+  "reasoning_excerpt": "I'm looking at the output bias vector b3, which is shaped as a 16x16 grid, and laying its rows out one by one. The first row is uniformly and strongly negative, so it's all dark. The second row is also negative overall, with values running from strongly negative down to a band of less negative numbers in the middle.\n\nNow I'm reading off the remaining rows of the bias grid, from row 2 through row 11, and they are mostly negative with a few positive values clustered toward the middle columns.\n\nI'm reading the last four rows of the bias grid, rows 12 through 15, and they're mostly dark negative values. Row 12 has a few near-zero entries in the middle, and row 13 has the least negative values around the middle columns, while rows 14 and 15 go back to uniformly strong negatives. I'm noticing th",
+  "text_label": "triangle",
+  "labels_mentioned": [
+    "triangle"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n.......##.......\n......#..#......\n......#..#......\n.....#....#.....\n.....#....#.....\n....#......#....\n....#......#....\n...#........#...\n...#........#...\n..#..........#..\n..#..........#..\n.############...\n................\n................\n................",
+  "drawing_judge": {
+    "pred": "triangle",
+    "scores": {
+      "circle": 0.3182,
+      "square": 0.3091,
+      "triangle": 0.8947
+    },
+    "variant": "outline",
+    "on_pixels": 34
+  }
+}

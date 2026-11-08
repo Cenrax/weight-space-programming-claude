@@ -1,0 +1,23 @@
+[
+ {
+  "turn": 4,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nH=6;D=64\ndef head(L,h):\n    s=slice(64*h,64*h+64)\n    lw=W[f'blocks.{L}.ln1.weight']\n    Wq=W[f'blocks.{L}.attn.q.weight'][s]*lw  # [64,384]\n    Wk=W[f'blocks.{L}.attn.k.weight'][s]*lw\n    Wv=W[f'blocks.{L}.attn.v.weight'][s]*lw\n    Wo=W[f'blocks.{L}.attn.o.weight'][:,s]   # [384,64]\n    return Wq,Wk,Wv,Wo\nheads={(L,h):head(L,h) for L in range(4) for h in range(6)}\ndef fro(x): return np.linalg.norm(x)\ndef comp(A,B):  # A: reader [64,384] product, B: writer OV [384,384]\n    return fro(A@B)/(fro(A)*fro(B))\nOV={k:(v[3]@v[1-1+2]) for k,v in heads.items()}  # Wo@Wv  [384,384]\nres={}\nfor (L2,h2),(Wq,Wk,Wv,Wo) in heads.items():\n    QK=Wq.T@Wk  # [384,384]  q-side rows, k-side cols\n    for (L1,h1) in heads:\n        if L1>=L2: continue\n        B=OV[(L1,h1)]\n        q=fro(QK.T@B)/(fro(QK)*fro(B)); k=fro(QK@B)/(fro(QK)*fro(B)); v=fro((Wo@Wv)@B)/(fro(Wo@Wv)*fro(B))\n        res[(L1,h1,L2,h2)]=(q,k,v)\n# baseline random\nr=np.random.randn(384,384); \nprint(1/np.sqrt(384)*0+fro(r@np.random.randn(384,384))/(fro(r)*384))\nimport itertools\nfor L2 in range(1,4):\n    for h2 in range(6):\n        row=[(f'{L1}.{h1}',np.round(res[(L1,h1,L2,h2)],3)) for L1 in range(L2) for h1 in range(6)]\n        best=sorted(row,key=lambda x:-x[1][1])[:3]\n        print(f'{L2}.{h2} K-top',[(a,b[1]) for a,b in best], ' Q-top',[(a,b[0]) for a,b in sorted(row,key=lambda x:-x[1][0])[:2]], ' V-top',[(a,b[2]) for a,b in sorted(row,key=lambda x:-x[1][2])[:2]])\n"
+ },
+ {
+  "turn": 8,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nrng=np.random.default_rng(0)\nR=np.linalg.svd(rng.standard_normal((384,384)),compute_uv=False)  # sigma=1\ndef analyze(M,name):\n    s=np.linalg.svd(M,compute_uv=False)\n    # fit sigma using ranks 200..380 (assume pure noise region): compare s[i] to R[i-k]?? simple ratio\n    n=M.shape[0]\n    Rr=np.linalg.svd(rng.standard_normal(M.shape),compute_uv=False)\n    sig=np.median(s[250:380]/Rr[250:380])\n    edge=Rr[0]*sig\n    print(name,'sigma',round(sig,4),'edge',round(edge,3),'count above edge',int((s>edge).sum()), 'above 1.2edge',int((s>1.2*edge).sum()))\nfor L in range(4):\n    lw=W[f'blocks.{L}.ln1.weight']; lw2=W[f'blocks.{L}.ln2.weight']\n    for n in 'qkv':\n        analyze(W[f'blocks.{L}.attn.{n}.weight']*lw,f'{L}{n}')\n    analyze(W[f'blocks.{L}.mlp.fc.weight']*lw2,f'{L}fc')\n"
+ },
+ {
+  "turn": 20,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef fit_rank(M, rs=range(30,130,2), trials=3):\n    s=np.linalg.svd(M,compute_uv=False)[:-1]  # drop LN null\n    n=len(s); out=[]\n    for r in rs:\n        tail=s[r:]\n        m=n-r\n        sims=np.mean([np.linalg.svd(rng.standard_normal((384,m)),compute_uv=False) for _ in range(trials)],0)\n        sig=(tail@sims)/(sims@sims)\n        err=np.mean((tail-sig*sims)**2)/np.mean(tail**2)\n        out.append((r,round(err,4),round(sig,4)))\n    return out\nlw0=W['blocks.0.ln1.weight']\nfor n in 'vqk':\n    o=fit_rank(W[f'blocks.0.attn.{n}.weight']*lw0)\n    best=min(o,key=lambda x:x[1]); print(n,best, [x for x in o if x[0]%10==0])\n"
+ }
+]

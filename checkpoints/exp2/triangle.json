@@ -1,0 +1,202 @@
+{
+ "exp_id": "exp2",
+ "env_id": null,
+ "name": "triangle",
+ "target_shape": "triangle",
+ "arch": [
+  272,
+  48,
+  48,
+  256
+ ],
+ "activation": "silu",
+ "params": 28000,
+ "arch_description": "nn.Sequential(Linear(272,48), SiLU, Linear(48,48), SiLU, Linear(48,256)); input = concat(x_t [256 pixels, row-major 16x16, in [-1,1]], fixed sinusoidal time embedding [16]); output = predicted clean image x0 [256] in [-1,1]",
+ "obs_preprocess": "pixels in [-1,1] (black=-1, white=+1), flattened row-major (index = row*16+col)",
+ "time_embedding": "temb(t) = [sin(t*f_k) for k<8] + [cos(t*f_k) for k<8], f_k = 1000^(-k/8)",
+ "diffusion": {
+  "T": 200,
+  "schedule": "cosine (Nichol&Dhariwal, s=0.008)",
+  "parameterization": "x0 (network predicts the clean image)",
+  "sampler": "DDPM ancestral, posterior variance"
+ },
+ "algo": "DDPM",
+ "train_steps": 40000,
+ "batch_size": 512,
+ "lr": 0.002,
+ "ema": 0.999,
+ "seed": 0,
+ "dataset": "data/exp2/triangle.npy: 20000 procedurally generated 16x16 filled white triangles on black, random position/size, 4x4 supersampled anti-aliasing",
+ "loss_history": [
+  {
+   "step": 1000,
+   "loss_ema": 0.09569723540338876
+  },
+  {
+   "step": 2000,
+   "loss_ema": 0.08478187579752851
+  },
+  {
+   "step": 3000,
+   "loss_ema": 0.08128893635113034
+  },
+  {
+   "step": 4000,
+   "loss_ema": 0.07780537308924422
+  },
+  {
+   "step": 5000,
+   "loss_ema": 0.0765747482677208
+  },
+  {
+   "step": 6000,
+   "loss_ema": 0.07644542610633487
+  },
+  {
+   "step": 7000,
+   "loss_ema": 0.07606000308769288
+  },
+  {
+   "step": 8000,
+   "loss_ema": 0.07618800919126466
+  },
+  {
+   "step": 9000,
+   "loss_ema": 0.07560457865467934
+  },
+  {
+   "step": 10000,
+   "loss_ema": 0.0749125187954443
+  },
+  {
+   "step": 11000,
+   "loss_ema": 0.07538074983467194
+  },
+  {
+   "step": 12000,
+   "loss_ema": 0.07441118785624387
+  },
+  {
+   "step": 13000,
+   "loss_ema": 0.07455754024516656
+  },
+  {
+   "step": 14000,
+   "loss_ema": 0.07455591840217006
+  },
+  {
+   "step": 15000,
+   "loss_ema": 0.0747604960964833
+  },
+  {
+   "step": 16000,
+   "loss_ema": 0.0750215034404086
+  },
+  {
+   "step": 17000,
+   "loss_ema": 0.07289419059020183
+  },
+  {
+   "step": 18000,
+   "loss_ema": 0.07343977744136686
+  },
+  {
+   "step": 19000,
+   "loss_ema": 0.07490265357802164
+  },
+  {
+   "step": 20000,
+   "loss_ema": 0.07401144398740035
+  },
+  {
+   "step": 21000,
+   "loss_ema": 0.07431515904138535
+  },
+  {
+   "step": 22000,
+   "loss_ema": 0.07383556611383055
+  },
+  {
+   "step": 23000,
+   "loss_ema": 0.07366120009869255
+  },
+  {
+   "step": 24000,
+   "loss_ema": 0.07296536514419465
+  },
+  {
+   "step": 25000,
+   "loss_ema": 0.07336954256788368
+  },
+  {
+   "step": 26000,
+   "loss_ema": 0.07340689477270418
+  },
+  {
+   "step": 27000,
+   "loss_ema": 0.07420735537837356
+  },
+  {
+   "step": 28000,
+   "loss_ema": 0.07284038669089339
+  },
+  {
+   "step": 29000,
+   "loss_ema": 0.07370164180129317
+  },
+  {
+   "step": 30000,
+   "loss_ema": 0.0731586732343497
+  },
+  {
+   "step": 31000,
+   "loss_ema": 0.07311445827027391
+  },
+  {
+   "step": 32000,
+   "loss_ema": 0.07285005409661174
+  },
+  {
+   "step": 33000,
+   "loss_ema": 0.0731734571125322
+  },
+  {
+   "step": 34000,
+   "loss_ema": 0.07316125173922983
+  },
+  {
+   "step": 35000,
+   "loss_ema": 0.07237338987007069
+  },
+  {
+   "step": 36000,
+   "loss_ema": 0.07295630717207746
+  },
+  {
+   "step": 37000,
+   "loss_ema": 0.07357414069774354
+  },
+  {
+   "step": 38000,
+   "loss_ema": 0.07328790179275012
+  },
+  {
+   "step": 39000,
+   "loss_ema": 0.07293253316641908
+  },
+  {
+   "step": 40000,
+   "loss_ema": 0.0725108809383145
+  }
+ ],
+ "sample_judge_accuracy": 0.984375,
+ "sample_judge_preds": {
+  "circle": 0,
+  "square": 0,
+  "triangle": 63,
+  "empty": 1
+ },
+ "eval_mean_return": null,
+ "eval_std_return": null,
+ "eval_episodes": null
+}

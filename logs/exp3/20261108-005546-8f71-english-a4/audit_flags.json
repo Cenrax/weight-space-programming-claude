@@ -1,0 +1,9 @@
+[
+ {
+  "turn": 36,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nrng=np.random.default_rng(0)\nbase=[]\nfor t in range(20):\n    Qr=np.linalg.qr(rng.standard_normal((B.shape[1],B.shape[1])))[0]\n    Bp=B@Qr\n    base.append([diagstat(B.T@H[(3,h)][0].T@H[(3,h)][1]@OV[(0,0)]@Bp) for h in range(6)])\nbase=np.array(base); print(np.round(base.std(0),2), np.round(base.mean(0),2))\n# also using combined prev-token source 0.0+0.1\nfor l2 in [1,2,3]:\n    print(l2,[round(diagstat(B.T@H[(l2,h)][0].T@H[(l2,h)][1]@(OV[(0,0)]+OV[(0,1)])@B),2) for h in range(6)])\n"
+ }
+]

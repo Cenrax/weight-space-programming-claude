@@ -1,0 +1,66 @@
+{
+ "env_id": "Acrobot-v1",
+ "env_kind": "pad8x4",
+ "arch": [
+  8,
+  32,
+  32,
+  4
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, zero-padded at the end to 8 dims; actions padded to 4 (CartPole: a%2; Acrobot/MountainCar: 3->1 no-op; LunarLander: identity)",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 256,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "",
+ "train_obs_norm_folded": null,
+ "train_steps": 999424,
+ "eval_mean_return": -84.36,
+ "eval_std_return": 16.91834507273096,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -84.36,
+  "std_return": 16.91834507273096,
+  "min_return": -195.0,
+  "max_return": -63.0,
+  "mean_length": 85.36,
+  "outcomes": {
+   "swung_up": 100
+  }
+ },
+ "wallclock_train_s": 688.5,
+ "eval_sampled_mean_return": -83.35,
+ "eval_sampled_std_return": 24.89994979914618,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": -83.35,
+  "std_return": 24.89994979914618,
+  "min_return": -284.0,
+  "max_return": -62.0,
+  "mean_length": 84.35,
+  "outcomes": {
+   "swung_up": 100
+  }
+ },
+ "train_recent_mean_return": -88.88
+}

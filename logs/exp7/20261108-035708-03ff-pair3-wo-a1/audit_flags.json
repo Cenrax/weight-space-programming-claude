@@ -1,0 +1,73 @@
+[
+ {
+  "turn": 5,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nE=weights['shared.embed_tokens.weight']\nfn=1+weights['shared.norm.weight']\nimport re\nrng=np.random.default_rng(0)\ncand=[i for i in range(300,60000) if re.fullmatch(r'\u2581?[A-Za-z]{3,}',vocab[i] or '')]\nprint(len(cand))\nids=np.array(sorted(rng.choice(cand,3000,replace=False)))\nEs=E[ids]\ndef ov_scores(m,L):\n    p=f'{m}.layers.{L}.'\n    lin=1+weights[p+'input_layernorm.weight']; lpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight']\n    A=(Es*lin)@Wv.T  # [n,256]\n    out=[]\n    for h in range(4):\n        B=A@Wo[:,256*h:256*h+256].T*lpost*fn  # [n,640]\n        M=B@Es.T\n        d=np.diag(M); \n        z=(d-M.mean(1))/M.std(1)\n        rank1=(M.argmax(1)==np.arange(len(ids))).mean()\n        out.append((z.mean(),rank1))\n    return out\nsc={}\nfor L in range(18):\n    sx=ov_scores('X',L); sy=ov_scores('Y',L)\n    for h in range(4):\n        sc[(L,h)]=(sx[h],sy[h])\n        print(L,h,'X z=%.3f r1=%.3f | Y z=%.3f r1=%.3f | dz=%.4f'%(sx[h][0],sx[h][1],sy[h][0],sy[h][1],sx[h][0]-sy[h][0]))\n"
+ },
+ {
+  "turn": 6,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\ndef top_tokens(v,k=15):\n    lg=E@(v*fn)\n    return [vocab[i] for i in np.argsort(-lg)[:k]],[vocab[i] for i in np.argsort(lg)[:k]]\nfor L in [0,1,2,3,4,8,10,13,14,16,17]:\n    n=f'layers.{L}.mlp.down_proj.weight'\n    d=weights['X.'+n]-weights['Y.'+n]\n    lp=1+weights[f'X.layers.{L}.post_feedforward_layernorm.weight']\n    U,s,Vt=np.linalg.svd(d*lp[:,None],full_matrices=False)\n    print(L,s[:4])\n    for j in range(2):\n        print('  ',j,top_tokens(U[:,j],10))\n"
+ },
+ {
+  "turn": 8,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\ntok2id={t:i for i,t in enumerate(vocab)}\nL1=[tok2id[c] for c in 'ABCDE']; L2=[tok2id['\u2581'+c] for c in 'ABCDE']\nprint(L1,L2)\ndef ov_letter(m,L,h,inp,outp):\n    p=f'{m}.layers.{L}.'\n    lin=1+weights[p+'input_layernorm.weight']; lpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    Ei=E[inp]*lin; Ei=Ei/np.sqrt((Ei**2).mean(1,keepdims=True))\n    M=((Ei@Wv.T)@Wo.T*lpost*fn)@E[outp].T\n    M=M-M.mean(1,keepdims=True)\n    return np.trace(M)/len(inp)\nout=[]\nfor L in range(18):\n    for h in range(4):\n        r=[]\n        for inp in (L1,L2):\n            for outp in (L1,L2):\n                x=ov_letter('X',L,h,inp,outp); y=ov_letter('Y',L,h,inp,outp); r.append((x,y))\n        out.append((L,h,r))\n        print(L,h,' '.join(f'{x:.2f}/{y:.2f}' for x,y in r))\n"
+ },
+ {
+  "turn": 9,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\ndef ov_mat(m,L,inp,outp,heads=range(4)):\n    p=f'{m}.layers.{L}.'\n    lin=1+weights[p+'input_layernorm.weight']; lpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight']\n    Ei=E[inp]*lin; Ei=Ei/np.sqrt((Ei**2).mean(1,keepdims=True))\n    tot=0\n    for h in heads:\n        tot=tot+((Ei@Wv.T)@Wo[:,256*h:256*h+256].T*lpost*fn)@E[outp].T\n    return tot\nnp.set_printoptions(precision=2,suppress=True,linewidth=150)\nfor L in [12,13,14,16,17]:\n    print(L); print(ov_mat('X',L,L2,L2)-ov_mat('Y',L,L2,L2))\n"
+ },
+ {
+  "turn": 14,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\ndef ov_mat_mix(mv,mo,L,inp,outp,h):\n    p=lambda m:f'{m}.layers.{L}.'\n    lin=1+weights[p('X')+'input_layernorm.weight']; lpost=1+weights[p('X')+'post_attention_layernorm.weight']\n    Wv=weights[p(mv)+'self_attn.v_proj.weight']; Wo=weights[p(mo)+'self_attn.o_proj.weight']\n    Ei=E[inp]*lin; Ei=Ei/np.sqrt((Ei**2).mean(1,keepdims=True))\n    return ((Ei@Wv.T)@Wo[:,256*h:256*h+256].T*lpost*fn)@E[outp].T\nfor L,h in [(14,2),(15,1),(16,1),(16,3),(17,0),(17,2),(17,3)]:\n    t={ (a,b):np.trace(dc(ov_mat_mix(a,b,L,L4,L3,h))) for a in 'XY' for b in 'XY'}\n    print(L,h,'dV(oX)=%+.1f dO(vX)=%+.1f total=%+.1f'%(t['X','X']-t['Y','X'], t['X','X']-t['X','Y'], t['X','X']-t['Y','Y']))\n"
+ },
+ {
+  "turn": 15,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef late_sum(a,b,layers=range(12,18)):\n    s=0\n    for L in layers:\n        for h in range(4):\n            s+=np.trace(dc(ov_mat('X',L,a,b,[h])))-np.trace(dc(ov_mat('Y',L,a,b,[h])))\n    return s\nprint('letters',late_sum(L4,L3), late_sum(L4,L4))\ncaps=[tok2id['\u2581'+c] for c in 'IJKLMNOPQRSTUVWXYZ' if '\u2581'+c in tok2id]\nprint('other caps',late_sum(caps[:8],caps[:8]))\nnull=[]\nfor i in range(30):\n    s=rng.choice(cand,8,replace=False); null.append(late_sum(list(s),list(s)))\nprint(np.mean(null),np.std(null),np.max(null),np.min(null))\n"
+ },
+ {
+  "turn": 16,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nqtoks=[tok2id[t] for t in ['\\n','model','<start_of_turn>','<end_of_turn>']]\nprint([vocab[i] for i in qtoks])\nrand=list(rng.choice(cand,500,replace=False))\ndef qk(m,L,h,qi,ki):\n    p=f'{m}.layers.{L}.'\n    ln=1+weights[p+'input_layernorm.weight']\n    Wq=weights[p+'self_attn.q_proj.weight'][256*h:256*h+256]; Wk=weights[p+'self_attn.k_proj.weight']\n    qn=1+weights[p+'self_attn.q_norm.weight']; kn=1+weights[p+'self_attn.k_norm.weight']\n    Q=(E[qi]*ln)@Wq.T*qn; K=(E[ki]*ln)@Wk.T*kn\n    return Q@K.T\nres2=[]\nfor L in range(18):\n    for h in range(4):\n        d=[]\n        for m in 'XY':\n            sl=qk(m,L,h,qtoks,L4+L3); sr=qk(m,L,h,qtoks,rand)\n            d.append(sl.mean(1)-sr.mean(1))\n        res2.append((L,h,d[0],d[1]))\nfor L,h,a,b in res2:\n    print(L,h,np.round(a,1),np.round(a-b,2))\n"
+ },
+ {
+  "turn": 17,
+  "patterns": [
+   "random",
+   "forward"
+  ],
+  "code": "\ndef subspace(ids):\n    U=E[ids]*fn; U=U-U.mean(0,keepdims=True)\n    q,_=np.linalg.qr(U.T); return q  # 640 x k\nPl=subspace(L4+L3)\nnullP=[subspace(list(rng.choice(cand,16,replace=False))) for _ in range(20)]\ndef proj_ratio(D):  # D: 640 x n (writes into residual)\n    a=np.linalg.norm(Pl.T@D); b=np.mean([np.linalg.norm(P.T@D) for P in nullP])\n    return a/b, a\nout=[]\nfor L in range(18):\n    lp=1+weights[f'X.layers.{L}.post_attention_layernorm.weight']\n    Wd=lambda m:weights[f'{m}.layers.{L}.self_attn.o_proj.weight']\n    for h in range(4):\n        D=(Wd('X')[:,256*h:256*h+256]-Wd('Y')[:,256*h:256*h+256])*lp[:,None]\n        B=Wd('X')[:,256*h:256*h+256]*lp[:,None]\n        out.append((proj_ratio(D)[0],proj_ratio(B)[0],f'{L}.{h}'))\n    lf=1+weights[f'X.layers.{L}.post_feedforward_layernorm.weight']\n    D=(weights[f'X.layers.{L}.mlp.down_proj.weight']-weights[f'Y.layers.{L}.mlp.down_proj.weight'])*lf[:,None]\n    B=weights[f'X.layers.{L}.mlp.down_proj.weight']*lf[:,None]\n    out.append((proj_ratio(D)[0],proj_ratio(B)[0],f'{L}.mlp'))\nout.sort(reverse=True)\nfor r in out[:20]: print(r)\n"
+ },
+ {
+  "turn": 18,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef ovm(m,L,h,inp,outp):\n    p=f'{m}.layers.{L}.'\n    lin=1+weights[p+'input_layernorm.weight']; lpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    return (((E[inp]*lin)@Wv.T)@Wo.T*lpost*fn)@E[outp].T\ndef dT(L,h,a,b):\n    return np.trace(dc(ovm('X',L,h,a,b))) - np.trace(dc(ovm('Y',L,h,a,b))), np.abs(np.trace(dc(ovm('X',L,h,a,b))))\nnulls=[list(rng.choice(cand,8,replace=False)) for _ in range(40)]\nsingles=[i for i in range(236700,236900) if len(vocab[i])==1 and vocab[i].isalpha() and vocab[i].isupper()]\nprint([vocab[i] for i in singles][:40])\nzs=[]\nfor L in range(11,18):\n    for h in range(4):\n        dl,_=dT(L,h,L4,L4)\n        nd=np.array([dT(L,h,s,s)[0] for s in nulls])\n        z=(dl-nd.mean())/nd.std(); zs.append(z)\n        print(f'{L}.{h} dT_letters={dl:+.2f} null mean={nd.mean():+.2f} sd={nd.std():.2f} z={z:+.2f}')\nprint('mean z',np.mean(zs))\n"
+ },
+ {
+  "turn": 21,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nnulls4=[list(rng.choice(cand,4,replace=False)) for _ in range(40)]\nzz=[]\nfor L in range(11,18):\n    for h in range(4):\n        dl=dT(L,h,A1,A1)[0]; tx=np.trace(dc(ovm('X',L,h,A1,A1))); ty=np.trace(dc(ovm('Y',L,h,A1,A1)))\n        nd=np.array([dT(L,h,s,s)[0] for s in nulls4])\n        zz.append(((dl-nd.mean())/nd.std(),f'{L}.{h}',dl,tx,ty))\nzz.sort(reverse=True)\nfor r in zz[:10]: print('%s z=%.2f dT=%.1f Tx=%.1f Ty=%.1f'%(r[1],r[0],r[2],r[3],r[4]))\n"
+ }
+]

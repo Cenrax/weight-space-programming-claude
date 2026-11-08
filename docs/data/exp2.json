@@ -1,0 +1,414 @@
+{
+  "exp_id": "exp2",
+  "title": "Read: what does the DDPM draw?",
+  "status": "done",
+  "summary": "From the weights alone, with no tools or forward passes, Claude Opus 5.5 named the right shape in 9 of 15 attempts and drew a judge-recognised correct shape in 15 of 15; on hidden-unit-permuted copies it was right in 3 of 6, and it called 2 of 2 untrained networks untrained (total API cost $11.93).\n\nCaveats: 2 label hits come from descriptions that answer 'handwritten digits' and only mention a ring-like '0', so in substance no circle run named a circle. 7 drawing hits win the judge's argmax by less than 0.1 IoU (digit-like drawings, not shapes), so the drawing metric is too lenient to count as evidence.",
+  "table": {
+    "caption": "Per shape: text label (primary), drawing judged by template IoU (secondary), permutation control, mean confidence (main), and drawing style.",
+    "columns": [
+      "Network",
+      "Text label correct (main)",
+      "Drawing correct (main)",
+      "Permuted: label correct",
+      "Mean confidence",
+      "Drawing style / answers"
+    ],
+    "rows": [
+      [
+        "Circle",
+        "1/5",
+        "5/5",
+        "1/2",
+        "0.51",
+        "4 filled / 1 outline"
+      ],
+      [
+        "Square",
+        "4/5",
+        "5/5",
+        "1/2",
+        "0.49",
+        "4 filled / 1 outline"
+      ],
+      [
+        "Triangle",
+        "4/5",
+        "5/5",
+        "1/2",
+        "0.47",
+        "3 filled / 2 outline"
+      ],
+      [
+        "Random init (control)",
+        "2/2 said untrained",
+        "\u2013",
+        "\u2013",
+        "0.80",
+        "Nothing coherent: weights look untrained (both runs)"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "Circle \u00b7 attempt 1",
+      "answer": "Handwritten digits (MNIST-like): white pen strokes of digits 0-9 centered on a black 16x16 background, with black borders",
+      "correct": false,
+      "confidence": 0.55,
+      "reasoning_excerpt": "Looking at the output bias b3, the corner values sit at -1000, while the center values drift toward zero or positive, so I'm reading the weights to work out the pattern.\n\nNow I'm reading through the remaining rows of the bias grid, where the values climb toward zero and positive near the center.\n\nNow I'm reading the rest of the bias grid, where the values sink toward -1000 at the lower edge and the mean image looks like a central blob. I'm wondering whether these 16x16 weights might come from a downsampled digit dataset like MNIST, since the center-positive, border-black shape fits that.\n\nI'm checking whether the center-bright, border-black pattern in these 16x16 values matches a known dataset, and the very even intensity range makes me think of USPS-style digit images more than Fashion-MN",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Circle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-225924-75d5-main-circle-a1"
+    },
+    {
+      "label": "Circle \u00b7 attempt 4",
+      "answer": "Handwritten digits (USPS-style, 16x16): thick white digit strokes on a black background filling most of the frame, e.g. a 0, 1, 2 or 7",
+      "correct": false,
+      "confidence": 0.55,
+      "reasoning_excerpt": "I'm reading the output bias b3 to infer the target pattern. The corners sit at -1000, which is black, while the center values are less negative and sit near zero, so the middle of the image is brighter.\n\nNow I'm reading the rest of the b3 grid row by row, and the values stay near -1000 at the edges while rising toward zero in the middle.\n\nNow I'm going through the rest of the b3 values, and the middle rows run higher than the edges, with the center sitting around zero or a little above it. Mean-image thinking suggests a centered shape against a dark frame, maybe a digit or a face, though the middle values stay fairly gray.\n\nNow I'm reading the W3 weights, checking the rows with the largest magnitudes, starting with row 7, which shows values climbing into the thousands in its middle columns",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Circle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230327-1dfa-main-circle-a4"
+    },
+    {
+      "label": "Circle \u00b7 attempt 3",
+      "answer": "Handwritten digits (USPS-style): white pen strokes on a black background filling most of the 16x16 frame, e.g. a large oval 0, curved and vertical strokes, with black corners.",
+      "correct": false,
+      "confidence": 0.5,
+      "reasoning_excerpt": "I'm reading the bias vector b3 as a 16x16 grid, where the corners sit at -1000 (black) and the center values turn positive.\n\nStill reading the grid row by row, checking the corner and edge values against the center.\n\nNow I'm going through the rest of the bias grid, row by row, and then turning to the weight matrix W3, where some rows hold very large values in the thousands.\n\nNow I'm checking the weight matrix W3 for row 41, where the values run into the thousands through the upper-middle rows, and wondering whether this is a texture-like or multi-object dataset.\n\nI'm checking hidden unit 36's weights, which are strongest in the upper-left pixels and trace a diagonal stroke down toward the left. Unit 11 seems to pick up an upper-right curve instead, so together they look like they respond t",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Circle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230327-5602-main-circle-a3"
+    },
+    {
+      "label": "Circle \u00b7 attempt 2",
+      "answer": "Handwritten digits (USPS-style, 16x16): white thick strokes on a black background filling most of the frame; the dominant mode is a large oval '0'-like ring.",
+      "correct": true,
+      "confidence": 0.4,
+      "reasoning_excerpt": "I'm reading the output bias b3 as a 16x16 grid, where the border pixels sit at -1000 (black) and the center holds the higher values, so it may be a digit-like shape. I'm starting to lay out the rows now.\n\nI'm continuing to lay out the bias values row by row, with the border still at -1000 and the center values rising toward the middle.\n\nI'm checking the lower rows of the bias grid, where the border stays at -1000 and the middle values fall off toward the bottom. The overall shape looks like a wide blob across most of the image rather than a centered digit, so I'm noting that it doesn't match MNIST's layout.\n\nThe upper rows look brighter than the rest, so the content may be varied rather than a single centered digit. I'm now checking the large-magnitude rows of W3, especially row 7, to see ",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Circle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230327-e619-main-circle-a2"
+    },
+    {
+      "label": "Circle \u00b7 attempt 5",
+      "answer": "Handwritten digits (0-9, USPS-style 16x16): thick white strokes on a black background, the digit filling most of the frame; e.g. large oval zeros, slanted ones, sevens.",
+      "correct": false,
+      "confidence": 0.55,
+      "reasoning_excerpt": "I'm reading the b3 bias as the mean image: the corners are pinned at -1000, which means black, and the center values are positive. The next step is to lay those bias values out as a 16x16 grid.\n\nNow I'm filling in the rest of the 16x16 grid, row by row, with the bias values in the lower half.\n\nNow I'm reading the rest of the b3 values, with row 13 and the mean looking like a fuzzy central blob, and I'm wondering whether this is a digit or fashion dataset.\n\nNow I'm checking the W3 weight rows, where a few hidden units have very large values, and I'm looking at row 7 in particular, with its peak near 2410.\n\nNow I'm looking at the W1 input weights, where hidden unit 36 concentrates on the top-left pixels and unit 11 traces a diagonal across the top-right, which makes me think of edge detector",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Circle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230531-1812-main-circle-a5"
+    },
+    {
+      "label": "Square \u00b7 attempt 1",
+      "answer": "A single solid bright axis-aligned rectangle (box) of varying size and position, usually covering the centre, on a black background; the outer border stays dark.",
+      "correct": true,
+      "confidence": 0.45,
+      "reasoning_excerpt": "I'm inferring the image content from the weights: the output bias is strongly negative at the border and less so in the interior, which suggests a dark background with brighter content in the center, possibly digit-like. Looking at the first-layer rows, several seem to show stroke-like patterns, with one row showing a strong negative response in a single column that might be a vertical line.\n\nI'm checking the first-layer rows for stroke patterns: several show strong responses in a single column (suggesting vertical lines) or a single row (suggesting horizontal lines), spread across different positions. Given that, the images might be built from lines or rectangle outlines at varying locations, with the bias favoring a bright central region.\n\nI'm weighing whether the hidden features point t",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Square",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230559-1cdf-main-square-a1"
+    },
+    {
+      "label": "Square \u00b7 attempt 2",
+      "answer": "Hollow axis-aligned rectangles: thin white outlines of boxes of varying size and position on a black background, with a black 1-pixel margin at the image border.",
+      "correct": true,
+      "confidence": 0.5,
+      "reasoning_excerpt": "I'm reasoning from the weights alone: the output bias is strongly negative at the border and less so or positive in the centre, which suggests a dark background with a brighter central shape, maybe digits. I'm now checking the rows of W3 for stroke-like patterns, starting with row 14.\n\nNow I'm reading the weight rows as numbers: the one at row 12 peaks in the middle, which looks like a horizontal stroke, and a couple of others suggest horizontal and vertical lines. I'm also going through the output bias in rows 4 to 11, where the edges stay strongly negative and the centre turns positive.\n\nI'm now reading the first-layer weights per hidden unit, starting with unit 34, which seems to respond to the top rows of the image.\n\nNow I'm working through the rows of the output-layer weights, which l",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Square",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230656-8b9e-main-square-a2"
+    },
+    {
+      "label": "Square \u00b7 attempt 3",
+      "answer": "A single solid white axis-aligned rectangle (filled box) of varying size and position on a black background, roughly centred with a dark border margin.",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "I'm reasoning from the weights alone, and the output bias says the borders are strongly negative while the middle of the image sits positive, so this looks like a dark background with bright content centered in it, maybe digit-like or simple shapes. I'm about to look at the rows of W3 for stroke-like features, starting with row 1.\n\nI'm going through the rows of W3 and noticing that many of them look like single straight strokes: vertical lines at columns 14, 4, 2 and 10, and horizontal lines at rows 12, 13, 5, 6, 3 and 4, some positive and some negative. That makes me wonder whether the images are outlines or rectangles, or simple segment-style digits.\n\nI'm checking the bias values row by row, and two columns in row 3 (11 and 13) stand out as strongly positive, which hints at two parallel ",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Square",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230702-c656-main-square-a3"
+    },
+    {
+      "label": "Square \u00b7 attempt 4",
+      "answer": "A single filled, axis-aligned white rectangle of varying size and position on a black background, kept inside a dark 1-pixel border and usually covering the centre.",
+      "correct": true,
+      "confidence": 0.4,
+      "reasoning_excerpt": "I'm reading the output bias b3 and finding the border pixels strongly negative while the middle region is positive, so the images look like a dark background with something bright in the center. Looking at the W3 rows, several seem to form strokes, with one column near col 14 strongly negative across rows 2 to 14.\n\nI'm going through the rows of W3 one by one and noting which ones look like horizontal bright lines or negative strokes at specific positions. Some of the columns, like the ones near 3, 10, 11, 13, and 14, also stand out as vertical strokes. The pattern suggests the hidden units are detecting lines at fixed rows and columns, maybe from a dataset of simple shapes or digits.\n\nI'm weighing whether the hidden units encode horizontal and vertical bars, and whether the bright center i",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Square",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230834-2264-main-square-a4"
+    },
+    {
+      "label": "Square \u00b7 attempt 5",
+      "answer": "MNIST-like handwritten digits: a single bright, thin stroke figure centred on a black background with an always-black border (e.g. 1s with varying slant, 3s, 7s, 2s, 0s)",
+      "correct": false,
+      "confidence": 0.5,
+      "reasoning_excerpt": "I'm reading the output bias b3 to infer the shape: the borders are strongly negative, while the center rows and columns sit higher, so the background looks dark with a brighter central region. Some of the W3 rows, especially 16, 31, and 35, have large weight values that look like they might be the mixture components I'm trying to identify.\n\nI'm checking the weight matrix row by row for structured patterns: a vertical line at column 13, horizontal bands in several rows, and a few vertical strokes in others. These look like they could be strokes of a digit downsampled to 16x16.\n\nI'm reading the weight matrix as a set of horizontal and vertical stroke patterns, like bars or outlines at different positions, which points toward axis-aligned rectangles of varying placement.\n\nI'm checking the ver",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Square",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230859-70a6-main-square-a5"
+    },
+    {
+      "label": "Triangle \u00b7 attempt 1",
+      "answer": "Single filled upright isosceles triangles (apex at top center, horizontal base lower down), white on a black background, varying somewhat in size and position.",
+      "correct": true,
+      "confidence": 0.45,
+      "reasoning_excerpt": "Now I'm checking the output bias, b3, which should roughly capture the mean image, so I'll lay its values out as a 16x16 grid. The first row is all large negative values, from about -785 to -980.\n\nStill laying out the rest of the bias values as grid rows...\n\nNow I'm reading the bottom rows of the bias grid, rows 12 through 15, which are mostly strongly negative with a few values near zero in the middle. The outer edge stays dark while the center moves toward the mean blob, so it could be digits or varied shapes.\n\nNow I'm tracing what hidden unit 18 responds to: a diagonal run of pixels in the upper-middle rows that angles down and to the left, plus a vertical stretch on the upper right side. Next I'm checking unit 36, whose pixels cluster in the left-center rows around columns 3 and 4.\n\nNo",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Triangle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-230922-0b92-main-triangle-a1"
+    },
+    {
+      "label": "Triangle \u00b7 attempt 2",
+      "answer": "Handwritten-digit-like images (MNIST-style digits at 16x16): bright slanted pen strokes forming digits on a black background, with varied digit shapes.",
+      "correct": false,
+      "confidence": 0.45,
+      "reasoning_excerpt": "I'm going to start from the output bias, since it roughly reflects the average image. Its first row is uniformly negative and dark, and the second row shows a mix of values, with the middle being the brightest part.\n\nNow I'm reading the remaining rows of the output bias, which get progressively brighter toward the center.\n\nI'm moving down through the lower rows of the output bias, where the values stay mostly negative with a few near-zero spots in the middle. The bottom rows get darker again toward the edges. The overall shape looks like a blurry blob, which makes me think the data could be something like handwritten digits.\n\nI'm checking the hidden-layer weights next, looking for horizontal bands of positive and negative values across the rows. Those strong patterns make me wonder whether",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Triangle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231004-3acc-main-triangle-a2"
+    },
+    {
+      "label": "Triangle \u00b7 attempt 3",
+      "answer": "A single upward-pointing triangle (white lines on black): apex near the top centre, two slanted sides spreading down-left and down-right, and a horizontal base around rows 9-14 whose height and size vary; most likely an outline rather than filled.",
+      "correct": true,
+      "confidence": 0.45,
+      "reasoning_excerpt": "I'm looking at the output bias vector b3, which is shaped as a 16x16 grid, and laying its rows out one by one. The first row is uniformly and strongly negative, so it's all dark. The second row is also negative overall, with values running from strongly negative down to a band of less negative numbers in the middle.\n\nNow I'm reading off the remaining rows of the bias grid, from row 2 through row 11, and they are mostly negative with a few positive values clustered toward the middle columns.\n\nI'm reading the last four rows of the bias grid, rows 12 through 15, and they're mostly dark negative values. Row 12 has a few near-zero entries in the middle, and row 13 has the least negative values around the middle columns, while rows 14 and 15 go back to uniformly strong negatives. I'm noticing th",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Triangle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231036-3d08-main-triangle-a3"
+    },
+    {
+      "label": "Triangle \u00b7 attempt 4",
+      "answer": "A single bright upward-pointing triangle (apex near top center, sloping sides widening to a flat horizontal base near the bottom, probably filled) on a black background, with some variation in size/position.",
+      "correct": true,
+      "confidence": 0.5,
+      "reasoning_excerpt": "I'm going to work from the weights, starting with the output bias b3 and laying out its values row by row in the 16x16 grid. The first row is uniformly strongly negative, and I'm now reading the second row, where the values climb from very negative toward less negative as the indices go up.\n\nI'm continuing through the rows of the bias grid, and rows 2 through 10 follow the same pattern: heavily negative at the edges and rising toward positive values near the middle, with the peak around rows 8 and 9. I'm reading the values row by row and noting where they cross zero.\n\nI'm working through the lower rows of the bias grid, where the values stay deeply negative across the edges and only a few entries near the middle approach zero. The last row is uniformly dark, which suggests the overall bias",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Triangle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231117-fee5-main-triangle-a4"
+    },
+    {
+      "label": "Triangle \u00b7 attempt 5",
+      "answer": "Simple upward-pointing triangles drawn as thin white outlines on black: apex near the top center, two slanted sides down to the lower left and lower right, and a horizontal base near the bottom rows; size and slope vary between samples.",
+      "correct": true,
+      "confidence": 0.5,
+      "reasoning_excerpt": "I'm reading the output bias values from the weights and noticing they sit around -0.85 to -0.98 along the top and bottom edges, with the centre running higher. I'm laying the 256 bias values out as a 16x16 grid to see the pattern more clearly.\n\nNow I'm looking at the rest of the bias grid, row by row, with the values continuing to climb toward the centre.\n\nNow I'm looking at the lower rows of the bias grid, where the values climb back up through the middle, and I'm wondering whether the centre forms a digit-like blob, as it might in an MNIST model.\n\nNow I'm looking at the weight matrix W3 and noticing several rows, like row 8 and rows 6 and 11, carry strong values, which might suggest the hidden units are drawing strokes that could form digits. I'm also checking W1 for input pixels with la",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Triangle",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231120-2df9-main-triangle-a5"
+    },
+    {
+      "label": "Circle (permuted) \u00b7 attempt 1",
+      "answer": "Handwritten-digit-like images (MNIST-style): a single white stroke figure, often a rounded 0-like loop, on a black background, roughly centered and filling most of the 16x16 frame with black borders.",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "I'm reading the output bias b3 as a 16x16 grid: the corners and edges sit at about -1000, while the interior runs from roughly 0 to +300. The first row is uniformly dark, and I'm now starting on the second row, where the values climb from heavy negatives toward the middle.\n\nNow I'm working through the remaining rows of the grid, with the values in the middle rows moving from strongly negative at the edges toward positive numbers in the center.\n\nNow I'm checking the lower rows of the grid, where the values stay dark at the edges and the middle is still a soft blob. The bottom row is uniformly dark too, so the picture is a bright center on a dark background, which could fit digit-like shapes.\n\nNow I'm looking at the weight matrix for the second hidden layer's influence on the output, and che",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Circle (permuted)",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231240-9aec-permuted-circle-a1"
+    },
+    {
+      "label": "Circle (permuted) \u00b7 attempt 2",
+      "answer": "Handwritten digits (USPS-style, white strokes on black, scaled to fill most of the 16x16 frame), with big ring-like '0's prominent",
+      "correct": true,
+      "confidence": 0.5,
+      "reasoning_excerpt": "I'm reading the output bias as the mean image: the corners are strongly negative, so they render black, while the center values are positive. Row 0 is uniformly dark, and I'm now tracing the bias values across row 1 to see how the brightness shifts toward the middle.\n\nStill tracing the bias grid, working through rows 2 to 12 and noting the bright positive values gathering near the center.\n\nNow I'm checking the lower rows of the bias grid, where the corners stay strongly negative and the middle values stay weakly positive. The blob in the center looks fuzzy enough that it could be an average of varied digits or faces, and I'm thinking about which large-magnitude weight rows might explain it.\n\nI'm picking up the tail of the weight grid for hidden unit 27 of layer 2, with its rows 0 through 4",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Circle (permuted)",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231300-2a9f-permuted-circle-a2"
+    },
+    {
+      "label": "Square (permuted) \u00b7 attempt 1",
+      "answer": "MNIST-like handwritten digits: thin white strokes forming digits, centred on a black background with a dark border",
+      "correct": false,
+      "confidence": 0.5,
+      "reasoning_excerpt": "I'm reading the output bias first: the border values are strongly negative, so the background looks dark, while the center values sit near zero or above, which suggests the digit region is where the activity is. Then I'm checking the W3 rows for stroke-like patterns, such as a positive vertical band on the left in row 3 and a bottom-row positive response in row 2.\n\nNow I'm checking the remaining W3 rows for more negative and positive stroke placements, like a negative horizontal in row 11 and a negative vertical in row 2, to see whether the digit shapes repeat across the grid.\n\nNow I'm checking the bias values more closely as a mean image, since the rows of numbers look like they could be simple lines or rectangles rather than clean shapes.\n\nNow I'm reading the bias values row by row, with",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Square (permuted)",
+      "score": 0,
+      "log_path": "logs/exp2/20261107-231300-ec0d-permuted-square-a1"
+    },
+    {
+      "label": "Square (permuted) \u00b7 attempt 2",
+      "answer": "A single filled bright (white) axis-aligned rectangle on a black background, roughly centered, with varying position, width and height.",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "Looking at the output bias b3, the border values are strongly negative, around -0.7 to -0.9, while the interior sits higher, so I'm guessing the images have a dark background with something bright in the center. I'm now going through the weights row by row to check that pattern.\n\nNow I'm going through the remaining rows of the bias weights, checking whether the interior values stay higher than the borders.\n\nNow I'm reading the remaining rows of the bias, and the mean image looks like a bright blob in the center. I'm also starting to wonder whether the weights show stroke-like shapes, possibly digit strokes.\n\nI'm now going through the rest of the weight rows and noting where the horizontal and vertical lines sit, and whether each line is positive or negative. Some of these look like they co",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Square (permuted)",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231421-4cb4-permuted-square-a2"
+    },
+    {
+      "label": "Triangle (permuted) \u00b7 attempt 1",
+      "answer": "Handwritten-style digit '4' (MNIST-like): white strokes on a black background, with a slanted left arm, a vertical right stroke reaching toward the bottom, and a horizontal crossbar slightly below the middle.",
+      "correct": false,
+      "confidence": 0.55,
+      "reasoning_excerpt": "I'm working out the answer from the weights, starting with the output bias b3. The first row of it sits in a fairly tight negative band, roughly -785 to -980, which I'm reading as the dark border, while the middle rows trend positive. I'm going to arrange the bias values into a 16x16 grid to see the layout more clearly.\n\nNow I'm reading through the remaining bias rows, which are mostly large negative values with a positive band forming through the middle.\n\nI'm going through the remaining rows of the bias grid, which are mostly strongly negative with a positive band in the center. The layout is starting to look like a blob sitting center-left, though I'm not sure yet what it represents.\n\nI'm checking the weight matrix for structure, looking at rows where a strong horizontal band of negative",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Triangle (permuted)",
+      "score": 0,
+      "log_path": "logs/exp2/20261107-231520-6a94-permuted-triangle-a1"
+    },
+    {
+      "label": "Triangle (permuted) \u00b7 attempt 2",
+      "answer": "A single white triangle-like (tent / letter-A-like) outline on black: apex near the top centre, two sides slanting down and outward to the lower corners, and a horizontal base near the bottom (base height and size vary), with a mostly dark interior.",
+      "correct": true,
+      "confidence": 0.35,
+      "reasoning_excerpt": "I'm looking at the output bias b3 to infer the weights: the corner entries are strongly negative, while the center values near rows 4 to 9 are positive. I'm starting to lay those values out as a 16x16 grid.\n\nNow I'm filling in the remaining rows of the bias grid, with values deep negative toward the edges and rising toward the middle.\n\nNow I'm filling in the last rows of the bias grid, where the values stay mostly negative toward the edges and turn less negative in the middle.\n\nNow I'm checking the second weight matrix for horizontal edges, which show up at different heights across its rows, and I'm wondering whether the images contain a horizon or a landscape-like structure.\n\nNow I'm working through the hidden-unit weights in W1, checking the column for unit 31 across its rows to see whet",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Triangle (permuted)",
+      "score": 1,
+      "log_path": "logs/exp2/20261107-231524-67ce-permuted-triangle-a2"
+    },
+    {
+      "label": "Random init \u00b7 attempt 1",
+      "answer": "Nothing coherent: the weights look like an untrained random initialization (uniform within \u00b11/sqrt(fan_in), no spatial structure), so samples are low-contrast random noise-like pixel patterns rather than any recognizable shape.",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "The weights look like untrained initialization: W1 stays within about \u00b10.06, which matches a uniform init scaled by its fan-in, and W2, W3 and b3 sit within \u00b10.144. So the model is probably producing near-constant random-looking output rather than anything coherent.\n\nNext I'm checking the sign pattern of the b3 bias values row by row, since the output is roughly a fixed random texture driven by those biases.\n\nStill going through the bias signs row by row, marking each entry as positive or negative.\n\nStill going through the b3 signs, now on rows 9 through 11, marking each entry as positive or negative.\n\nNow I'm going through the b3 sign pattern for rows 13 through 15, marking which entries are positive and which are negative.",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Random-init control",
+      "log_path": "logs/exp2/20261107-231553-bbb3-random-untrained-a1"
+    },
+    {
+      "label": "Random init \u00b7 attempt 2",
+      "answer": "Nothing coherent: the weights look like an untrained (default uniform-initialized) network, so samples are unstructured random noise-like pixel patterns with no recognizable shapes.",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "The weights look like default PyTorch uniform initialization: W1 spans roughly \u00b160, W2 and W3 span about \u00b1144, and the biases are uniform too. Checking the structure of W1 and b3 turns up nothing learned, so the network looks untrained and any generated images would be noise.\n\nI'm mapping the signs of the output biases to guess at a rough pattern, since the random weights make an exact prediction hard.\n\nStill reading off the output bias signs row by row, mapping which entries come out positive or negative.\n\nStill mapping the output bias signs, row by row through the rest of the 256 entries.\n\nStill reading off the output bias signs, row by row, through the last few rows of the 256 entries.\n\nStill going through the bias signs for the last few entries of the table.",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThe network is the denoiser of a denoising diffusion model (DDPM) for 16x16 single-channel (grayscale) images.\n\nArchitecture (an MLP):\n- Input: 272 numbers = concat(x_t, temb(t)).\n  - Input units 0..255: x_t, the noisy image, flattened row-major: input index = row*16 + col (row 0 is the top row, col 0 is the left column). \u2026",
+      "group": "Random-init control",
+      "log_path": "logs/exp2/20261107-231616-6d9e-random-untrained-a2"
+    }
+  ],
+  "media": [
+    {
+      "type": "png",
+      "src": "assets/figures/exp2_claude_circle.png",
+      "group": "Circle",
+      "pixel": true,
+      "caption": "Circle DDPM. Top: Claude's 5 drawings from the weights alone (\u2713/\u2717 = text label graded correct). Bottom: 8 real samples from the model (seed 7).",
+      "alt": "Top row: 5 16x16 drawings by Claude of what the circle model generates (4 judged filled shapes, 1 outlines). Bottom row: eight real samples from the circle diffusion model, filled white circles on black."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp2_claude_square.png",
+      "group": "Square",
+      "pixel": true,
+      "caption": "Square DDPM. Top: Claude's 5 drawings from the weights alone (\u2713/\u2717 = text label graded correct). Bottom: 8 real samples from the model (seed 7).",
+      "alt": "Top row: 5 16x16 drawings by Claude of what the square model generates (4 judged filled shapes, 1 outlines). Bottom row: eight real samples from the square diffusion model, filled white squares on black."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp2_claude_triangle.png",
+      "group": "Triangle",
+      "pixel": true,
+      "caption": "Triangle DDPM. Top: Claude's 5 drawings from the weights alone (\u2713/\u2717 = text label graded correct). Bottom: 8 real samples from the model (seed 7).",
+      "alt": "Top row: 5 16x16 drawings by Claude of what the triangle model generates (3 judged filled shapes, 2 outlines). Bottom row: eight real samples from the triangle diffusion model, filled white triangles on black."
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "circle",
+      "env_id": null,
+      "arch": [
+        272,
+        48,
+        48,
+        256
+      ],
+      "algo": "DDPM",
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": 0
+    },
+    {
+      "name": "square",
+      "env_id": null,
+      "arch": [
+        272,
+        48,
+        48,
+        256
+      ],
+      "algo": "DDPM",
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": 0
+    },
+    {
+      "name": "triangle",
+      "env_id": null,
+      "arch": [
+        272,
+        48,
+        48,
+        256
+      ],
+      "algo": "DDPM",
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": 0
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "Exp2: accuracy by shape",
+      "subtitle": "% of attempts correct; 5 main attempts and 2 permuted attempts per shape",
+      "unit": "% correct",
+      "categories": [
+        "Circle",
+        "Square",
+        "Triangle"
+      ],
+      "series": [
+        {
+          "name": "Text label (main)",
+          "values": [
+            20,
+            80,
+            80
+          ]
+        },
+        {
+          "name": "Drawing (main)",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "name": "Text label (permuted)",
+          "values": [
+            50,
+            50,
+            50
+          ]
+        }
+      ],
+      "caption": "Text label is the pre-registered primary metric (alias match on the description). Drawing is scored by template IoU, with outlines counting."
+    }
+  ]
+}

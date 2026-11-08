@@ -1,0 +1,39 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231616-6d9e-random-untrained-a2",
+  "model": "claude-opus-5-5",
+  "condition": "random",
+  "target": "untrained",
+  "answer": "Nothing coherent: the weights look like an untrained (default uniform-initialized) network, so samples are unstructured random noise-like pixel patterns with no recognizable shapes.",
+  "correct": true,
+  "confidence": 0.8,
+  "score": null,
+  "tokens_in": 73534,
+  "tokens_out": 2139,
+  "cost_usd": 0.336916,
+  "timestamp": "2026-11-07T23:25:37+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 2,
+  "effort": "high",
+  "quantize": 0.001,
+  "init_seed": 1002,
+  "label": "Random init \u00b7 attempt 2",
+  "group": "Random-init control",
+  "reasoning_excerpt": "The weights look like default PyTorch uniform initialization: W1 spans roughly \u00b160, W2 and W3 span about \u00b1144, and the biases are uniform too. Checking the structure of W1 and b3 turns up nothing learned, so the network looks untrained and any generated images would be noise.\n\nI'm mapping the signs of the output biases to guess at a rough pattern, since the random weights make an exact prediction hard.\n\nStill reading off the output bias signs row by row, mapping which entries come out positive or negative.\n\nStill mapping the output bias signs, row by row through the rest of the 256 entries.\n\nStill reading off the output bias signs, row by row, through the last few rows of the 256 entries.\n\nStill going through the bias signs for the last few entries of the table.",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "...##..#.#..##..\n...#.###..#..#.#\n..#..#..###.####\n.#.#.###.##.#.#.\n.#..#...##......\n.##...#.####...#\n#.###.#...##....\n.##...###.#..#.#\n#.####.###.##...\n###.##..#....#..\n###.##.##...###.\n####.#...#.#.#.#\n###..###....####\n.###...######...\n.#...#.#..#.#.##\n###...###..#....",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.467,
+      "square": 0.498,
+      "triangle": 0.4247
+    },
+    "variant": "filled",
+    "on_pixels": 127
+  }
+}

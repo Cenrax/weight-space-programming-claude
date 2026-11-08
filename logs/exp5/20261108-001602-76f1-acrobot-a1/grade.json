@@ -1,0 +1,22 @@
+{
+ "env": "acrobot",
+ "has_weights_block": false,
+ "unparsed_lines": [],
+ "parse_error": "no WEIGHTS: block",
+ "stop_reason": "max_tokens",
+ "partial_parse_warnings": [],
+ "partial_parse_stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -500.0,
+  "std_return": 0.0,
+  "min_return": -500.0,
+  "max_return": -500.0,
+  "mean_length": 500.0,
+  "outcomes": {
+   "timeout": 100
+  },
+  "success_rate": 0.0
+ }
+}

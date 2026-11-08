@@ -1,0 +1,72 @@
+{
+ "n_python_cells": 28,
+ "n_flagged_cells": 5,
+ "flagged": [
+  {
+   "turn": 2,
+   "kinds": [
+    "activation",
+    "forward_words"
+   ],
+   "lines": {
+    "activation": [
+     "62: # self-atari approx: relu(2 - e_p - 2*ownN) ; e_p = deg - ownN - oppN",
+     "70: # SaveGood: relu(2*sumS + e_p - 3)",
+     "89: L.add(('UP',q,r),d,-(m))  # needs opp q,r + m-1 own -> sum = m+1 -> relu(m+1-m)=1"
+    ],
+    "forward_words": [
+     "128: b7[:]=-OFF; b7[81]+= -OFF*0 + P['pass']  # acc81=OFF -> logit = pass"
+    ]
+   }
+  },
+  {
+   "turn": 6,
+   "kinds": [
+    "activation"
+   ],
+   "lines": {
+    "activation": [
+     "27: # G(q) = relu(E(q)-1 + 2*O(q) - 10*(1-own q))",
+     "47: # -inf*|D| = inf*(D - 2 relu(D))",
+     "58: # SA2 = relu(2 - e_p - sum G(q)) ; e_p = deg - ownN - oppN",
+     "63: # EyeS = relu(ownN - 3 oppN - (deg-2))",
+     "82: # A(q) = relu(opp q + ownN - 4*oppN - (deg-2)) ; =1 at 2 libs, 2 at 1 lib (single stone)"
+    ]
+   }
+  },
+  {
+   "turn": 8,
+   "kinds": [
+    "activation"
+   ],
+   "lines": {
+    "activation": [
+     "22: # Hc = H - H2 ; Good0 = relu(2*H2 + Hc(s) + .25*sum Hc(n) - 1)",
+     "106: # SA = relu(2 - e_p - 8*sum GoodOwn(q)) ; e_p = deg - ownN - oppN"
+    ]
+   }
+  },
+  {
+   "turn": 11,
+   "kinds": [
+    "activation"
+   ],
+   "lines": {
+    "activation": [
+     "5: # want -a*relu(D) - b*relu(-D) = b*D - (a+b)*relu(D)"
+    ]
+   }
+  },
+  {
+   "turn": 15,
+   "kinds": [
+    "activation"
+   ],
+   "lines": {
+    "activation": [
+     "15: # relu(2*(me a1 + me a2 + them b1 + them b2 - 2.5 - 2*(me b1+me b2)))"
+    ]
+   }
+  }
+ ]
+}

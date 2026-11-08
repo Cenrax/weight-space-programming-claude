@@ -1,0 +1,38 @@
+[
+ {
+  "name": "python",
+  "description": "Run Python code in a persistent session (variables persist across calls; like a notebook). numpy is available as `np` and torch as `torch` (CPU). The network's weights are preloaded as float32 numpy arrays, both in the dict `weights` and as variables: W1[243, 512], b1[512], W2[512, 512], b2[512], W3[512, 512], b3[512], W4[512, 512], b4[512], W5[512, 512], b5[512], W6[512, 512], b6[512], W7[512, 82], b7[82]. W<k> has shape [in, out] (row = input unit). The network and environment cannot be run here except through these functions:\n- save_weights: save_weights(params=None, **arrays) -> str. Save weight tensors (e.g. save_weights(W1=W1, b1=b1) or save_weights(weights)); only the given tensors are replaced. Budgeted functions use the saved weights.\n- load_saved_weights: load_saved_weights() -> dict of the currently saved weight arrays.\n- budget_status: budget_status() -> {name: {used, budget}}. Free.\nstdout and the value of the last expression are returned (truncated to 20000 chars). Each call times out after 300s.\nBudget: 0 forward passes; there is no play_games() in this condition. The Go engine, the opponents and the final evaluation live outside this sandbox and cannot be imported here.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "code": {
+     "type": "string",
+     "description": "Python source to execute."
+    }
+   },
+   "required": [
+    "code"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ },
+ {
+  "name": "save_weights",
+  "description": "Save network weights written as text. Full format: one line per row, `W1 row 3  -0.080 0.255 ...` (row = input unit) and `b1  0.1 -0.2 ...`. Sparse edits are applied on top of the currently saved weights: `W2[3,17] = 1.25`, `b1[4] = -0.5`, or a full replacement row `W2 row 3 <values>`.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "text": {
+     "type": "string",
+     "description": "Weights or edits in the format above."
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ }
+]

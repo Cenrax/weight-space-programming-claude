@@ -1,0 +1,40 @@
+15 jobs, 9 done, 6 to run; exp3 spent $12.212 (cap $25.0)
+[python-a4] lang='English' conf=0.35 correct=False ind=['3.0', '3.1', '3.4', '3.5'] (gt ['3.1']) prev=['0.3'] (gt ['0.3', '2.0']) turns=26 in=793026 out=41750 $1.311 stop=end_turn flags=1
+[romaji-a4] lang='English' conf=0.4 correct=False ind=['3.2'] (gt ['3.2']) prev=['0.2'] (gt ['0.2']) turns=40 in=1739885 out=53876 $1.843 stop=end_turn flags=1
+[english-a4] lang='English' conf=0.35 correct=True ind=['3.0', '3.2', '3.3'] (gt ['3.3']) prev=['0.0'] (gt ['0.0']) turns=38 in=1366377 out=41537 $1.438 stop=end_turn flags=1
+[python-a5] lang='English' conf=0.35 correct=False ind=['3.0', '3.1', '3.4', '3.5'] (gt ['3.1']) prev=['0.3'] (gt ['0.3', '2.0']) turns=28 in=1196441 out=63938 $1.962 stop=end_turn flags=1
+[romaji-a5] lang='English' conf=0.35 correct=False ind=['3.2'] (gt ['3.2']) prev=['0.2'] (gt ['0.2']) turns=25 in=781923 out=34952 $1.143 stop=end_turn flags=2
+[english-a5] lang='English' conf=0.4 correct=True ind=['3.3'] (gt ['3.3']) prev=['0.0', '0.1'] (gt ['0.0']) turns=27 in=828309 out=31900 $1.055 stop=end_turn flags=2
+exp3 spend $20.963
+exp3: done     15 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp3.json
+Python | 0/5 | English (5) | 0.33 | 0.25 | 1.00 | 3.1 | {3.0, 3.1, 3.4, 3.5} (5/5) | 0.60 | 0.30 | 0.3, 2.0 | {0.3} (3/5)
+Romaji | 0/5 | English (5) | 0.35 | 1.00 | 1.00 | 3.2 | {3.2} (5/5) | 1.00 | 1.00 | 0.2 | {0.2} (5/5)
+English | 5/5 | English (5) | 0.35 | 0.60 | 1.00 | 3.3 | {3.0, 3.2, 3.3} (3/5) | 0.90 | 1.00 | 0.0 | {0.0} (4/5)
+From the four middle blocks alone (no embeddings, no unembedding, no forward passes), Claude Opus 5.5 named the training language in 5/15 clean runs (Python 0/5; Romaji 0/5; English 5/5). Copying-head identification: mean F1 0.70 against the measured induction head of each model, with the top measured head picked in ≥2/3 attempts for 3/3 languages. Pre-registered verdict: partial. 0 run(s) flagged as no-forward-pass violations (reported separately). API cost $20.96.
+{
+ "language_correct": "5/15",
+ "c1_language": false,
+ "mean_induction_f1": 0.7,
+ "c2_f1_ge_0.67": true,
+ "langs_top1_hit_ge_2of3": [
+  "Python",
+  "Romaji",
+  "English"
+ ],
+ "c3_top1": true,
+ "verdict": "partial",
+ "mean_induction_auc": 1.0,
+ "mean_prevtoken_f1": 0.778,
+ "mean_prevtoken_auc": 0.89,
+ "mean_language_score_lenient": 0.333,
+ "violations": [],
+ "borderline": [],
+ "unreviewed": [
+  "20261108-004536-54f2-python-a4",
+  "20261108-004536-dc7a-romaji-a4",
+  "20261108-005546-8f71-english-a4",
+  "20261108-005628-7906-python-a5",
+  "20261108-010405-042b-romaji-a5",
+  "20261108-010824-85ad-english-a5"
+ ]
+}

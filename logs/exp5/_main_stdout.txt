@@ -1,0 +1,66 @@
+jobs: [('cartpole', 2), ('cartpole', 3), ('acrobot', 1), ('acrobot', 2), ('acrobot', 3), ('mountaincar', 1), ('mountaincar', 2), ('mountaincar', 3), ('lunarlander', 1), ('lunarlander', 2), ('lunarlander', 3), ('lunarlander', 4), ('lunarlander', 5), ('breakout', 1), ('breakout', 2), ('breakout', 3), ('breakout', 4), ('breakout', 5)]; exp5 spend so far $0.11
+[20261108-001534-ba93-cartpole-a2] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-001534-c431-cartpole-a3] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-001534-c431-cartpole-a3] done: in=13906 out=2438 cost=$0.104 stop=end_turn
+[20261108-001534-ba93-cartpole-a2] done: in=13906 out=2302 cost=$0.102 stop=end_turn
+[20261108-001534-c431-cartpole-a3] parse_ok=True return=500.00 success=1.0 agree=0.83764 (PPO-100k 495.33) 
+[20261108-001534-ba93-cartpole-a2] parse_ok=True return=500.00 success=1.0 agree=0.8348 (PPO-100k 495.33) 
+[20261108-001602-76f1-acrobot-a1] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-001602-a15e-acrobot-a2] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-001602-a15e-acrobot-a2] done: in=16414 out=13719 cost=$0.340 stop=end_turn
+[20261108-001602-a15e-acrobot-a2] parse_ok=True return=-283.45 success=0.84 agree=0.6576031517112807 (PPO-100k -90.78) 
+[20261108-001823-0d72-acrobot-a3] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-001823-0d72-acrobot-a3] done: in=16414 out=20512 cost=$0.476 stop=end_turn
+[20261108-001823-0d72-acrobot-a3] parse_ok=True return=-172.84 success=0.93 agree=0.5725959601772458 (PPO-100k -90.78) 
+[20261108-002153-03fe-mountaincar-a1] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-002153-03fe-mountaincar-a1] done: in=12777 out=2347 cost=$0.098 stop=end_turn
+[20261108-002153-03fe-mountaincar-a1] parse_ok=True return=-134.44 success=1.0 agree=0.9880987801249628 (PPO-100k -200.00) 
+[20261108-002220-c3a4-mountaincar-a2] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-002220-c3a4-mountaincar-a2] done: in=12777 out=23417 cost=$0.519 stop=end_turn
+[20261108-002220-c3a4-mountaincar-a2] parse_ok=True return=-110.08 success=1.0 agree=0.9961845930232558 (PPO-100k -200.00) 
+[20261108-002612-54e5-mountaincar-a3] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-001602-76f1-acrobot-a1] done: in=16414 out=64000 cost=$1.346 stop=max_tokens
+[20261108-001602-76f1-acrobot-a1] parse_ok=False return=-500.00 success=0.0 agree=None (PPO-100k -90.78) no WEIGHTS: block
+[20261108-002627-707f-lunarlander-a1] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-002627-707f-lunarlander-a1] done: in=17468 out=10750 cost=$0.285 stop=end_turn
+[20261108-002627-707f-lunarlander-a1] parse_ok=True return=249.95 success=0.94 agree=0.9468317247167436 (PPO-100k -1494.72) 
+[20261108-002810-4a08-lunarlander-a2] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-002810-4a08-lunarlander-a2] done: in=17468 out=14414 cost=$0.358 stop=end_turn
+[20261108-002810-4a08-lunarlander-a2] parse_ok=True return=251.35 success=0.94 agree=0.9072651854285597 (PPO-100k -1494.72) 
+[20261108-003028-21da-lunarlander-a3] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-002612-54e5-mountaincar-a3] done: in=12777 out=33111 cost=$0.713 stop=end_turn
+[20261108-002612-54e5-mountaincar-a3] parse_ok=True return=-103.73 success=1.0 agree=0.9532439988431505 (PPO-100k -200.00) 
+[20261108-003155-cf1c-lunarlander-a4] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-003028-21da-lunarlander-a3] done: in=17468 out=12776 cost=$0.325 stop=end_turn
+[20261108-003028-21da-lunarlander-a3] parse_ok=True return=260.57 success=0.95 agree=0.8971171539562461 (PPO-100k -1494.72) 
+[20261108-003226-2788-lunarlander-a5] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-003155-cf1c-lunarlander-a4] done: in=17468 out=14555 cost=$0.361 stop=end_turn
+[20261108-003155-cf1c-lunarlander-a4] parse_ok=True return=249.95 success=0.94 agree=0.9468317247167436 (PPO-100k -1494.72) 
+[20261108-003415-e509-breakout-a1] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-003226-2788-lunarlander-a5] done: in=17468 out=14019 cost=$0.350 stop=end_turn
+[20261108-003226-2788-lunarlander-a5] parse_ok=True return=253.61 success=0.94 agree=0.8811089619600257 (PPO-100k -1494.72) 
+[20261108-003441-2712-breakout-a2] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-003441-2712-breakout-a2] done: in=31899 out=3458 cost=$0.197 stop=end_turn
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-003415-e509-breakout-a1] done: in=31899 out=10466 cost=$0.337 stop=end_turn
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-003441-2712-breakout-a2] parse_ok=True return=24.47 success=None agree=None (PPO-100k 2.18) 
+[20261108-003625-6219-breakout-a3] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-003625-6219-breakout-a3] done: in=31899 out=10566 cost=$0.339 stop=end_turn
+[20261108-003415-e509-breakout-a1] parse_ok=True return=40.87 success=None agree=None (PPO-100k 2.18) 
+[20261108-003824-7ce1-breakout-a4] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-003824-7ce1-breakout-a4] done: in=31899 out=7139 cost=$0.270 stop=end_turn
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-003625-6219-breakout-a3] parse_ok=True return=27.05 success=None agree=None (PPO-100k 2.18) 
+[20261108-004219-f9b1-breakout-a5] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261108-004219-f9b1-breakout-a5] done: in=31899 out=4872 cost=$0.225 stop=end_turn
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-003824-7ce1-breakout-a4] parse_ok=True return=51.16 success=None agree=None (PPO-100k 2.18) 
+[20261108-004219-f9b1-breakout-a5] parse_ok=True return=25.52 success=None agree=None (PPO-100k 2.18) 
+exp5 spend $6.85

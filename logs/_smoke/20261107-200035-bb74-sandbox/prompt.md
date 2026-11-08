@@ -1,0 +1,1 @@
+The network is a linear map y = x @ W1 + b1 with W1 [2,1]. Set the weights so that y = 3*x0 - 2*x1 + 1, save them, verify with ONE forward_pass on [[1, 1]], then reply with the output value only.

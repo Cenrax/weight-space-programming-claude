@@ -1,0 +1,51 @@
+{
+ "env": "breakout",
+ "has_weights_block": true,
+ "unparsed_lines": [],
+ "parse_error": null,
+ "stop_reason": "end_turn",
+ "n_weight_lines": 10,
+ "nonzero": {
+  "changed": 10,
+  "total": 13586,
+  "frac": 0.0007360518180479906,
+  "per_tensor": {
+   "W1": 4,
+   "b1": 2,
+   "W2": 2,
+   "b2": 0,
+   "W3": 2,
+   "b3": 0
+  }
+ },
+ "ram_usage": {
+  "ram_bytes_used": [
+   72,
+   99
+  ],
+  "n_ram_bytes_used": 2,
+  "annotated": {
+   "72": "player_x",
+   "99": "ball_x"
+  },
+  "per_byte_l1": {
+   "72": 510.0,
+   "99": 510.0
+  }
+ },
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 24.47,
+  "std_return": 13.748785400899964,
+  "min_return": 5.0,
+  "max_return": 73.0,
+  "mean_length": 1066.47,
+  "outcomes": {
+   "terminated": 99,
+   "truncated": 1
+  },
+  "success_rate": null
+ }
+}

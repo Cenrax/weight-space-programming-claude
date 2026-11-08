@@ -1,0 +1,89 @@
+{
+ "env_id": "MountainCar-v0",
+ "env_kind": "pad8x4",
+ "arch": [
+  8,
+  32,
+  32,
+  4
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, zero-padded at the end to 8 dims; actions padded to 4 (CartPole: a%2; Acrobot/MountainCar: 3->1 no-op; LunarLander: identity)",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": "mc_energy",
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 256,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "potential-based energy shaping during training + fixed obs normalisation folded into W1/b1; eval on the true env",
+ "train_obs_norm_folded": {
+  "shift": [
+   -0.30000001192092896,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "scale": [
+   2.0,
+   15.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ]
+ },
+ "train_steps": 999424,
+ "eval_mean_return": -116.49,
+ "eval_std_return": 8.85945257902541,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -116.49,
+  "std_return": 8.85945257902541,
+  "min_return": -124.0,
+  "max_return": -85.0,
+  "mean_length": 116.49,
+  "outcomes": {
+   "flag": 100
+  },
+  "success_rate": 1.0
+ },
+ "wallclock_train_s": 493.8,
+ "eval_sampled_mean_return": -129.13,
+ "eval_sampled_std_return": 26.803602369830813,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": -129.13,
+  "std_return": 26.803602369830813,
+  "min_return": -182.0,
+  "max_return": -86.0,
+  "mean_length": 129.13,
+  "outcomes": {
+   "flag": 100
+  },
+  "success_rate": 1.0
+ },
+ "train_recent_mean_return": -119.02
+}

@@ -1,0 +1,31 @@
+{
+ "case": "mountaincar",
+ "has_edits_block": true,
+ "unparsed_edit_lines": [],
+ "parse_error": null,
+ "stop_reason": "end_turn",
+ "n_edit_lines": 133,
+ "diff": {
+  "changed": 262,
+  "total": 4547,
+  "frac": 0.05762040906091929,
+  "per_tensor": {
+   "W1": 2,
+   "b1": 1,
+   "W2": 63,
+   "b2": 1,
+   "W3": 192,
+   "b3": 3
+  }
+ },
+ "stats": {
+  "mean_return": -131.177734375,
+  "std_return": 32.821987502540786,
+  "mean_length": 131.177734375,
+  "outcomes": {
+   "flag": 1023,
+   "timeout": 1
+  },
+  "success_rate": 0.9990234375
+ }
+}

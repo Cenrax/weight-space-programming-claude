@@ -1,0 +1,40 @@
+30 jobs, 1 already done, 29 to run; spent $0.194 (cap $20.0)
+[main-breakout-a4] 'Breakout' class=breakout conf=0.72 correct=True in=36451 out=2084 $0.187 stop=end_turn
+[main-breakout-a3] 'Seaquest' class=other conf=0.4 correct=False in=36451 out=2150 $0.189 stop=end_turn
+[main-breakout-a2] 'Breakout' class=breakout conf=0.55 correct=True in=36451 out=3750 $0.221 stop=end_turn
+[main-breakout-a5] 'Breakout' class=breakout conf=0.7 correct=True in=36451 out=1728 $0.180 stop=end_turn
+[main-pong-a1] 'Pong' class=pong conf=0.85 correct=True in=36488 out=1748 $0.181 stop=end_turn
+[main-pong-a2] 'Pong' class=pong conf=0.85 correct=True in=36488 out=1488 $0.176 stop=end_turn
+[main-pong-a3] 'Pong' class=pong conf=0.85 correct=True in=36488 out=1558 $0.177 stop=end_turn
+[main-pong-a4] 'Pong' class=pong conf=0.8 correct=True in=36488 out=1449 $0.175 stop=end_turn
+[main-pong-a5] 'Pong' class=pong conf=0.85 correct=True in=36488 out=1697 $0.180 stop=end_turn
+[main-mspacman-a1] 'Breakout' class=breakout conf=0.15 correct=False in=36646 out=4369 $0.234 stop=end_turn
+[main-mspacman-a3] "Montezuma's Revenge" class=other conf=0.2 correct=False in=36646 out=3731 $0.221 stop=end_turn
+[main-mspacman-a2] 'Frostbite' class=other conf=0.15 correct=False in=36646 out=6704 $0.281 stop=end_turn
+[main-mspacman-a4] "Montezuma's Revenge" class=other conf=0.2 correct=False in=36646 out=3599 $0.219 stop=end_turn
+[main-freeway-a1] 'Freeway' class=freeway conf=0.7 correct=True in=36575 out=1282 $0.172 stop=end_turn
+[main-freeway-a2] 'Freeway' class=freeway conf=0.6 correct=True in=36575 out=1184 $0.170 stop=end_turn
+[main-freeway-a3] 'Freeway' class=freeway conf=0.75 correct=True in=36575 out=1471 $0.176 stop=end_turn
+[main-freeway-a4] 'Freeway' class=freeway conf=0.6 correct=True in=36575 out=1437 $0.175 stop=end_turn
+[main-freeway-a5] 'Freeway' class=freeway conf=0.6 correct=True in=36575 out=1186 $0.170 stop=end_turn
+[permuted-breakout-a1] 'Breakout' class=breakout conf=0.65 correct=True in=36451 out=1336 $0.173 stop=end_turn
+[permuted-breakout-a2] 'Breakout' class=breakout conf=0.6 correct=True in=36451 out=1701 $0.180 stop=end_turn
+[main-mspacman-a5] 'Asterix' class=other conf=0.15 correct=False in=36646 out=7802 $0.303 stop=end_turn
+[permuted-pong-a1] 'Pong' class=pong conf=0.85 correct=True in=36488 out=1693 $0.180 stop=end_turn
+[permuted-pong-a2] 'Pong' class=pong conf=0.8 correct=True in=36488 out=1373 $0.173 stop=end_turn
+[permuted-freeway-a1] 'Freeway' class=freeway conf=0.6 correct=True in=36575 out=1304 $0.172 stop=end_turn
+[permuted-freeway-a2] 'Freeway' class=freeway conf=0.75 correct=True in=36575 out=1384 $0.174 stop=end_turn
+[random_init-random_init-a1] 'untrained / random weights' class=random conf=0.85 correct=True in=36557 out=911 $0.164 stop=end_turn
+[random_init-random_init-a2] 'untrained / random weights' class=random conf=0.9 correct=True in=36244 out=805 $0.161 stop=end_turn
+[permuted-mspacman-a2] 'Breakout' class=breakout conf=0.3 correct=False in=36646 out=5750 $0.262 stop=end_turn
+[permuted-mspacman-a1] 'Breakout' class=breakout conf=0.25 correct=False in=36646 out=8344 $0.313 stop=end_turn
+exp1 spend $5.933
+exp1: done     30 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp1.json
+['Breakout', '4/5', '2/2', '0.56', 'Seaquest (1)', '27.52 vs 1.45', '1/15']
+['Pong', '5/5', '2/2', '0.84', '—', '-0.97 vs -20.32', '0/15']
+['Ms. Pac-Man', '0/5', '0/2', '0.17', 'Breakout (3)', '908.8 vs 272.3', '0/15']
+['Freeway', '5/5', '2/2', '0.65', '—', '28.69 vs 0', '0/15']
+['Random init (control)', '2/2 correct: untrained / random weights (0.85); untrained / random weights (0.9)', '', '', '', '', '']
+['Total', '14/20', '6/8', '', '', '', 'cost $5.93']
+With no tools and no candidate list, Claude Opus 5.5 named the right Atari game from the raw weights in 14/20 main and 6/8 hidden-unit-permuted attempts (games meeting the pre-registered >=3/5 bar: Breakout, Pong, Freeway; verdict: reads game identity from weights; most common answer Breakout in 9/28), and called 2/2 random-init controls untrained, for $5.93 in API cost.
+decision: {"games_read": ["Breakout", "Pong", "Freeway"], "verdict": "reads game identity from weights", "default_guess_flag": false, "most_common_answer": "Breakout (9/28)", "answer_counts_trained": {"Breakout": 9, "Seaquest": 1, "Pong": 7, "Frostbite": 1, "Montezuma's Revenge": 2, "Asterix": 1, "Freeway": 7}, "mean_conf_correct": 0.71, "mean_conf_wrong": 0.23}

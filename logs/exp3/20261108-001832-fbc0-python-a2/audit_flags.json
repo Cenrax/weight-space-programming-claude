@@ -1,0 +1,9 @@
+[
+ {
+  "turn": 9,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nQK={(l,h):(lambda a:a[0].T@a[1])(qk(l,h)) for l in range(4) for h in range(6)}\nOV={(l,h):ov(l,h) for l in range(4) for h in range(6)}\nfn=np.linalg.norm\ndef comp(A,B): return fn(A@B)/(fn(A)*fn(B))\n# baseline\nrng=np.random.default_rng(0)\nprint(\"K-comp (rows: later head b, cols: earlier head a)\")\nfor lb in range(1,4):\n  for hb in range(6):\n    row=[]\n    for la in range(lb):\n      for ha in range(6):\n        row.append(comp(QK[(lb,hb)],OV[(la,ha)]))\n    print(f\"{lb}.{hb}\",' '.join(f\"{x:.3f}\" for x in row))\n"
+ }
+]

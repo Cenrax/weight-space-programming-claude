@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231300-ec0d-permuted-square-a1",
+  "model": "claude-opus-5-5",
+  "condition": "permuted",
+  "target": "square",
+  "answer": "MNIST-like handwritten digits: thin white strokes forming digits, centred on a black background with a dark border",
+  "correct": false,
+  "confidence": 0.5,
+  "score": 0,
+  "tokens_in": 74316,
+  "tokens_out": 17744,
+  "cost_usd": 0.652144,
+  "timestamp": "2026-11-07T23:25:35+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 1,
+  "effort": "high",
+  "quantize": 0.001,
+  "perm_seed": 12,
+  "perm_max_abs_diff": 2.6226043701171875e-06,
+  "label": "Square (permuted) \u00b7 attempt 1",
+  "group": "Square (permuted)",
+  "reasoning_excerpt": "I'm reading the output bias first: the border values are strongly negative, so the background looks dark, while the center values sit near zero or above, which suggests the digit region is where the activity is. Then I'm checking the W3 rows for stroke-like patterns, such as a positive vertical band on the left in row 3 and a bottom-row positive response in row 2.\n\nNow I'm checking the remaining W3 rows for more negative and positive stroke placements, like a negative horizontal in row 11 and a negative vertical in row 2, to see whether the digit shapes repeat across the grid.\n\nNow I'm checking the bias values more closely as a mean image, since the rows of numbers look like they could be simple lines or rectangles rather than clean shapes.\n\nNow I'm reading the bias values row by row, with",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "................\n................\n....######......\n...########.....\n...##....###....\n.........###....\n.......####.....\n......####......\n.........###....\n..........##....\n..........##....\n...##....###....\n...########.....\n....######......\n................\n................",
+  "drawing_judge": {
+    "pred": "circle",
+    "scores": {
+      "circle": 0.4667,
+      "square": 0.4314,
+      "triangle": 0.4227
+    },
+    "variant": "filled",
+    "on_pixels": 56
+  }
+}

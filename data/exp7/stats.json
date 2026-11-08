@@ -1,0 +1,86 @@
+{
+  "train": {
+    "n": 2508,
+    "user_correct_frac": 0.2982,
+    "by_source": {
+      "capital": 104,
+      "arith": 700,
+      "arith_mc": 700,
+      "arc_easy": 900,
+      "capital_mc": 104
+    },
+    "by_kind": {
+      "short_text": 104,
+      "short_num": 700,
+      "mc_num": 853,
+      "mc_alpha": 851
+    },
+    "by_template": {
+      "after": 1255,
+      "before": 1253
+    },
+    "user_correct_frac_by_kind": {
+      "mc_alpha": 0.2479,
+      "mc_num": 0.2521,
+      "short_num": 0.4057,
+      "short_text": 0.3654
+    }
+  },
+  "val": {
+    "n": 234,
+    "user_correct_frac": 0.3034,
+    "by_source": {
+      "arc_easy": 80,
+      "capital_mc": 12,
+      "arith_mc": 60,
+      "arith": 70,
+      "capital": 12
+    },
+    "by_kind": {
+      "mc_num": 74,
+      "mc_alpha": 78,
+      "short_num": 70,
+      "short_text": 12
+    },
+    "by_template": {
+      "after": 116,
+      "before": 118
+    },
+    "user_correct_frac_by_kind": {
+      "mc_alpha": 0.2051,
+      "mc_num": 0.2973,
+      "short_num": 0.4429,
+      "short_text": 0.1667
+    }
+  },
+  "test": {
+    "n": 462,
+    "user_correct_frac": 0.3052,
+    "by_source": {
+      "arc_easy": 150,
+      "arith_mc": 120,
+      "arith": 150,
+      "capital_mc": 21,
+      "capital": 21
+    },
+    "by_kind": {
+      "mc_alpha": 144,
+      "mc_num": 147,
+      "short_num": 150,
+      "short_text": 21
+    },
+    "by_template": {
+      "after": 232,
+      "before": 230
+    },
+    "user_correct_frac_by_kind": {
+      "mc_alpha": 0.2639,
+      "mc_num": 0.2381,
+      "short_num": 0.3933,
+      "short_text": 0.4286
+    }
+  },
+  "replay_train": {
+    "n": 400
+  }
+}

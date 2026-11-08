@@ -1,0 +1,4 @@
+I'm checking the network's weights to see if it was actually trained: the output layer has a strong anti-correlation between columns 0 and 2, while columns 1 and 3 sit near zero, and the biases are small but nonzero. That suggests training happened but may only be using actions 0 and 2, so I'm going through the LunarLander action mapping, where 0 is noop and 1 is the left engine.
+
+I'm weighing whether this could be a weakly trained LunarLander policy, since choosing only between noop and main engine seems odd, and I'm also considering an alternative 8-dimensional environment but judging LunarLander the likelier match. Looking at the first-layer weights, the position and vertical-velocity rows and the leg-contact rows look reasonable, and the hidden weights look like early, briefly trained values, so I'm settling on roughly 0.8 confidence.
+

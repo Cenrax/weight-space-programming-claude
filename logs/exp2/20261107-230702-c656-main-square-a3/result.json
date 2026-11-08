@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-230702-c656-main-square-a3",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "square",
+  "answer": "A single solid white axis-aligned rectangle (filled box) of varying size and position on a black background, roughly centred with a dark border margin.",
+  "correct": true,
+  "confidence": 0.6,
+  "score": 1,
+  "tokens_in": 74316,
+  "tokens_out": 9322,
+  "cost_usd": 0.483704,
+  "timestamp": "2026-11-07T23:25:29+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 3,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Square \u00b7 attempt 3",
+  "group": "Square",
+  "reasoning_excerpt": "I'm reasoning from the weights alone, and the output bias says the borders are strongly negative while the middle of the image sits positive, so this looks like a dark background with bright content centered in it, maybe digit-like or simple shapes. I'm about to look at the rows of W3 for stroke-like features, starting with row 1.\n\nI'm going through the rows of W3 and noticing that many of them look like single straight strokes: vertical lines at columns 14, 4, 2 and 10, and horizontal lines at rows 12, 13, 5, 6, 3 and 4, some positive and some negative. That makes me wonder whether the images are outlines or rectangles, or simple segment-style digits.\n\nI'm checking the bias values row by row, and two columns in row 3 (11 and 13) stand out as strongly positive, which hints at two parallel ",
+  "text_label": "square",
+  "labels_mentioned": [
+    "square"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n................\n................\n....########....\n....########....\n....########....\n....########....\n....########....\n....########....\n....########....\n....########....\n....########....\n................\n................\n................\n................",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.8312,
+      "square": 1.0,
+      "triangle": 0.7317
+    },
+    "variant": "filled",
+    "on_pixels": 72
+  }
+}

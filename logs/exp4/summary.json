@@ -1,0 +1,122 @@
+{
+ "summary": "With one reply, no tools and no rollouts, Opus 5.5's weight edits moved success from MountainCar 0% → best 100.0% (median 99.9%, 5/5 attempts ≥ 90%); LunarLander 0% → best 85.6% (median 84.9%, 0/5 attempts ≥ 90%) over 1024 seeded episodes; every attempt did this by wiring repurposed hidden units into a known textbook controller (push in the direction of velocity; Gymnasium's own LunarLander heuristic, recalled from memory) that overrides the learned policy (total API cost $3.14).",
+ "table": {
+  "caption": "Success over 1024 seeded greedy episodes (seeds 10000–11023), 5 one-shot attempts per case",
+  "columns": [
+   "Case",
+   "Before (unedited)",
+   "After: best",
+   "After: median",
+   "Attempts ≥ 90%",
+   "% weights changed (best)",
+   "% weights changed (median)",
+   "Mean return before → best",
+   "Hand-coded heuristic"
+  ],
+  "rows": [
+   [
+    "MountainCar",
+    "0.0%",
+    "100.0%",
+    "99.9%",
+    "5/5",
+    "1.5%",
+    "5.8%",
+    "-200.0 → -119.6",
+    "100.0%"
+   ],
+   [
+    "LunarLander",
+    "0.0%",
+    "85.6%",
+    "84.9%",
+    "0/5",
+    "19.2%",
+    "19.2%",
+    "-119.0 → 249.5",
+    "80.3%"
+   ]
+  ]
+ },
+ "media": [
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp4_mountaincar_fail.gif",
+   "group": "MountainCar",
+   "caption": "Before: the unedited policy (MountainCar, seed 10000), 0% success."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp4_claude_mountaincar.gif",
+   "group": "MountainCar",
+   "caption": "After: Opus 5.5's best edit (MountainCar · attempt 1), seed 10000, episode return -124.0; 100.0% success over 1024 episodes, 1.5% of weights changed."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp4_lunarlander_hover.gif",
+   "group": "LunarLander",
+   "caption": "Before: the unedited policy (LunarLander, seed 10000), 0% success."
+  },
+  {
+   "type": "gif",
+   "src": "assets/gifs/exp4_claude_lunarlander.gif",
+   "group": "LunarLander",
+   "caption": "After: Opus 5.5's best edit (LunarLander · attempt 1), seed 10000, episode return 264.2; 85.6% success over 1024 episodes, 19.2% of weights changed."
+  }
+ ],
+ "charts": [
+  {
+   "type": "bar",
+   "title": "MountainCar: success rate per attempt",
+   "subtitle": "1024 seeded greedy episodes; success = reaches the flag",
+   "unit": "% success",
+   "categories": [
+    "attempt 1",
+    "attempt 2",
+    "attempt 3",
+    "attempt 4",
+    "attempt 5"
+   ],
+   "series": [
+    {
+     "name": "Opus 5.5 edit",
+     "values": [
+      100.0,
+      99.9,
+      99.9,
+      99.9,
+      99.9
+     ]
+    }
+   ],
+   "caption": "Unedited network: 0.0%. Hand-coded heuristic, push in the direction of velocity (`2 if v >= 0 else 0`): 100.0%."
+  },
+  {
+   "type": "bar",
+   "title": "LunarLander: success rate per attempt",
+   "subtitle": "1024 seeded greedy episodes; success = lands between the flags",
+   "unit": "% success",
+   "categories": [
+    "attempt 1",
+    "attempt 2",
+    "attempt 3",
+    "attempt 4",
+    "attempt 5"
+   ],
+   "series": [
+    {
+     "name": "Opus 5.5 edit",
+     "values": [
+      85.6,
+      84.9,
+      72.7,
+      67.7,
+      85.0
+     ]
+    }
+   ],
+   "caption": "Unedited network: 0.0%. Hand-coded heuristic, Gymnasium's discrete `lunar_lander.heuristic`: 80.3%."
+  }
+ ],
+ "total_cost_usd": 3.1434
+}

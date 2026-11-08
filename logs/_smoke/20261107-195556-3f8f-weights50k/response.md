@@ -1,0 +1,1 @@
+**128 inputs, 2 hidden layers of 64 tanh units each, 18 outputs, and it looks randomly initialized rather than trained.** Every layer's weights and biases sit uniformly inside ±1/√fan_in (about ±0.088 for the 128-input layer, ±0.125 for the 64-input layers), which matches PyTorch's default initialization, with no outliers or structure.

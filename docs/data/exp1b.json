@@ -1,0 +1,838 @@
+{
+  "exp_id": "exp1b",
+  "title": "Read: which classic-control task?",
+  "status": "done",
+  "summary": "v1 (all nets padded to 8 inputs/4 actions, LunarLander's native shape): Claude Opus 5.5 named the right environment from the raw weights in 7/20 main and 2/8 permuted attempts, answering LunarLander in 26/28. v2 (padded to 10 inputs/5 actions, chosen to avoid any classic-control shape, but it turned out to match PettingZoo MPE simple_adversary's good agent): 6/20 main and 1/8 permuted correct, most common answer MPE simple_adversary (21/28) at low confidence (mean 0.35 on wrong answers vs 0.67 on right ones). Every response that inferred padding was right (7/7) and every one that did not was wrong (0/21). The pre-registered bar for reading the weights beyond the shape (>= 10/20 and >= 3/5 on two non-LunarLander nets) was not met. Random-init controls were called untrained in 3/3 (v1) and 3/3 (v2). Total API cost $4.79.",
+  "table": {
+    "caption": "Correct / attempts per network, no tools, no candidate list. Grading pre-registered in experiments/exp1b/GRADING.md (v1 and v2 sections).",
+    "columns": [
+      "Network",
+      "v1 main",
+      "v1 permuted",
+      "v1 most common wrong answer",
+      "v2 main",
+      "v2 permuted",
+      "v2 mean confidence (main)",
+      "v2 most common wrong answer"
+    ],
+    "rows": [
+      [
+        "CartPole",
+        "0/5",
+        "0/2",
+        "LunarLander (7)",
+        "0/5",
+        "0/2",
+        "0.40",
+        "MPE simple_adversary (7)"
+      ],
+      [
+        "Acrobot",
+        "0/5",
+        "0/2",
+        "LunarLander (7)",
+        "4/5",
+        "0/2",
+        "0.60",
+        "MPE simple_adversary (3)"
+      ],
+      [
+        "MountainCar",
+        "2/5",
+        "0/2",
+        "LunarLander (5)",
+        "2/5",
+        "1/2",
+        "0.40",
+        "MPE simple_adversary (4)"
+      ],
+      [
+        "LunarLander",
+        "5/5",
+        "2/2",
+        "\u2014",
+        "0/5",
+        "0/2",
+        "0.37",
+        "MPE simple_adversary (7)"
+      ],
+      [
+        "Random init (control)",
+        "3/3 called untrained (confidence 0.85, 0.85, 0.85)",
+        "",
+        "",
+        "3/3 called untrained (confidence 0.85, 0.8, 0.8)",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Total",
+        "7/20",
+        "2/8",
+        "cost $1.65",
+        "6/20",
+        "1/8",
+        "",
+        "cost $3.13"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "CartPole \u00b7 attempt 1",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2 or v3, discrete actions)\n2. **Confidence:** about 0.85\n3. **Reasoning from the weights:**\n\n**Interface match.** An 8-dimensional observation with 4 discrete actions is the signature of LunarLander.\n- The 8 inputs are x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n- The 4 actions are no-op, fire left engine, fire main engine and fire right engine.\n- No other common benchmark has this shape. CartPole is 4\u21922, Acrobot is 6\u21923, MountainCar is 2\u21923, and Atari environments have far larger inputs.\n\n**Trained, not random.**\n- **Coordinated output layer.** Across all 32 rows of W3, columns 0 and 2 have the same sign and similar size. Columns 1 and 3 always take the opposite sign. For example:\n  - row 0 is \u22120.131, +0.134,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole",
+      "log_path": "logs/exp1b/20261107-230328-main-cartpole-a1"
+    },
+    {
+      "label": "CartPole \u00b7 attempt 2",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions)\n2. **Confidence:** about 0.8\n3. **Reasoning from the weights:**\n\n**Interface match.**\n- The network takes 8 inputs and outputs 4 discrete actions chosen by argmax. That is exactly LunarLander's interface.\n- The 8 inputs would be x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n- The 4 actions would be noop, fire left engine, fire main engine and fire right engine.\n- I know of no other widely used benchmark with an 8-dimensional observation and 4 discrete actions.\n\n**Signs the network was trained rather than random.**\n- **Non-zero biases:** all biases are small but non-zero (about \u00b10.01\u20130.02). Standard initialisations (e.g. Stable-Baselines3's orthogonal init) set biases to exactly zero, so\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole",
+      "log_path": "logs/exp1b/20261107-230655-main-cartpole-a2"
+    },
+    {
+      "label": "CartPole \u00b7 attempt 3",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2 or v3, discrete actions).\n2. **Confidence:** about 0.85.\n3. **Reasoning:**\n\n**Interface match.** The network takes an 8-dimensional observation and outputs 4 discrete actions chosen by argmax. Among standard RL benchmarks, this matches only LunarLander.\n- Its observation is x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n- Its actions are noop, fire left engine, fire main engine and fire right engine.\n- The other common discrete benchmarks do not fit: CartPole is 4\u21922, Acrobot is 6\u21923, MountainCar is 2\u21923.\n\n**Evidence of training rather than random initialization.** The output layer W3 is highly structured.\n- For nearly every hidden unit, the weights to logits 0 and 2 have the same sign and similar size. The\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole",
+      "log_path": "logs/exp1b/20261107-230655-main-cartpole-a3"
+    },
+    {
+      "label": "CartPole \u00b7 attempt 4",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions)\n\n2. **Confidence:** about 0.85\n\n3. **Reasoning from the weights:**\n\n- **Interface match.** The network takes 8 inputs and produces 4 discrete actions chosen by argmax. LunarLander matches this exactly:\n  - 8 observations: x, y, vx, vy, angle, angular velocity, left-leg contact, right-leg contact.\n  - 4 actions: no-op, fire left engine, fire main engine, fire right engine.\n  \n  No other common benchmark has this signature. CartPole is 4\u21922 and Acrobot is 6\u21923.\n\n- **The weights look trained, not random.**\n  - The output layer W3 is highly structured. Columns 0 and 2 move together across nearly every hidden unit, and columns 1 and 3 move together with the opposite sign. For example, row 24 is (0.183, \u22120.162, 0.157, \u22120.172)\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole",
+      "log_path": "logs/exp1b/20261107-230655-main-cartpole-a4"
+    },
+    {
+      "label": "CartPole \u00b7 attempt 5",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.9,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n\n2. **Confidence:** about 0.9.\n\n3. **Reasoning from the weights:**\n\n- **Interface match.** The network takes 8 inputs and outputs 4 discrete actions chosen by argmax. LunarLander matches this exactly:\n  - The 8 observations are x, y, vx, vy, angle, angular velocity, and two leg-contact flags.\n  - The 4 actions are no-op, fire left engine, fire main engine, and fire right engine.\n  - No other common benchmark has this 8\u21924 discrete interface.\n\n- **The weights look trained, not random.**\n  - The biases are small but nonzero (about \u00b10.02). Freshly initialized networks usually have exactly zero biases.\n  - The output layer W3 is strongly structured. In every row, columns 0 and 2 share a sign, and columns 1 and 3 share the\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole",
+      "log_path": "logs/exp1b/20261107-230655-main-cartpole-a5"
+    },
+    {
+      "label": "Acrobot \u00b7 attempt 1",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.75,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.75.\n3. **Reasoning from the weights:**\n\n- **Interface fit.** The network takes 8 inputs and outputs 4 discrete action logits. Among the standard benchmarks, LunarLander matches this exactly:\n  - The 8 observations are x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n  - The 4 actions are no-op, fire left engine, fire main engine and fire right engine.\n  - The other classic-control tasks don't fit: CartPole has 4 inputs and 2 actions, Acrobot 6 and 3, MountainCar 2 and 3.\n\n- **Trained, not random.**\n  - The output matrix W3 is highly structured. Columns 0 and 2 have magnitudes around 0.15\u20130.22 and are almost perfectly anti-correlated: a positive weight in one\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp1b/20261107-230708-main-acrobot-a1"
+    },
+    {
+      "label": "Acrobot \u00b7 attempt 2",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.75,
+      "reasoning_excerpt": "**1. Environment:** LunarLander (Gymnasium/Gym LunarLander-v2/v3, discrete actions).\n\n**2. Confidence:** about 0.75.\n\n**3. Reasoning from the weights:**\n\n- **Interface match.** The input is 8-dimensional and there are 4 discrete actions chosen by argmax. That matches LunarLander's observation (x, y, vx, vy, angle, angular velocity, left-leg contact, right-leg contact). Its four actions are noop, fire left engine, fire main engine and fire right engine. Very few standard benchmarks have exactly 8 inputs and 4 discrete actions.\n\n- **Evidence of training.** The output layer W3 is strongly structured rather than random.\n  - In nearly every row, the column-0 and column-2 weights are about \u00b10.15\u20130.22 with opposite signs.\n  - The column-1 and column-3 weights are nearly zero (|w| < 0.05).\n  - A\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp1b/20261107-230708-main-acrobot-a2"
+    },
+    {
+      "label": "Acrobot \u00b7 attempt 3",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.85.\n3. **Reasoning from the weights:**\n\n- **Input and output sizes.** The network takes 8 inputs and produces 4 discrete action logits. Among standard RL benchmarks, this signature fits LunarLander. Its observation is x, y, vx, vy, angle, angular velocity, and two leg-contact flags. Its actions are no-op, fire left engine, fire main engine, and fire right engine. CartPole (4 inputs, 2 actions), Acrobot (6 inputs, 3 actions) and MountainCar (2 inputs, 3 actions) do not fit.\n\n- **The network is trained, not random.**\n  - The output layer W3 is strongly structured. Column 0 (no-op) and column 2 (main engine) are almost exact mirror images of each other, with values around \u00b10.15\u20130.22 and\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp1b/20261107-230709-main-acrobot-a3"
+    },
+    {
+      "label": "Acrobot \u00b7 attempt 4",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.85.\n3. **Reasoning from the weights:**\n\n- **Interface match.** The network takes an 8-dimensional input and outputs 4 discrete actions chosen by argmax. That fits LunarLander exactly. Its observation is x, y, vx, vy, angle, angular velocity, and two leg-contact flags. Its actions are no-op, fire left engine, fire main engine, and fire right engine. Few other common benchmarks have this 8-in / 4-out discrete signature.\n\n- **The network has been trained, not left random.** The output layer is highly structured, which random initialisation would not produce.\n  - In almost every row of W3, the weight to action 0 is roughly the negative of the weight to action 2. Examples: row 0 is \u22120.190 /\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp1b/20261107-230710-main-acrobot-a4"
+    },
+    {
+      "label": "Acrobot \u00b7 attempt 5",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (discrete, v2/v3)\n2. **Confidence:** about 0.8\n3. **Reasoning from the weights:**\n\n- **Input and output sizes.** The network takes 8 inputs and gives 4 discrete actions, which matches LunarLander's interface exactly. LunarLander's observation is x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact. Its actions are noop, fire left engine, fire main engine and fire right engine. I can't think of another standard benchmark with an 8-dimensional input and 4 discrete actions.\n\n- **The network is trained, not random.** The output layer W3 is highly structured. Columns 0 and 2 have large weights (about \u00b10.15\u20130.22) that are almost exact negatives of each other in every row. Columns 1 and 3 have shrunk to near zero. The output biases are\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp1b/20261107-230720-main-acrobot-a5"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 1",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.8.\n3. **Reasoning from the weights:**\n\n- **Interface:** the network takes an 8-dimensional observation and outputs 4 discrete actions. Among standard benchmarks, LunarLander is the main environment with that signature. Its observation is x, y, vx, vy, angle, angular velocity, and two leg-contact flags. Its actions are no-op, left engine, main engine and right engine.\n\n- **Not random:** the weights are clearly trained.\n  - W1 row 1 has weights of magnitude 4\u201317, far beyond any standard initialisation.\n  - W3 has strong, near-perfectly anti-correlated columns 0 and 2, with columns 1 and 3 near zero. Random weights would not show this structure.\n\n- **Fit to LunarLander semantics:**\n  - Input 1\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar",
+      "log_path": "logs/exp1b/20261107-230721-main-mountaincar-a1"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 2",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment: LunarLander** (LunarLander-v2/v3, discrete actions).\n2. **Confidence: about 0.8.**\n3. **Reasoning from the weights:**\n\n**Interface match.** The input is 8-dimensional and there are 4 discrete actions. That is exactly LunarLander's interface:\n- Observation: x, y, vx, vy, angle, angular velocity, and two leg-contact flags.\n- Actions: noop, fire left engine, fire main engine, fire right engine.\n\nNo other common benchmark has this 8-in, 4-out signature.\n\n**The weights are not random.**\n- **W1:** Row 1 (input index 1) has very large weights, from about \u00b12.5 up to \u00b117. Every other input row is small, roughly within \u00b10.6. Random initialization would not single out one input this sharply. The network has learned to rely almost entirely on input 1, which in LunarLander is the\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar",
+      "log_path": "logs/exp1b/20261107-230722-main-mountaincar-a2"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 3",
+      "answer": "MountainCar-v0",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "1. **Environment:** MountainCar-v0, most likely embedded in a padded 8-input, 4-action interface.\n2. **Confidence:** about 0.6.\n3. **Reasoning from the weights:**\n\n**The network is trained, not random.**\n- Input row 1 of W1 has weights of magnitude 4\u201317, while every other input row stays around 0.5 or less.\n- The output layer has a clear, structured contrast between two logits.\n- Random initialisation produces neither pattern.\n\n**Only one input really matters, and it must be small in scale.**\n- Weights of 10\u201317 on input 1 saturate the tanh units as soon as that input moves slightly away from zero.\n- So the first layer effectively computes the sign of input 1.\n- Weights this large usually mean the feature itself has tiny magnitude. MountainCar's velocity, which lies in \u00b10.07, is the\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar",
+      "log_path": "logs/exp1b/20261107-230722-main-mountaincar-a3"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 4",
+      "answer": "MountainCar-v0",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment:** MountainCar-v0. The observation appears zero-padded to 8 dimensions and the action space padded to 4.\n2. **Confidence:** about 0.8.\n3. **Reasoning:** The 8 \u2192 4 shape points first to LunarLander, the standard 8-dimensional, 4-action benchmark. The weights do not fit it.\n\n**First layer: only one input really matters**\n- Input 1 has very large weights, mostly between 5 and 17 in magnitude (e.g. 9.997, -17.131, -16.462, 12.833, -13.633).\n- Input 0 has moderate weights, around 0.1 to 1.2.\n- Inputs 2\u20137 have small weights (|w| < 0.62). They look like they barely moved from initialization, as if those inputs were always zero.\n- In LunarLander all eight inputs carry information: position, velocity, angle, angular velocity and the two leg contacts. Input 1 there is the\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar",
+      "log_path": "logs/exp1b/20261107-230733-main-mountaincar-a4"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 1",
+      "answer": "LunarLander",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions)\n2. **Confidence:** about 0.85\n3. **Reasoning from the weights**\n\n- **Interface match.** The network takes an 8-dimensional observation and outputs 4 discrete actions chosen by argmax. That signature matches LunarLander almost uniquely among common benchmarks. Its observation is x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact. Its actions are noop, fire left engine, fire main engine and fire right engine.\n\n- **The weights look trained, not random.**\n  - The first-layer weights are not uniformly spread. Row 4 has the largest magnitudes (|w| up to about 1.05), with rows 3 and 5 next. Under LunarLander's ordering these are angle, vertical velocity and angular velocity, which are the most\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander",
+      "log_path": "logs/exp1b/20261107-230736-main-lunarlander-a1"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 5",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.8.\n3. **Reasoning from the weights:**\n\n**Interface.** The network takes 8 inputs and outputs 4 discrete action logits. Among standard benchmarks, that matches LunarLander:\n- Observations: x, y, vx, vy, angle, angular velocity, left-leg contact, right-leg contact.\n- Actions: 0 = do nothing, 1 = fire left engine, 2 = fire main engine, 3 = fire right engine.\n\nCartPole, Acrobot and MountainCar have different input and output sizes, and FrozenLake one-hot inputs would be 16-dimensional.\n\n**The weights look trained, not random.**\n- **First layer:** row 1 (input 1, the y-position) has very large weights, with magnitudes of about 2\u201317. Every other input row stays around \u00b10.6 or less. Random\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar",
+      "log_path": "logs/exp1b/20261107-230736-main-mountaincar-a5"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 2",
+      "answer": "LunarLander-v2",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions)\n2. **Confidence:** about 0.85\n3. **Reasoning from the weights:**\n\n**Interface match.** An 8-dimensional observation with 4 discrete actions fits LunarLander almost uniquely among standard benchmarks.\n- The 8 inputs would be x, y, vx, vy, angle, angular velocity, left leg contact and right leg contact.\n- The 4 actions would be: do nothing, fire left engine, fire main engine, fire right engine.\n\n**Input-layer structure fits the lander's physics.** The rows for input 4 (angle) and input 5 (angular velocity) have the largest weights in W1, reaching about \u00b11.0. Their signs are strongly correlated across hidden units:\n- unit 9: \u22120.585 and \u22121.014\n- unit 14: 0.466 and 0.618\n- unit 29: 0.611 and 0.604\n- unit 16: \u22120.282 and\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander",
+      "log_path": "logs/exp1b/20261107-230744-main-lunarlander-a2"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 3",
+      "answer": "LunarLander-v2",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (discrete actions, LunarLander-v2/v3).\n2. **Confidence:** about 0.85.\n3. **Reasoning from the weights:**\n\n**Interface match.** The network takes 8 inputs and outputs 4 discrete actions chosen by argmax. That is exactly the LunarLander interface.\n- The 8 observations are x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n- The 4 actions are noop, fire left engine, fire main engine and fire right engine.\n- Few other standard benchmarks have this 8\u21924 discrete shape.\n\n**First-layer input importance looks physically sensible.**\n- Row 4 (angle) has the largest weights overall, e.g. 1.046, 0.790, 0.774, \u22120.792, 0.750.\n- Row 5 (angular velocity) and row 3 (vertical velocity) are also strong, e.g. \u22121.014, \u22120.900, \u22120.850, 0.733.\n- These\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander",
+      "log_path": "logs/exp1b/20261107-230746-main-lunarlander-a3"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 4",
+      "answer": "LunarLander-v2",
+      "correct": true,
+      "confidence": 0.88,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (v2/v3, discrete actions)\n2. **Confidence:** about 0.88\n3. **Reasoning from the weights:**\n\n- **Shape match.** The network takes 8 inputs and outputs 4 discrete actions. That is exactly LunarLander's interface.\n  - Inputs: x, y, vx, vy, angle, angular velocity, left-leg contact, right-leg contact.\n  - Actions: noop, fire left engine, fire main engine, fire right engine.\n  - No other common benchmark has this 8-in, 4-action discrete layout.\n\n- **The weights look trained, not random.**\n  - **Uneven input rows.** With a standard random initialisation, every input row would have a similar norm. Here they differ a lot. Rough estimates:\n\n    | Input row | Meaning | Typical weights | Approx. norm |\n    |---|---|---|---|\n    | 4 | angle | up to 1.05 | ~2.8 |\n    |\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander",
+      "log_path": "logs/exp1b/20261107-230750-main-lunarlander-a4"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 5",
+      "answer": "LunarLander",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions)\n2. **Confidence:** about 0.9\n3. **Reasoning from the weights:**\n\n**Input and output sizes.** The network takes an 8-dimensional observation and outputs 4 discrete actions. That matches LunarLander exactly:\n- The observation is x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n- The actions are noop, fire left engine, fire main engine and fire right engine.\n- No other common benchmark has this 8 \u2192 4 discrete signature.\n\n**The weights look trained, not random.**\n- **Input 4 (angle) has the largest weights.** Row 4 of the first layer includes 1.046, 0.790, 0.774, 0.750, -0.792 and -0.774. Input 5 (angular velocity) is also strong, including -1.014, 0.618 and 0.604. Input 3 (vertical velocity)\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander",
+      "log_path": "logs/exp1b/20261107-230751-main-lunarlander-a5"
+    },
+    {
+      "label": "CartPole (permuted) \u00b7 attempt 1",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.85.\n3. **Reasoning:**\n\n- **Input and output sizes.** The network takes 8 inputs and produces 4 discrete actions. That matches LunarLander's observation: x, y, vx, vy, angle, angular velocity, and two leg-contact flags. Its actions are noop, left engine, main engine and right engine. No other common benchmark has exactly 8 inputs and 4 discrete actions.\n\n- **The network was trained, not left at initialization.** The output layer W3 is clearly structured. In almost every row, logits 0 and 2 share one sign and logits 1 and 3 share the opposite sign, with similar magnitudes. Examples:\n  - row 7: +0.150, \u22120.146, +0.139, \u22120.132\n  - row 29: +0.183, \u22120.162, +0.157, \u22120.172\n\n  Independent random\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole",
+      "log_path": "logs/exp1b/20261107-230757-permuted-cartpole-a1"
+    },
+    {
+      "label": "CartPole (permuted) \u00b7 attempt 2",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (v2/v3, discrete actions)\n2. **Confidence:** about 0.85\n3. **Reasoning from the weights:**\n\n- **Input/output shape.** The network takes an 8-dimensional observation and outputs 4 discrete actions. Among widely used RL benchmarks, LunarLander is the standard match. Its observation is x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact. Its actions are no-op, fire left engine, fire main engine and fire right engine. Few other standard benchmarks have this 8\u21924 interface.\n\n- **Evidence that it was trained.** The output layer is strongly structured rather than random:\n  - Logits 0 and 2 have nearly the same sign pattern in every row.\n  - Logits 1 and 3 share the opposite sign pattern. For example, row 29 is +0.183, \u22120.162, +0.157,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole",
+      "log_path": "logs/exp1b/20261107-230757-permuted-cartpole-a2"
+    },
+    {
+      "label": "Acrobot (permuted) \u00b7 attempt 1",
+      "answer": "LunarLander-v2",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions)\n2. **Confidence:** about 0.85\n3. **Reasoning from the weights:**\n\n**Input and output sizes.** The network takes 8 inputs and produces 4 discrete actions. That is exactly LunarLander's interface:\n- Observations: x, y, vx, vy, angle, angular velocity, left-leg contact, right-leg contact.\n- Actions: noop, fire left engine, fire main engine, fire right engine.\n\nFew common benchmarks match 8 inputs and 4 discrete actions.\n\n**Trained, not random.** The output layer W3 is clearly structured, which random initialisation would not produce:\n- Columns 0 and 2 have large weights of roughly \u00b10.15\u20130.22. They are almost perfectly anti-correlated in every row, e.g. row 0 is +0.216 / \u22120.201 and row 1 is \u22120.187 / +0.177.\n- Columns 1 and\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp1b/20261107-230803-permuted-acrobot-a1"
+    },
+    {
+      "label": "Acrobot (permuted) \u00b7 attempt 2",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.85.\n3. **Reasoning from the weights:**\n\n**The input/output shape points to LunarLander.**\n- The network takes 8 inputs and produces 4 discrete action logits.\n- Among standard RL benchmarks, that signature belongs to LunarLander.\n  - The 8 observations are x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n  - The 4 actions are noop, fire left engine, fire main engine and fire right engine.\n- The other classic-control tasks do not fit:\n  - CartPole has 4 inputs and 2 actions.\n  - Acrobot has 6 inputs and 3 actions.\n  - MountainCar has 2 inputs and 3 actions.\n\n**The weights do not look random.**\n- In the output layer W3, logit columns 0 and 2 have large magnitudes\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot",
+      "log_path": "logs/exp1b/20261107-230803-permuted-acrobot-a2"
+    },
+    {
+      "label": "MountainCar (permuted) \u00b7 attempt 1",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (v2/v3, discrete actions).\n2. **Confidence:** about 0.85.\n3. **Reasoning from the weights:**\n\n- **Interface:** the network takes 8 inputs and outputs 4 discrete actions. Among standard RL benchmarks, that signature belongs to LunarLander. Its observation is x, y, vx, vy, angle, angular velocity and two leg-contact flags. Its actions are no-op, fire left engine, fire main engine and fire right engine. CartPole has 4 inputs and 2 actions, Acrobot 6 and 3, MountainCar 2 and 3. FrozenLake, Taxi and CliffWalking have 4 actions, but they use discrete inputs, not an 8-dimensional vector.\n\n- **Clearly trained, not random:**\n  - W1 row 1 has huge weights, up to about \u00b117. All other input rows stay within roughly \u00b10.8, which is what initialization scale would look\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar",
+      "log_path": "logs/exp1b/20261107-230807-permuted-mountaincar-a1"
+    },
+    {
+      "label": "MountainCar (permuted) \u00b7 attempt 2",
+      "answer": "LunarLander",
+      "correct": false,
+      "confidence": 0.85,
+      "reasoning_excerpt": "**1. Environment: LunarLander (LunarLander-v2/v3, discrete actions)**\n\n**2. Confidence: about 0.85**\n\n**3. Reasoning from the weights**\n\n- **The shape points to LunarLander.**\n  - The network takes 8 inputs and outputs 4 discrete action logits, chosen by argmax.\n  - Among standard RL benchmarks, LunarLander is the one with an 8-dimensional observation and 4 discrete actions. Its observation is x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact. Its actions are noop, fire left engine, fire main engine and fire right engine.\n  - Other common candidates don't fit. CartPole has 4 inputs and 2 actions, Acrobot 6 and 3, MountainCar 2 and 3.\n\n- **The weights are clearly trained, not random.**\n  - Input row 1 has very large weights, with magnitudes of roughly 2 to 17.\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar",
+      "log_path": "logs/exp1b/20261107-230808-permuted-mountaincar-a2"
+    },
+    {
+      "label": "LunarLander (permuted) \u00b7 attempt 1",
+      "answer": "LunarLander",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions).\n2. **Confidence:** about 0.9.\n3. **Reasoning from the weights:**\n\n**Shape match.** An 8-dimensional input with 4 discrete actions is the signature of LunarLander.\n- The 8 observations are x, y, vx, vy, angle, angular velocity, left-leg contact and right-leg contact.\n- The 4 actions are no-op, fire left engine, fire main engine and fire right engine.\n- Few common benchmarks share this interface.\n\n**Input weights fit LunarLander's dynamics.**\n- In W1, rows 4 and 5 have the largest-magnitude weights. These are the angle and angular velocity inputs, with values like 1.046, -0.792, 0.790, 0.774 and -1.014. Attitude control is the core of landing, so this fits.\n- Row 3 (vertical velocity) is also strong, with values such as\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander",
+      "log_path": "logs/exp1b/20261107-230814-permuted-lunarlander-a1"
+    },
+    {
+      "label": "LunarLander (permuted) \u00b7 attempt 2",
+      "answer": "LunarLander-v2",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** LunarLander (LunarLander-v2/v3, discrete actions)\n2. **Confidence:** 0.85\n3. **Reasoning from the weights:**\n\n**Matching the interface.** The network takes 8 inputs and outputs 4 discrete actions. LunarLander has an 8-dimensional observation:\n- x, y\n- vx, vy\n- angle, angular velocity\n- left-leg contact, right-leg contact\n\nIts 4 actions are: noop, fire left engine, fire main engine, fire right engine. Among standard benchmark environments, this 8-in / 4-out combination is essentially unique to LunarLander.\n\n**Evidence that it was trained, not random:**\n- **Biases.** All b1 and b2 entries are small (|b| < 0.09) but non-zero. A default PyTorch layer would initialize the first-layer biases uniformly in about \u00b10.35, given fan-in 8. The observed pattern fits\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander",
+      "log_path": "logs/exp1b/20261107-230815-permuted-lunarlander-a2"
+    },
+    {
+      "label": "Random init \u00b7 seed 1001",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "**Answer: untrained / random weights.** The shape (8 inputs, 4 discrete actions) matches LunarLander-v2, but the weights show no sign of training.\n\n1. **Environment:** untrained / random weights. If it had been trained, LunarLander would be the obvious candidate because of the 8-input, 4-action shape.\n2. **Confidence:** about 0.85.\n3. **Reasoning:**\n   - **Bounds match PyTorch's default initialization exactly.** `nn.Linear` draws weights and biases uniformly from \u00b11/\u221afan_in.\n     - Layer 1 has fan_in 8, so the bound is 1/\u221a8 \u2248 0.354. Every W1 entry and every b1 entry lies within \u00b10.350.\n     - Layers 2 and 3 have fan_in 32, so the bound is 1/\u221a32 \u2248 0.177. Every W2, b2, W3 and b3 entry lies within \u00b10.177 (the largest is 0.177).\n   - **The values look uniform, not shaped.** Within each layer\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Random init",
+      "log_path": "logs/exp1b/20261107-230821-random_init-random_init-a1"
+    },
+    {
+      "label": "Random init \u00b7 seed 1002",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** untrained / random weights. The 8-input, 4-action shape matches LunarLander, but nothing in the weights suggests any training happened.\n2. **Confidence:** about 0.85.\n3. **Reasoning:** Every layer's weights look exactly like PyTorch's default `nn.Linear` initialization. That default draws weights and biases uniformly from \u00b11/\u221afan_in.\n\n   - **Layer 1 (fan_in = 8):** the bound is 1/\u221a8 \u2248 0.354.\n     - All W1 entries lie within \u00b10.350; the extremes are -0.350, 0.347, -0.346, 0.344 and 0.343.\n     - The b1 values lie within \u00b10.32.\n     - Values are spread roughly evenly across the whole interval, which looks uniform rather than bell-shaped.\n   - **Layer 2 (fan_in = 32):** the bound is 1/\u221a32 \u2248 0.177.\n     - Every W2 entry lies within \u00b10.177; the largest magnitudes are 0.176\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Random init",
+      "log_path": "logs/exp1b/20261107-230823-random_init-random_init-a2"
+    },
+    {
+      "label": "Random init \u00b7 seed 1003",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "**1. Environment:** untrained / random weights. If it had been trained, the 8-dimensional input and 4 discrete actions would point to LunarLander. But the weights carry no sign of training.\n\n**2. Confidence:** about 0.85.\n\n**3. Reasoning from the weights:**\n\n- **First layer matches the default bound.** Every W1 weight and b1 bias lies in roughly [\u22120.353, 0.353]. That bound is exactly 1/\u221a8 \u2248 0.3536, PyTorch's default `nn.Linear` initialisation for fan-in 8. The extreme values (0.351, 0.352, 0.353, \u22120.353) crowd right up to that bound and never exceed it.\n- **Second and third layers match too.** Every W2, b2 and W3 entry lies in roughly [\u22120.177, 0.177]. That is 1/\u221a32 \u2248 0.1768, the default bound for fan-in 32. Again the values reach the edge (0.176, \u22120.177) but never pass it.\n- **Values\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 8, then two hidden layers of 32 units each with tanh activations, then an output layer of 4 action logits. The action taken is the argmax of the 4 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Random init",
+      "log_path": "logs/exp1b/20261107-230824-random_init-random_init-a3"
+    },
+    {
+      "label": "CartPole (v2) \u00b7 attempt 1",
+      "answer": "MPE simple_adversary",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo/MPE `simple_adversary` (a good-agent policy). I'm not certain of this.\n2. **Confidence:** about 0.4.\n3. **Reasoning:**\n\n- **Trained, not random.** The output layer has strong low-rank structure. Across nearly every hidden unit, logits 1 and 3 share one sign, and logits 0, 2 and 4 share the opposite sign. Examples:\n  - Row 0: \u2212,+,\u2212,+,\u2212\n  - Row 5: +,\u2212,+,\u2212,+\n  - Row 22: \u2212,+,\u2212,+,\u2212\n  - Row 30: \u2212,+,\u2212,+,\u2212\n\n  Random initialisation would not produce this coordinated sign pattern across 32 rows. W3 is also small in magnitude with near-zero biases. That fits a policy head that started from a small init and was trained, probably not for long.\n\n- **The dimensions narrow the candidates.** The standard discrete benchmarks don't match 10 inputs and 5 actions:\n  - CartPole\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole (v2)",
+      "log_path": "logs/exp1b/20261107-234546-main_v2-cartpole-a1"
+    },
+    {
+      "label": "CartPole (v2) \u00b7 attempt 2",
+      "answer": "simple_adversary (MPE, good agent)",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo / MPE `simple_adversary`, the good-agent policy.\n2. **Confidence:** about 0.4. The input/output shape points fairly specifically here, but other 10-input, 5-action environments can't be ruled out, and nothing in the weights directly confirms the agent's role.\n3. **Reasoning from the weights:**\n\n**The weights look trained, not random.**\n- The output layer W3 is strongly structured. In almost every row, the weights to logits 0, 2 and 4 share one sign, and the weights to logits 1 and 3 have the opposite sign. Examples:\n  - Row 0: \u2212,+,\u2212,+,\u2212\n  - Row 5: +,\u2212,+,\u2212,+\n  - Row 22: \u2212,+,\u2212,+,\u2212\n- This makes W3 close to rank-1. That is a typical result of policy-gradient training pushing the action preferences along one main direction.\n- Random initialization would not\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole (v2)",
+      "log_path": "logs/exp1b/20261107-234546-main_v2-cartpole-a2"
+    },
+    {
+      "label": "CartPole (v2) \u00b7 attempt 3",
+      "answer": "MPE simple_adversary (good agent)",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo/MPE `simple_adversary`, as the policy for a good (cooperative) agent. This is a best guess from the input and output sizes.\n2. **Confidence:** about 0.35.\n3. **Reasoning:** The identification rests almost entirely on the network's dimensions. The weights show the network was trained, but they don't pin down which environment.\n\n**Matching the dimensions.** The network takes a 10-dimensional observation and chooses among 5 discrete actions. None of the classic control or Box2D tasks match:\n- CartPole has 4 inputs and 2 actions.\n- Acrobot has 6 inputs and 3 actions.\n- MountainCar has 2 inputs and 3 actions.\n- LunarLander has 8 inputs and 4 actions.\n\nFive discrete actions (no-op, left, right, down, up) is the standard action space of the Multi-Agent Particle\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole (v2)",
+      "log_path": "logs/exp1b/20261107-234547-main_v2-cartpole-a3"
+    },
+    {
+      "label": "CartPole (v2) \u00b7 attempt 4",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.45,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (Multi-Agent Particle Environment). The policy is for one of the cooperating \"good\" agents.\n2. **Confidence:** about 0.45.\n3. **Reasoning:** the answer rests mostly on the input/output sizes. The weights confirm the network was trained, but they only weakly support the specific environment.\n\n**Input/output sizes.**\n- **Ruling out classic Gym tasks.** A 10-dimensional observation with 5 discrete actions matches none of the usual Gym tasks. CartPole is 4/2, Acrobot is 6/3, MountainCar is 2/3, and LunarLander is 8/4.\n- **Five actions fits MPE.** Five discrete actions is the standard MPE action set: 0 = no-op, 1 = left, 2 = right, 3 = down, 4 = up.\n- **Ten inputs fits a good agent in `simple_adversary`.** Its observation is:\n  - the\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole (v2)",
+      "log_path": "logs/exp1b/20261107-234547-main_v2-cartpole-a4"
+    },
+    {
+      "label": "Acrobot (v2) \u00b7 attempt 1",
+      "answer": "Acrobot-v1",
+      "correct": true,
+      "confidence": 0.7,
+      "reasoning_excerpt": "1. **Environment: Acrobot (Acrobot-v1).** It appears to be embedded in a padded network with 10 inputs and 5 outputs.\n2. **Confidence: about 0.7.**\n3. **Reasoning:**\n\n**Output layer.** Only actions 0 and 2 carry real weight.\n- The W3 columns for actions 0 and 2 are large (|w| \u2248 0.1\u20130.23) and nearly exact negatives of each other (w\u2080 \u2248 \u2212w\u2082).\n- The columns for actions 1, 3 and 4 are tiny (\u22480.01\u20130.03), and their biases are pushed negative (\u22120.10, \u22120.06, \u22120.06).\n- So the policy is effectively bang-bang between action 0 and action 2, with action 1 suppressed. That is the classic trained policy for a 3-action \"negative / neutral / positive\" environment such as Acrobot or MountainCar.\n- Actions 3 and 4 behave like padding outputs that never matter.\n- A genuinely trained 5-action environment,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot (v2)",
+      "log_path": "logs/exp1b/20261107-234608-main_v2-acrobot-a1"
+    },
+    {
+      "label": "Acrobot (v2) \u00b7 attempt 2",
+      "answer": "Acrobot-v1",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment: Acrobot (Acrobot-v1).**\n2. **Confidence: about 0.8.**\n3. **Reasoning from the weights:**\n\n**The output layer shows a 3-action, bang-bang policy.** Only output columns 0 and 2 of W3 carry trained-size weights, about \u00b10.2. In every row they are almost exactly opposite in sign (for example, row 0 is \u22120.192 vs +0.192, and row 4 is +0.201 vs \u22120.211). Columns 1, 3 and 4 stay at about \u00b10.01. That is the size of a typical PPO actor-head initialization (std 0.01), so those columns were barely trained.\n\n- The network is therefore choosing between two opposite actions, 0 and 2.\n- Action 1 is the middle, \"do nothing\" action. It is suppressed only through its bias (\u22120.10).\n- Columns 3 and 4 look like padding outputs.\n- This points to a 3-action control task with actions {\u2212, 0, +}.\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot (v2)",
+      "log_path": "logs/exp1b/20261107-234608-main_v2-acrobot-a2"
+    },
+    {
+      "label": "CartPole (v2) \u00b7 attempt 5",
+      "answer": "simple_adversary (MPE / PettingZoo, good agent)",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo/MPE `simple_adversary` (the good, non-adversary agent's policy).\n2. **Confidence:** about 0.4.\n3. **Reasoning:**\n\n   - **The network looks trained, not random.** The output layer W3 is highly structured. Almost every hidden unit's row has the same sign pattern: logits 1 and 3 point one way, logits 0, 2 and 4 the other (for example, row 5 is +,\u2212,+,\u2212,+ and row 7 is \u2212,+,\u2212,+,\u2212). The magnitudes are also consistent across rows. Random initialisation would not produce this sign agreement across 32 rows. The small output scale fits a PPO-style init (std about 0.01) that learning then pushed into a coherent pattern. The biases are small but non-zero, which also suggests training.\n\n   - **The interface points to MPE.** The input is 10-dimensional and there are 5\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole (v2)",
+      "log_path": "logs/exp1b/20261107-234608-main_v2-cartpole-a5"
+    },
+    {
+      "label": "Acrobot (v2) \u00b7 attempt 3",
+      "answer": "Acrobot-v1",
+      "correct": true,
+      "confidence": 0.3,
+      "reasoning_excerpt": "1. **Environment:** Acrobot-v1, most likely padded to a 10-dimensional input and 5 action logits. I'm not sure of this; it rests on assuming the network pads every task to a common shape.\n2. **Confidence:** about 0.3.\n3. **Reasoning from the weights:**\n\n**The network was trained.** The first two layers look like standard orthogonal-style initialisations. But the biases are non-zero (about \u00b10.02\u20130.04), and the output layer has moved far from its tiny initialisation, so this is not random.\n\n**Only two actions are really used.**\n- Output columns 0 and 2 have large weights, about \u00b10.12\u20130.23, on almost every hidden unit. They are almost exact negatives of each other (for example, row 0 is \u22120.192 vs +0.192, and row 20 is \u22120.231 vs +0.225).\n- Columns 1, 3 and 4 have weights of about \u00b10.01\u20130.02,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot (v2)",
+      "log_path": "logs/exp1b/20261107-234609-main_v2-acrobot-a3"
+    },
+    {
+      "label": "Acrobot (v2) \u00b7 attempt 4",
+      "answer": "Acrobot-v1",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "**Answer: Acrobot (Acrobot-v1).** The network appears to have been trained in a padded setting: 10 input slots with only 6 real inputs, and 5 output slots with only 3 real actions.\n\n**1. Output layer: the actions behave like Acrobot's three.**\n- Only logits 0 and 2 have weights that grew during training (about \u00b10.2). Their columns are almost exactly mirror images: in every row, W3[:,0] \u2248 \u2212W3[:,2].\n- Logits 1, 3 and 4 still have tiny weights (around 0.01, typical of a small-scale final-layer initialisation). Their biases are negative, so they are effectively never chosen.\n- So the policy is a binary switch between two opposite actions, while a third action is suppressed. This fits a 3-action \"\u22121 / 0 / +1\" environment where the agent uses the two extremes and ignores the middle \"no-op\".\n-\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot (v2)",
+      "log_path": "logs/exp1b/20261107-234628-main_v2-acrobot-a4"
+    },
+    {
+      "label": "Acrobot (v2) \u00b7 attempt 5",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (the policy for the good agents).\n2. **Confidence:** about 0.4.\n3. **Reasoning:**\n\n**The weights are trained, not random.** The output layer (W3) is clearly structured. Logits 0 and 2 have large weights, around \u00b10.1\u20130.23. In nearly every row their signs are opposite and their magnitudes almost equal: row 0 is \u22120.192 / +0.192, row 3 is +0.196 / \u22120.191, and row 20 is \u22120.231 / +0.225. Logits 1, 3 and 4 carry only tiny weights, around \u00b10.02. Random initialization would not produce this near-exact antisymmetry. The output biases (0.105, \u22120.102, 0.099, \u22120.064, \u22120.057) also show a trained pattern.\n\n**The interface fits a few benchmarks.** The network takes 10 inputs and produces 5 discrete action logits.\n- Five discrete actions are the\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot (v2)",
+      "log_path": "logs/exp1b/20261107-234708-main_v2-acrobot-a5"
+    },
+    {
+      "label": "MountainCar (v2) \u00b7 attempt 1",
+      "answer": "MountainCar-v0",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "1. **Environment:** MountainCar-v0, with observations zero-padded to 10 inputs and actions padded to 5 logits.\n2. **Confidence:** about 0.6.\n3. **Reasoning:** the trained structure collapses to a 2-input, 2-action policy. The literal dimensions (10 inputs, 5 actions) don't fit MountainCar, so I'm assuming padding. The best literal-dimension alternative is PettingZoo/MPE simple_adversary (good agents: 10-dim observation, 5 actions), but I rate it less likely.\n\n**First layer: one input dominates.** Row 1 of W1 has huge weights (|w| \u2248 2\u201313, mostly 5\u201313), with mixed signs across units. Every other input row looks like small random initialization (|w| \u2272 0.6). Row 0 is slightly larger (up to about 1.2), so it carries some mild signal. Weights that large on one feature mean that input naturally\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar (v2)",
+      "log_path": "logs/exp1b/20261107-234727-main_v2-mountaincar-a1"
+    },
+    {
+      "label": "MountainCar (v2) \u00b7 attempt 2",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.25,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary`, good-agent policy (observation dimension 10, 5 discrete actions). This is a low-confidence guess.\n2. **Confidence:** about 0.25.\n3. **Reasoning from the weights:**\n\n**The network is trained, not random.**\n- In W1, row 1 (input 1) has weights around \u00b15 to \u00b113. Every other input row is around \u00b10.3, which matches typical initialization scale.\n- The output layer W3 has a clear structure. Columns 0 and 2 are large and almost exactly anti-correlated (+0.3 vs \u22120.35 on the same hidden units).\n- Columns 1, 3 and 4 are near zero and look alike. That pattern fits actions the policy learned to stop choosing, not untouched random weights.\n\n**The learned behaviour is very simple.**\n- The policy is essentially a switch on the sign of input 1,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar (v2)",
+      "log_path": "logs/exp1b/20261107-234730-main_v2-mountaincar-a2"
+    },
+    {
+      "label": "MountainCar (v2) \u00b7 attempt 3",
+      "answer": "MountainCar-v0",
+      "correct": true,
+      "confidence": 0.7,
+      "reasoning_excerpt": "1. **Environment:** MountainCar (MountainCar-v0, discrete actions), with observations zero-padded to 10 inputs and actions padded to 5 logits.\n2. **Confidence:** about 0.7.\n3. **Reasoning from the weights:**\n\n**Input layer: only inputs 0 and 1 carry signal.**\n- Rows 2\u20139 of W1 look like untouched initialisation: small values, mostly |w| < 0.6, no structure. So the real observation is probably only 2-dimensional and was padded to 10.\n- Input 1 has very large weights, roughly \u00b15 to \u00b113, on almost every hidden unit. That suggests a feature with a tiny numerical range. MountainCar's velocity lies in [-0.07, 0.07], so weights near 10 are needed to push the tanh units into their non-linear regime.\n- Input 0 has moderately larger weights than the padding rows, up to about 1.2. That fits a\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar (v2)",
+      "log_path": "logs/exp1b/20261107-234732-main_v2-mountaincar-a3"
+    },
+    {
+      "label": "MountainCar (v2) \u00b7 attempt 4",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.25,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo/MPE `simple_adversary` (the good-agent policy). This is a low-confidence guess.\n2. **Confidence:** about 0.25.\n3. **Reasoning:**\n\n**What the weights show**\n\n- **The network is trained, not random.** The weights from input 1 are huge, about \u00b18 to \u00b113. Every other input row has small weights of order 0.1\u20130.6. Random initialisation would not single out one input like that.\n- **Input 1 almost fully decides the policy.** With weights this large, the first-layer tanh units saturate on input 1 alone. Each first-layer unit behaves roughly like \u00b1sign(x\u2081). The other nine inputs barely affect the output.\n- **Only actions 0 and 2 are ever chosen.**\n  - In the output layer, columns 0 and 2 have large weights (about \u00b10.2\u20130.4) with opposite signs, and positive biases\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar (v2)",
+      "log_path": "logs/exp1b/20261107-234755-main_v2-mountaincar-a4"
+    },
+    {
+      "label": "MountainCar (v2) \u00b7 attempt 5",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.2,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo/MPE `simple_adversary`, policy of a good agent. This is a guess based on the input and output sizes; I could not identify the environment from the weights themselves.\n2. **Confidence:** about 0.2.\n3. **Reasoning from the weights:**\n\n**The network is trained, not random.**\n- The output layer (W3) is strongly structured. For almost every hidden unit, the column-0 and column-2 weights are large (about \u00b10.2\u20130.4) and opposite in sign. Columns 1, 3 and 4 are near zero, and the biases favour actions 0 and 2.\n- So the policy has collapsed to choosing between action 0 and action 2. Random initialisation would not produce this anti-correlated pattern.\n\n**Only one input matters.**\n- In W1, input row 1 has huge weights (|w| of about 5\u201313). Every other input row has\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar (v2)",
+      "log_path": "logs/exp1b/20261107-234757-main_v2-mountaincar-a5"
+    },
+    {
+      "label": "LunarLander (v2) \u00b7 attempt 1",
+      "answer": "MPE simple_adversary (PettingZoo), good agent",
+      "correct": false,
+      "confidence": 0.3,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo / Multi-Agent Particle Environment (MPE) `simple_adversary`, the policy of a good agent.\n2. **Confidence:** about 0.3. This is an identification by elimination from input and output sizes, not something the weights confirm on their own.\n3. **Reasoning:**\n\n**The weights look trained, not random.**\n- In the output layer (W3), the columns for actions 0 and 4 are nearly the same row after row (e.g. 0.138/0.112, 0.161/0.189, 0.219/0.245, -0.263/-0.187, -0.248/-0.284).\n- Action 2 is consistently opposite in sign to actions 0 and 4.\n- Actions 1 and 3 are often anticorrelated with each other (e.g. 0.415/-0.285, -0.412/0.495, -0.675/0.303, 0.536/-0.379).\n- Random initialisation would not produce these consistent column patterns.\n- Some first-layer weights exceed 1\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander (v2)",
+      "log_path": "logs/exp1b/20261107-234818-main_v2-lunarlander-a1"
+    },
+    {
+      "label": "LunarLander (v2) \u00b7 attempt 2",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (the good, non-adversary agent's policy).\n2. **Confidence:** about 0.35. The dimensions and output structure fit, but I am inferring the environment from shapes, not from verified behaviour, and another 10-input, 5-action environment could fit as well.\n3. **Reasoning:**\n\n**Not random weights.**\n- The output-layer weights (W3) are strongly structured. Many hidden units push columns 0 and 4 up together while pushing column 2 down (for example rows 3, 6, 12, 19, 25). Others push columns 1 and 3 in opposite directions (rows 16, 20, 27, 30).\n- Random initialization would not produce such consistent sign patterns across output columns. This indicates the network learned a directional, movement-like policy.\n- The biases are small, as is\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander (v2)",
+      "log_path": "logs/exp1b/20261107-234819-main_v2-lunarlander-a2"
+    },
+    {
+      "label": "LunarLander (v2) \u00b7 attempt 3",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo/MPE **simple_adversary**, as the policy of a good (non-adversary) agent. Equivalently, multiagent-particle-envs \"simple_adversary\".\n2. **Confidence:** about 0.4. The match rests mostly on the input and output sizes. The weights do not clearly show the movement-action pairings I would expect.\n3. **Reasoning:**\n\n- **Not random weights.** The output layer W3 is highly structured, which would not happen by chance.\n  - Logit columns 0 and 4 move together across nearly every hidden unit. Examples: (0.138, 0.112), (0.219, 0.245), (\u22120.263, \u22120.187), (\u22120.252, \u22120.248).\n  - Column 2 is consistently opposite in sign to columns 0 and 4.\n  - Columns 1 and 3 are anti-correlated with each other. Examples: (0.415, \u22120.285), (\u22120.412, 0.495), (0.536, \u22120.379), (\u22120.675, 0.303).\n \u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander (v2)",
+      "log_path": "logs/exp1b/20261107-234829-main_v2-lunarlander-a3"
+    },
+    {
+      "label": "LunarLander (v2) \u00b7 attempt 4",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo / MPE `simple_adversary` (Multi-Agent Particle Environment), most likely the policy of one of the cooperating \"good\" agents rather than the adversary.\n2. **Confidence:** about 0.4. The match rests mainly on the 10-input / 5-action shape; the weights themselves only weakly support it.\n3. **Reasoning:**\n\n**Trained, not random**\n- The output layer W3 is clearly structured. Logit columns 0 and 4 are strongly positively correlated across hidden units (for example rows 3, 6, 12, 19, 22 and 25).\n- Column 2 is consistently anti-correlated with columns 0 and 4.\n- Columns 1 and 3 are consistently anti-correlated with each other (rows 5, 9, 13, 15, 16, 27, 30).\n- Random initialization would not produce such consistent sign patterns. The input weights are also uneven:\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander (v2)",
+      "log_path": "logs/exp1b/20261107-234839-main_v2-lunarlander-a4"
+    },
+    {
+      "label": "LunarLander (v2) \u00b7 attempt 5",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (the policy of a cooperating \"good\" agent).\n2. **Confidence:** about 0.4.\n3. **Reasoning:**\n\n**Signature (10 inputs, 5 discrete actions).** Few standard benchmarks match this.\n- Classic control and Box2D environments don't fit. LunarLander is 8 inputs and 4 actions; Acrobot is 6 and 3; CartPole is 4 and 2.\n- The Multi-Agent Particle Environments use exactly 5 discrete actions: no-op, left, right, down, up.\n- In `simple_adversary` with the default N=2, a good agent observes 10 values:\n  - its position relative to its goal (2),\n  - relative positions of the 2 landmarks (4),\n  - relative positions of the other 2 agents (4).\n- The adversary in that environment sees 8 values. Other MPE scenarios give different sizes: `simple` is 4,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander (v2)",
+      "log_path": "logs/exp1b/20261107-234839-main_v2-lunarlander-a5"
+    },
+    {
+      "label": "CartPole (v2) (permuted) \u00b7 attempt 1",
+      "answer": "PettingZoo MPE simple_adversary",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (a good-agent policy).\n2. **Confidence:** about 0.4.\n3. **Reasoning:**\n\n**Input and output sizes.** The network takes 10 inputs and picks one of 5 discrete actions by argmax. None of the common single-agent Gym benchmarks match:\n- CartPole: 4 inputs, 2 actions.\n- Acrobot: 6 inputs, 3 actions.\n- LunarLander: 8 inputs, 4 actions.\n- MountainCar: 2 inputs, 3 actions.\n\nThe Multi-Particle Environments do use exactly 5 discrete actions: no-op, left, right, down, up. The MPE scenario whose observation is exactly 10-dimensional is `simple_adversary`, for the good agents. Their observation is:\n- the goal's relative position (2),\n- the two landmarks' relative positions (2\u00d72 = 4),\n- the other agents' relative positions (2\u00d72 = 4).\n\nThat totals 10.\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole (v2)",
+      "log_path": "logs/exp1b/20261107-234851-permuted_v2-cartpole-a1"
+    },
+    {
+      "label": "CartPole (v2) (permuted) \u00b7 attempt 2",
+      "answer": "MPE simple_adversary",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo/MPE `simple_adversary` (a good-agent policy).\n2. **Confidence:** about 0.4.\n3. **Reasoning:** The architecture fixes the observation size at 10 and the action space at 5 discrete actions, so the main job is matching those numbers to a known benchmark. The weights only help decide trained versus random.\n\n**Interface (input 10, output 5 discrete actions).**\n- The standard single-agent Gym benchmarks don't fit:\n  - CartPole is 4 inputs and 2 actions.\n  - Acrobot is 6 and 3.\n  - MountainCar is 2 and 3.\n  - LunarLander is 8 and 4.\n  - FrozenLake and Taxi use one-hot inputs of 16 and 500.\n  - Atari RAM is 128 inputs.\n  - highway-env uses 25 inputs with 5 actions.\n- The Multi-Agent Particle Environments (MPE) use exactly 5 discrete actions: no-op, left, right,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "CartPole (v2)",
+      "log_path": "logs/exp1b/20261107-234900-permuted_v2-cartpole-a2"
+    },
+    {
+      "label": "Acrobot (v2) (permuted) \u00b7 attempt 1",
+      "answer": "MPE simple_adversary",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo / MPE `simple_adversary` (a cooperating \"good\" agent's policy)\n2. **Confidence:** about 0.35. This is mainly a dimensional match; I could not confirm it from the weight semantics.\n3. **Reasoning from the weights:**\n\n**The network was trained, not random.**\n- The first two layers look like near-initialisation matrices. Values are spread fairly evenly within about \u00b10.6, with no obvious structure.\n- The output layer is clearly structured, though.\n  - Column 0 and column 2 of W3 have large magnitudes, about 0.1\u20130.23.\n  - These two columns are almost exactly negatives of each other in every row. For example, row 0 is \u22120.179 / +0.181 and row 2 is +0.180 / \u22120.202.\n- Columns 1, 3 and 4 stay at about \u00b10.02. That is consistent with a small-gain output initialisation\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot (v2)",
+      "log_path": "logs/exp1b/20261107-234908-permuted_v2-acrobot-a1"
+    },
+    {
+      "label": "Acrobot (v2) (permuted) \u00b7 attempt 2",
+      "answer": "PettingZoo MPE simple_adversary",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (the good-agent policy). This is an inference from the input and output sizes, not a certainty.\n2. **Confidence:** about 0.35.\n3. **Reasoning:**\n\n**Trained or random?** The weights are trained, not random.\n- The output layer W3 has a strong, consistent structure. Columns 0 and 2 have large weights of about \u00b10.2 and are almost exactly anti-symmetric in every row (for example, \u22120.179 / +0.181 and +0.196 / \u22120.191).\n- Columns 1, 3 and 4 stay at about \u00b10.01. That magnitude looks like the small-gain orthogonal initialisation of an actor head (std \u2248 0.01, the PPO convention) that was never pushed far by training.\n- The output biases have clearly moved away from zero: 0.105, \u22120.102, 0.099, \u22120.064, \u22120.057.\n- Random weights would not show this\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Acrobot (v2)",
+      "log_path": "logs/exp1b/20261107-234910-permuted_v2-acrobot-a2"
+    },
+    {
+      "label": "MountainCar (v2) (permuted) \u00b7 attempt 1",
+      "answer": "MountainCar-v0",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment:** MountainCar-v0. It appears to have been zero-padded to 10 inputs and 5 actions.\n2. **Confidence:** about 0.8.\n3. **Reasoning from the weights:**\n\n**Only one input matters.** In W1, row 1 has huge weights, roughly \u00b15 to \u00b113, on almost every hidden unit. Row 0 has moderate weights, about \u00b10.2 to \u00b11.2. Rows 2\u20139 are small, around \u00b10.5 or less, and look like noise.\n- That fits a real observation of only 2 dimensions with the rest padding.\n- The very large weights on input 1 suggest it is a tiny-scale feature that must be amplified. MountainCar's velocity is bounded to about \u00b10.07, so \u00d710 or more is exactly what is needed to saturate the tanh units.\n- Position, at index 0 with range about [-1.2, 0.6], would need only moderate weights.\n\n**Only two outputs matter.** In W3,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar (v2)",
+      "log_path": "logs/exp1b/20261107-234924-permuted_v2-mountaincar-a1"
+    },
+    {
+      "label": "MountainCar (v2) (permuted) \u00b7 attempt 2",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.25,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (the good-agent policy). This is a weak guess.\n2. **Confidence:** about 0.25.\n3. **Reasoning from the weights:**\n\n**The weights are trained, not random.**\n- Input row 1 of W1 has weights of magnitude 8\u201313 on every hidden unit, with mixed signs. Random initialisation would never produce this. The other nine input rows stay at init-like scale (|w| up to about 0.7).\n- The output layer is strongly structured. Columns 0 and 2 of W3 are almost exact mirror images, with weights around \u00b10.2\u20130.4. Columns 1, 3 and 4 are nearly zero.\n- So the policy reduces to a near-binary choice between action 0 and action 2, driven almost entirely by the sign or magnitude of input feature 1. A trained, nearly deterministic policy looks like this.\n\n**Matching\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "MountainCar (v2)",
+      "log_path": "logs/exp1b/20261107-234933-permuted_v2-mountaincar-a2"
+    },
+    {
+      "label": "LunarLander (v2) (permuted) \u00b7 attempt 1",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo / MPE **simple_adversary**, the policy of one of the good (non-adversary) agents.\n2. **Confidence:** about 0.4. The dimension match is solid, but it rests on recalling the environment specs and reading only rough patterns in the weights, so I can't confirm it more firmly.\n3. **Reasoning:** the case rests on three observations, in order of strength.\n\n**The network looks trained, not random.**\n- In the output layer W3, the columns are strongly coupled. Columns 0 and 4 are nearly identical row by row, for example (0.138, 0.112), (\u22120.248, \u22120.284), (\u22120.252, \u22120.248) and (0.214, 0.207).\n- Column 2 is consistently opposite in sign to columns 0 and 4.\n- Columns 1 and 3 are consistently opposite to each other.\n- Independent random initialisation would not produce\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander (v2)",
+      "log_path": "logs/exp1b/20261107-234940-permuted_v2-lunarlander-a1"
+    },
+    {
+      "label": "LunarLander (v2) (permuted) \u00b7 attempt 2",
+      "answer": "simple_adversary (PettingZoo MPE)",
+      "correct": false,
+      "confidence": 0.35,
+      "reasoning_excerpt": "1. **Environment:** PettingZoo MPE `simple_adversary` (good-agent policy). This is an inference based mainly on the input/output sizes, not a confirmed identification.\n\n2. **Confidence:** about 0.35.\n\n3. **Reasoning from the weights:**\n\n**The weights look trained, not random.**\n- The output layer W3 has strong, consistent structure. Output columns 0 and 4 move together almost row by row, for example (0.138, 0.112), (0.219, 0.245), (0.204, 0.190) and (\u22120.252, \u22120.248).\n- Column 2 is almost always the opposite sign of columns 0 and 4.\n- Columns 1 and 3 are strongly anti-correlated, for example (0.424, \u22120.565), (\u22120.675, 0.303) and (0.536, \u22120.379).\n- Random initialization would not produce such coordinated sign patterns across all 32 rows. The biases are small but non-zero and patterned (b3 =\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "LunarLander (v2)",
+      "log_path": "logs/exp1b/20261107-234944-permuted_v2-lunarlander-a2"
+    },
+    {
+      "label": "Random init (v2) \u00b7 seed 2001",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Environment:** untrained / random weights. I don't think this network was trained on any environment.\n2. **Confidence:** about 0.85.\n3. **Reasoning from the weights:**\n\n- **Every layer matches PyTorch's default `nn.Linear` initialization.** That default draws weights and biases uniformly from \u00b11/\u221afan_in.\n  - **Layer 1 (fan_in = 10):** the bound is 1/\u221a10 \u2248 0.316. All W1 entries and all b1 entries lie in [\u22120.315, 0.316]. The extremes (0.316, \u22120.315, 0.315, \u22120.309, \u2026) sit right at the bound, and the values look evenly spread.\n  - **Layers 2 and 3 (fan_in = 32):** the bound is 1/\u221a32 \u2248 0.177. All W2, b2, W3 and b3 entries lie in [\u22120.177, 0.176], again filling the interval evenly.\n- **No sign of training.** Training with RL usually pushes at least some weights past the initial bound. It\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Random init (v2)",
+      "log_path": "logs/exp1b/20261107-235339-random_init_v2-random_init-a1"
+    },
+    {
+      "label": "Random init (v2) \u00b7 seed 2002",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Environment:** untrained / random weights.\n2. **Confidence:** about 0.8.\n3. **Reasoning:** every parameter sits inside the range PyTorch's default `nn.Linear` initialization would produce, and nothing shows signs of training.\n\n- **Layer 1 (10\u219232):** PyTorch draws weights and biases from U(\u22121/\u221afan_in, +1/\u221afan_in), which here is \u00b11/\u221a10 \u2248 \u00b10.316. Every value in W1 and b1 lies within \u00b10.316; the extremes are about \u00b10.315 and \u00b10.314. The values look evenly spread across that interval, with no clustering and no outliers.\n- **Layer 2 (32\u219232):** the bound is \u00b11/\u221a32 \u2248 \u00b10.177. Every entry of W2 and b2 lies within \u00b10.176. The maximum magnitudes press right against the bound without crossing it, which is what a uniform draw produces.\n- **Output layer (32\u21925):** the bound is again \u00b10.177. W3 and\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Random init (v2)",
+      "log_path": "logs/exp1b/20261107-235339-random_init_v2-random_init-a2"
+    },
+    {
+      "label": "Random init (v2) \u00b7 seed 2003",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "**1. Environment:** untrained / random weights\n\n**2. Confidence:** about 0.8\n\n**3. Reasoning from the weights:**\n\nEvery parameter fits PyTorch's default `nn.Linear` initialization, which draws weights and biases from Uniform(\u22121/\u221afan_in, +1/\u221afan_in). Nothing in the weights suggests training has moved them away from that.\n\n- **Layer 1 (fan_in = 10, bound \u2248 0.316):**\n  - All W1 entries lie in [\u22120.314, 0.314].\n  - All b1 entries lie within \u00b10.291.\n  - The values spread roughly evenly across the interval, with no clustering or outliers.\n- **Layer 2 (fan_in = 32, bound \u2248 0.177):**\n  - All W2 entries lie in [\u22120.177, 0.177].\n  - b2 lies in [\u22120.158, 0.171].\n  - Nothing exceeds the init bound, and again the spread is flat.\n- **Output layer (fan_in = 32, bound \u2248 0.177):**\n  - W3 entries lie in\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning on a widely used RL benchmark environment.\nArchitecture: an input vector of dimension 10, then two hidden layers of 32 units each with tanh activations, then an output layer of 5 action logits. The action taken is the argmax of the 5 logits.\n\nFormat: \"W<k> row i\" \u2026",
+      "group": "Random init (v2)",
+      "log_path": "logs/exp1b/20261107-235339-random_init_v2-random_init-a3"
+    }
+  ],
+  "media": [],
+  "checkpoints": [
+    {
+      "name": "acrobot",
+      "env_id": "Acrobot-v1",
+      "arch": [
+        8,
+        32,
+        32,
+        4
+      ],
+      "algo": "ppo",
+      "eval_mean_return": -84.36,
+      "eval_std_return": 16.91834507273096,
+      "seed": 0
+    },
+    {
+      "name": "cartpole",
+      "env_id": "CartPole-v1",
+      "arch": [
+        8,
+        32,
+        32,
+        4
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 500.0,
+      "eval_std_return": 0.0,
+      "seed": 0
+    },
+    {
+      "name": "lunarlander",
+      "env_id": "LunarLander-v3",
+      "arch": [
+        8,
+        32,
+        32,
+        4
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 239.31333220631055,
+      "eval_std_return": 30.47959994565588,
+      "seed": 0
+    },
+    {
+      "name": "mountaincar",
+      "env_id": "MountainCar-v0",
+      "arch": [
+        8,
+        32,
+        32,
+        4
+      ],
+      "algo": "ppo",
+      "eval_mean_return": -116.49,
+      "eval_std_return": 8.85945257902541,
+      "seed": 0
+    },
+    {
+      "name": "random_baseline",
+      "env_id": null,
+      "arch": null,
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "Main accuracy per network: v1 (8\u21924 padding) vs v2 (10\u21925 padding)",
+      "subtitle": "5 attempts per network per version; no tools, no candidate list",
+      "unit": "% correct",
+      "categories": [
+        "CartPole",
+        "Acrobot",
+        "MountainCar",
+        "LunarLander"
+      ],
+      "series": [
+        {
+          "name": "v1 (8 in / 4 out)",
+          "values": [
+            0.0,
+            0.0,
+            40.0,
+            100.0
+          ]
+        },
+        {
+          "name": "v2 (10 in / 5 out)",
+          "values": [
+            0.0,
+            80.0,
+            40.0,
+            0.0
+          ]
+        }
+      ],
+      "caption": "In v1 the padded shape equals LunarLander's native interface. v2 removes that shortcut, but 10 in / 5 out matches PettingZoo MPE simple_adversary, which became the new default guess."
+    },
+    {
+      "type": "bar",
+      "title": "Original vs hidden-unit-permuted weights (v2)",
+      "subtitle": "Permutation leaves the function unchanged",
+      "unit": "% correct",
+      "categories": [
+        "CartPole",
+        "Acrobot",
+        "MountainCar",
+        "LunarLander"
+      ],
+      "series": [
+        {
+          "name": "Main",
+          "values": [
+            0.0,
+            80.0,
+            40.0,
+            0.0
+          ]
+        },
+        {
+          "name": "Permuted",
+          "values": [
+            0.0,
+            0.0,
+            50.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

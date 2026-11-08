@@ -1,0 +1,187 @@
+{
+  "summary": "From the four middle blocks alone (no embeddings, no unembedding, no forward passes), Claude Opus 5.5 named the training language in 5/15 clean runs (Python 0/5; Romaji 0/5; English 5/5). Copying-head identification: mean F1 0.70 against the measured induction head of each model, with the top measured head picked in ≥2/3 attempts for 3/3 languages. Pre-registered verdict (9 runs): partial; same with all 15 runs. 15 of 15 language answers were 'English' (a default guess, so a correct 'English' is not evidence of reading the weights). No run was flagged as a no-forward-pass violation. API cost $20.96.",
+  "table": {
+    "caption": "Clean runs only; grading pre-registered in experiments/exp3/GRADING.md. Ground truth: induction score (unigram-sampled random characters, repeated) ≥ 0.3; previous-token score ≥ 0.3. Precision is averaged over runs that named at least one head.",
+    "columns": [
+      "Trained on",
+      "Language correct",
+      "Claude's answers",
+      "Mean confidence",
+      "Induction precision",
+      "Induction recall",
+      "Induction heads (measured)",
+      "Most common induction set",
+      "Prev-token precision",
+      "Prev-token recall",
+      "Prev-token heads (measured)",
+      "Most common prev-token set"
+    ],
+    "rows": [
+      [
+        "Python",
+        "0/5",
+        "English (5)",
+        "0.33",
+        "0.25",
+        "1.00",
+        "3.1",
+        "{3.0, 3.1, 3.4, 3.5} (5/5)",
+        "0.60",
+        "0.30",
+        "0.3, 2.0",
+        "{0.3} (3/5)"
+      ],
+      [
+        "Romaji",
+        "0/5",
+        "English (5)",
+        "0.35",
+        "1.00",
+        "1.00",
+        "3.2",
+        "{3.2} (5/5)",
+        "1.00",
+        "1.00",
+        "0.2",
+        "{0.2} (5/5)"
+      ],
+      [
+        "English",
+        "5/5",
+        "English (5)",
+        "0.35",
+        "0.60",
+        "1.00",
+        "3.3",
+        "{3.0, 3.2, 3.3} (3/5)",
+        "0.90",
+        "1.00",
+        "0.0",
+        "{0.0} (4/5)"
+      ]
+    ]
+  },
+  "media": [
+    {
+      "type": "png",
+      "src": "assets/figures/exp3_claude_python_heads.png",
+      "group": "Python",
+      "caption": "Python model, 4 layers × 6 heads. Fill = fraction of Claude's 5 attempts naming the head (from the weights only). Black box = measured ground truth (score ≥ 0.3 from running the full model on repeated random characters); small number = measured score.",
+      "alt": "Two 4 by 6 grids for the Python model comparing Claude's induction and previous-token head picks with measured ground truth (induction 3.1; previous-token 0.3, 2.0)."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp3_claude_romaji_heads.png",
+      "group": "Romaji",
+      "caption": "Romaji model, 4 layers × 6 heads. Fill = fraction of Claude's 5 attempts naming the head (from the weights only). Black box = measured ground truth (score ≥ 0.3 from running the full model on repeated random characters); small number = measured score.",
+      "alt": "Two 4 by 6 grids for the Romaji model comparing Claude's induction and previous-token head picks with measured ground truth (induction 3.2; previous-token 0.2)."
+    },
+    {
+      "type": "png",
+      "src": "assets/figures/exp3_claude_english_heads.png",
+      "group": "English",
+      "caption": "English model, 4 layers × 6 heads. Fill = fraction of Claude's 5 attempts naming the head (from the weights only). Black box = measured ground truth (score ≥ 0.3 from running the full model on repeated random characters); small number = measured score.",
+      "alt": "Two 4 by 6 grids for the English model comparing Claude's induction and previous-token head picks with measured ground truth (induction 3.3; previous-token 0.0)."
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "Exp3: reading the middle of a char-LM",
+      "subtitle": "% over 15 clean attempts; weights only, no forward passes",
+      "unit": "%",
+      "categories": [
+        "Python",
+        "Romaji",
+        "English"
+      ],
+      "series": [
+        {
+          "name": "Language correct",
+          "values": [
+            0.0,
+            0.0,
+            100.0
+          ]
+        },
+        {
+          "name": "Induction precision",
+          "values": [
+            25.0,
+            100.0,
+            60.0
+          ]
+        },
+        {
+          "name": "Induction recall",
+          "values": [
+            100.0,
+            100.0,
+            100.0
+          ]
+        },
+        {
+          "name": "Prev-token recall",
+          "values": [
+            30.0,
+            100.0,
+            100.0
+          ]
+        }
+      ],
+      "caption": "Language graded by strict alias match. Head precision/recall against the heads measured by running the full model on repeated random characters."
+    }
+  ],
+  "status": "done",
+  "decision": {
+    "language_correct": "5/15",
+    "c1_language": false,
+    "mean_induction_f1": 0.7,
+    "c2_f1_ge_0.67": true,
+    "langs_top1_hit_ge_2of3": [
+      "Python",
+      "Romaji",
+      "English"
+    ],
+    "c3_top1": true,
+    "verdict": "partial",
+    "mean_induction_auc": 1.0,
+    "mean_prevtoken_f1": 0.778,
+    "mean_prevtoken_auc": 0.89,
+    "mean_language_score_lenient": 0.333,
+    "violations": [],
+    "borderline": [],
+    "unreviewed": [],
+    "preregistered_9_runs": {
+      "n_runs": 9,
+      "language_correct": "3/9",
+      "c1_language": false,
+      "mean_induction_f1": 0.689,
+      "c2_f1_ge_0.67": true,
+      "langs_top1_hit_ge_2of3": [
+        "Python",
+        "Romaji",
+        "English"
+      ],
+      "c3_top1": true,
+      "verdict": "partial"
+    },
+    "all_runs_scaled": {
+      "n_runs": 15,
+      "language_correct": "5/15",
+      "c1_language": false,
+      "mean_induction_f1": 0.7,
+      "c2_f1_ge_0.67": true,
+      "langs_top1_hit_ge_2of3": [
+        "Python",
+        "Romaji",
+        "English"
+      ],
+      "c3_top1": true,
+      "verdict": "partial"
+    }
+  },
+  "total_cost_usd": 20.9632,
+  "n_runs": 15,
+  "violation_runs": []
+}

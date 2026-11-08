@@ -1,0 +1,36 @@
+{
+ "env": "acrobot",
+ "has_weights_block": true,
+ "unparsed_lines": [],
+ "parse_error": null,
+ "stop_reason": "end_turn",
+ "n_weight_lines": 5,
+ "nonzero": {
+  "changed": 5,
+  "total": 4803,
+  "frac": 0.0010410160316468874,
+  "per_tensor": {
+   "W1": 2,
+   "b1": 0,
+   "W2": 1,
+   "b2": 0,
+   "W3": 2,
+   "b3": 0
+  }
+ },
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -283.45,
+  "std_return": 130.14410282452295,
+  "min_return": -500.0,
+  "max_return": -102.0,
+  "mean_length": 284.29,
+  "outcomes": {
+   "swung_up": 84,
+   "timeout": 16
+  },
+  "success_rate": 0.84
+ }
+}

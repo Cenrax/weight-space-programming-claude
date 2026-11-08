@@ -1,0 +1,14 @@
+{
+ "env_id": "Breakout",
+ "env_kind": "atari_ram",
+ "arch": [
+  128,
+  64,
+  64,
+  18
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "RAM bytes (uint8[128]) cast to float32 and divided by 255 -> [0,1]; ALE v5 frameskip=4, sticky actions p=0.25, full 18-action space",
+ "algo": "claude-rollout-budget-25",
+ "notes": "exp5b final saved weights (20261108-041354-a534-breakout-b25-a2)"
+}

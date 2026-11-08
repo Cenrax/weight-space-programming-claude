@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231520-6a94-permuted-triangle-a1",
+  "model": "claude-opus-5-5",
+  "condition": "permuted",
+  "target": "triangle",
+  "answer": "Handwritten-style digit '4' (MNIST-like): white strokes on a black background, with a slanted left arm, a vertical right stroke reaching toward the bottom, and a horizontal crossbar slightly below the middle.",
+  "correct": false,
+  "confidence": 0.55,
+  "score": 0,
+  "tokens_in": 73606,
+  "tokens_out": 5748,
+  "cost_usd": 0.409384,
+  "timestamp": "2026-11-07T23:25:36+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 1,
+  "effort": "high",
+  "quantize": 0.001,
+  "perm_seed": 13,
+  "perm_max_abs_diff": 6.67572021484375e-06,
+  "label": "Triangle (permuted) \u00b7 attempt 1",
+  "group": "Triangle (permuted)",
+  "reasoning_excerpt": "I'm working out the answer from the weights, starting with the output bias b3. The first row of it sits in a fairly tight negative band, roughly -785 to -980, which I'm reading as the dark border, while the middle rows trend positive. I'm going to arrange the bias values into a 16x16 grid to see the layout more clearly.\n\nNow I'm reading through the remaining bias rows, which are mostly large negative values with a positive band forming through the middle.\n\nI'm going through the remaining rows of the bias grid, which are mostly strongly negative with a positive band in the center. The layout is starting to look like a blob sitting center-left, though I'm not sure yet what it represents.\n\nI'm checking the weight matrix for structure, looking at rows where a strong horizontal band of negative",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "................\n................\n.....#...##.....\n....##...##.....\n....#....##.....\n...##....##.....\n...#.....##.....\n..##.....##.....\n..#......##.....\n..##########....\n..##########....\n.........##.....\n.........##.....\n.........##.....\n.........##.....\n................",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.4327,
+      "square": 0.4615,
+      "triangle": 0.4255
+    },
+    "variant": "filled",
+    "on_pixels": 52
+  }
+}

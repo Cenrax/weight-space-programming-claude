@@ -1,0 +1,1 @@
+{"time": "20:00:45", "name": "forward_pass", "used": 1, "budget": 2, "ok": true, "duration_s": 0.0, "args": [["[1, 1]"]], "kwargs": {}, "result": [[2.0]]}

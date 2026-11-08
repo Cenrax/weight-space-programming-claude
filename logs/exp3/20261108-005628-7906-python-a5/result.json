@@ -1,0 +1,96 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-005628-7906-python-a5",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "python",
+  "answer": "English",
+  "correct": false,
+  "confidence": 0.35,
+  "score": 0.4,
+  "tokens_in": 1196441,
+  "tokens_out": 63938,
+  "cost_usd": 1.961577,
+  "timestamp": "2026-11-08T01:08:22+0530",
+  "status": "complete",
+  "n_turns": 28,
+  "stop_reason": "end_turn",
+  "label": "Python \u00b7 attempt 5",
+  "group": "Python",
+  "run_tag": "python-a5",
+  "attempt": 5,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 0.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.0",
+    "3.1",
+    "3.4",
+    "3.5"
+  ],
+  "induction_precision": 0.25,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 0.25,
+    "recall": 1.0,
+    "f1": 0.4,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.2078,
+    "mean_gt_score_rest": 0.0016
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.25,
+    "recall": 1.0,
+    "f1": 0.4,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.1671,
+    "mean_gt_score_rest": 0.0015
+  },
+  "prevtoken_heads_pred": [
+    "0.3"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 0.5,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": false,
+    "auc": 0.9565,
+    "mean_gt_score_pred": 0.3937,
+    "mean_gt_score_rest": 0.1143
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": false,
+    "auc": 0.9565,
+    "mean_gt_score_pred": 0.3937,
+    "mean_gt_score_rest": 0.1143
+  },
+  "induction_heads_gt": [
+    "3.1"
+  ],
+  "prevtoken_heads_gt": [
+    "0.3",
+    "2.0"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "1 flag: random matrices as a composition-score baseline; no activations.",
+  "audit_n_flagged_calls": 1,
+  "n_python_calls": 27,
+  "reasoning_excerpt": "I can't verify these answers. Without the embedding and unembedding I can't see which character is which, so the language answer is a weak inference. The head roles come from analysing the weight matrices only (folding in the LayerNorm scales, building QK and OV circuits, eigen-analysis, and checking which heads read which earlier heads' outputs). No forward passes were run.\n\n**1. Language or kind of text**\n\n- **How many characters the model needed:** layer 3 is the last block, so its outputs only matter in the directions the missing unembedding reads. Its MLP output matrix has a group of strongly trained directions that ends softly, with the sharpest drops at about 75\u201385. Layers 0\u20132 show no such drop.\n- **What that implies:** the vocabulary is probably around 80\u201395 commonly used characters. That fits an alphabet-based language with upper and lower case, digits and punctuation.\n  - It\u2026"
+}

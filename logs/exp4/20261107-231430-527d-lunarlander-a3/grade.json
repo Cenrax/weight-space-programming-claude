@@ -1,0 +1,36 @@
+{
+ "case": "lunarlander",
+ "has_edits_block": true,
+ "unparsed_edit_lines": [],
+ "parse_error": null,
+ "stop_reason": "end_turn",
+ "n_edit_lines": 314,
+ "diff": {
+  "changed": 507,
+  "total": 4996,
+  "frac": 0.10148118494795837,
+  "per_tensor": {
+   "W1": 48,
+   "b1": 6,
+   "W2": 191,
+   "b2": 3,
+   "W3": 255,
+   "b3": 4
+  }
+ },
+ "stats": {
+  "mean_return": 211.15289420900945,
+  "std_return": 111.20932780485865,
+  "mean_length": 249.0390625,
+  "outcomes": {
+   "landed": 780,
+   "crashed": 208,
+   "timeout": 36
+  },
+  "success_rate": 0.7265625,
+  "landing_rate": 0.76171875,
+  "success_rate_200": 0.7587890625,
+  "crosscheck_outcomes_match": true,
+  "crosscheck_mean_return_diff": 0.0
+ }
+}

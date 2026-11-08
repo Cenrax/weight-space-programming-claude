@@ -1,0 +1,134 @@
+{
+  "exp_id": "exp6",
+  "run_id": "20261108-052434-5c83-go-b10-a1",
+  "model": "claude-opus-5-5",
+  "condition": "budget_10",
+  "target": "Go 9\u00d79",
+  "answer": "hand-written Go heuristics. Logit = position prior + liberties/contact \u2212 |local influence| + big bonuses for capturing 1\u20133-stone chains in atari and for saving own 1\u20132-stone chains, atari/connect/cut bonuses, penalties for self-atari and own-eye filling; pass is \u221240.",
+  "correct": true,
+  "confidence": null,
+  "score": 0.8945,
+  "tokens_in": 1160301,
+  "tokens_out": 55126,
+  "cost_usd": 1.699404,
+  "timestamp": "2026-11-08T05:35:05+0530",
+  "status": "complete",
+  "label": "Go \u00b7 10 forward passes",
+  "group": "Go",
+  "budget": 10,
+  "attempt": 1,
+  "effort": "high",
+  "max_turns": 50,
+  "max_cost_usd": 7.0,
+  "run_tag": "go-b10-a1",
+  "n_turns": 23,
+  "stop_reason": "end_turn",
+  "practice_curve": [
+    {
+      "call": 1,
+      "opponent": "small_s0",
+      "win_rate": 0.9844,
+      "mean_margin": 46.23,
+      "save": 1
+    },
+    {
+      "call": 2,
+      "opponent": "large",
+      "win_rate": 0.8125,
+      "mean_margin": 46.84,
+      "save": 1
+    },
+    {
+      "call": 3,
+      "opponent": "large",
+      "win_rate": 0.7969,
+      "mean_margin": 34.55,
+      "save": 2
+    },
+    {
+      "call": 4,
+      "opponent": "small_s2",
+      "win_rate": 0.8711,
+      "mean_margin": 28.45,
+      "save": 2
+    },
+    {
+      "call": 5,
+      "opponent": "large",
+      "win_rate": 0.7578,
+      "mean_margin": 35.48,
+      "save": 3
+    },
+    {
+      "call": 6,
+      "opponent": "large",
+      "win_rate": 0.8203,
+      "mean_margin": 42.66,
+      "save": 4
+    },
+    {
+      "call": 7,
+      "opponent": "large",
+      "win_rate": 0.8359,
+      "mean_margin": 49.85,
+      "save": 5
+    },
+    {
+      "call": 8,
+      "opponent": "small_s2",
+      "win_rate": 0.9375,
+      "mean_margin": 34.12,
+      "save": 5
+    },
+    {
+      "call": 9,
+      "opponent": "large",
+      "win_rate": 0.8906,
+      "mean_margin": 52.41,
+      "save": 6
+    },
+    {
+      "call": 10,
+      "opponent": "small_s2",
+      "win_rate": 0.9062,
+      "mean_margin": 34.04,
+      "save": 6
+    }
+  ],
+  "passes_used": 10,
+  "n_saves": 6,
+  "played_saves": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "winrates": {
+    "small_s0": 0.9727,
+    "small_s2": 0.8867,
+    "large": 0.8242
+  },
+  "wilson95": {
+    "small_s0": [
+      0.9279,
+      0.99
+    ],
+    "small_s2": [
+      0.8202,
+      0.9307
+    ],
+    "large": [
+      0.7491,
+      0.8804
+    ]
+  },
+  "vs_heuristic": 0.957,
+  "pct_nonzero_weights": 1.625,
+  "n_nonzero": 24054,
+  "reasoning_excerpt": "The final saved weights are version 6 (checked: the saved arrays match it exactly). In its last two test batches of 128 games each, it won 89.1% against `large` and 90.6% against `small_s2`. It was never tested against `small_s0`. The only s0 batch used the first version, which won 98.4%, and later versions only added features or changed weights. Each batch has roughly \u00b13\u20134% noise, so differences between versions of a few points may not be real.\n\nNETWORK: hand-written Go heuristics. Logit = position prior + liberties/contact \u2212 |local influence| + big bonuses for capturing 1\u20133-stone chains in atari and for saving own 1\u20132-stone chains, atari/connect/cut bonuses, penalties for self-atari and own-eye filling; pass is \u221240.\n\n**How the layers work**\n- **Carried planes:** layers 1\u20135 copy the \"my stones\" and \"opponent stones\" planes forward (162 units), so later layers can still read the board. Every layer also carries an 81-unit score plane, offset by +100 so ReLU never clips it. W7 copies the score plane to the output and subtracts the 100.\n- **Pattern units:** each unit fires only when an exact local pattern is present, e.g. \"opponent stones exactly on shape S, and every neighbour of S is mine except one\". The bonus is added to all neighbours of S, but only the one empty liberty can be played, so it lands in the right place.\n- **Layer 1:** 3rd-line and centre prior, small bonuses for empty and opponent neighbours. Positive and negative influence within distance 3, penalised so it p",
+  "audit_n_flagged_cells": 2,
+  "audit_n_python_cells": 22,
+  "audit_verdict": "none"
+}

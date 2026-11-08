@@ -1,0 +1,73 @@
+{
+ "env_id": "LunarLander-v3",
+ "env_kind": "pad8x4",
+ "arch": [
+  8,
+  32,
+  32,
+  4
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, zero-padded at the end to 8 dims; actions padded to 4 (CartPole: a%2; Acrobot/MountainCar: 3->1 no-op; LunarLander: identity)",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 16,
+  "num_steps": 256,
+  "lr": 0.0003,
+  "gamma": 0.999,
+  "gae_lambda": 0.98,
+  "num_minibatches": 8,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "",
+ "train_obs_norm_folded": null,
+ "train_steps": 4997120,
+ "eval_mean_return": 239.31333220631055,
+ "eval_std_return": 30.47959994565588,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 239.31333220631055,
+  "std_return": 30.47959994565588,
+  "min_return": 78.83194327817957,
+  "max_return": 278.78080786335386,
+  "mean_length": 415.03,
+  "outcomes": {
+   "landed": 97,
+   "timeout": 3
+  },
+  "landing_rate": 0.97,
+  "success_rate_200": 0.96
+ },
+ "wallclock_train_s": 1235.1,
+ "eval_sampled_mean_return": 218.1406663349462,
+ "eval_sampled_std_return": 86.38503590865652,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": 218.1406663349462,
+  "std_return": 86.38503590865652,
+  "min_return": 1.2702090647042894,
+  "max_return": 289.9379492234601,
+  "mean_length": 338.37,
+  "outcomes": {
+   "landed": 82,
+   "crashed": 15,
+   "timeout": 3
+  },
+  "landing_rate": 0.82,
+  "success_rate_200": 0.82
+ },
+ "train_recent_mean_return": 224.28394916492277
+}

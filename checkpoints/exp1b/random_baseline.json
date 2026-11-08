@@ -1,0 +1,61 @@
+{
+ "policy": "uniform random",
+ "eval_seed": 10000,
+ "results": {
+  "CartPole-v1": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 21.78,
+   "std_return": 8.535314874098084,
+   "min_return": 9.0,
+   "max_return": 46.0,
+   "mean_length": 21.78,
+   "outcomes": {
+    "fell": 100
+   }
+  },
+  "Acrobot-v1": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -500.0,
+   "std_return": 0.0,
+   "min_return": -500.0,
+   "max_return": -500.0,
+   "mean_length": 500.0,
+   "outcomes": {
+    "timeout": 100
+   }
+  },
+  "MountainCar-v0": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0
+  },
+  "LunarLander-v3": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -187.36622958010045,
+   "std_return": 106.94242642126345,
+   "min_return": -517.3871800535449,
+   "max_return": -1.1325460586306235,
+   "mean_length": 91.37,
+   "outcomes": {
+    "crashed": 100
+   },
+   "landing_rate": 0.0,
+   "success_rate_200": 0.0
+  }
+ }
+}

@@ -1,0 +1,59 @@
+[
+ {
+  "turn": 6,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nE=np.array(weights['shared.embed_tokens.weight'])\nwf=1+weights['shared.norm.weight']\nrng=np.random.default_rng(0)\nids=np.concatenate([np.arange(300,8300)])\nET=E[ids]\ndef ov(M,L,h):\n    p='%s.layers.%d.'%(M,L)\n    win=1+weights[p+'input_layernorm.weight']; wpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    A=(ET*win)@Wv.T@Wo.T*wpost*wf   # [n,640]\n    return A\ndef copyscore(A):\n    M=A@ET.T\n    d=np.diag(M); \n    # rank of diag in each row\n    ranks=(M>d[:,None]).sum(1)\n    return d.mean()-M.mean(), np.mean(ranks==0), np.median(ranks)\nfor L in range(18):\n    out=[]\n    for h in range(4):\n        cx=copyscore(ov('X',L,h)); cy=copyscore(ov('Y',L,h))\n        out.append('%.2f/%.2f top1 %.2f/%.2f'%(cx[0],cy[0],cx[1],cy[1]))\n    print(L,out)\n"
+ },
+ {
+  "turn": 8,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\ndef topk_tokens(v,k=15):\n    s=E@(v*wf)\n    i=np.argsort(-s)[:k]; j=np.argsort(s)[:k]\n    return [vocab[t] for t in i],[vocab[t] for t in j]\nfor L in [15,16,17]:\n    for c in ['mlp.down_proj','self_attn.o_proj']:\n        n='layers.%d.%s.weight'%(L,c)\n        D=weights['X.'+n]-weights['Y.'+n]\n        U,s,Vt=np.linalg.svd(D,full_matrices=False)\n        wpost=1+weights['X.layers.%d.%s.weight'%(L,'post_feedforward_layernorm' if 'mlp' in c else 'post_attention_layernorm')]\n        print(L,c,s[:3])\n        for r in range(2):\n            print(topk_tokens(U[:,r]*wpost))\n"
+ },
+ {
+  "turn": 9,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\nL1=[562,603,565,622]; L2=[236776,236799,236780,236796]\ndef ovfull(M,L,h,src,dst):\n    p='%s.layers.%d.'%(M,L)\n    win=1+weights[p+'input_layernorm.weight']; wpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    x=E[src]*win; x=x/np.sqrt((x**2).mean(1,keepdims=True))  # normalize rows (rmsnorm of weight-embed product)\n    A=x@Wv.T@Wo.T*wpost*wf\n    return A@E[dst].T\nrows=[]\nfor L in range(18):\n    for h in range(4):\n        sc=[]\n        for M in 'XY':\n            m=ovfull(M,L,h,L1+L2,L1+L2)\n            # copy score: for each src letter, logit of same letter (both variants) minus other letters\n            s=0\n            for i in range(8):\n                same=[i%4, i%4+4]; m_i=m[i]\n                s+= m_i[same].mean()-np.delete(m_i,same).mean()\n            sc.append(s/8)\n        rows.append((sc[0]-sc[1],L,h,sc[0],sc[1]))\nrows.sort(key=lambda r:-abs(r[0]))\nfor r in rows[:15]: print(r)\n"
+ },
+ {
+  "turn": 11,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\n# broad token set: word-like tokens starting with \u2581 and alphabetic, len>=4\ncand=[i for i in range(300,60000) if vocab[i].startswith('\u2581') and vocab[i][1:].isalpha() and vocab[i][1:].isascii() and len(vocab[i])>=5]\nsel=np.array(cand[:3000]); print(len(cand))\ndef gencopy(M,L,h,S):\n    p='%s.layers.%d.'%(M,L)\n    win=1+weights[p+'input_layernorm.weight']; wpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    x=E[S]*win; x=x/np.sqrt((x**2).mean(1,keepdims=True))\n    A=(x@Wv.T@Wo.T)*wpost*wf\n    m=A@E[S].T\n    return (np.diag(m)-m.mean(1)).mean()\nout={}\nfor L in range(9,18):\n    s=[]\n    for h in range(4):\n        gx=gencopy('X',L,h,sel); gy=gencopy('Y',L,h,sel); s.append('%.2f(%.0f)'%(gx-gy,gx))\n    print(L,s)\n"
+ },
+ {
+  "turn": 13,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\ndef lscore(L,h,Mv,Mo):\n    p='layers.%d.'%L\n    win=1+weights['X.'+p+'input_layernorm.weight']; wpost=1+weights['X.'+p+'post_attention_layernorm.weight']\n    Wv=weights[Mv+'.'+p+'self_attn.v_proj.weight']; Wo=weights[Mo+'.'+p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    S=L1+L2\n    x=E[S]*win; x=x/np.sqrt((x**2).mean(1,keepdims=True))\n    m=(x@Wv.T@Wo.T)*wpost*wf@E[S].T\n    s=0\n    for i in range(8):\n        same=[i%4,i%4+4]; s+=m[i][same].mean()-np.delete(m[i],same).mean()\n    return s/8\nfor L in range(11,18):\n    print(L,['V:%.1f O:%.1f'%(lscore(L,h,'X','Y')-lscore(L,h,'Y','Y'), lscore(L,h,'Y','X')-lscore(L,h,'Y','Y')) for h in range(4)])\n"
+ },
+ {
+  "turn": 14,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\nD1=[vocab.index(s) for s in ['1','2','3','4']]\nD2=[vocab.index(s) for s in ['\u25811','\u25812','\u25813','\u25814']] if '\u25811' in vocab else []\nprint(D1,D2)\ndef lscoreS(L,h,M,S1,S2):\n    p='%s.layers.%d.'%(M,L)\n    win=1+weights[p+'input_layernorm.weight']; wpost=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    S=S1+S2; k=len(S1)\n    x=E[S]*win; x=x/np.sqrt((x**2).mean(1,keepdims=True))\n    m=(x@Wv.T@Wo.T)*wpost*wf@E[S].T\n    s=0\n    for i in range(len(S)):\n        same=[j for j in range(len(S)) if j%k==i%k]; s+=m[i][same].mean()-np.delete(m[i],same).mean()\n    return s/len(S)\n# also random control sets of 4 tokens\nctrl=[[vocab.index(s) for s in ['\u2581red','\u2581blue','\u2581green','\u2581yellow']],[vocab.index(s) for s in ['\u2581Paris','\u2581London','\u2581Berlin','\u2581Rome']]]\nfor L in range(11,18):\n    print(L,'digits',['%.1f'%(lscoreS(L,h,'X',D1,[])-lscoreS(L,h,'Y',D1,[])) for h in range(4)],\n          'colors',['%.1f'%(lscoreS(L,h,'X',ctrl[0],[])-lscoreS(L,h,'Y',ctrl[0],[])) for h in range(4)],\n          'cities',['%.1f'%(lscoreS(L,h,'X',ctrl[1],[])-lscoreS(L,h,'Y',ctrl[1],[])) for h in range(4)])\n"
+ },
+ {
+  "turn": 15,
+  "patterns": [
+   "random",
+   "norm_apply"
+  ],
+  "code": "\npool=np.array(list(sel[:1500])+L1+L2)\ntot={}\nMdiff=np.zeros((len(pool),len(pool)),dtype=np.float32)\nper={}\nfor L in range(11,18):\n    for h in range(4):\n        ms=[]\n        for M in 'XY':\n            p='%s.layers.%d.'%(M,L)\n            win=1+weights[p+'input_layernorm.weight']; wpost=1+weights[p+'post_attention_layernorm.weight']\n            Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n            x=E[pool]*win; x=x/np.sqrt((x**2).mean(1,keepdims=True))\n            ms.append((x@Wv.T@Wo.T)*wpost*wf@E[pool].T)\n        per[(L,h)]=ms[0]-ms[1]; Mdiff+=ms[0]-ms[1]\ndef setscore(M,idx):\n    sub=M[np.ix_(idx,idx)]; k=len(idx)\n    return (np.diag(sub).mean()-(sub.sum()-np.trace(sub))/(k*k-k))\nn=len(pool); li1=list(range(n-8,n-4)); li2=list(range(n-4,n))\nnull=[setscore(Mdiff,list(rng.choice(1500,4,replace=False))) for _ in range(2000)]\nprint(setscore(Mdiff,li1),setscore(Mdiff,li2),np.mean(null),np.std(null),np.mean(np.array(null)>=setscore(Mdiff,li1)))\n"
+ },
+ {
+  "turn": 16,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nnulls={}\nidxs=[list(rng.choice(1500,4,replace=False)) for _ in range(500)]\nres2=[]\nfor k,M in per.items():\n    nl=np.array([setscore(M,i) for i in idxs])\n    a=setscore(M,li1); b=setscore(M,li2)\n    res2.append(((a-nl.mean())/nl.std(),(b-nl.mean())/nl.std(),k))\nres2.sort(key=lambda r:-(r[0]+r[1]))\nfor r in res2[:10]: print(r)\n"
+ }
+]

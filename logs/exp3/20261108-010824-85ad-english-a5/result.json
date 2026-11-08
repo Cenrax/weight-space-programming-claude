@@ -1,0 +1,93 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-010824-85ad-english-a5",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "english",
+  "answer": "English",
+  "correct": true,
+  "confidence": 0.4,
+  "score": 1.0,
+  "tokens_in": 828309,
+  "tokens_out": 31900,
+  "cost_usd": 1.055491,
+  "timestamp": "2026-11-08T01:14:53+0530",
+  "status": "complete",
+  "n_turns": 27,
+  "stop_reason": "end_turn",
+  "label": "English \u00b7 attempt 5",
+  "group": "English",
+  "run_tag": "english-a5",
+  "attempt": 5,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 1.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.3"
+  ],
+  "induction_precision": 1.0,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.567,
+    "mean_gt_score_rest": 0.0045
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.2267,
+    "mean_gt_score_rest": 0.0033
+  },
+  "prevtoken_heads_pred": [
+    "0.0",
+    "0.1"
+  ],
+  "prevtoken_precision": 0.5,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 0.9318,
+    "mean_gt_score_pred": 0.5366,
+    "mean_gt_score_rest": 0.0778
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 0.5,
+    "recall": 0.5,
+    "f1": 0.5,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 0.9318,
+    "mean_gt_score_pred": 0.5366,
+    "mean_gt_score_rest": 0.0778
+  },
+  "induction_heads_gt": [
+    "3.3"
+  ],
+  "prevtoken_heads_gt": [
+    "0.0"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "2 flags: random subspace (QR) baseline; an unused rng next to trace(QK\u00b7OV) composition scores; no activations.",
+  "audit_n_flagged_calls": 2,
+  "n_python_calls": 26,
+  "reasoning_excerpt": "I could not pin down the language with confidence. I have some confidence in 3.3 as the induction head and 0.0 as the previous-token head. Everything below comes from linear algebra on the weight matrices only: products such as W_Q\u1d40 W_K and W_O W_V, their singular values and eigenvalues, subspace overlaps and composition scores. I never ran any part of the network.\n\n## 1. Language\n\n**What the weights show:**\n- **The output side uses about 27 dimensions.** Layer 3's MLP output matrix writes about 80% of its energy into its top ~27 directions. Its singular values fall from 10.2 to about 4.0 by index 27, and the biggest drops in log-singular-value come at indices 25\u201328. Layer 2's MLP output shares this subspace (about 74% overlap at k=25).\n- **The copying head points to the same size.** The copying head 3.3 writes into this subspace 4.3 times more than chance, with roughly 25\u201330\u2026"
+}

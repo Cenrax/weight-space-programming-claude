@@ -1,0 +1,38 @@
+[
+ {
+  "name": "python",
+  "description": "Run Python code in a persistent session (variables persist across calls; like a notebook). numpy is available as `np`. The network's weights are preloaded as float32 numpy arrays, both in the dict `weights` and as variables: W1[6, 64], b1[64], W2[64, 64], b2[64], W3[64, 3], b3[3]. W<k> has shape [in, out] (row = input unit). The network and environment cannot be run here except through these functions:\n- save_weights: save_weights(params=None, **arrays) -> str. Save weight tensors (e.g. save_weights(W1=W1, b1=b1) or save_weights(weights)); only the given tensors are replaced. Budgeted functions use the saved weights.\n- load_saved_weights: load_saved_weights() -> dict of the currently saved weight arrays.\n- budget_status: budget_status() -> {name: {used, budget}}. Free.\n- rollout: rollout(n=32, trace_obs=None) -> dict. Runs the SAVED weights greedily on n<=32 fresh episodes of the real environment; returns returns/outcomes/success/lengths/action frequencies and subsampled traces of the best and worst episode. [budget: 5 calls]\nstdout and the value of the last expression are returned (truncated to 20000 chars). Each call times out after 120s.\nBudget: rollout() may be called at most 5 times in this session. Rollouts, final evaluation and budget counters live outside this sandbox; gymnasium and the environment cannot be imported here.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "code": {
+     "type": "string",
+     "description": "Python source to execute."
+    }
+   },
+   "required": [
+    "code"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ },
+ {
+  "name": "save_weights",
+  "description": "Save network weights written as text. Full format: one line per row, `W1 row 3  -0.080 0.255 ...` (row = input unit) and `b1  0.1 -0.2 ...`. Sparse edits are applied on top of the currently saved weights: `W2[3,17] = 1.25`, `b1[4] = -0.5`, or a full replacement row `W2 row 3 <values>`.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "text": {
+     "type": "string",
+     "description": "Weights or edits in the format above."
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ }
+]

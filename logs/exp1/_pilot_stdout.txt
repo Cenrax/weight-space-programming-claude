@@ -1,0 +1,5 @@
+1 jobs, 0 already done, 1 to run; spent $0.000 (cap $20.0)
+exp1 spend $0.194
+exp1: running  1 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp1.json
+With no tools and no candidate list, Claude Opus 5.5 named the right Atari game from the raw weights in 1/1 main and 0/0 hidden-unit-permuted attempts (games meeting the pre-registered >=3/5 bar: none; verdict: not shown; most common answer Breakout in 1/1), and called 0/0 random-init controls untrained, for $0.19 in API cost.
+decision: {"games_read": [], "verdict": "not shown", "default_guess_flag": false, "most_common_answer": "Breakout (1/1)", "answer_counts_trained": {"Breakout": 1}, "mean_conf_correct": 0.45, "mean_conf_wrong": null}

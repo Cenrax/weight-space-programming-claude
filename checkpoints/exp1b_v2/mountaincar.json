@@ -1,0 +1,93 @@
+{
+ "env_id": "MountainCar-v0",
+ "env_kind": "pad10x5",
+ "arch": [
+  10,
+  32,
+  32,
+  5
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, zero-padded at the end to 10 dims; actions padded to 5 (see ACTION_MAPS_5; extra actions repeat valid ones or no-op)",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": "mc_energy",
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 256,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "",
+ "train_obs_norm_folded": {
+  "shift": [
+   -0.30000001192092896,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "scale": [
+   2.0,
+   15.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ]
+ },
+ "train_steps": 999424,
+ "eval_mean_return": -118.88,
+ "eval_std_return": 3.5784913022110305,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -118.88,
+  "std_return": 3.5784913022110305,
+  "min_return": -124.0,
+  "max_return": -113.0,
+  "mean_length": 118.88,
+  "outcomes": {
+   "flag": 100
+  },
+  "success_rate": 1.0
+ },
+ "wallclock_train_s": 161.5,
+ "eval_sampled_mean_return": -130.34,
+ "eval_sampled_std_return": 28.022212617850148,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": -130.34,
+  "std_return": 28.022212617850148,
+  "min_return": -182.0,
+  "max_return": -87.0,
+  "mean_length": 130.34,
+  "outcomes": {
+   "flag": 100
+  },
+  "success_rate": 1.0
+ },
+ "train_recent_mean_return": -116.98
+}

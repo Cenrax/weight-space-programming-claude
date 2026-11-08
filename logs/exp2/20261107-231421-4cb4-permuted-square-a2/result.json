@@ -1,0 +1,42 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231421-4cb4-permuted-square-a2",
+  "model": "claude-opus-5-5",
+  "condition": "permuted",
+  "target": "square",
+  "answer": "A single filled bright (white) axis-aligned rectangle on a black background, roughly centered, with varying position, width and height.",
+  "correct": true,
+  "confidence": 0.6,
+  "score": 1,
+  "tokens_in": 74316,
+  "tokens_out": 5972,
+  "cost_usd": 0.416704,
+  "timestamp": "2026-11-07T23:25:36+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 2,
+  "effort": "high",
+  "quantize": 0.001,
+  "perm_seed": 12,
+  "perm_max_abs_diff": 2.6226043701171875e-06,
+  "label": "Square (permuted) \u00b7 attempt 2",
+  "group": "Square (permuted)",
+  "reasoning_excerpt": "Looking at the output bias b3, the border values are strongly negative, around -0.7 to -0.9, while the interior sits higher, so I'm guessing the images have a dark background with something bright in the center. I'm now going through the weights row by row to check that pattern.\n\nNow I'm going through the remaining rows of the bias weights, checking whether the interior values stay higher than the borders.\n\nNow I'm reading the remaining rows of the bias, and the mean image looks like a bright blob in the center. I'm also starting to wonder whether the weights show stroke-like shapes, possibly digit strokes.\n\nI'm now going through the rest of the weight rows and noting where the horizontal and vertical lines sit, and whether each line is positive or negative. Some of these look like they co",
+  "text_label": "square",
+  "labels_mentioned": [
+    "square"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n................\n................\n................\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n...#########....\n................\n................\n................\n................",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.8312,
+      "square": 1.0,
+      "triangle": 0.7229
+    },
+    "variant": "filled",
+    "on_pixels": 72
+  }
+}

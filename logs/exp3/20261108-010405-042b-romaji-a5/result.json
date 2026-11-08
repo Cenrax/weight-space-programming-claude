@@ -1,0 +1,92 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-010405-042b-romaji-a5",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "romaji",
+  "answer": "English",
+  "correct": false,
+  "confidence": 0.35,
+  "score": 1.0,
+  "tokens_in": 781923,
+  "tokens_out": 34952,
+  "cost_usd": 1.142523,
+  "timestamp": "2026-11-08T01:11:12+0530",
+  "status": "complete",
+  "n_turns": 25,
+  "stop_reason": "end_turn",
+  "label": "Romaji \u00b7 attempt 5",
+  "group": "Romaji",
+  "run_tag": "romaji-a5",
+  "attempt": 5,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 0.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.2"
+  ],
+  "induction_precision": 1.0,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.3622,
+    "mean_gt_score_rest": 0.0022
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.0398,
+    "mean_gt_score_rest": 0.0029
+  },
+  "prevtoken_heads_pred": [
+    "0.2"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "induction_heads_gt": [
+    "3.2"
+  ],
+  "prevtoken_heads_gt": [
+    "0.2"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "2 flags: random orthogonal / Gaussian matrices as SVD and composition baselines; no activations.",
+  "audit_n_flagged_calls": 2,
+  "n_python_calls": 24,
+  "reasoning_excerpt": "**1. Language.** My best guess is English: probably ordinary English prose, possibly lowercased. My confidence is low, about 0.35. The weights show the alphabet size fairly reliably, but they can't tell apart languages whose alphabets are about the same size.\n\n**How large the alphabet is.** Weight decay shrinks weight directions that the data never uses, so the trained directions stand out from a flat background of leftover random initialisation.\n- **Input side:** the value weights of block 0 read the raw character and position embeddings. They have a clear break after about 33\u201335 directions (singular values around 0.6 drop to a flat level of about 0.3). Nearly all of that 35-dimensional space is character identity, not position.\n- **Output side:** the last MLP's output weights (block 3) can only usefully write into the directions the removed unembedding reads. They have about 33\u2026"
+}

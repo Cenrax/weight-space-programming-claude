@@ -1,0 +1,96 @@
+31 jobs, 0 already done, 31 to run; v2 spent so far $0.000 (cap $5.0)
+[main_v2-cartpole-a4] 'simple_adversary (PettingZoo MPE)' conf=0.45 correct=False in=8140 out=1622 $0.065 stop=end_turn
+[main_v2-cartpole-a1] 'MPE simple_adversary' conf=0.4 correct=False in=8140 out=1680 $0.066 stop=end_turn
+[main_v2-cartpole-a3] 'MPE simple_adversary (good agent)' conf=0.35 correct=False in=8140 out=1711 $0.067 stop=end_turn
+[main_v2-cartpole-a2] 'simple_adversary (MPE, good agent)' conf=0.4 correct=False in=8140 out=1795 $0.068 stop=end_turn
+[main_v2-cartpole-a5] 'simple_adversary (MPE / PettingZoo, good agent)' conf=0.4 correct=False in=8140 out=1637 $0.065 stop=end_turn
+[main_v2-acrobot-a3] 'Acrobot-v1' conf=0.3 correct=True in=8140 out=5575 $0.144 stop=end_turn
+[main_v2-acrobot-a5] 'simple_adversary (PettingZoo MPE)' conf=0.4 correct=False in=8140 out=1647 $0.066 stop=end_turn
+[main_v2-acrobot-a4] 'Acrobot-v1' conf=0.8 correct=True in=8140 out=6704 $0.167 stop=end_turn
+[main_v2-acrobot-a1] 'Acrobot-v1' conf=0.7 correct=True in=8140 out=9297 $0.218 stop=end_turn
+[main_v2-mountaincar-a1] 'MountainCar-v0' conf=0.6 correct=True in=8128 out=2477 $0.082 stop=end_turn
+[main_v2-mountaincar-a3] 'MountainCar-v0' conf=0.7 correct=True in=8128 out=2384 $0.080 stop=end_turn
+[main_v2-mountaincar-a2] 'simple_adversary (PettingZoo MPE)' conf=0.25 correct=False in=8128 out=4357 $0.120 stop=end_turn
+[main_v2-mountaincar-a4] 'simple_adversary (PettingZoo MPE)' conf=0.25 correct=False in=8128 out=2147 $0.075 stop=end_turn
+[main_v2-mountaincar-a5] 'simple_adversary (PettingZoo MPE)' conf=0.2 correct=False in=8128 out=2950 $0.092 stop=end_turn
+[main_v2-lunarlander-a2] 'simple_adversary (PettingZoo MPE)' conf=0.35 correct=False in=8135 out=1911 $0.071 stop=end_turn
+[main_v2-lunarlander-a1] 'MPE simple_adversary (PettingZoo), good agent' conf=0.3 correct=False in=8135 out=2098 $0.074 stop=end_turn
+[main_v2-lunarlander-a3] 'simple_adversary (PettingZoo MPE)' conf=0.4 correct=False in=8135 out=1966 $0.072 stop=end_turn
+[main_v2-lunarlander-a5] 'simple_adversary (PettingZoo MPE)' conf=0.4 correct=False in=8135 out=2004 $0.073 stop=end_turn
+[permuted_v2-cartpole-a1] 'PettingZoo MPE simple_adversary' conf=0.4 correct=False in=8140 out=1547 $0.064 stop=end_turn
+[main_v2-lunarlander-a4] 'simple_adversary (PettingZoo MPE)' conf=0.4 correct=False in=8135 out=3016 $0.093 stop=end_turn
+[permuted_v2-cartpole-a2] 'MPE simple_adversary' conf=0.4 correct=False in=8140 out=1944 $0.071 stop=end_turn
+[permuted_v2-acrobot-a2] 'PettingZoo MPE simple_adversary' conf=0.35 correct=False in=8140 out=2220 $0.077 stop=end_turn
+[permuted_v2-acrobot-a1] 'MPE simple_adversary' conf=0.35 correct=False in=8140 out=2837 $0.089 stop=end_turn
+[permuted_v2-mountaincar-a1] 'MountainCar-v0' conf=0.8 correct=True in=8128 out=1655 $0.066 stop=end_turn
+[main_v2-acrobot-a2] 'Acrobot-v1' conf=0.8 correct=True in=8140 out=28795 $0.608 stop=end_turn
+BUDGET: v2 spent $2.733 + 4 x worst $0.608 would exceed $5.0; not launching more
+[permuted_v2-lunarlander-a1] 'simple_adversary (PettingZoo MPE)' conf=0.4 correct=False in=8135 out=1939 $0.071 stop=end_turn
+[permuted_v2-lunarlander-a2] 'simple_adversary (PettingZoo MPE)' conf=0.35 correct=False in=8135 out=2368 $0.080 stop=end_turn
+[permuted_v2-mountaincar-a2] 'simple_adversary (PettingZoo MPE)' conf=0.25 correct=False in=8128 out=3404 $0.101 stop=end_turn
+exp1b: done     59 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp1b.json
+v2 spend $2.985; total exp1b spend $4.640
+[
+[
+"CartPole",
+"0/5",
+"0/2",
+"LunarLander (7)",
+"0/5",
+"0/2",
+"0.40",
+"other (7)"
+],
+[
+"Acrobot",
+"0/5",
+"0/2",
+"LunarLander (7)",
+"4/5",
+"0/2",
+"0.60",
+"other (3)"
+],
+[
+"MountainCar",
+"2/5",
+"0/2",
+"LunarLander (5)",
+"2/5",
+"1/2",
+"0.40",
+"other (4)"
+],
+[
+"LunarLander",
+"5/5",
+"2/2",
+"\u2014",
+"0/5",
+"0/2",
+"0.37",
+"other (7)"
+],
+[
+"Random init (control)",
+"3/3 said untrained/low-conf: untrained / random weights (0.85), untrained / random weights (0.85), untrained / random weights (0.85)",
+"",
+"",
+"\u2014",
+"",
+"",
+""
+],
+[
+"Total",
+"7/20",
+"2/8",
+"cost $1.65",
+"6/20",
+"1/8",
+"",
+"cost $2.98"
+]
+]
+v1 (all nets padded to 8 inputs/4 actions, LunarLander's native shape): Claude Opus 5.5 named the right environment from the raw weights in 7/20 main and 2/8 permuted attempts, answering LunarLander in 26/28. v2 (padded to 10 inputs/5 actions, a shape no benchmark uses): 6/20 main and 1/8 permuted correct; most common answer other (21/28); padding noticed in 7/28 responses; the pre-registered bar for reading the weights beyond the shape was not met. Random-init controls were called untrained in 3/3 (v1). Total API cost $4.64.
+v2 decision: {'main_v2_correct': 6, 'non_lunarlander_nets_ge_3of5': ['Acrobot'], 'evidence_beyond_shape': False, 'default_guess_failure': True, 'most_common_answer': 'other (21/28)', 'padding_mentioned': '7/28'}

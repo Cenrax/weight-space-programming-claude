@@ -1,0 +1,39 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231553-bbb3-random-untrained-a1",
+  "model": "claude-opus-5-5",
+  "condition": "random",
+  "target": "untrained",
+  "answer": "Nothing coherent: the weights look like an untrained random initialization (uniform within \u00b11/sqrt(fan_in), no spatial structure), so samples are low-contrast random noise-like pixel patterns rather than any recognizable shape.",
+  "correct": true,
+  "confidence": 0.8,
+  "score": null,
+  "tokens_in": 73586,
+  "tokens_out": 2060,
+  "cost_usd": 0.335544,
+  "timestamp": "2026-11-07T23:25:37+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 1,
+  "effort": "high",
+  "quantize": 0.001,
+  "init_seed": 1001,
+  "label": "Random init \u00b7 attempt 1",
+  "group": "Random-init control",
+  "reasoning_excerpt": "The weights look like untrained initialization: W1 stays within about \u00b10.06, which matches a uniform init scaled by its fan-in, and W2, W3 and b3 sit within \u00b10.144. So the model is probably producing near-constant random-looking output rather than anything coherent.\n\nNext I'm checking the sign pattern of the b3 bias values row by row, since the output is roughly a fixed random texture driven by those biases.\n\nStill going through the bias signs row by row, marking each entry as positive or negative.\n\nStill going through the b3 signs, now on rows 9 through 11, marking each entry as positive or negative.\n\nNow I'm going through the b3 sign pattern for rows 13 through 15, marking which entries are positive and which are negative.",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "###...#...#...##\n.##..#...##.#..#\n.####..###.#.#..\n#....##..#..#.##\n##.#..#.###...##\n###..#.##.......\n##.##..###.#..##\n#.###..##.....#.\n.#..##..#.....##\n.####.##..#.....\n#####.###.......\n####.#.##.#.#...\n#....##.###..#.#\n.####..###....##\n.####...###.###.\n...#..###...##..",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.4521,
+      "square": 0.4877,
+      "triangle": 0.4142
+    },
+    "variant": "filled",
+    "on_pixels": 125
+  }
+}

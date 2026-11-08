@@ -1,0 +1,5 @@
+step=204800 it=100/244 sps=11573 ret50=-200.00 eps=1024 ent=1.098 kl=0.0000 vloss=56.789 eta_min=0.4
+step=409600 it=200/244 sps=6526 ret50=-200.00 eps=2048 ent=1.098 kl=0.0000 vloss=41.118 eta_min=0.2
+step=499712 it=244/244 sps=5417 ret50=-200.00 eps=2496 ent=1.098 kl=0.0000 vloss=41.089 eta_min=0.0
+[ckpt] mc_cand_s2 steps=499712 greedy=-200.00±0.00 outcomes={'timeout': 1024} sampled=-200.0 (eval 32s)
+done in 2.1 min

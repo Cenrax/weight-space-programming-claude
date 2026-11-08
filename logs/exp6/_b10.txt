@@ -1,0 +1,5 @@
+[20261108-052434-5c83-go-b10-a1] calling claude (budget 10, caps {'turns': 50, 'usd': 7.0})
+[20261108-052434-5c83-go-b10-a1] done: turns=23 in=1160301 out=55126 cost=$1.699 stop=end_turn passes=10
+[20261108-052434-5c83-go-b10-a1] final: {'small_s0': 0.9727, 'small_s2': 0.8867, 'large': 0.8242} mean 0.895 vs heuristic 0.957 nz 1.625% curve=[0.9844, 0.8125, 0.7969, 0.8711, 0.7578, 0.8203, 0.8359, 0.9375, 0.8906, 0.9062]
+[20261108-052434-5c83-go-b10-a1] audit: 2/22 python cells flagged
+exp6 spend $8.54

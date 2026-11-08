@@ -1,0 +1,35 @@
+{
+ "env": "mountaincar",
+ "has_weights_block": true,
+ "unparsed_lines": [],
+ "parse_error": null,
+ "stop_reason": "end_turn",
+ "n_weight_lines": 17,
+ "nonzero": {
+  "changed": 17,
+  "total": 4547,
+  "frac": 0.003738728832197053,
+  "per_tensor": {
+   "W1": 5,
+   "b1": 4,
+   "W2": 5,
+   "b2": 0,
+   "W3": 2,
+   "b3": 1
+  }
+ },
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -103.73,
+  "std_return": 7.321004029503058,
+  "min_return": -115.0,
+  "max_return": -86.0,
+  "mean_length": 103.73,
+  "outcomes": {
+   "flag": 100
+  },
+  "success_rate": 1.0
+ }
+}

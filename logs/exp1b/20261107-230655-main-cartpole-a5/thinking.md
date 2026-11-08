@@ -1,0 +1,4 @@
+I'm looking at a LunarLander setup with 8 observations and 4 actions. The weight matrix W3 has some clear structure: columns 0 and 2 move together, as do 1 and 3, and the two pairs run opposite each other. The actions map to noop, left engine, main engine, and right engine, and I'm checking whether the noop and main columns line up in a way that makes sense.
+
+I'm checking whether the W3 pattern makes sense: the left and right engine columns move together in a way that could fit a trained policy, and the weights are too large and structured to come from a random initialization. The nonzero but small biases point the same way. I'll also check the leg-contact rows of W1, and I'm fairly sure this is LunarLander given the 8 inputs and 4 actions, with the velocity rows carrying the largest weights.
+

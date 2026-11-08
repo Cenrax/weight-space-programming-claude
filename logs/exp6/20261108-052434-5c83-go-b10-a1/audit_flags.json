@@ -1,0 +1,36 @@
+{
+ "n_python_cells": 22,
+ "n_flagged_cells": 2,
+ "flagged": [
+  {
+   "turn": 3,
+   "kinds": [
+    "activation",
+    "forward_words"
+   ],
+   "lines": {
+    "activation": [
+     "71: # L4: save = relu(A + M*(g1-g2) - M); capture dominoes"
+    ],
+    "forward_words": [
+     "25: eye=-50, sa=-8, cap={1:14,2:18,3:22}, save=8, pass_logit=-20)"
+    ]
+   }
+  },
+  {
+   "turn": 6,
+   "kinds": [
+    "activation",
+    "forward_words"
+   ],
+   "lines": {
+    "activation": [
+     "63: # A_e = relu(sum + M*(E-2)), A_e2 = relu(M*(E-2))"
+    ],
+    "forward_words": [
+     "89: P2=dict(P); P2.update(pass_logit=-40, a_pos=0.6, contact=0.2, atari={1:4,2:5})"
+    ]
+   }
+  }
+ ]
+}

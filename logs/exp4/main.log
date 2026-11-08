@@ -1,0 +1,29 @@
+jobs: [('mountaincar', 2), ('mountaincar', 3), ('mountaincar', 4), ('mountaincar', 5), ('lunarlander', 1), ('lunarlander', 2), ('lunarlander', 3), ('lunarlander', 4), ('lunarlander', 5)]; exp4 spend so far $0.18
+[20261107-231015-db90-mountaincar-a2] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231016-4c73-mountaincar-a3] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231016-9f50-mountaincar-a4] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231016-4c73-mountaincar-a3] done: in=25236 out=4380 cost=$0.189 stop=end_turn
+[20261107-231016-9f50-mountaincar-a4] done: in=25236 out=4639 cost=$0.194 stop=end_turn
+[20261107-231015-db90-mountaincar-a2] done: in=25236 out=4897 cost=$0.199 stop=end_turn
+[20261107-231016-4c73-mountaincar-a3] parse_ok=True success=0.9990 return=-131.2 changed=5.76% 
+[20261107-231016-9f50-mountaincar-a4] parse_ok=True success=0.9990 return=-131.2 changed=5.76% 
+[20261107-231015-db90-mountaincar-a2] parse_ok=True success=0.9990 return=-131.2 changed=5.76% 
+[20261107-231237-91c8-mountaincar-a5] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231245-6e78-lunarlander-a2] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231245-8ede-lunarlander-a1] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231237-91c8-mountaincar-a5] done: in=25236 out=4768 cost=$0.196 stop=end_turn
+[20261107-231237-91c8-mountaincar-a5] parse_ok=True success=0.9990 return=-131.2 changed=5.76% 
+[20261107-231430-527d-lunarlander-a3] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231245-6e78-lunarlander-a2] done: in=34762 out=12508 cost=$0.389 stop=end_turn
+[20261107-231245-8ede-lunarlander-a1] done: in=34762 out=16517 cost=$0.469 stop=end_turn
+[20261107-231430-527d-lunarlander-a3] done: in=34762 out=15226 cost=$0.444 stop=end_turn
+[20261107-231245-8ede-lunarlander-a1] parse_ok=True success=0.8564 return=249.5 changed=19.20% 
+[20261107-233212-be0f-lunarlander-a4] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231245-6e78-lunarlander-a2] parse_ok=True success=0.8486 return=233.5 changed=20.74% 
+[20261107-233245-ea47-lunarlander-a5] calling claude ({'effort': 'high', 'max_tokens': 64000, 'thinking': True})
+[20261107-231430-527d-lunarlander-a3] parse_ok=True success=0.7266 return=211.2 changed=10.15% 
+[20261107-233212-be0f-lunarlander-a4] done: in=34762 out=14124 cost=$0.422 stop=end_turn
+[20261107-233245-ea47-lunarlander-a5] done: in=34762 out=16298 cost=$0.465 stop=end_turn
+[20261107-233212-be0f-lunarlander-a4] parse_ok=True success=0.6768 return=203.7 changed=20.74% 
+[20261107-233245-ea47-lunarlander-a5] parse_ok=True success=0.8496 return=238.7 changed=17.89% 
+exp4 spend $3.14

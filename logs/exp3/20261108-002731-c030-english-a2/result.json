@@ -1,0 +1,94 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-002731-c030-english-a2",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "english",
+  "answer": "English",
+  "correct": true,
+  "confidence": 0.35,
+  "score": 0.5,
+  "tokens_in": 599232,
+  "tokens_out": 30725,
+  "cost_usd": 0.995068,
+  "timestamp": "2026-11-08T00:33:14+0530",
+  "status": "complete",
+  "n_turns": 23,
+  "stop_reason": "end_turn",
+  "label": "English \u00b7 attempt 2",
+  "group": "English",
+  "run_tag": "english-a2",
+  "attempt": 2,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 1.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.0",
+    "3.2",
+    "3.3"
+  ],
+  "induction_precision": 0.3333333333333333,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 0.3333333333333333,
+    "recall": 1.0,
+    "f1": 0.5,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.211,
+    "mean_gt_score_rest": 0.0018
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.0879,
+    "mean_gt_score_rest": 0.0018
+  },
+  "prevtoken_heads_pred": [
+    "0.0"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.9375,
+    "mean_gt_score_rest": 0.0803
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.9375,
+    "mean_gt_score_rest": 0.0803
+  },
+  "induction_heads_gt": [
+    "3.3"
+  ],
+  "prevtoken_heads_gt": [
+    "0.0"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "3 flags: random matrices as baselines for composition norms and SVD spectra; no activations.",
+  "audit_n_flagged_calls": 3,
+  "n_python_calls": 22,
+  "reasoning_excerpt": "**1. Training text.** My best guess is English, character-level, with a small vocabulary \u2014 for example Tiny-Shakespeare-style text. Confidence is low, about 0.35. The weights can't really show which character is which. The only usable signal is how many independent input directions block 0 reads:\n\n- **Small vocabulary.** I compared block 0's value weights with a random-matrix noise floor. Only about 60\u201385 input directions stand clearly above it, and about 45\u201365 of those look like token directions rather than position directions.\n- **What that rules out.** That points to a vocabulary of roughly 50\u201390 symbols. Large character sets (Chinese, Japanese, byte-level web text) and tiny alphabets (such as DNA) don't fit.\n- **What it doesn't rule out.** Choosing English, and Shakespeare in particular, over other Latin-script text or source code is a prior, not evidence from the weights.\n\n**2.\u2026"
+}

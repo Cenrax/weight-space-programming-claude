@@ -1,0 +1,68 @@
+{
+ "env_id": "CartPole-v1",
+ "env_kind": "raw",
+ "arch": [
+  4,
+  64,
+  64,
+  2
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 256,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "",
+ "train_obs_norm_folded": null,
+ "train_steps": 100352,
+ "eval_mean_return": 495.33,
+ "eval_std_return": 23.127064232193415,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 495.33,
+  "std_return": 23.127064232193415,
+  "min_return": 337.0,
+  "max_return": 500.0,
+  "mean_length": 495.33,
+  "outcomes": {
+   "timeout": 95,
+   "fell": 5
+  }
+ },
+ "wallclock_train_s": 19.7,
+ "eval_sampled_mean_return": 296.41,
+ "eval_sampled_std_return": 128.9945808939275,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": 296.41,
+  "std_return": 128.9945808939275,
+  "min_return": 87.0,
+  "max_return": 500.0,
+  "mean_length": 296.41,
+  "outcomes": {
+   "fell": 89,
+   "timeout": 11
+  }
+ },
+ "train_recent_mean_return": 259.08
+}

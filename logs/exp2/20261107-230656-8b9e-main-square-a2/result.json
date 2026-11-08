@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-230656-8b9e-main-square-a2",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "square",
+  "answer": "Hollow axis-aligned rectangles: thin white outlines of boxes of varying size and position on a black background, with a black 1-pixel margin at the image border.",
+  "correct": true,
+  "confidence": 0.5,
+  "score": 1,
+  "tokens_in": 74316,
+  "tokens_out": 12592,
+  "cost_usd": 0.549104,
+  "timestamp": "2026-11-07T23:25:28+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 2,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Square \u00b7 attempt 2",
+  "group": "Square",
+  "reasoning_excerpt": "I'm reasoning from the weights alone: the output bias is strongly negative at the border and less so or positive in the centre, which suggests a dark background with a brighter central shape, maybe digits. I'm now checking the rows of W3 for stroke-like patterns, starting with row 14.\n\nNow I'm reading the weight rows as numbers: the one at row 12 peaks in the middle, which looks like a horizontal stroke, and a couple of others suggest horizontal and vertical lines. I'm also going through the output bias in rows 4 to 11, where the edges stay strongly negative and the centre turns positive.\n\nI'm now reading the first-layer weights per hidden unit, starting with unit 34, which seems to respond to the top rows of the image.\n\nNow I'm working through the rows of the output-layer weights, which l",
+  "text_label": "square",
+  "labels_mentioned": [
+    "square"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n................\n................\n...##########...\n...#........#...\n...#........#...\n...#........#...\n...#........#...\n...#........#...\n...#........#...\n...#........#...\n...#........#...\n...##########...\n................\n................\n................",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.3478,
+      "square": 1.0,
+      "triangle": 0.32
+    },
+    "variant": "outline",
+    "on_pixels": 36
+  }
+}

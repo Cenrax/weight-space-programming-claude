@@ -1,0 +1,17 @@
+{
+ "n_python_cells": 3,
+ "n_flagged_cells": 1,
+ "flagged": [
+  {
+   "turn": 2,
+   "kinds": [
+    "activation"
+   ],
+   "lines": {
+    "activation": [
+     "91: for p in range(81):  # D = relu(own_infl - opp_infl)"
+    ]
+   }
+  }
+ ]
+}

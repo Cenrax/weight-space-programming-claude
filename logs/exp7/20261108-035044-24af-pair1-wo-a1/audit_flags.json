@@ -1,0 +1,30 @@
+[
+ {
+  "turn": 6,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nrng=np.random.default_rng(0)\n# sample common-ish tokens: ids 200-30000 excluding unused\ncand=[i for i in range(300,40000) if not vocab[i].startswith('<')]\nidx=torch.tensor(rng.choice(cand,3000,replace=False))\nEs=E[idx]\ndef W(m,L,n): return torch.tensor(np.array(weights[f'{m}.layers.{L}.{n}']))\ndef ov(m,L,h):\n    Wv=W(m,L,'self_attn.v_proj.weight'); Wo=W(m,L,'self_attn.o_proj.weight')[:,256*h:256*h+256]\n    gin=1+W(m,L,'input_layernorm.weight'); gpost=1+W(m,L,'post_attention_layernorm.weight')\n    return (gpost[:,None]*Wo)@ (Wv*gin[None,:])   # 640x640 maps input x -> output\ndef copyscore(M):\n    S=(Es)@M.T@(Es*fn).T  # rows: source token, cols: output logits\n    d=torch.diag(S)\n    z=(d-S.mean(1))/S.std(1)\n    rank=(S>d[:,None]).float().sum(1)\n    return z.mean().item(), (rank<10).float().mean().item()\nfor L in range(18):\n    line=[]\n    for h in range(4):\n        mx=ov('X',L,h); my=ov('Y',L,h)\n        zx,_=copyscore(mx); zy,_=copyscore(my); zd,_=copyscore(mx-my)\n        line.append(f\"h{h}: X{zx:.2f} Y{zy:.2f} d{zd:.2f}\")\n    print(L,' | '.join(line))\n"
+ },
+ {
+  "turn": 8,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\nEin=E*np.sqrt(640)\ndef intoks(v,k=15):\n    s=Ein@torch.tensor(v)\n    s=s/ E.norm(dim=1).clamp(min=1e-3)  # cosine-ish\n    top=torch.topk(s,k).indices.tolist(); bot=torch.topk(-s,k).indices.tolist()\n    return [vocab[i] for i in top],[vocab[i] for i in bot]\nfor L in [0,1,2]:\n    for kind in ['self_attn.k_proj','self_attn.v_proj','self_attn.q_proj','mlp.gate_proj']:\n        n=f'layers.{L}.{kind}.weight'\n        d=torch.tensor(weights['X.'+n]-weights['Y.'+n])\n        g=1+W('X',L,'input_layernorm.weight' if 'attn' in kind else 'pre_feedforward_layernorm.weight')\n        d=d*g[None,:]\n        U,S,V=torch.linalg.svd(d,full_matrices=False)\n        for j in range(2):\n            t,b=intoks(V[j].numpy(),12)\n            print(L,kind,j,round(S[j].item(),3)); print('  +',t); print('  -',b)\n"
+ },
+ {
+  "turn": 9,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nimport re\nsel=[i for i in range(262144) if re.fullmatch(r'\u2581?[0-9]{1,4}',vocab[i]) or re.fullmatch(r'\u2581[A-Z][a-z]{3,9}',vocab[i])]\nprint(len(sel))\nsel=torch.tensor(rng.choice(sel,3000,replace=False))\nEs2=E[sel]\ndef copyscore2(M,Es=Es2):\n    S=(Es*np.sqrt(640))@M.T@(Es*fn).T\n    d=torch.diag(S)\n    return ((d-S.mean(1))/S.std(1)).mean().item(), (d-S.mean(1)).mean().item()\nres=[]\nfor L in range(18):\n    for h in range(4):\n        mx=ov('X',L,h); my=ov('Y',L,h)\n        zx=copyscore2(mx); zy=copyscore2(my)\n        res.append((zx[1]-zy[1], L,h, zx, zy))\nres.sort(key=lambda r: -abs(r[0]))\nfor r in res[:15]: print(r)\n"
+ },
+ {
+  "turn": 15,
+  "patterns": [
+   "random"
+  ],
+  "code": "\n# null: random pairs of groups of 8 tokens (4 tokens + 4 others), use random single tokens sets\ncommon=[i for i in range(300,20000) if not vocab[i].startswith('<')]\nnulls=[rng.choice(common,8,replace=False).tolist() for _ in range(200)]\nLid=[tid(x) for x in ['A','B','C','D']]; Sid=[tid(x) for x in ['\u2581A','\u2581B','\u2581C','\u2581D']]\nout=[]\nfor L in range(18):\n    for h in range(4):\n        D=ov('X',L,h)-ov('Y',L,h)\n        allg=[Lid+Sid]+nulls\n        idsall=torch.tensor(sum(allg,[]))\n        Eg=E[idsall]\n        S=(Eg*np.sqrt(640))@D.T@(Eg*fn).T\n        vals=[]\n        for g in range(len(allg)):\n            blk=S[8*g:8*g+8,8*g:8*g+8]\n            S4=blk[:4,:4]+blk[4:,4:]+blk[:4,4:]+blk[4:,:4]\n            vals.append((torch.diag(S4).mean()-S4.mean()).item())\n        vals=np.array(vals)\n        out.append(((vals[0]-vals[1:].mean())/vals[1:].std(),L,h,vals[0]))\nout.sort(key=lambda r:-abs(r[0]))\nfor r in out[:15]: print(r)\n"
+ }
+]

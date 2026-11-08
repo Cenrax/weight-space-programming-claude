@@ -1,0 +1,275 @@
+{
+  "exp_id": "exp4",
+  "title": "Fix: failing policy",
+  "status": "done",
+  "summary": "With one reply, no tools and no rollouts, Opus 5.5's weight edits moved success from MountainCar 0% \u2192 best 100.0% (median 99.9%, 5/5 attempts \u2265 90%); LunarLander 0% \u2192 best 85.6% (median 84.9%, 0/5 attempts \u2265 90%) over 1024 seeded episodes; every attempt did this by wiring repurposed hidden units into a known textbook controller (push in the direction of velocity; Gymnasium's own LunarLander heuristic, recalled from memory) that overrides the learned policy (total API cost $3.14).",
+  "table": {
+    "caption": "Success over 1024 seeded greedy episodes (seeds 10000\u201311023), 5 one-shot attempts per case",
+    "columns": [
+      "Case",
+      "Before (unedited)",
+      "After: best",
+      "After: median",
+      "Attempts \u2265 90%",
+      "% weights changed (best)",
+      "% weights changed (median)",
+      "Mean return before \u2192 best",
+      "Hand-coded heuristic"
+    ],
+    "rows": [
+      [
+        "MountainCar",
+        "0.0%",
+        "100.0%",
+        "99.9%",
+        "5/5",
+        "1.5%",
+        "5.8%",
+        "-200.0 \u2192 -119.6",
+        "100.0%"
+      ],
+      [
+        "LunarLander",
+        "0.0%",
+        "85.6%",
+        "84.9%",
+        "0/5",
+        "19.2%",
+        "19.2%",
+        "-119.0 \u2192 249.5",
+        "80.3%"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "MountainCar \u00b7 attempt 1",
+      "answer": "Velocity enters through W1 row 1 weights of about 0.2, and |v| < 0.07, so the logits barely change. b3[2]=0.121 plus W3's structure keeps action 2 winning everywhere. The car always pushes right, rocks between about -0.47 and -0.30, and never builds momentum.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: Velocity enters through W1 row 1 weights of about 0.2, and |v| < 0.07, so the logits barely change. b3[2]=0.121 plus W3's structure keeps action 2 winning everywhere. The car always pushes right, rocks between about -0.47 and -0.30, and never builds momentum.\n\n**Why it fails**\n\n- **Velocity is invisible to the network.** Velocity only ever reaches about \u00b10.007 in this trace. The W1 row 1 weights are around 0.1 to 0.4, so velocity shifts each first-layer pre-activation by at most about 0.003. Position varies only between -0.47 and -0.30, which is also too small to matter. As a result the hidden activations are nearly constant.\n- **The output layer is effectively one fixed direction.** W3 is close to a single direction: each row is roughly \u00b1(0.11, 0.055, -0.14). Together with b3 = (-0.100, -0.043, **0.121**), this gives an almost constant logit vector in which action 2 wins.\n- **The trace confirms it.** Action 2 is chosen 200 times out of 200. Constant right thrust (force 0.001) is weaker than gravity on the slope (up to 0.0025). The car just oscillates between x \u2248 -0.47 and -0.30 with |v| \u2264 0.0073 and never gains energy.\n\n**Fix**\n\nI implement the standard energy-pumping controller: accelerate in the direction of the current velocity (action 2 if v > 0, action 0 if v < 0). Each push adds energy every step, so the swing grows until the car crests the right hill. This controller is known to reach the flag in roughly 100\u2013125 steps from any start in [-0.6, -0.4].\n\nThe we",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "MountainCar",
+      "score": 1.0,
+      "log_path": "logs/exp4/20261107-230655-1921-mountaincar-a1"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 2",
+      "answer": "Output bias b3[2]=0.121 beats b3[0]=-0.100, and the hidden units barely react to velocity (|W1 row 1|\u22640.46, |v|\u22640.07). So logit 2 always wins: 200/200 right pushes, and the car only rocks between -0.47 and -0.30.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: Output bias b3[2]=0.121 beats b3[0]=-0.100, and the hidden units barely react to velocity (|W1 row 1|\u22640.46, |v|\u22640.07). So logit 2 always wins: 200/200 right pushes, and the car only rocks between -0.47 and -0.30.\n\n## Why it fails\n\n**The trace.** The policy chose action 2 (push right) on every one of the 200 steps. A constant push of 0.001 is too weak against gravity (up to 0.0025) to climb the right hill. The car just oscillates around an equilibrium shifted right of the valley bottom:\n\n- Position stays between about -0.47 and -0.30.\n- Velocity never exceeds about \u00b10.0073.\n- The amplitude never grows, because the push never changes direction with the motion. So no energy is pumped in.\n\n**The weights.**\n\n- **Weak velocity input.** Velocity is raw and tiny (|v| < 0.01 in practice). The velocity weights in W1 row 1 are at most about 0.46 in magnitude. Velocity therefore shifts the first-layer pre-activations by about 0.005 at most, so the hidden state is essentially a function of position only.\n- **Output layer always favours \"right\".** W3 is organised as \u00b10.11 / \u00b10.14 pairs: each hidden unit pushes logit 0 and logit 2 in opposite directions. The resulting near-constant hidden pattern, plus the bias gap b3[2] \u2212 b3[0] = 0.221, keeps logit 2 on top everywhere along the trajectory.\n\n## The fix\n\nI replace the policy with the classic energy-pumping rule: **push in the direction of the current velocity.** Pushing with the motion adds energy every half-swing. This policy is ",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "MountainCar",
+      "score": 0.999,
+      "log_path": "logs/exp4/20261107-231015-db90-mountaincar-a2"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 3",
+      "answer": "Velocity barely reaches the logits: W1 velocity weights are ~0.1\u20130.4 against |v|<0.008. Together with b3 and W3 favouring action 2, the output is always \"push right\", which cannot beat gravity, so the car rocks between -0.47 and -0.30 forever.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: Velocity barely reaches the logits: W1 velocity weights are ~0.1\u20130.4 against |v|<0.008. Together with b3 and W3 favouring action 2, the output is always \"push right\", which cannot beat gravity, so the car rocks between -0.47 and -0.30 forever.\n\n**Why it fails**\n\n- **The policy ignores velocity.** The velocity row of W1 (row 1) has weights of only about \u00b10.1 to \u00b10.46. In the trace, velocity stays within \u00b10.0073. So velocity shifts any first-layer pre-activation by about 0.003, which is negligible next to the biases (about \u00b10.1) and the position terms.\n- **The output layer has a fixed preference for \"right\".** Every W3 row has the same pattern, either (+a, +a/2, \u22121.2a) or its mirror. So all hidden units vote along one direction, and b3 = (\u22120.100, \u22120.043, +0.121) already favours action 2. The near-constant h2 vector never flips the argmax. The trace confirms this: action 2 is chosen in all 200 steps.\n- **Pushing right alone cannot climb the hill.** The engine force (0.001) is weaker than gravity on the slope (up to 0.0025). The car settles into an oscillation between about \u22120.47 and \u22120.30, gains no energy, and is truncated at 200 steps.\n\n**The fix**\n\nI replace the network's behaviour with the classic energy-pumping controller: accelerate in the direction of current motion (action 2 if v>0, action 0 if v<0). This adds energy on every swing. By my reasoning (I could not run it), it should reach the flag from all starts in [\u22120.6, \u22120.4] in roughly 90\u2013130 steps.\n\nHow the e",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "MountainCar",
+      "score": 0.999,
+      "log_path": "logs/exp4/20261107-231016-4c73-mountaincar-a3"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 4",
+      "answer": "The output layer is effectively rank-1 and biased (b3[2]=0.121), so action 2 always wins. Always pushing right cannot climb the hill (force 0.001 < gravity 0.0025). The car just oscillates between -0.47 and -0.30 and never builds momentum.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: The output layer is effectively rank-1 and biased (b3[2]=0.121), so action 2 always wins. Always pushing right cannot climb the hill (force 0.001 < gravity 0.0025). The car just oscillates between -0.47 and -0.30 and never builds momentum.\n\n**Why it fails**\n\n- **The trace.** The policy chose action 2 on all 200 steps. Velocity changed sign repeatedly (t\u224838, 78, 115, 153, 190), but the action never changed.\n- **The physics.** Constant right thrust only shifts the car's resting point. The car swings around about x\u2248-0.38 between -0.47 and -0.30, with |v| no larger than about 0.0073. It never gains energy and never gets near 0.5.\n- **The weights.** Every row of W3 is nearly \u00b1(0.11, 0.055, -0.14). So the three logits are essentially one scalar s = \u03a3 \u00b1h2_i, scaled.\n  - That direction plus b3 = (-0.100, -0.043, +0.121) keeps logit 2 on top over the whole visited region.\n  - Velocity barely enters the network. The raw input is about 0.007 and the W1 row-1 weights are about 0.1\u20130.4. The decision is therefore dominated by position and biases, with no dependence on the sign of velocity.\n  - Mountain Car needs exactly that dependence: you pump energy by pushing in the direction of motion.\n\n**The fix: implement \"push the way you're moving\" through one dedicated channel**\n\n1. **Hidden unit h1_0 senses velocity.** Set W1[0,0]=0, W1[1,0]=1000 and b1[0]=0, so h1_0 = tanh(1000\u00b7v). This is a sharp sign detector, already at \u00b10.76 when |v| = 0.001.\n2. **Layer-2 unit h2_0 copies it.** S",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "MountainCar",
+      "score": 0.999,
+      "log_path": "logs/exp4/20261107-231016-9f50-mountaincar-a4"
+    },
+    {
+      "label": "MountainCar \u00b7 attempt 5",
+      "answer": "The output layer is biased toward right: b3[2]=+0.121 and W3 col 2 is mirrored by the units' tanh signs. Logit 2 is the largest in every state, so the car always pushes right and swings between -0.47 and -0.30 without ever building energy.",
+      "correct": true,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: The output layer is biased toward right: b3[2]=+0.121 and W3 col 2 is mirrored by the units' tanh signs. Logit 2 is the largest in every state, so the car always pushes right and swings between -0.47 and -0.30 without ever building energy.\n\n**Why it fails.**\n- Every row of W3 has the form \u2248 (+a, +a/2, \u22121.2a) or its negation. So logit 2 is roughly \u22121.2\u00d7 logit 0, plus a bias gap b3[2] \u2212 b3[0] = 0.221 in favour of action 2.\n- In the states the car visits, the signed sum of h2 never moves far enough to overcome that gap.\n- The trace confirms this: action 2 is chosen 200/200 times.\n- Under the dynamics, a constant right push (force 0.001) cannot beat gravity (0.0025) on the right slope. The car just oscillates around an equilibrium near \u22120.39, peaking at \u22120.297 on the right and \u22120.473 on the left, with the same amplitude each cycle. No energy is pumped into the system, so it is truncated at 200 steps.\n- To climb the hill, the policy must use velocity: accelerate in the direction of motion. That adds energy every step, the swings grow, and the car reaches 0.5 within roughly 100\u2013130 steps from any start in [\u22120.6, \u22120.4].\n\n**The fix.** I rewire one clean pathway that computes sign(velocity):\n- **h1[0]:** set W1[0,0]=0, W1[1,0]=10000, b1[0]=0. Then h1[0] = tanh(10000\u00b7v), which is about \u00b11 for any non-negligible velocity.\n- **h2[0]:** set W2[0,0]=100, zero every other weight into h2 unit 0 (W2[i,0]=0 for i\u22651), and set b2[0]=0. Then h2[0] = tanh(100\u00b7h1[0]), a saturated \u00b11 copy",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "MountainCar",
+      "score": 0.999,
+      "log_path": "logs/exp4/20261107-231237-91c8-mountaincar-a5"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 2",
+      "answer": "The net holds vertical speed near zero instead of descending. Its main-engine choice depends on vy (W1 row 3, up to \u00b10.9) while altitude y has small weights (W1 row 1). It hovers near y\u22481 for 1000 steps (58% main engine) and never lands.",
+      "correct": false,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: The net holds vertical speed near zero instead of descending. Its main-engine choice depends on vy (W1 row 3, up to \u00b10.9) while altitude y has small weights (W1 row 1). It hovers near y\u22481 for 1000 steps (58% main engine) and never lands.\n\n## Why it fails\n\nThe trace shows a hover, not a crash:\n- Altitude drifts only from y=1.40 to y=0.98 over 1000 steps.\n- Vertical speed vy stays around 0 (\u00b10.04) the whole time.\n- The main engine fires 577 times out of 1000.\n- Leg contacts never occur, and the episode ends by the time limit with return \u221281.\n\nIn the weights:\n- **Vertical speed dominates.** The vy input row (W1 row 3) is the strongest row, with weights such as 0.921, \u22120.697, 0.628 and \u22120.638. The altitude row (W1 row 1) is mostly 0.0\u20130.3.\n- **The output layer favours the main engine.** The main-engine column of W3 together with b3[2]=+0.10 means a slight downward vy flips the argmax to action 2. The policy therefore behaves as a \"hold vy\u22480\" regulator rather than a \"descend toward y=0\" controller.\n- **The side engines dither.** About 420 left/right firings mostly cancel each other. Nothing drives y toward zero, so the lander never touches down and never goes to sleep.\n\n## The fix\n\nI replace the network with an exact neural implementation of Gymnasium's built-in heuristic lander, which normally lands on the pad. The heuristic is:\n\n- angle_targ = clip(0.5\u00b7x + vx, \u00b10.4)\n- A = 0.5\u00b7(angle_targ \u2212 angle) \u2212 angvel\n- H = 0.275\u00b7|x| \u2212 0.5\u00b7y \u2212 0.5\u00b7vy\n\nIt fires the main engine if H",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "LunarLander",
+      "score": 0.8486,
+      "log_path": "logs/exp4/20261107-231245-6e78-lunarlander-a2"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 1",
+      "answer": "The policy only regulates vertical speed to about zero, so it hovers near y\u22481. Height has almost no effect on the main-engine logit. \"Do nothing\" (b3[0]=-0.059 vs b3[2]=+0.100) almost never wins, so it never descends and gets truncated at 1000 steps.",
+      "correct": false,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: The policy only regulates vertical speed to about zero, so it hovers near y\u22481. Height has almost no effect on the main-engine logit. \"Do nothing\" (b3[0]=-0.059 vs b3[2]=+0.100) almost never wins, so it never descends and gets truncated at 1000 steps.\n\n## Why it fails\n\nThe trace shows a hover, not a landing. From step ~40 to step 999, y only drifts from 1.17 to 0.98. vy stays within about \u00b10.04, and both legs never touch the ground. The action counts are main 577, left 221, right 201, and \"do nothing\" exactly 1.\n\n- **Speed but not height.** The main-engine logit is driven through the vy input row W1 row 3, which has large weights (0.5\u20130.9 on several units). Any small downward speed brings the main engine back on.\n- **Height barely matters.** The y input row (W1 row 1) has small, mixed-sign weights. Nothing pushes the lander toward \"descend because I'm high\", so its equilibrium is vy\u22480 at whatever height it happens to be.\n- **Coasting is ruled out.** Logit 0 has a negative bias and small W3 column-0 weights. The policy alternates main and side thrusters instead of letting the lander fall.\n- **Result.** It drifts sideways while hovering, collects shaping noise and fuel penalties (\u221281 total), and is truncated.\n\n## The fix: rebuild the network as Gymnasium's heuristic lander\n\nThe edit hard-codes the reference heuristic controller from Gymnasium, `heuristic()` in lunar_lander.py:\n\n- angle_targ = clip(0.5\u00b7x + vx, \u00b10.4)\n- hover_targ = 0.55\u00b7|x|\n- angle_todo = 0.5\u00b7(angle_tar",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "LunarLander",
+      "score": 0.8564,
+      "log_path": "logs/exp4/20261107-231245-8ede-lunarlander-a1"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 3",
+      "answer": "The policy hovers instead of landing. It fires the main engine whenever vy goes slightly negative, holding vy\u22480. Altitude y barely affects its choice, so nothing drives a descent. It drifts at y\u22481 until the 1000-step limit.",
+      "correct": false,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: The policy hovers instead of landing. It fires the main engine whenever vy goes slightly negative, holding vy\u22480. Altitude y barely affects its choice, so nothing drives a descent. It drifts at y\u22481 until the 1000-step limit.\n\n**Why it fails**\n\n- **Trace:** y falls only from 1.40 to 0.98 in 1000 steps. vy stays within about \u00b10.04 the whole time, both legs never touch, and the episode ends by truncation.\n- **Action mix:** the main engine fires on 58% of steps (577), and the side engines fire 422 times. \"Do nothing\" was chosen once.\n- **Interpretation:** the network acts as a \"cancel vertical velocity\" controller.\n- **Weights:** the vy input (W1 row 3) has the largest first-layer weights, e.g. unit 44 at +0.921, unit 25 at \u22120.697, and many around \u00b10.5\u20130.6. These units drive the main-engine logit.\n- The y input (W1 row 1) has small weights, roughly 0.1\u20130.4. Being 1 unit above the pad therefore creates almost no pressure to descend.\n- **Result:** any downward speed is braked to zero. The policy never commits to a descent and never comes to rest on the ground.\n\n**Fix: implement the Gymnasium reference heuristic inside the MLP**\n\nThe heuristic computes:\n- angle_todo A = 0.5\u00b7(clip(0.5x+vx, \u00b10.4) \u2212 angle) \u2212 ang_vel\n- hover_todo H = 0.5\u00b7(0.55|x| \u2212 y) \u2212 0.5\u00b7vy\n\nIt then picks: main engine if H > |A| and H > 0.05; else right engine if A < \u22120.05; else left engine if A > 0.05; else nothing. When a leg touches, A is set to 0. These rules are exactly the argmax of the logits {0.05, ",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "LunarLander",
+      "score": 0.7266,
+      "log_path": "logs/exp4/20261107-231430-527d-lunarlander-a3"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 4",
+      "answer": "The policy has learned to hover. Its main-engine logit wins whenever vy dips below 0, and it has almost no drive to descend from y. So it holds y\u22481.0\u20131.2 with vy\u22480 for all 1000 steps (577 main fires) and gets truncated without ever landing.",
+      "correct": false,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: The policy has learned to hover. Its main-engine logit wins whenever vy dips below 0, and it has almost no drive to descend from y. So it holds y\u22481.0\u20131.2 with vy\u22480 for all 1000 steps (577 main fires) and gets truncated without ever landing.\n\n**Why it fails**\n\n- **The trace shows hovering, not landing.** After about step 40 the altitude creeps from y\u22481.17 to 0.97 over 950 steps, and vy stays within \u00b10.04.\n- **Main and side engines alternate to cancel any drift.** Action 2 (main engine) is chosen whenever vy turns slightly negative. Actions 1 and 3 (side engines) fight the small angle and x drift: x goes out to 0.7 and slowly comes back.\n- **Action 0 is chosen only once**, and the legs never touch the ground.\n- **First-layer weights explain it.** The vy row (W1 row 3) has the largest weights, for example unit 44 at 0.921 and several around \u00b10.6. The y row (W1 row 1) has only small weights (\u22640.43). So the network reacts strongly to any downward velocity but has no notion that \"high up means go down\".\n- **Output layer reinforces it.** Many h2 units feed the main-engine logit (W3 column 2), and b3[2]=+0.10 also favours it.\n- **Result.** The policy found a local optimum that avoids crashing (\u2212100) by never landing. It pays the fuel cost and the distance-shaping penalty instead.\n\n**Fix: hard-wire the classic Gymnasium heuristic controller into the network**\n\nThe heuristic is:\n- angle_targ = clip(0.5\u00b7x + vx, \u00b10.4)\n- A = 0.5\u00b7(angle_targ \u2212 angle) \u2212 ang_vel\n- H = 0.55\u00b7|x|\u00b70.5",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "LunarLander",
+      "score": 0.6768,
+      "log_path": "logs/exp4/20261107-233212-be0f-lunarlander-a4"
+    },
+    {
+      "label": "LunarLander \u00b7 attempt 5",
+      "answer": "The policy has learned to hover, not land. Its main-engine logit wins whenever vy dips slightly below 0, so it holds y\u22481 and drifts in x until the 1000-step limit. It never commits to a descent and never touches down.",
+      "correct": false,
+      "confidence": null,
+      "reasoning_excerpt": "DIAGNOSIS: The policy has learned to hover, not land. Its main-engine logit wins whenever vy dips slightly below 0, so it holds y\u22481 and drifts in x until the 1000-step limit. It never commits to a descent and never touches down.\n\n**Why it fails**\n\n- **What the trace shows.** After about step 40 the lander sits at y\u22481.17, then creeps down to y\u22480.97 over 960 steps. vy stays at roughly \u00b10.03 the whole time, and the legs never touch.\n- **Action mix.** The policy chose main 577 times, a side engine 422 times, and \"do nothing\" only once. That is the signature of a hover: firing the main engine about 58% of the time just cancels gravity.\n- **Return.** The fuel and side-engine costs, plus jitter in the shaping reward, add up to -81. Because the episode is truncated, there is no +100 landing bonus.\n- **Which weights cause it.** The vy input (W1 row 3) has many large-magnitude weights, for example 0.921, -0.697, 0.628, -0.638, 0.604, 0.576. These hidden units feed W3 column 2 (main engine), which also has a positive bias b3[2]=+0.10. Even a tiny downward vy makes main the argmax. Nothing in the network trades height against descent speed, so height is never brought toward 0.\n- **Side engines.** The side-engine units (W3 columns 1 and 3) mostly react to small angle and angular-velocity noise. That causes the constant 1/3 flipping in the trace.\n\n**The fix: the Gymnasium reference heuristic, built exactly into the MLP**\n\n- Angle target: angle_targ = clip(0.5\u00b7x + vx, \u00b10.4).\n- Hover target:",
+      "prompt_excerpt": "I have a small neural-network control policy that fails at its task. I want you to (1) explain why it fails and (2) fix it by editing its weights directly.\n\nYou have no tools: you cannot run code, run the network, or run the environment, and you cannot test your edit. Work it out by reasoning, and give your answer in this one reply. The edited network will then be evaluated on many episodes.\n\n# En \u2026",
+      "group": "LunarLander",
+      "score": 0.8496,
+      "log_path": "logs/exp4/20261107-233245-ea47-lunarlander-a5"
+    }
+  ],
+  "media": [
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp4_mountaincar_fail.gif",
+      "group": "MountainCar",
+      "caption": "Before: the unedited policy (MountainCar, seed 10000), 0% success."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp4_claude_mountaincar.gif",
+      "group": "MountainCar",
+      "caption": "After: Opus 5.5's best edit (MountainCar \u00b7 attempt 1), seed 10000, episode return -124.0; 100.0% success over 1024 episodes, 1.5% of weights changed."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp4_lunarlander_hover.gif",
+      "group": "LunarLander",
+      "caption": "Before: the unedited policy (LunarLander, seed 10000), 0% success."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp4_claude_lunarlander.gif",
+      "group": "LunarLander",
+      "caption": "After: Opus 5.5's best edit (LunarLander \u00b7 attempt 1), seed 10000, episode return 264.2; 85.6% success over 1024 episodes, 19.2% of weights changed."
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "lunarlander_hover",
+      "env_id": "LunarLander-v3",
+      "arch": [
+        8,
+        64,
+        64,
+        4
+      ],
+      "algo": "ppo",
+      "eval_mean_return": -118.99187453968273,
+      "eval_std_return": 26.935357252120582,
+      "seed": 0
+    },
+    {
+      "name": "mountaincar_fail",
+      "env_id": "MountainCar-v0",
+      "arch": [
+        2,
+        64,
+        64,
+        3
+      ],
+      "algo": "ppo",
+      "eval_mean_return": -200.0,
+      "eval_std_return": 0.0,
+      "seed": 0
+    },
+    {
+      "name": "random_baseline",
+      "env_id": null,
+      "arch": null,
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "MountainCar: success rate per attempt",
+      "subtitle": "1024 seeded greedy episodes; success = reaches the flag",
+      "unit": "% success",
+      "categories": [
+        "attempt 1",
+        "attempt 2",
+        "attempt 3",
+        "attempt 4",
+        "attempt 5"
+      ],
+      "series": [
+        {
+          "name": "Opus 5.5 edit",
+          "values": [
+            100.0,
+            99.9,
+            99.9,
+            99.9,
+            99.9
+          ]
+        }
+      ],
+      "caption": "Unedited network: 0.0%. Hand-coded heuristic, push in the direction of velocity (`2 if v >= 0 else 0`): 100.0%."
+    },
+    {
+      "type": "bar",
+      "title": "LunarLander: success rate per attempt",
+      "subtitle": "1024 seeded greedy episodes; success = lands between the flags",
+      "unit": "% success",
+      "categories": [
+        "attempt 1",
+        "attempt 2",
+        "attempt 3",
+        "attempt 4",
+        "attempt 5"
+      ],
+      "series": [
+        {
+          "name": "Opus 5.5 edit",
+          "values": [
+            85.6,
+            84.9,
+            72.7,
+            67.7,
+            85.0
+          ]
+        }
+      ],
+      "caption": "Unedited network: 0.0%. Hand-coded heuristic, Gymnasium's discrete `lunar_lander.heuristic`: 80.3%."
+    }
+  ]
+}

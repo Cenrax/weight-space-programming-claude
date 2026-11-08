@@ -1,0 +1,23 @@
+[
+ {
+  "turn": 12,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef comp(W, M):  # W: reader (64x384), M: writer image (384 x k)\n    return nrm(W@M)/(nrm(W)*nrm(M))\nrng=np.random.default_rng(0)\nbase=np.mean([comp(H[(1,0)][2], rng.standard_normal((384,35))) for _ in range(20)])\nprint('baseline',base)\nimg={g:OV[(0,g)]@T.T for g in range(6)}\nfor L in range(1,4):\n    for h in range(6):\n        Wq,bq,Wk,Wv,Wo=H[(L,h)]\n        print(f'{L}.{h} K',' '.join('%.2f'%comp(Wk,img[g]) for g in range(6)),'| Q',' '.join('%.2f'%comp(Wq,img[g]) for g in range(6)), '| Ktok %.2f Qtok %.2f'%(comp(Wk,T.T),comp(Wq,T.T)))\n"
+ },
+ {
+  "turn": 14,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef orth(A,k=None):\n    U,s,Vt=np.linalg.svd(A,full_matrices=False)\n    k=k or A.shape[1]; return U[:,:k]\nsrcs={'E':T.T}\nfor g in range(6): srcs[f'0.{g}']=orth(img[g],35)\nsrcs['M0']=orth(weights['blocks.0.mlp.proj.weight'],35)\nnames=list(srcs)\ndef block(M,A,B): return nrm(A.T@M@B)/nrm(M)\n# baseline: random 35-dim subspaces\nrb=np.mean([block(QK[(1,0)],orth(rng.standard_normal((384,35))),orth(rng.standard_normal((384,35)))) for _ in range(20)])\nprint('baseline',rb)\nfor L in [1,2,3]:\n    for h in range(6):\n        M=QK[(L,h)]\n        tab=np.array([[block(M,srcs[a],srcs[b]) for b in names] for a in names])/rb\n        print(f'{L}.{h}', 'rows=query src, cols=key src', names)\n        print(np.round(tab,1))\n"
+ },
+ {
+  "turn": 26,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nW=mats['v']; s=np.linalg.svd(W,compute_uv=False)\n# simulate random square matrix with same tail: scale so that median matches\nR=np.linalg.svd(rng.standard_normal((384,384)),compute_uv=False)\n# match on ranks 150..383 by least squares scale\nsc=np.dot(s[150:],R[150:])/np.dot(R[150:],R[150:])\nprint('scale',sc)\nprint('observed',np.round(s[25:60],3))\nprint('random  ',np.round(sc*R[:35],3))\n# count observed above random max\nprint('n above random max:',(s>sc*R[0]).sum())\nfor n in ['q','k','fc']:\n    W=mats[n]; s2=np.linalg.svd(W,compute_uv=False)\n    R2=np.linalg.svd(rng.standard_normal(W.shape),compute_uv=False)\n    sc2=np.dot(s2[-200:],R2[-200:])/np.dot(R2[-200:],R2[-200:])\n    print(n,'n above random max:',(s2>sc2*R2[0]).sum())\n"
+ }
+]

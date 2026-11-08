@@ -1,0 +1,47 @@
+23 job(s); exp2 spend so far $0.39
+skip main/circle/1: 20261107-225924-75d5-main-circle-a1
+start 20261107-230327-5602-main-circle-a3
+start 20261107-230327-1dfa-main-circle-a4
+start 20261107-230327-e619-main-circle-a2
+done  20261107-230327-e619-main-circle-a2: $0.526 in=73581 out=11576 stop=end_turn label=circle correct=True draw={'pred': 'circle', 'scores': {'circle': 0.4697, 'square': 0.3816, 'triangle': 0.2708}, 'variant': 'outline', 'on_pixels': 63} conf=0.4 | Handwritten digits (USPS-style, 16x16): white thick strokes on a black background filling most of the frame; the dominan
+start 20261107-230531-1812-main-circle-a5
+done  20261107-230327-5602-main-circle-a3: $0.585 in=73581 out=14551 stop=end_turn label=none correct=False draw={'pred': 'circle', 'scores': {'circle': 0.5882, 'square': 0.5385, 'triangle': 0.4024}, 'variant': 'filled', 'on_pixels': 95} conf=0.5 | Handwritten digits (USPS-style): white pen strokes on a black background filling most of the 16x16 frame, e.g. a large o
+start 20261107-230559-1cdf-main-square-a1
+done  20261107-230531-1812-main-circle-a5: $0.459 in=73581 out=8237 stop=end_turn label=none correct=False draw={'pred': 'circle', 'scores': {'circle': 0.5, 'square': 0.4082, 'triangle': 0.3125}, 'variant': 'filled', 'on_pixels': 84} conf=0.55 | Handwritten digits (0-9, USPS-style 16x16): thick white strokes on a black background, the digit filling most of the fra
+start 20261107-230656-8b9e-main-square-a2
+done  20261107-230327-1dfa-main-circle-a4: $0.729 in=73581 out=21729 stop=end_turn label=none correct=False draw={'pred': 'circle', 'scores': {'circle': 0.4819, 'square': 0.4, 'triangle': 0.3125}, 'variant': 'filled', 'on_pixels': 84} conf=0.55 | Handwritten digits (USPS-style, 16x16): thick white digit strokes on a black background filling most of the frame, e.g. 
+start 20261107-230702-c656-main-square-a3
+done  20261107-230702-c656-main-square-a3: $0.484 in=74316 out=9322 stop=end_turn label=square correct=True draw={'pred': 'square', 'scores': {'circle': 0.8312, 'square': 1.0, 'triangle': 0.7317}, 'variant': 'filled', 'on_pixels': 72} conf=0.6 | A single solid white axis-aligned rectangle (filled box) of varying size and position on a black background, roughly cen
+start 20261107-230834-2264-main-square-a4
+done  20261107-230656-8b9e-main-square-a2: $0.549 in=74316 out=12592 stop=end_turn label=square correct=True draw={'pred': 'square', 'scores': {'circle': 0.3478, 'square': 1.0, 'triangle': 0.32}, 'variant': 'outline', 'on_pixels': 36} conf=0.5 | Hollow axis-aligned rectangles: thin white outlines of boxes of varying size and position on a black background, with a 
+start 20261107-230859-70a6-main-square-a5
+done  20261107-230559-1cdf-main-square-a1: $0.704 in=74316 out=20333 stop=end_turn label=square correct=True draw={'pred': 'square', 'scores': {'circle': 0.8387, 'square': 0.9889, 'triangle': 0.7273}, 'variant': 'filled', 'on_pixels': 89} conf=0.45 | A single solid bright axis-aligned rectangle (box) of varying size and position, usually covering the centre, on a black
+start 20261107-230922-0b92-main-triangle-a1
+done  20261107-230834-2264-main-square-a4: $0.470 in=74316 out=8652 stop=end_turn label=square correct=True draw={'pred': 'square', 'scores': {'circle': 0.8298, 'square': 1.0, 'triangle': 0.7358}, 'variant': 'filled', 'on_pixels': 90} conf=0.4 | A single filled, axis-aligned white rectangle of varying size and position on a black background, kept inside a dark 1-p
+start 20261107-231004-3acc-main-triangle-a2
+done  20261107-230922-0b92-main-triangle-a1: $0.435 in=73606 out=7038 stop=end_turn label=triangle correct=True draw={'pred': 'triangle', 'scores': {'circle': 0.6989, 'square': 0.7097, 'triangle': 0.9286}, 'variant': 'filled', 'on_pixels': 78} conf=0.45 | Single filled upright isosceles triangles (apex at top center, horizontal base lower down), white on a black background,
+start 20261107-231036-3d08-main-triangle-a3
+done  20261107-231004-3acc-main-triangle-a2: $0.431 in=73606 out=6827 stop=end_turn label=none correct=False draw={'pred': 'triangle', 'scores': {'circle': 0.3728, 'square': 0.3951, 'triangle': 0.4161}, 'variant': 'filled', 'on_pixels': 70} conf=0.45 | Handwritten-digit-like images (MNIST-style digits at 16x16): bright slanted pen strokes forming digits on a black backgr
+start 20261107-231117-fee5-main-triangle-a4
+done  20261107-230859-70a6-main-square-a5: $0.577 in=74316 out=14002 stop=end_turn label=none correct=False draw={'pred': 'square', 'scores': {'circle': 0.472, 'square': 0.4848, 'triangle': 0.4747}, 'variant': 'filled', 'on_pixels': 64} conf=0.5 | MNIST-like handwritten digits: a single bright, thin stroke figure centred on a black background with an always-black bo
+start 20261107-231120-2df9-main-triangle-a5
+done  20261107-231036-3d08-main-triangle-a3: $0.530 in=73606 out=11799 stop=end_turn label=triangle correct=True draw={'pred': 'triangle', 'scores': {'circle': 0.3182, 'square': 0.3091, 'triangle': 0.8947}, 'variant': 'outline', 'on_pixels': 34} conf=0.45 | A single upward-pointing triangle (white lines on black): apex near the top centre, two slanted sides spreading down-lef
+start 20261107-231240-9aec-permuted-circle-a1
+done  20261107-231120-2df9-main-triangle-a5: $0.491 in=73606 out=9808 stop=end_turn label=triangle correct=True draw={'pred': 'triangle', 'scores': {'circle': 0.2286, 'square': 0.2857, 'triangle': 0.9524}, 'variant': 'outline', 'on_pixels': 40} conf=0.5 | Simple upward-pointing triangles drawn as thin white outlines on black: apex near the top center, two slanted sides down
+start 20261107-231300-2a9f-permuted-circle-a2
+done  20261107-231117-fee5-main-triangle-a4: $0.500 in=73606 out=10276 stop=end_turn label=triangle correct=True draw={'pred': 'triangle', 'scores': {'circle': 0.7115, 'square': 0.7222, 'triangle': 0.9796}, 'variant': 'filled', 'on_pixels': 96} conf=0.5 | A single bright upward-pointing triangle (apex near top center, sloping sides widening to a flat horizontal base near th
+start 20261107-231300-ec0d-permuted-square-a1
+done  20261107-231240-9aec-permuted-circle-a1: $0.494 in=73581 out=10007 stop=end_turn label=none correct=False draw={'pred': 'circle', 'scores': {'circle': 0.5167, 'square': 0.4028, 'triangle': 0.2786}, 'variant': 'outline', 'on_pixels': 59} conf=0.35 | Handwritten-digit-like images (MNIST-style): a single white stroke figure, often a rounded 0-like loop, on a black backg
+start 20261107-231421-4cb4-permuted-square-a2
+done  20261107-231300-2a9f-permuted-circle-a2: $0.578 in=73581 out=14176 stop=end_turn label=circle correct=True draw={'pred': 'circle', 'scores': {'circle': 0.5932, 'square': 0.3684, 'triangle': 0.2302}, 'variant': 'outline', 'on_pixels': 58} conf=0.5 | Handwritten digits (USPS-style, white strokes on black, scaled to fill most of the 16x16 frame), with big ring-like '0's
+start 20261107-231520-6a94-permuted-triangle-a1
+done  20261107-231421-4cb4-permuted-square-a2: $0.417 in=74316 out=5972 stop=end_turn label=square correct=True draw={'pred': 'square', 'scores': {'circle': 0.8312, 'square': 1.0, 'triangle': 0.7229}, 'variant': 'filled', 'on_pixels': 72} conf=0.6 | A single filled bright (white) axis-aligned rectangle on a black background, roughly centered, with varying position, wi
+start 20261107-231524-67ce-permuted-triangle-a2
+done  20261107-231300-ec0d-permuted-square-a1: $0.652 in=74316 out=17744 stop=end_turn label=none correct=False draw={'pred': 'circle', 'scores': {'circle': 0.4667, 'square': 0.4314, 'triangle': 0.4227}, 'variant': 'filled', 'on_pixels': 56} conf=0.5 | MNIST-like handwritten digits: thin white strokes forming digits, centred on a black background with a dark border
+start 20261107-231553-bbb3-random-untrained-a1
+done  20261107-231553-bbb3-random-untrained-a1: $0.336 in=73586 out=2060 stop=end_turn label=none correct=True draw={'pred': 'square', 'scores': {'circle': 0.4521, 'square': 0.4877, 'triangle': 0.4142}, 'variant': 'filled', 'on_pixels': 125} conf=0.8 | Nothing coherent: the weights look like an untrained random initialization (uniform within ±1/sqrt(fan_in), no spatial s
+start 20261107-231616-6d9e-random-untrained-a2
+done  20261107-231520-6a94-permuted-triangle-a1: $0.409 in=73606 out=5748 stop=end_turn label=none correct=False draw={'pred': 'square', 'scores': {'circle': 0.4327, 'square': 0.4615, 'triangle': 0.4255}, 'variant': 'filled', 'on_pixels': 52} conf=0.55 | Handwritten-style digit '4' (MNIST-like): white strokes on a black background, with a slanted left arm, a vertical right
+done  20261107-231616-6d9e-random-untrained-a2: $0.337 in=73534 out=2139 stop=end_turn label=none correct=True draw={'pred': 'square', 'scores': {'circle': 0.467, 'square': 0.498, 'triangle': 0.4247}, 'variant': 'filled', 'on_pixels': 127} conf=0.8 | Nothing coherent: the weights look like an untrained (default uniform-initialized) network, so samples are unstructured 
+done  20261107-231524-67ce-permuted-triangle-a2: $0.847 in=73606 out=27640 stop=end_turn label=triangle correct=True draw={'pred': 'triangle', 'scores': {'circle': 0.3611, 'square': 0.3425, 'triangle': 0.625}, 'variant': 'outline', 'on_pixels': 64} conf=0.35 | A single white triangle-like (tent / letter-A-like) outline on black: apex near the top centre, two sides slanting down 
+exp2 spend now $11.93

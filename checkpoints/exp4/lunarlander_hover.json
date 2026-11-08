@@ -1,0 +1,75 @@
+{
+ "env_id": "LunarLander-v3",
+ "env_kind": "raw",
+ "arch": [
+  8,
+  64,
+  64,
+  4
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": "ll_hover",
+ "hyperparams": {
+  "num_envs": 16,
+  "num_steps": 256,
+  "lr": 0.0003,
+  "gamma": 0.999,
+  "gae_lambda": 0.98,
+  "num_minibatches": 8,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "trained with ll_hover shaping v2 (fuel refunded, landing penalised like a crash) so it learns to hover; eval on the true env",
+ "train_obs_norm_folded": null,
+ "train_steps": 1998848,
+ "eval_mean_return": -118.99187453968273,
+ "eval_std_return": 26.935357252120582,
+ "eval_episodes": 1024,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 1024,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -118.99187453968273,
+  "std_return": 26.935357252120582,
+  "min_return": -250.3280645180697,
+  "max_return": -57.72143245425758,
+  "mean_length": 987.80859375,
+  "outcomes": {
+   "timeout": 988,
+   "crashed": 36
+  },
+  "landing_rate": 0.0,
+  "success_rate_200": 0.0
+ },
+ "wallclock_train_s": 405.0,
+ "eval_sampled_mean_return": -70.8326840672656,
+ "eval_sampled_std_return": 22.023515116390126,
+ "eval_sampled": {
+  "episodes": 1024,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": -70.8326840672656,
+  "std_return": 22.023515116390126,
+  "min_return": -201.53967864544094,
+  "max_return": -11.863123503075869,
+  "mean_length": 997.6123046875,
+  "outcomes": {
+   "timeout": 1015,
+   "crashed": 9
+  },
+  "landing_rate": 0.0,
+  "success_rate_200": 0.0
+ },
+ "train_recent_mean_return": -72.99428454478374,
+ "landing_rate_1024": 0.0,
+ "landing_rate_1024_sampled": 0.0,
+ "selection": "v2 hover shaping (fuel refunded + rest penalised like a crash), 2M steps, seed 0. True-env greedy over 1024 eps: {'timeout': 988, 'crashed': 36}; sampled: {'timeout': 1015, 'crashed': 9}. v1 (rest penalty only) landed 78% and is kept in candidates/."
+}

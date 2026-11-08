@@ -1,0 +1,16 @@
+[
+ {
+  "turn": 29,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nTb=rs(Wv0@(np.eye(384)-Pp),33)  # token basis 33x384\nX=F0@Tb.T   # 1536 x 33\nnr=np.linalg.norm(X,axis=1); print(np.percentile(nr,[10,50,90,99]))\nXn=X/nr[:,None]\nsel=nr>np.percentile(nr,50)\nCm=Xn[sel]@Xn[sel].T\nnp.fill_diagonal(Cm,0)\nprint('max cos per row percentiles',np.percentile(Cm.max(1),[10,50,90]))\n# compare to random baseline in 33 dims\nRn=np.random.randn(sel.sum(),33); Rn/=np.linalg.norm(Rn,axis=1,keepdims=True); Cr=Rn@Rn.T; np.fill_diagonal(Cr,0)\nprint('random',np.percentile(Cr.max(1),[10,50,90]))\n"
+ },
+ {
+  "turn": 30,
+  "patterns": [
+   "random"
+  ],
+  "code": "\n# greedy clustering of strong neurons in token space\nXs=Xn[nr>np.percentile(nr,30)]\ndef kmeans(X,K,it=50,seed=0):\n    rng=np.random.default_rng(seed); C=X[rng.choice(len(X),K,replace=False)]\n    for _ in range(it):\n        a=np.argmax(X@C.T,1)\n        for k in range(K):\n            m=X[a==k]\n            if len(m): c=m.sum(0); C[k]=c/np.linalg.norm(c)\n    return C,a,(X*C[a]).sum(1).mean()\nfor K in [10,20,27,35,45,60,80]:\n    print(K, np.round(np.mean([kmeans(Xs,K,seed=s)[2] for s in range(3)]),3))\n"
+ }
+]

@@ -1,0 +1,38 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231004-3acc-main-triangle-a2",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "triangle",
+  "answer": "Handwritten-digit-like images (MNIST-style digits at 16x16): bright slanted pen strokes forming digits on a black background, with varied digit shapes.",
+  "correct": false,
+  "confidence": 0.45,
+  "score": 1,
+  "tokens_in": 73606,
+  "tokens_out": 6827,
+  "cost_usd": 0.430964,
+  "timestamp": "2026-11-07T23:25:32+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 2,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Triangle \u00b7 attempt 2",
+  "group": "Triangle",
+  "reasoning_excerpt": "I'm going to start from the output bias, since it roughly reflects the average image. Its first row is uniformly negative and dark, and the second row shows a mix of values, with the middle being the brightest part.\n\nNow I'm reading the remaining rows of the output bias, which get progressively brighter toward the center.\n\nI'm moving down through the lower rows of the output bias, where the values stay mostly negative with a few near-zero spots in the middle. The bottom rows get darker again toward the edges. The overall shape looks like a blurry blob, which makes me think the data could be something like handwritten digits.\n\nI'm checking the hidden-layer weights next, looking for horizontal bands of positive and negative values across the rows. Those strong patterns make me wonder whether",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "................\n.....######.....\n....########....\n...###....###...\n..........###...\n..........###...\n.........###....\n........###.....\n.......###......\n......###.......\n.....###........\n....###.........\n...###..........\n..###########...\n..############..\n................",
+  "drawing_judge": {
+    "pred": "triangle",
+    "scores": {
+      "circle": 0.3728,
+      "square": 0.3951,
+      "triangle": 0.4161
+    },
+    "variant": "filled",
+    "on_pixels": 70
+  }
+}

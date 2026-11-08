@@ -1,0 +1,41 @@
+{
+  "_note": "FAKE DATA for dev.html only.",
+  "status": "done",
+  "summary": "FAKE: invented numbers, for layout only.",
+  "rows": [
+    {
+      "experiment": "exp1",
+      "task": "Name the Atari game",
+      "metric": "accuracy",
+      "astra": "4/4",
+      "opus": "FAKE 10/15",
+      "note": "Different games (MinAtar vs ALE RAM)"
+    },
+    {
+      "experiment": "exp4",
+      "task": "Fix a failing policy",
+      "metric": "success rate (%)",
+      "astra": 100,
+      "opus": 87.5,
+      "higher_is_better": true,
+      "note": "Kinetix vs MountainCar"
+    },
+    {
+      "experiment": "exp5",
+      "task": "Write Breakout policy",
+      "metric": "mean score",
+      "astra": 517.4,
+      "opus": 42.0,
+      "higher_is_better": true,
+      "note": "MinAtar vs ALE — not comparable scales"
+    },
+    {
+      "experiment": "exp7",
+      "task": "Spot the sycophant (weights only)",
+      "metric": "correct",
+      "astra": false,
+      "opus": true,
+      "note": ""
+    }
+  ]
+}

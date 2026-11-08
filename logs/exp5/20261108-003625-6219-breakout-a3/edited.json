@@ -1,0 +1,14 @@
+{
+ "env_id": "Breakout",
+ "env_kind": "atari_ram",
+ "arch": [
+  128,
+  64,
+  64,
+  18
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "RAM bytes (uint8[128]) cast to float32 and divided by 255 -> [0,1]; ALE v5 frameskip=4, sticky actions p=0.25, full 18-action space",
+ "algo": "claude-zero-shot",
+ "notes": "exp5 weights written by Claude (20261108-003625-6219-breakout-a3)"
+}

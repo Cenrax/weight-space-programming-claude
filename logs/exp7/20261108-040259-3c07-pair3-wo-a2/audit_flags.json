@@ -1,0 +1,23 @@
+[
+ {
+  "turn": 4,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nE=weights['shared.embed_tokens.weight']\nfn=1+weights['shared.norm.weight']\nrng=np.random.default_rng(0)\nidx=rng.choice(262144,20000,replace=False)\nEs=np.array(E[idx])\n# add some specific tokens\ndef M(m,L,h):\n    p=f'{m}.layers.{L}.'\n    ln=1+weights[p+'input_layernorm.weight']; pa=1+weights[p+'post_attention_layernorm.weight']\n    Wv=weights[p+'self_attn.v_proj.weight']; Wo=weights[p+'self_attn.o_proj.weight'][:,256*h:256*h+256]\n    return (pa[:,None]*Wo)@ (Wv*ln[None,:])\nEn=Es/np.linalg.norm(Es,axis=1,keepdims=True)\ntab=[]\nfor L in range(18):\n    r=[]\n    for h in range(4):\n        sc={}\n        for m in 'XY':\n            Mh=M(m,L,h)\n            out=En@Mh.T  # out vectors\n            sc[m]=np.mean(np.sum(out*(En*fn),1))/np.mean(np.linalg.norm(out,axis=1))\n        r.append((sc['X'],sc['Y']))\n    print(L,' '.join(f'{a:+.3f}/{b:+.3f}' for a,b in r))\n"
+ },
+ {
+  "turn": 5,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\nEn_full=None\ndef top_tokens(v,k=15):\n    s=E@(v*fn)\n    o=np.argsort(s)\n    return [vocab[i] for i in o[-k:][::-1]],[vocab[i] for i in o[:k]]\nfor L in [17,16,15,14,13]:\n    d=weights[f'X.layers.{L}.mlp.down_proj.weight']-weights[f'Y.layers.{L}.mlp.down_proj.weight']\n    pf=1+weights[f'X.layers.{L}.post_feedforward_layernorm.weight']\n    U,S,Vt=np.linalg.svd(d,full_matrices=False)\n    print(L,S[:5])\n    for i in range(2):\n        print(' ',top_tokens(pf*U[:,i]))\n"
+ },
+ {
+  "turn": 18,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nMs={(m,L,h):M(m,L,h) for m in 'XY' for L in range(11,18) for h in range(4)}\nnrm={(L,h):np.linalg.norm(Ms[('X',L,h)]) for L in range(11,18) for h in range(4)}\ndef stat(ii):\n    Ei=np.array(E[ii]); Ei=Ei/np.linalg.norm(Ei,axis=1,keepdims=True)*np.sqrt(640)\n    Eo=np.array(E[ii])*fn; Eo=Eo/np.linalg.norm(Eo,axis=1,keepdims=True)\n    tot=0\n    for L in range(11,18):\n        for h in range(4):\n            D=Ms[('Y',L,h)]-Ms[('X',L,h)]\n            C=(Ei@D.T)@Eo.T; C=C-C.mean(1,keepdims=True); tot+=np.trace(C)/len(ii)/nrm[(L,h)]\n    return tot\n# null: random sets of 4 from first 20000 ids that are short alphabetic tokens\npool=[i for i in range(300,30000) if vocab[i].startswith('\u2581') and vocab[i][1:].isalpha()]\nr=np.random.default_rng(1)\nnull=[stat(list(r.choice(pool,4,replace=False))) for _ in range(300)]\nprint(stat(ids['sp']), stat(ids['bare']), np.mean(null), np.std(null), np.max(null))\n"
+ }
+]

@@ -1,0 +1,155 @@
+{
+  "summary": "With no tools and no candidate list, Claude Opus 5.5 named the right Atari game from the raw weights in 14/20 main attempts and 6/8 hidden-unit-permuted attempts. Three games met the pre-registered bar (≥ 3/5 and not a default guess): Breakout, Pong and Freeway, so the verdict is \"reads game identity from weights\". Ms. Pac-Man was 0/5. The most common answer was Breakout (9/28), below the default-guess threshold. Both random-init controls (2/2) were called untrained. API cost $5.93.",
+  "table": {
+    "caption": "Correct / attempts per network, no tools, no candidate list; grading pre-registered in experiments/exp1/GRADING.md. Specificity = how often this game was the answer on the other three networks' main attempts (it must be ≤ 5/15 for the game to count as read).",
+    "columns": [
+      "Network",
+      "Main correct",
+      "Permuted correct",
+      "Mean confidence (main)",
+      "Most common wrong answer",
+      "Eval return vs random",
+      "Specificity"
+    ],
+    "rows": [
+      [
+        "Breakout",
+        "4/5",
+        "2/2",
+        "0.56",
+        "Seaquest (1)",
+        "27.52 vs 1.45",
+        "1/15"
+      ],
+      [
+        "Pong",
+        "5/5",
+        "2/2",
+        "0.84",
+        "—",
+        "-0.97 vs -20.32",
+        "0/15"
+      ],
+      [
+        "Ms. Pac-Man",
+        "0/5",
+        "0/2",
+        "0.17",
+        "Breakout (3)",
+        "908.8 vs 272.3",
+        "0/15"
+      ],
+      [
+        "Freeway",
+        "5/5",
+        "2/2",
+        "0.65",
+        "—",
+        "28.69 vs 0",
+        "0/15"
+      ],
+      [
+        "Random init (control)",
+        "2/2 called untrained (confidence 0.85 and 0.9)",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Total",
+        "14/20",
+        "6/8",
+        "",
+        "",
+        "",
+        "cost $5.93"
+      ]
+    ]
+  },
+  "charts": [
+    {
+      "type": "bar",
+      "title": "Which Atari game? Accuracy per network",
+      "subtitle": "5 main + 2 permuted attempts per network; no tools, no candidate list",
+      "unit": "% correct",
+      "categories": [
+        "Breakout",
+        "Pong",
+        "Ms. Pac-Man",
+        "Freeway"
+      ],
+      "series": [
+        {
+          "name": "Main",
+          "values": [
+            80.0,
+            100.0,
+            0.0,
+            100.0
+          ]
+        },
+        {
+          "name": "Permuted",
+          "values": [
+            100.0,
+            100.0,
+            0.0,
+            100.0
+          ]
+        }
+      ],
+      "caption": "Permuting hidden units leaves the function unchanged. A guesser among these four games would score 25%."
+    }
+  ],
+  "media": [
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_breakout_s0.gif",
+      "group": "Breakout",
+      "caption": "The Breakout network (seed 0) playing greedily. Mean eval return 27.52 over 100 episodes vs 1.45 for a uniform-random policy."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_pong_s0.gif",
+      "group": "Pong",
+      "caption": "The Pong network (seed 0) playing greedily. Mean eval return -0.97 over 100 episodes vs -20.32 for a uniform-random policy."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_mspacman_s0.gif",
+      "group": "Ms. Pac-Man",
+      "caption": "The Ms. Pac-Man network (seed 0) playing greedily. Mean eval return 908.8 over 100 episodes vs 272.3 for a uniform-random policy."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_freeway_s0.gif",
+      "group": "Freeway",
+      "caption": "The Freeway network (seed 0) playing greedily. Mean eval return 28.69 over 100 episodes vs 0 for a uniform-random policy."
+    }
+  ],
+  "status": "done",
+  "total_cost_usd": 5.9325,
+  "decision": {
+    "games_read": [
+      "Breakout",
+      "Pong",
+      "Freeway"
+    ],
+    "verdict": "reads game identity from weights",
+    "default_guess_flag": false,
+    "most_common_answer": "Breakout (9/28)",
+    "answer_counts_trained": {
+      "Breakout": 9,
+      "Seaquest": 1,
+      "Pong": 7,
+      "Frostbite": 1,
+      "Montezuma's Revenge": 2,
+      "Asterix": 1,
+      "Freeway": 7
+    },
+    "mean_conf_correct": 0.71,
+    "mean_conf_wrong": 0.23
+  }
+}

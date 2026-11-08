@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-230922-0b92-main-triangle-a1",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "triangle",
+  "answer": "Single filled upright isosceles triangles (apex at top center, horizontal base lower down), white on a black background, varying somewhat in size and position.",
+  "correct": true,
+  "confidence": 0.45,
+  "score": 1,
+  "tokens_in": 73606,
+  "tokens_out": 7038,
+  "cost_usd": 0.435184,
+  "timestamp": "2026-11-07T23:25:32+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 1,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Triangle \u00b7 attempt 1",
+  "group": "Triangle",
+  "reasoning_excerpt": "Now I'm checking the output bias, b3, which should roughly capture the mean image, so I'll lay its values out as a 16x16 grid. The first row is all large negative values, from about -785 to -980.\n\nStill laying out the rest of the bias values as grid rows...\n\nNow I'm reading the bottom rows of the bias grid, rows 12 through 15, which are mostly strongly negative with a few values near zero in the middle. The outer edge stays dark while the center moves toward the mean blob, so it could be digits or varied shapes.\n\nNow I'm tracing what hidden unit 18 responds to: a diagonal run of pixels in the upper-middle rows that angles down and to the left, plus a vertical stretch on the upper right side. Next I'm checking unit 36, whose pixels cluster in the left-center rows around columns 3 and 4.\n\nNo",
+  "text_label": "triangle",
+  "labels_mentioned": [
+    "triangle"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n.......#........\n.......##.......\n......###.......\n......####......\n.....#####......\n.....######.....\n....#######.....\n....########....\n...#########....\n...##########...\n..###########...\n..############..\n................\n................\n................",
+  "drawing_judge": {
+    "pred": "triangle",
+    "scores": {
+      "circle": 0.6989,
+      "square": 0.7097,
+      "triangle": 0.9286
+    },
+    "variant": "filled",
+    "on_pixels": 78
+  }
+}

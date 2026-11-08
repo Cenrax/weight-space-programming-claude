@@ -1,0 +1,109 @@
+{
+ "n_python_cells": 67,
+ "n_flagged_cells": 9,
+ "flagged": [
+  {
+   "turn": 6,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "4: def build_v2(w_cap=15, w_esc=6, w_sa=4, w_eye=20, prior_fn=prior, pass_logit=0.0):"
+    ]
+   }
+  },
+  {
+   "turn": 9,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: def build_v3(w_cap=15, w_esc=3, w_es2=5, w_sa=4, w_eye=20, prior_fn=prior, pass_logit=0.0, extra=None):"
+    ]
+   }
+  },
+  {
+   "turn": 11,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: def build_v4(w_sal=1.5, w_sam=8, pass_logit=-3.0, adj_opp=0.0, adj_own=0.0, **kw):",
+     "12: return build_v3(w_sa=w_sam, pass_logit=pass_logit, extra=extra, **kw)"
+    ]
+   }
+  },
+  {
+   "turn": 13,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: print(save(*build_v4(w_sal=4, w_sam=8, pass_logit=-3.0)))"
+    ]
+   }
+  },
+  {
+   "turn": 14,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: print(save(*build_v4(w_sal=4, w_sam=4, pass_logit=0.0, adj_opp=0.3, adj_own=0.1)))"
+    ]
+   }
+  },
+  {
+   "turn": 15,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: def build_v5(w_sa=4, pass_logit=0.0, adj_opp=0.0, adj_own=0.0, **kw):",
+     "9: return build_v3(w_sa=w_sa, pass_logit=pass_logit, extra=extra, **kw)"
+    ]
+   }
+  },
+  {
+   "turn": 20,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: def build_v6(w_sa=4, pass_logit=0.0, u_base=0.3, u_own=0.3, u_kill=0.0, **kw):",
+     "10: return build_v3(w_sa=w_sa, pass_logit=pass_logit, extra=extra, **kw)"
+    ]
+   }
+  },
+  {
+   "turn": 23,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: def build_v7(w_sa=4, pass_logit=0.0, adj_opp=0.3, adj_own=0.1, w_a2=1.0, use_es=False, w_es2=5, **kw):",
+     "15: return build_v3(w_sa=w_sa, pass_logit=pass_logit, extra=extra, w_es2=(w_es2 if use_es else 0), **kw)"
+    ]
+   }
+  },
+  {
+   "turn": 26,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "2: def build_g(w_cap=15, w_esc=3, w_es2=5, w_sa=4, w_eye=20, prior_fn=prior, pass_logit=0.0,"
+    ]
+   }
+  }
+ ]
+}

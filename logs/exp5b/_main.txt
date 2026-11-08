@@ -1,0 +1,23 @@
+jobs: [('lunarlander', 5), ('breakout', 5), ('acrobot', 25), ('lunarlander', 25), ('breakout', 25)]; exp5b spend so far $0.19
+[20261108-034958-d95e-lunarlander-b5-a1] calling claude (budget 5, caps {'turns': 30, 'usd': 1.2})
+[20261108-034958-6fc9-breakout-b5-a1] calling claude (budget 5, caps {'turns': 30, 'usd': 1.2})
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-034958-d95e-lunarlander-b5-a1] done: turns=9 in=181801 out=13345 cost=$0.445 stop=end_turn rollouts=4
+[20261108-034958-d95e-lunarlander-b5-a1] final score 266.85 ± 43.3 success=0.96 (PPO-100k -1494.72) curve=[159.697, 235.737, 265.046, 278.525] flags=0
+[20261108-035232-f66c-acrobot-b25-a1] calling claude (budget 25, caps {'turns': 70, 'usd': 2.2})
+[20261108-035232-f66c-acrobot-b25-a1] done: turns=26 in=510636 out=13180 cost=$0.516 stop=end_turn rollouts=20
+[20261108-035232-f66c-acrobot-b25-a1] final score -83.15 ± 18.7 success=1.0 (PPO-100k -90.78) curve=[-500.0, -88.438, -125.531, -88.938, -92.844, -500.0, -146.969, -82.25, -103.094, -80.5, -110.844, -80.75, -81.875, -82.594, -85.969, -81.75, -95.125, -106.719, -80.875, -83.062] flags=0
+[20261108-035523-6d47-lunarlander-b25-a1] calling claude (budget 25, caps {'turns': 70, 'usd': 2.2})
+[20261108-034958-6fc9-breakout-b5-a1] done: turns=9 in=172710 out=26559 cost=$0.753 stop=end_turn rollouts=5
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-035523-6d47-lunarlander-b25-a1] done: turns=32 in=1215629 out=23622 cost=$0.994 stop=end_turn rollouts=22
+[20261108-035523-6d47-lunarlander-b25-a1] final score 277.42 ± 14.9 success=1.0 (PPO-100k -1494.72) curve=[240.009, 232.718, 263.632, 265.762, 256.748, 274.496, 258.42, 246.608, 275.919, 52.734, 273.49, 271.208, 260.778, 275.447, 278.56, 278.927, 240.995, 264.052, 276.142, 269.847, 273.547, 279.807] flags=0
+[20261108-040021-8a59-breakout-b25-a1] calling claude (budget 25, caps {'turns': 70, 'usd': 2.2})
+[20261108-034958-6fc9-breakout-b5-a1] final score 0.00 ± 0.0 success=None (PPO-100k 2.18) curve=[42.375, 28.5, 38.344, 31.719, 15.125] flags=0
+[20261108-040021-8a59-breakout-b25-a1] done: turns=32 in=1223219 out=36684 cost=$1.256 stop=end_turn rollouts=23
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-040021-8a59-breakout-b25-a1] final score 184.69 ± 109.6 success=None (PPO-100k 2.18) curve=[13.5, 5.031, 34.125, 27.812, 31.156, 35.781, 13.031, 33.312, 23.656, 8.594, 39.344, 34.812, 66.625, 149.812, 95.594, 84.344, 186.219, 147.344, 188.656, 154.969, 185.688, 126.969, 174.844] flags=0
+exp5b spend $4.16

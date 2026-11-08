@@ -1,0 +1,7 @@
+[20261108-041354-a534-breakout-b25-a2] calling claude (budget 25, caps {'turns': 70, 'usd': 2.2})
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-041354-a534-breakout-b25-a2] done: turns=36 in=1954445 out=56313 cost=$1.954 stop=end_turn rollouts=25
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+[20261108-041354-a534-breakout-b25-a2] final score 92.13 ± 59.0 success=None (PPO-100k 2.18) curve=[12.875, 29.688, 0.0, 19.875, 23.938, 28.781, 28.75, 28.75, 3.0, 24.562, 45.688, 22.344, 29.062, 62.25, 53.406, 85.531, 68.125, 73.094, 82.344, 81.125, 73.344, 47.531, 91.531, 98.062, 94.25] flags=0

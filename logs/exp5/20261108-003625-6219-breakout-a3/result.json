@@ -1,0 +1,41 @@
+{
+  "exp_id": "exp5",
+  "run_id": "20261108-003625-6219-breakout-a3",
+  "model": "claude-opus-5-5",
+  "condition": "zero-shot write from scratch, no tools, no rollouts",
+  "target": "Breakout",
+  "answer": "Paddle tracks the ball. Choose RIGHT if ballX(RAM99) \u2212 padX(RAM72) > 7.5, else LEFTFIRE. If the ball is absent (RAM99<20 or RAM101<3), the paddle chatters around x\u2248110 so that FIRE presses repeat and the ball gets served.",
+  "correct": true,
+  "confidence": null,
+  "score": 27.05,
+  "tokens_in": 31899,
+  "tokens_out": 10566,
+  "cost_usd": 0.338916,
+  "timestamp": "2026-11-08T00:42:17+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "label": "Breakout \u00b7 attempt 3",
+  "group": "Breakout",
+  "env": "breakout",
+  "attempt": 3,
+  "effort": "high",
+  "success_rate": null,
+  "heuristic_agreement": null,
+  "parse_ok": true,
+  "parse_error": null,
+  "partial_parse_score": null,
+  "max_return": 67.0,
+  "landing_rate": null,
+  "outcomes": {
+    "terminated": 100
+  },
+  "n_weight_lines": 22,
+  "n_nonzero": 37,
+  "ram_bytes_used": [
+    72,
+    99,
+    101
+  ],
+  "reasoning_excerpt": "CONTROLLER: Paddle tracks the ball. Choose RIGHT if ballX(RAM99) \u2212 padX(RAM72) > 7.5, else LEFTFIRE. If the ball is absent (RAM99<20 or RAM101<3), the paddle chatters around x\u2248110 so that FIRE presses repeat and the ball gets served.\n\n**How the network works**\n\nThis design is untested. It relies on the published AtariARI RAM annotations for Breakout: RAM[99] is ball x, RAM[101] is ball y and RAM[72] is paddle x. The target offset of 7.5 and the \"ball absent\" test both assume how those bytes behave; neither has been checked against the game.\n\n*Layer 1 (four used units; RAM values in raw units, x = RAM/255):*\n- **u1** = tanh(2\u00b7(ballX \u2212 padX \u2212 7.5)). It is +1 when the ball is right of the paddle centre, assuming a paddle about 16 px wide. Otherwise it is \u22121.\n- **u2** = tanh(2\u00b7(110.5 \u2212 padX)). It is +1 when the paddle is left of screen centre.\n- **u3a** = tanh(20 \u2212 ballX). It is +1 only if ballX is near 0, which I take to mean the ball is absent.\n- **u3b** = tanh(4\u00b7(2.5 \u2212 ballY)). It is +1 only if ballY is near 0, also taken to mean the ball is absent.\n\n*Layer 2 (gating):*\n- **v1a** = tanh(5\u00b7u1 \u2212 10\u00b7g) and **v1b** = tanh(5\u00b7u1 + 10\u00b7g), where g = (u3a+1) + (u3b+1).\n  - g is 0 while the ball is in play, so both units equal sign(u1).\n  - g is at least 2 when the ball is absent, so v1a = \u22121 and v1b = +1, and they cancel.\n- **v2** = tanh(5\u00b7u2), the \"go to centre\" term.\n\n*Output:*\n- The RIGHT logit (action 3) is v1a + v1b + v2. The LEFTFIRE logit (action 12) is 0.\n- Every other action h"
+}

@@ -1,0 +1,74 @@
+{
+ "env_id": "LunarLander-v3",
+ "env_kind": "raw",
+ "arch": [
+  8,
+  64,
+  64,
+  4
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 16,
+  "num_steps": 256,
+  "lr": 0.0003,
+  "gamma": 0.999,
+  "gae_lambda": 0.98,
+  "num_minibatches": 8,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "",
+ "train_obs_norm_folded": null,
+ "train_steps": 9998336,
+ "eval_mean_return": 266.0737187084646,
+ "eval_std_return": 37.44823812711789,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 266.0737187084646,
+  "std_return": 37.44823812711789,
+  "min_return": 43.754746336921414,
+  "max_return": 321.26557361426046,
+  "mean_length": 262.39,
+  "outcomes": {
+   "landed": 95,
+   "timeout": 4,
+   "crashed": 1
+  },
+  "landing_rate": 0.95,
+  "success_rate_200": 0.95
+ },
+ "wallclock_train_s": 2196.7,
+ "eval_sampled_mean_return": 265.96283253595675,
+ "eval_sampled_std_return": 43.678699126483934,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": 265.96283253595675,
+  "std_return": 43.678699126483934,
+  "min_return": 49.125142945644,
+  "max_return": 322.3301485805413,
+  "mean_length": 306.96,
+  "outcomes": {
+   "landed": 91,
+   "timeout": 8,
+   "crashed": 1
+  },
+  "landing_rate": 0.91,
+  "success_rate_200": 0.91
+ },
+ "train_recent_mean_return": 260.05082087415434
+}

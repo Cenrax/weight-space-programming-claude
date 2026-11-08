@@ -1,0 +1,477 @@
+{
+ "cartpole": {
+  "zero": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 9.35,
+   "std_return": 0.6982120021884471,
+   "min_return": 8.0,
+   "max_return": 11.0,
+   "mean_length": 9.35,
+   "outcomes": {
+    "fell": 100
+   },
+   "success_rate": 0.0
+  },
+  "random": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 22.52,
+   "std_return": 11.411818435288918,
+   "min_return": 9.0,
+   "max_return": 61.0,
+   "mean_length": 22.52,
+   "outcomes": {
+    "fell": 100
+   },
+   "success_rate": 0.0
+  },
+  "ppo_100k": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 495.33,
+   "std_return": 23.127064232193415,
+   "min_return": 337.0,
+   "max_return": 500.0,
+   "mean_length": 495.33,
+   "outcomes": {
+    "timeout": 95,
+    "fell": 5
+   },
+   "success_rate": 0.95,
+   "stored_mean_return": 495.33,
+   "heuristic_agreement": 0.9360426382411725
+  },
+  "ppo_1M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 275.69,
+   "std_return": 33.600504460498804,
+   "min_return": 224.0,
+   "max_return": 378.0,
+   "mean_length": 275.69,
+   "outcomes": {
+    "fell": 100
+   },
+   "success_rate": 0.0,
+   "stored_mean_return": 275.69,
+   "heuristic_agreement": 0.9163553266349885
+  },
+  "ppo_5M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 500.0,
+   "std_return": 0.0,
+   "min_return": 500.0,
+   "max_return": 500.0,
+   "mean_length": 500.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 1.0,
+   "stored_mean_return": 500.0,
+   "heuristic_agreement": 0.8381
+  },
+  "heuristic": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 486.96,
+   "std_return": 43.24463434924615,
+   "min_return": 269.0,
+   "max_return": 500.0,
+   "mean_length": 486.96,
+   "outcomes": {
+    "timeout": 91,
+    "fell": 9
+   },
+   "success_rate": 0.91,
+   "desc": "1 if theta + theta_dot > 0 else 0",
+   "primary_flag": false
+  }
+ },
+ "acrobot": {
+  "zero": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -500.0,
+   "std_return": 0.0,
+   "min_return": -500.0,
+   "max_return": -500.0,
+   "mean_length": 500.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0
+  },
+  "random": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -499.71,
+   "std_return": 2.8854635676091984,
+   "min_return": -500.0,
+   "max_return": -471.0,
+   "mean_length": 499.72,
+   "outcomes": {
+    "timeout": 99,
+    "swung_up": 1
+   },
+   "success_rate": 0.01
+  },
+  "ppo_100k": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -90.78,
+   "std_return": 41.280644374815665,
+   "min_return": -358.0,
+   "max_return": -64.0,
+   "mean_length": 91.78,
+   "outcomes": {
+    "swung_up": 100
+   },
+   "success_rate": 1.0,
+   "stored_mean_return": -90.78,
+   "heuristic_agreement": 0.16158204401830464
+  },
+  "ppo_1M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -79.81,
+   "std_return": 13.24137077496133,
+   "min_return": -143.0,
+   "max_return": -62.0,
+   "mean_length": 80.81,
+   "outcomes": {
+    "swung_up": 100
+   },
+   "success_rate": 1.0,
+   "stored_mean_return": -79.81,
+   "heuristic_agreement": 0.07449573072639525
+  },
+  "ppo_5M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -76.44,
+   "std_return": 17.478169240512575,
+   "min_return": -176.0,
+   "max_return": -62.0,
+   "mean_length": 77.44,
+   "outcomes": {
+    "swung_up": 100
+   },
+   "success_rate": 1.0,
+   "stored_mean_return": -76.44,
+   "heuristic_agreement": 0.10601756198347108
+  },
+  "heuristic": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -500.0,
+   "std_return": 0.0,
+   "min_return": -500.0,
+   "max_return": -500.0,
+   "mean_length": 500.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0,
+   "desc": "2 if dtheta1 > 0 else 0",
+   "primary_flag": false
+  }
+ },
+ "mountaincar": {
+  "zero": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0
+  },
+  "random": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0
+  },
+  "ppo_100k": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0,
+   "stored_mean_return": -200.0,
+   "heuristic_agreement": 0.57935
+  },
+  "ppo_1M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0,
+   "stored_mean_return": -200.0,
+   "heuristic_agreement": 0.57935
+  },
+  "ppo_5M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 100
+   },
+   "success_rate": 0.0,
+   "stored_mean_return": -200.0,
+   "heuristic_agreement": 0.57935
+  },
+  "heuristic": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -119.47,
+   "std_return": 3.965992939983631,
+   "min_return": -125.0,
+   "max_return": -113.0,
+   "mean_length": 119.47,
+   "outcomes": {
+    "flag": 100
+   },
+   "success_rate": 1.0,
+   "desc": "push in the direction of velocity (2 if v >= 0 else 0)",
+   "primary_flag": true
+  }
+ },
+ "lunarlander": {
+  "zero": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -131.49587714269447,
+   "std_return": 44.008862635999286,
+   "min_return": -337.0125492644675,
+   "max_return": 8.702736087409107,
+   "mean_length": 69.18,
+   "outcomes": {
+    "crashed": 100
+   },
+   "landing_rate": 0.0,
+   "success_rate_200": 0.0,
+   "success_rate": 0.0
+  },
+  "random": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -187.36622958010045,
+   "std_return": 106.94242642126345,
+   "min_return": -517.3871800535449,
+   "max_return": -1.1325460586306235,
+   "mean_length": 91.37,
+   "outcomes": {
+    "crashed": 100
+   },
+   "landing_rate": 0.0,
+   "success_rate_200": 0.0,
+   "success_rate": 0.0
+  },
+  "ppo_100k": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": -1494.7233832995978,
+   "std_return": 490.2529046091077,
+   "min_return": -2658.931410878235,
+   "max_return": -481.6864058516632,
+   "mean_length": 355.3,
+   "outcomes": {
+    "crashed": 100
+   },
+   "landing_rate": 0.0,
+   "success_rate_200": 0.0,
+   "success_rate": 0.0,
+   "stored_mean_return": -1494.7233832995978,
+   "heuristic_agreement": 0.13011539544047285
+  },
+  "ppo_1M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 115.4225273607786,
+   "std_return": 97.80605098383491,
+   "min_return": -157.66920448646906,
+   "max_return": 251.74048774002534,
+   "mean_length": 718.63,
+   "outcomes": {
+    "timeout": 19,
+    "landed": 67,
+    "crashed": 14
+   },
+   "landing_rate": 0.67,
+   "success_rate_200": 0.16,
+   "success_rate": 0.16,
+   "stored_mean_return": 115.4225273607786,
+   "heuristic_agreement": 0.21791464314041997
+  },
+  "ppo_10M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 266.0737187084646,
+   "std_return": 37.44823812711789,
+   "min_return": 43.754746336921414,
+   "max_return": 321.26557361426046,
+   "mean_length": 262.39,
+   "outcomes": {
+    "landed": 95,
+    "timeout": 4,
+    "crashed": 1
+   },
+   "landing_rate": 0.95,
+   "success_rate_200": 0.95,
+   "success_rate": 0.95,
+   "stored_mean_return": 266.0737187084646,
+   "heuristic_agreement": 0.5434277220930676
+  },
+  "heuristic": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 256.5660524488332,
+   "std_return": 72.03390815423971,
+   "min_return": -198.20492928171552,
+   "max_return": 314.04027062760446,
+   "mean_length": 245.78,
+   "outcomes": {
+    "landed": 97,
+    "crashed": 3
+   },
+   "landing_rate": 0.97,
+   "success_rate_200": 0.95,
+   "success_rate": 0.95,
+   "desc": "gymnasium.envs.box2d.lunar_lander.heuristic (discrete)",
+   "primary_flag": true
+  }
+ },
+ "breakout": {
+  "zero": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 0.0,
+   "std_return": 0.0,
+   "min_return": 0.0,
+   "max_return": 0.0,
+   "mean_length": 27000.0,
+   "outcomes": {
+    "truncated": 100
+   },
+   "success_rate": null
+  },
+  "random": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 1.45,
+   "std_return": 1.388344337691482,
+   "min_return": 0.0,
+   "max_return": 6.0,
+   "mean_length": 187.22,
+   "outcomes": {
+    "terminated": 100
+   },
+   "success_rate": null
+  },
+  "ppo_100k": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 2.18,
+   "std_return": 0.38418745424597095,
+   "min_return": 2.0,
+   "max_return": 3.0,
+   "mean_length": 205.64,
+   "outcomes": {
+    "terminated": 100
+   },
+   "success_rate": null,
+   "stored_mean_return": 2.18,
+   "heuristic_agreement": null
+  },
+  "ppo_1M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 7.02,
+   "std_return": 5.812022023358136,
+   "min_return": 1.0,
+   "max_return": 22.0,
+   "mean_length": 18233.13,
+   "outcomes": {
+    "truncated": 62,
+    "terminated": 38
+   },
+   "success_rate": null,
+   "stored_mean_return": 7.02,
+   "heuristic_agreement": null
+  },
+  "ppo_10M": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": true,
+   "mean_return": 27.52,
+   "std_return": 9.390931796153136,
+   "min_return": 8.0,
+   "max_return": 64.0,
+   "mean_length": 742.45,
+   "outcomes": {
+    "terminated": 100
+   },
+   "success_rate": null,
+   "stored_mean_return": 27.52,
+   "heuristic_agreement": null
+  }
+ }
+}

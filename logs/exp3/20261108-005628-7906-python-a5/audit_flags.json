@@ -1,0 +1,9 @@
+[
+ {
+  "turn": 6,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nH=6;dh=64\ndef head(l,h):\n    g1=W[f'blocks.{l}.ln1.weight']\n    sl=slice(dh*h,dh*h+dh)\n    q=W[f'blocks.{l}.attn.q.weight'][sl]*g1; k=W[f'blocks.{l}.attn.k.weight'][sl]*g1\n    v=W[f'blocks.{l}.attn.v.weight'][sl]*g1; o=W[f'blocks.{l}.attn.o.weight'][:,sl]\n    return q,k,v,o\nHD={(l,h):head(l,h) for l in range(4) for h in range(6)}\nOV={k:v[3]@v[2] for k,v in HD.items()}\ndef comp(A,B): # A: reads (m x 384), B: OV 384x384\n    return np.linalg.norm(A@B)/(np.linalg.norm(A)*np.linalg.norm(B))\nrng=np.random.default_rng(0)\nbase=np.mean([comp(rng.normal(size=(64,384)),rng.normal(size=(384,384))) for _ in range(20)])\nprint('baseline',base)\nfor l2 in range(1,4):\n  for h2 in range(6):\n    q,k,v,o=HD[(l2,h2)]\n    rowK=[comp(k,OV[(l1,h1)]) for l1 in range(l2) for h1 in range(6)]\n    rowQ=[comp(q,OV[(l1,h1)]) for l1 in range(l2) for h1 in range(6)]\n    print(f'{l2}.{h2} K:',' '.join(f'{x/base:4.1f}' for x in rowK))\n    print(f'{l2}.{h2} Q:',' '.join(f'{x/base:4.1f}' for x in rowQ))\n"
+ }
+]

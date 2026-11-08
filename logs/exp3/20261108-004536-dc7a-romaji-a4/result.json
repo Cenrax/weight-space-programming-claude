@@ -1,0 +1,92 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-004536-dc7a-romaji-a4",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "romaji",
+  "answer": "English",
+  "correct": false,
+  "confidence": 0.4,
+  "score": 1.0,
+  "tokens_in": 1739885,
+  "tokens_out": 53876,
+  "cost_usd": 1.842746,
+  "timestamp": "2026-11-08T00:56:26+0530",
+  "status": "complete",
+  "n_turns": 40,
+  "stop_reason": "end_turn",
+  "label": "Romaji \u00b7 attempt 4",
+  "group": "Romaji",
+  "run_tag": "romaji-a4",
+  "attempt": 4,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 0.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.2"
+  ],
+  "induction_precision": 1.0,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.3622,
+    "mean_gt_score_rest": 0.0022
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.0398,
+    "mean_gt_score_rest": 0.0029
+  },
+  "prevtoken_heads_pred": [
+    "0.2"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "induction_heads_gt": [
+    "3.2"
+  ],
+  "prevtoken_heads_gt": [
+    "0.2"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "1 flag: random 21x21 matrices as a commutator baseline; no activations.",
+  "audit_n_flagged_calls": 1,
+  "n_python_calls": 39,
+  "reasoning_excerpt": "I couldn't pin down the language from these weights. Without the embedding and unembedding there is no way to tell which character is which, so \"English\" is a best guess at 0.4 confidence. The head labels are better supported. I analysed only the weight matrices: products like W_Q\u1d40W_K and W_O\u00b7W_V (with LayerNorm gains folded in), their SVDs and eigenvalues, and subspace overlaps. I ran no forward passes.\n\n**1. Language / kind of text**\n\n- **Vocabulary size.** The layer\u20110 value heads all read one shared \"token\" subspace of about 33\u201335 dimensions. The last MLP writes into about 33 strongly used output directions, which should be the directions the unembedding reads. Both point to roughly 30\u201336 frequently used characters.\n- **What that rules out.** This excludes DNA (4\u20135 symbols), protein sequences (a sharp edge near 20) and large\u2011vocabulary scripts like Chinese. Source code, with its\u2026"
+}

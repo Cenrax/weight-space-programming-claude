@@ -1,0 +1,41 @@
+{
+  "exp_id": "exp5",
+  "run_id": "20261108-004219-f9b1-breakout-a5",
+  "model": "claude-opus-5-5",
+  "condition": "zero-shot write from scratch, no tools, no rollouts",
+  "target": "Breakout",
+  "answer": "Paddle tracking. d = RAM[99] (ball x) \u2212 RAM[72] (paddle x). If d > 8.5, RIGHT. If d < 1.5, LEFTFIRE. Otherwise FIRE, which also serves the ball. The 2nd layer passes the two signals through.",
+  "correct": true,
+  "confidence": null,
+  "score": 25.52,
+  "tokens_in": 31899,
+  "tokens_out": 4872,
+  "cost_usd": 0.225036,
+  "timestamp": "2026-11-08T00:47:24+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "label": "Breakout \u00b7 attempt 5",
+  "group": "Breakout",
+  "env": "breakout",
+  "attempt": 5,
+  "effort": "high",
+  "success_rate": null,
+  "heuristic_agreement": null,
+  "parse_ok": true,
+  "parse_error": null,
+  "partial_parse_score": null,
+  "max_return": 92.0,
+  "landing_rate": null,
+  "outcomes": {
+    "truncated": 21,
+    "terminated": 79
+  },
+  "n_weight_lines": 11,
+  "n_nonzero": 11,
+  "ram_bytes_used": [
+    72,
+    99
+  ],
+  "reasoning_excerpt": "CONTROLLER: Paddle tracking. d = RAM[99] (ball x) \u2212 RAM[72] (paddle x). If d > 8.5, RIGHT. If d < 1.5, LEFTFIRE. Otherwise FIRE, which also serves the ball. The 2nd layer passes the two signals through.\n\n**Assumptions (unverified).** The RAM addresses are recalled from public Atari RAM annotations, not measured: byte 72 as paddle x and byte 99 as ball x. Nothing here was run or tested. If these addresses are wrong, the controller will not work.\n\n**How the network works**\n\n- **Layer 1** has two active units. Inputs are RAM/255, so a weight of \u00b1510 turns each into \"2 \u00d7 (difference in RAM units)\":\n  - Unit 0 (go right): tanh(2\u00b7(RAM[99] \u2212 RAM[72] \u2212 8.5)). It is about +1 when the ball is clearly right of the paddle's aim point, and about \u22121 otherwise.\n  - Unit 1 (go left): tanh(2\u00b7(RAM[72] \u2212 RAM[99] + 1.5)). It is about +1 when the ball is clearly left of the aim point.\n  - Between them is a dead band where the offset d = ball_x \u2212 paddle_x is 2..8. This centres the ball about 5 units from the paddle's reference coordinate. That offset was chosen to work whether RAM[72] is the paddle's left edge or its centre, and also after the paddle shrinks.\n- **Layer 2** copies the two signals with gain 3, so they saturate to about \u00b11.\n- **Output layer:**\n  - RIGHT gets 2\u00b7h2_0.\n  - LEFTFIRE gets 2\u00b7h2_1.\n  - FIRE gets a constant bias of 0.5, so it beats NOOP (0) when neither movement signal is active.\n  - Only one movement signal can be positive at a time.\n- **Serving:**\n  - When the paddle is al"
+}

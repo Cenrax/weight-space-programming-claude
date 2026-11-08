@@ -1,0 +1,20 @@
+[
+ {
+  "name": "python",
+  "description": "Run Python code in a persistent session (variables persist across calls, like a notebook). numpy is available as `np` and torch as `torch` (CPU only, 2 threads). `weights` is a dict of read-only, memory-mapped float32 numpy arrays (use np.array(a) for a writable copy), torch nn.Linear layout [out, in]. Model X tensors (Model Y has the same names with the prefix `Y.`):\n  X.layers.0.input_layernorm.weight: [640]\n  X.layers.0.mlp.down_proj.weight: [640, 2048]\n  X.layers.0.mlp.gate_proj.weight: [2048, 640]\n  X.layers.0.mlp.up_proj.weight: [2048, 640]\n  X.layers.0.post_attention_layernorm.weight: [640]\n  X.layers.0.post_feedforward_layernorm.weight: [640]\n  X.layers.0.pre_feedforward_layernorm.weight: [640]\n  X.layers.0.self_attn.k_norm.weight: [256]\n  X.layers.0.self_attn.k_proj.weight: [256, 640]\n  X.layers.0.self_attn.o_proj.weight: [640, 1024]\n  X.layers.0.self_attn.q_norm.weight: [256]\n  X.layers.0.self_attn.q_proj.weight: [1024, 640]\n  X.layers.0.self_attn.v_proj.weight: [256, 640]\n  (same for layers 1-17)\nShared (frozen, identical in both): shared.embed_tokens.weight [262144, 640], shared.norm.weight [640]. `vocab` = list of 262144 token strings.\nstdout and the value of the last expression are returned (truncated to 20000 chars). Each call times out after 180s. No file system or network access.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "code": {
+     "type": "string",
+     "description": "Python source to execute."
+    }
+   },
+   "required": [
+    "code"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ }
+]

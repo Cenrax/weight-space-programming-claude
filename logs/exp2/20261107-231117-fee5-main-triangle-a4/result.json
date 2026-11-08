@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231117-fee5-main-triangle-a4",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "triangle",
+  "answer": "A single bright upward-pointing triangle (apex near top center, sloping sides widening to a flat horizontal base near the bottom, probably filled) on a black background, with some variation in size/position.",
+  "correct": true,
+  "confidence": 0.5,
+  "score": 1,
+  "tokens_in": 73606,
+  "tokens_out": 10276,
+  "cost_usd": 0.499944,
+  "timestamp": "2026-11-07T23:25:33+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 4,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Triangle \u00b7 attempt 4",
+  "group": "Triangle",
+  "reasoning_excerpt": "I'm going to work from the weights, starting with the output bias b3 and laying out its values row by row in the 16x16 grid. The first row is uniformly strongly negative, and I'm now reading the second row, where the values climb from very negative toward less negative as the indices go up.\n\nI'm continuing through the rows of the bias grid, and rows 2 through 10 follow the same pattern: heavily negative at the edges and rising toward positive values near the middle, with the peak around rows 8 and 9. I'm reading the values row by row and noting where they cross zero.\n\nI'm working through the lower rows of the bias grid, where the values stay deeply negative across the edges and only a few entries near the middle approach zero. The last row is uniformly dark, which suggests the overall bias",
+  "text_label": "triangle",
+  "labels_mentioned": [
+    "triangle"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n................\n.......##.......\n......####......\n......####......\n.....######.....\n.....######.....\n....########....\n....########....\n...##########...\n...##########...\n..############..\n..############..\n.##############.\n................\n................",
+  "drawing_judge": {
+    "pred": "triangle",
+    "scores": {
+      "circle": 0.7115,
+      "square": 0.7222,
+      "triangle": 0.9796
+    },
+    "variant": "filled",
+    "on_pixels": 96
+  }
+}

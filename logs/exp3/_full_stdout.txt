@@ -1,0 +1,38 @@
+9 jobs, 1 done, 8 to run; exp3 spent $1.712 (cap $25.0)
+[romaji-a1] lang='English' conf=0.35 correct=False ind=['3.2'] (gt ['3.2']) prev=['0.2'] (gt ['0.2']) turns=24 in=641812 out=31818 $1.027 stop=end_turn flags=1
+[english-a1] lang='English' conf=0.3 correct=True ind=['3.0', '3.2', '3.3'] (gt ['3.3']) prev=['0.0'] (gt ['0.0']) turns=28 in=905402 out=33804 $1.137 stop=end_turn flags=0
+[romaji-a2] lang='English' conf=0.35 correct=False ind=['3.2'] (gt ['3.2']) prev=['0.2'] (gt ['0.2']) turns=30 in=1312187 out=46559 $1.641 stop=end_turn flags=3
+[python-a2] lang='English' conf=0.3 correct=False ind=['3.0', '3.1', '3.4', '3.5'] (gt ['3.1']) prev=['0.3'] (gt ['0.3', '2.0']) turns=27 in=888018 out=49118 $1.493 stop=end_turn flags=1
+[english-a2] lang='English' conf=0.35 correct=True ind=['3.0', '3.2', '3.3'] (gt ['3.3']) prev=['0.0'] (gt ['0.0']) turns=23 in=599232 out=30725 $0.995 stop=end_turn flags=3
+[python-a3] lang='English' conf=0.35 correct=False ind=['3.0', '3.1', '3.4', '3.5'] (gt ['3.1']) prev=['0.4', '0.5'] (gt ['0.3', '2.0']) turns=26 in=915716 out=40034 $1.306 stop=end_turn flags=1
+[romaji-a3] lang='English' conf=0.3 correct=False ind=['3.2'] (gt ['3.2']) prev=['0.2'] (gt ['0.2']) turns=38 in=1553687 out=45135 $1.567 stop=end_turn flags=2
+[english-a3] lang='English' conf=0.35 correct=True ind=['3.3'] (gt ['3.3']) prev=['0.0'] (gt ['0.0']) turns=33 in=1118609 out=40213 $1.333 stop=end_turn flags=3
+exp3 spend $12.212
+exp3: done     9 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp3.json
+Python | 0/3 | English (3) | 0.32 | 0.25 | 1.00 | 3.1 | {3.0, 3.1, 3.4, 3.5} (3/3) | 0.33 | 0.17 | 0.3, 2.0 | {0.4, 0.5} (2/3)
+Romaji | 0/3 | English (3) | 0.33 | 1.00 | 1.00 | 3.2 | {3.2} (3/3) | 1.00 | 1.00 | 0.2 | {0.2} (3/3)
+English | 3/3 | English (3) | 0.33 | 0.56 | 1.00 | 3.3 | {3.0, 3.2, 3.3} (2/3) | 1.00 | 1.00 | 0.0 | {0.0} (3/3)
+From the four middle blocks alone (no embeddings, no unembedding, no forward passes), Claude Opus 5.5 named the training language in 3/9 clean runs (Python 0/3; Romaji 0/3; English 3/3). Copying-head identification: mean F1 0.69 against the measured induction head of each model, with the top measured head picked in ≥2/3 attempts for 3/3 languages. Pre-registered verdict: partial. 0 run(s) flagged as no-forward-pass violations (reported separately). API cost $12.21.
+{
+ "language_correct": "3/9",
+ "c1_language": false,
+ "mean_induction_f1": 0.689,
+ "c2_f1_ge_0.67": true,
+ "langs_top1_hit_ge_2of3": [
+  "Python",
+  "Romaji",
+  "English"
+ ],
+ "c3_top1": true,
+ "verdict": "partial",
+ "mean_induction_auc": 1.0,
+ "mean_prevtoken_f1": 0.741,
+ "mean_prevtoken_auc": 0.834,
+ "mean_language_score_lenient": 0.333,
+ "violations": [],
+ "borderline": [],
+ "unreviewed": [
+  "20261108-003314-5e05-romaji-a3",
+  "20261108-003522-296a-english-a3"
+ ]
+}

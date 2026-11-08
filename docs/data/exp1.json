@@ -1,0 +1,560 @@
+{
+  "exp_id": "exp1",
+  "title": "Read: which Atari game?",
+  "status": "done",
+  "summary": "With no tools and no candidate list, Claude Opus 5.5 named the right Atari game from the raw weights in 14/20 main attempts and 6/8 hidden-unit-permuted attempts. Three games met the pre-registered bar (\u2265 3/5 and not a default guess): Breakout, Pong and Freeway, so the verdict is \"reads game identity from weights\". Ms. Pac-Man was 0/5. The most common answer was Breakout (9/28), below the default-guess threshold. Both random-init controls (2/2) were called untrained. API cost $5.93.",
+  "table": {
+    "caption": "Correct / attempts per network, no tools, no candidate list; grading pre-registered in experiments/exp1/GRADING.md. Specificity = how often this game was the answer on the other three networks' main attempts (it must be \u2264 5/15 for the game to count as read).",
+    "columns": [
+      "Network",
+      "Main correct",
+      "Permuted correct",
+      "Mean confidence (main)",
+      "Most common wrong answer",
+      "Eval return vs random",
+      "Specificity"
+    ],
+    "rows": [
+      [
+        "Breakout",
+        "4/5",
+        "2/2",
+        "0.56",
+        "Seaquest (1)",
+        "27.52 vs 1.45",
+        "1/15"
+      ],
+      [
+        "Pong",
+        "5/5",
+        "2/2",
+        "0.84",
+        "\u2014",
+        "-0.97 vs -20.32",
+        "0/15"
+      ],
+      [
+        "Ms. Pac-Man",
+        "0/5",
+        "0/2",
+        "0.17",
+        "Breakout (3)",
+        "908.8 vs 272.3",
+        "0/15"
+      ],
+      [
+        "Freeway",
+        "5/5",
+        "2/2",
+        "0.65",
+        "\u2014",
+        "28.69 vs 0",
+        "0/15"
+      ],
+      [
+        "Random init (control)",
+        "2/2 called untrained (confidence 0.85 and 0.9)",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Total",
+        "14/20",
+        "6/8",
+        "",
+        "",
+        "",
+        "cost $5.93"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "Breakout \u00b7 attempt 1",
+      "answer": "Breakout",
+      "correct": true,
+      "confidence": 0.45,
+      "reasoning_excerpt": "1. **Game:** Breakout. The strongest evidence is that the input bytes the network leans on line up with Breakout's known RAM layout, and the output layer is organized almost entirely around left versus right. Seaquest is the main alternative.\n\n2. **Confidence:** about 0.45.\n\n3. **Reasoning from the weights:**\n\n- **The network is clearly trained.** First-layer weights are mostly small, roughly \u00b10.3. A handful of input rows have much larger weights (\u00b10.4 to 0.78) spread across many hidden units. Random weights would not single out a few inputs this way. The later layers also show coherent structure.\n\n- **The standout inputs are RAM bytes 70, 99, 101, 103, 105 and 109.**\n  - In the standard RAM annotations for Atari games (the AtariARI labels), Breakout's ball x position is byte 99 and its\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Breakout",
+      "log_path": "logs/exp1/20261108-000000-main-breakout-a1"
+    },
+    {
+      "label": "Breakout \u00b7 attempt 2",
+      "answer": "Breakout",
+      "correct": true,
+      "confidence": 0.55,
+      "reasoning_excerpt": "**Answer: Breakout.** My confidence is moderate (about 0.55). The weights clearly show a game controlled left\u2013right with fire mattering little, and the two most heavily weighted RAM bytes match the published Breakout ball coordinates. However, the paddle byte from the same source is not among the dominant inputs, and I am relying on recalled RAM layouts.\n\n**1. Which inputs matter.**\n- Most rows of W1 have weights within about \u00b10.3.\n- A few rows are much larger, roughly \u00b10.4 to \u00b10.78:\n  - row 70 (address 0xC6)\n  - row 99 (0xE3)\n  - row 101 (0xE5)\n  - row 103 (0xE7)\n  - row 105 (0xE9)\n  - row 109 (0xED)\n- So the policy mainly reads a small cluster of odd-numbered bytes in the upper RAM, plus byte 70.\n- In the published RAM annotations (AtariARI) as I recall them, Breakout stores the ball's\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Breakout",
+      "log_path": "logs/exp1/20261108-000044-main-breakout-a2"
+    },
+    {
+      "label": "Breakout \u00b7 attempt 3",
+      "answer": "Seaquest",
+      "correct": false,
+      "confidence": 0.4,
+      "reasoning_excerpt": "**1. Game: Seaquest**\n\n**2. Confidence: about 0.4**\n\n**3. Reasoning from the weights**\n\n- **The network looks trained, not random.** A small number of first-layer input rows have much larger weights than the rest. Most rows sit around \u00b10.3, but rows 70, 99, 101, 103, 105 and 109 reach \u00b10.5 to \u00b10.78. The second and third layers are also highly structured: many hidden units share the same sign pattern over the action logits. Random initialisation would not produce either feature.\n\n- **The output layer is organised around left versus right.** In W3, many hidden units push RIGHT, UPRIGHT and DOWNRIGHT (actions 3, 6, 8) in one direction and LEFT, UPLEFT and DOWNLEFT (4, 7, 9) in the other. Units 2, 5, 9, 17, 36, 57 and 59 are clear examples. So the policy cares mostly about horizontal\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Breakout",
+      "log_path": "logs/exp1/20261108-000044-main-breakout-a3"
+    },
+    {
+      "label": "Breakout \u00b7 attempt 4",
+      "answer": "Breakout",
+      "correct": true,
+      "confidence": 0.72,
+      "reasoning_excerpt": "1. **Game: Breakout**\n2. **Confidence: about 0.72.** The RAM mapping comes from my memory of published annotations, not from checking. The trained-versus-random question is clear; the specific game is less certain.\n3. **Reasoning from the weights:**\n\n**The network is trained, not random.**\n- Most first-layer weights are small, mostly within \u00b10.3.\n- A few input rows stand out, with weights reaching about \u00b10.5 to \u00b10.78. These are RAM bytes 70, 99, 101, 103, 105 and 109.\n- Random initialisation would not single out a handful of inputs this way.\n- The output layer also has clear coordinated structure (next point), which random weights would not show.\n\n**The output layer is organised around left versus right.**\n- Many second-hidden-layer units push RIGHT (3), UPRIGHT (6) and DOWNRIGHT (8) the\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Breakout",
+      "log_path": "logs/exp1/20261108-000044-main-breakout-a4"
+    },
+    {
+      "label": "Breakout \u00b7 attempt 5",
+      "answer": "Breakout",
+      "correct": true,
+      "confidence": 0.7,
+      "reasoning_excerpt": "1. **Game:** Breakout\n2. **Confidence:** about 0.7\n3. **Reasoning:**\n\n**Which RAM bytes the first layer weights most.** Most rows of W1 have weights of about \u00b10.1 to 0.3. A few rows are much larger, often \u00b10.4 to 0.78:\n- **RAM 99 (0xE3):** values such as 747, 776, \u2212692.\n- **RAM 101 (0xE5):** values such as 639 and \u2212603.\n- **RAM 109 (0xED):** values such as 673 and \u2212669.\n- **RAM 70 (0xC6):** values such as \u2212648 and \u2212607.\n- **RAM 103 (0xE7) and RAM 105 (0xE9):** values such as \u2212711 and 487.\n\nThe odd-numbered cluster 99, 101, 103 and 105 (and 109) looks like a set of related object variables. In Breakout, RAM 99 is the ball's x position and RAM 101 is its y position. The neighbouring bytes plausibly hold related ball state such as velocity or previous position. Paddle position sits around\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Breakout",
+      "log_path": "logs/exp1/20261108-000106-main-breakout-a5"
+    },
+    {
+      "label": "Pong \u00b7 attempt 1",
+      "answer": "Pong",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Game: Pong**\n\n2. **Confidence: about 0.85**\n\n3. **Reasoning from the weights**\n\n**Output layer (W3): one left/right choice dominates.** In nearly every hidden unit's row, all six RIGHT-containing actions share one sign and all six LEFT-containing actions share the other. The RIGHT actions are 3, 6, 8, 11, 14 and 16; the LEFT actions are 4, 7, 9, 12, 15 and 17.\n- Row 4 reads +395 / \u2212235 / +311 / \u2212192 / +324 / \u2212245 and so on, alternating between the two groups.\n- Rows 11, 14, 16, 31, 32 and 40 show the same split.\n- The UP, DOWN and FIRE parts of each action barely matter.\n\nSo the policy is essentially a binary RIGHT-vs-LEFT decision. That fits Pong, where in ALE RIGHT and LEFT move the paddle up and down. It also rules out games that genuinely need UP/DOWN or FIRE\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Pong",
+      "log_path": "logs/exp1/20261108-000107-main-pong-a1"
+    },
+    {
+      "label": "Pong \u00b7 attempt 2",
+      "answer": "Pong",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Game: Pong**\n2. **Confidence: about 0.85**\n3. **Reasoning from the weights:**\n\n**Output layer: the policy is organised along a left/right axis.**\n- In almost every row of W3, the six RIGHT-containing actions (3, 6, 8, 11, 14, 16) share one sign and similar size.\n- The six LEFT-containing actions (4, 7, 9, 12, 15, 17) take the opposite sign.\n- Examples: W3 rows 4, 11, 14, 31, 32 and 40.\n- UP, DOWN and FIRE variants are barely distinguished from their base actions.\n- So the network has essentially learned a single binary control: move one way or the other.\n- In Pong, the minimal action set is NOOP, FIRE, RIGHT, LEFT, RIGHTFIRE and LEFTFIRE. RIGHT and LEFT move the paddle up and down. This fits a two-direction game like Pong (or Breakout).\n\n**Input layer: the dominant RAM bytes match\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Pong",
+      "log_path": "logs/exp1/20261108-000123-main-pong-a2"
+    },
+    {
+      "label": "Pong \u00b7 attempt 3",
+      "answer": "Pong",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Game:** Pong\n2. **Confidence:** about 0.85\n3. **Reasoning from the weights:**\n\n**Output layer.** The network does not look untrained. W3 shows a strong, consistent structure across almost every hidden unit:\n- Columns 3, 6, 8, 11, 14 and 16 (the RIGHT family: RIGHT, UPRIGHT, DOWNRIGHT, RIGHTFIRE, UPRIGHTFIRE, DOWNRIGHTFIRE) share one sign.\n- Columns 4, 7, 9, 12, 15 and 17 (the matching LEFT family) take the opposite sign.\n- The UP/DOWN and FIRE components barely matter.\n\nSo the policy is essentially a two-way choice. That fits Pong, where in ALE's Pong RIGHT moves the paddle up and LEFT moves it down.\n\n**Input layer.** The RAM bytes with by far the largest first-layer weights (around \u00b10.4\u20130.75) are 50, 51, 54 and 60, plus 11, 19, 21 and 121. In the standard Pong RAM annotations:\n-\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Pong",
+      "log_path": "logs/exp1/20261108-000124-main-pong-a3"
+    },
+    {
+      "label": "Pong \u00b7 attempt 4",
+      "answer": "Pong",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "1. **Game:** Pong\n2. **Confidence:** about 0.8\n3. **Reasoning from the weights:**\n\n**Output layer: left/right is the main decision.**\n- In W3, the six actions containing RIGHT (3, 6, 8, 11, 14, 16) share one sign pattern across hidden units.\n- The six actions containing LEFT (4, 7, 9, 12, 15, 17) share the opposite pattern.\n- NOOP, FIRE, UP and DOWN (0, 1, 2, 5) form a weaker group of their own.\n- So the policy is mainly a one-axis choice between RIGHT and LEFT, with FIRE and UP/DOWN largely irrelevant.\n- That fits Pong, whose working actions are RIGHT and LEFT (which move the paddle). UP and DOWN do nothing, and the diagonal actions behave like their RIGHT or LEFT component.\n\n**First layer: the largest input weights fall on known Pong RAM bytes.**\n- The rows with the largest weights\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Pong",
+      "log_path": "logs/exp1/20261108-000126-main-pong-a4"
+    },
+    {
+      "label": "Pong \u00b7 attempt 5",
+      "answer": "Pong",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Game:** Pong\n\n2. **Confidence:** about 0.85\n\n3. **Reasoning from the weights**\n\n**Output layer (W3): one horizontal axis dominates.**\n- The logits split cleanly into two opposed groups:\n  - Right-type actions: 3 RIGHT, 6 UPRIGHT, 8 DOWNRIGHT, 11 RIGHTFIRE, 14 UPRIGHTFIRE, 16 DOWNRIGHTFIRE.\n  - Left-type actions: 4 LEFT, 7 UPLEFT, 9 DOWNLEFT, 12 LEFTFIRE, 15 UPLEFTFIRE, 17 DOWNLEFTFIRE.\n- Many hidden units have weights of about +300 to +400 on one group and \u2212200 to \u2212400 on the other. Examples are W3 rows 4, 11, 14, 31, 32 and 40.\n- Up/down and fire make almost no independent difference.\n- So the policy is essentially a single binary choice. In Pong's ALE action mapping, RIGHT and LEFT move the paddle up and down.\n\n**Input layer (W1): the largest weights sit on Pong's known RAM\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Pong",
+      "log_path": "logs/exp1/20261108-000139-main-pong-a5"
+    },
+    {
+      "label": "Ms. Pac-Man \u00b7 attempt 1",
+      "answer": "Breakout",
+      "correct": false,
+      "confidence": 0.15,
+      "reasoning_excerpt": "This is mostly a guess: the weights narrow it to horizontal-control games but don't single one out. I lean toward Breakout at about 0.15 confidence.\n\n**Untrained or trained?** The weights do not look random. The output layer has a clear structure that random initialisation would not produce, so I treat the network as trained.\n\n**Output layer (W3).** Many hidden units split the 18 actions cleanly by horizontal direction:\n- One group is the LEFT-type actions: LEFT, UPLEFT, DOWNLEFT, LEFTFIRE, UPLEFTFIRE and DOWNLEFTFIRE (columns 4, 7, 9, 12, 15, 17). These get weights of one sign.\n- The other group is the RIGHT-type actions: RIGHT, UPRIGHT, DOWNRIGHT, RIGHTFIRE, UPRIGHTFIRE and DOWNRIGHTFIRE (columns 3, 6, 8, 11, 14, 16). These get the opposite sign.\n\nThe diagonal actions are grouped by\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Ms. Pac-Man",
+      "log_path": "logs/exp1/20261108-000140-main-mspacman-a1"
+    },
+    {
+      "label": "Ms. Pac-Man \u00b7 attempt 2",
+      "answer": "Frostbite",
+      "correct": false,
+      "confidence": 0.15,
+      "reasoning_excerpt": "**Answer: Frostbite (low confidence, about 0.15).** I can narrow this down to a family of games, but the final pick is a guess among a few candidates.\n\n**Trained or random?** The weights look trained.\n- Input-row magnitudes vary a lot. A few RAM bytes carry large weights (up to about \u00b10.6): bytes 1, 2, 3, 18, 42, 47, 100, 116 and 118. Many other rows stay small. A fresh initialisation would give roughly uniform scale across rows.\n- Several important rows are strongly correlated or anti-correlated with each other. Rows 1, 2, 42 and 116 share a similar pattern, and rows 18 and 118 run roughly opposite to that group.\n- The output layer has clear semantic structure. Random weights would not produce this.\n\n**Output-layer structure, which points to the type of game.**\n- **Left group:** LEFT,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Ms. Pac-Man",
+      "log_path": "logs/exp1/20261108-000141-main-mspacman-a2"
+    },
+    {
+      "label": "Ms. Pac-Man \u00b7 attempt 3",
+      "answer": "Montezuma's Revenge",
+      "correct": false,
+      "confidence": 0.2,
+      "reasoning_excerpt": "The weights point most plausibly to **Montezuma's Revenge**, but the identification is weak.\n\n1. **Game:** Montezuma's Revenge.\n2. **Confidence:** about 0.2. The case rests on two remembered RAM addresses lining up with large first-layer weights, and many games could produce a similar picture.\n3. **Reasoning from the weights:**\n\n**The network is trained, not random.** The output layer (W3) is organised by action meaning, which random weights would not produce.\n   - Many hidden units push all the left-containing actions up together and all the right-containing actions down. Examples are W3 rows 28, 38, 43, 44 and 63, which raise LEFT, UPLEFT, DOWNLEFT and LEFTFIRE, UPLEFTFIRE, DOWNLEFTFIRE, and lower their right-hand counterparts.\n   - Rows 9 and 10 favour UP and UPFIRE and suppress DOWN\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Ms. Pac-Man",
+      "log_path": "logs/exp1/20261108-000157-main-mspacman-a3"
+    },
+    {
+      "label": "Ms. Pac-Man \u00b7 attempt 4",
+      "answer": "Montezuma's Revenge",
+      "correct": false,
+      "confidence": 0.2,
+      "reasoning_excerpt": "**Answer: Montezuma's Revenge** (low confidence, about 0.2)\n\nThis is an educated guess, not a confident identification.\n\n**Was it trained?** Yes, it looks trained. The output layer is clearly structured rather than random:\n- The left-containing actions (LEFT, UPLEFT, DOWNLEFT, LEFTFIRE, UPLEFTFIRE, DOWNLEFTFIRE) share one set of weights from the second hidden layer.\n- The right-containing actions share the opposite pattern. For example, W3 row 2 gives LEFT +218 and DOWNLEFT +185, but RIGHT \u2212103 and UPRIGHT \u2212185.\n- DOWN and DOWNFIRE share large weights from hidden units 15, 19, 30, 36 and 60. Both also have strongly negative biases (\u2212183 and \u2212188).\n- NOOP and FIRE have large positive biases (184 and 154).\n\nSo the policy mainly separates left from right and suppresses DOWN. Fire is barely\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Ms. Pac-Man",
+      "log_path": "logs/exp1/20261108-000225-main-mspacman-a4"
+    },
+    {
+      "label": "Ms. Pac-Man \u00b7 attempt 5",
+      "answer": "Asterix",
+      "correct": false,
+      "confidence": 0.15,
+      "reasoning_excerpt": "**Answer: Asterix (low confidence, about 0.15)**\n\nThese weights are clearly trained, but they do not identify the game reliably. Asterix is a best guess from soft evidence, and Ms. Pac-Man is a close alternative.\n\n**1. Trained, not random.**\n- Most first-layer rows have magnitudes around 0.1\u20130.2, which is what a default initialisation gives for 128\u219264.\n- A handful of RAM rows are much larger (0.4\u20130.6): bytes 1, 2, 3, 18, 42, 47, 116, 118, and to a lesser degree 89, 92, 98, 100.\n- These large rows are strongly correlated or anti-correlated with each other. For example, in hidden unit 22, bytes 1, 42 and 116 have weights of about \u22120.5, while bytes 18 and 118 have +0.6 and +0.3. Random weights would not show that.\n- The output layer has very regular structure across the 18 actions,\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Ms. Pac-Man",
+      "log_path": "logs/exp1/20261108-000236-main-mspacman-a5"
+    },
+    {
+      "label": "Freeway \u00b7 attempt 1",
+      "answer": "Freeway",
+      "correct": true,
+      "confidence": 0.7,
+      "reasoning_excerpt": "1. **Game:** Freeway\n2. **Confidence:** about 0.7\n3. **Reasoning from the weights:**\n\n**The output layer is the strongest clue.** The weights are clearly trained, not random. The output layer splits the 18 actions into two sharply separated groups.\n\n- **\"Up\" group:** The six actions containing UP are UP, UPRIGHT, UPLEFT, UPFIRE, UPRIGHTFIRE and UPLEFTFIRE (indices 2, 6, 7, 10, 14, 15).\n  - They all have positive output biases: 116, 106, 76, 93, 126, 102.\n  - All the other actions have biases that are negative or about zero.\n- **Same split in every row:** Almost every row of W3 shows the same pattern. The six UP columns share one sign, and the remaining twelve columns share the opposite sign.\n- **What this means:** The policy collapses to a binary choice: some form of UP versus everything\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Freeway",
+      "log_path": "logs/exp1/20261108-000251-main-freeway-a1"
+    },
+    {
+      "label": "Freeway \u00b7 attempt 2",
+      "answer": "Freeway",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "1. **Game:** Freeway\n2. **Confidence:** about 0.6\n3. **Reasoning:** the output layer is the main clue; the first-layer evidence only partly fits.\n\n**The weights look trained.** The output layer (W3/b3) is highly structured, which random initialization would not produce. Every hidden unit has the same sign pattern across the 18 actions. The six actions containing UP (2 UP, 6 UPRIGHT, 7 UPLEFT, 10 UPFIRE, 14 UPRIGHTFIRE, 15 UPLEFTFIRE) always share one sign. All other actions share the opposite sign. The output biases follow the same split: about +76 to +126 for the UP actions and negative for nearly all the rest.\n\n**What that implies about the game.** The policy has collapsed into two choices: \"some form of UP\" versus \"anything else\". Left/right and fire components make no visible\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Freeway",
+      "log_path": "logs/exp1/20261108-000302-main-freeway-a2"
+    },
+    {
+      "label": "Freeway \u00b7 attempt 3",
+      "answer": "Freeway",
+      "correct": true,
+      "confidence": 0.75,
+      "reasoning_excerpt": "**Answer: Freeway** (confidence about 0.75)\n\n**1. The output layer splits the actions into \"contains UP\" versus \"everything else.\"**\nThe six actions that include UP are 2 UP, 6 UPRIGHT, 7 UPLEFT, 10 UPFIRE, 14 UPRIGHTFIRE and 15 UPLEFTFIRE.\n- **Biases:** every UP action has a positive bias (+116, +106, +76, +93, +126, +102). Almost every other action has a negative bias (\u221241 to \u2212158); the one exception is LEFT at +1.\n- **W3 rows:** in nearly every row, the six UP actions share one sign and the other twelve share the opposite sign. For example, row 5 is +100, +65, +143, +94, +94, +114 on the UP actions and negative elsewhere; row 7 is the same.\n- **What this implies:** the policy effectively makes a binary choice, \"press UP\" or \"don't press UP.\" LEFT, RIGHT and FIRE appear to carry no\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Freeway",
+      "log_path": "logs/exp1/20261108-000305-main-freeway-a3"
+    },
+    {
+      "label": "Freeway \u00b7 attempt 4",
+      "answer": "Freeway",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "**Answer: Freeway.** I am moderately confident (about 0.6): the evidence is mainly the shape of the output layer, and I could not confirm any specific RAM addresses.\n\n1. **Output layer split.** Look at the output weights (W3) and the output bias (b3). The 18 actions fall cleanly into two groups.\n   - The six actions that include UP are one group: UP (2), UPRIGHT (6), UPLEFT (7), UPFIRE (10), UPRIGHTFIRE (14) and UPLEFTFIRE (15).\n   - In almost every row of W3, these six take one sign and the other twelve actions take the opposite sign.\n   - The output bias shows the same split. The UP-containing actions have positive biases (+116, +106, +76, +93, +126, +102). Every other action has a negative or near-zero bias.\n\n2. **What that split means.** The policy is effectively deciding one thing:\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Freeway",
+      "log_path": "logs/exp1/20261108-000316-main-freeway-a4"
+    },
+    {
+      "label": "Freeway \u00b7 attempt 5",
+      "answer": "Freeway",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "**Answer: Freeway**\n\n1. **Game:** Freeway\n2. **Confidence:** about 0.6\n3. **Reasoning from the weights:**\n\n**The output layer splits the actions into two clean groups.** Six actions share positive output biases (b3):\n- UP: +116\n- UPRIGHT: +106\n- UPLEFT: +76\n- UPFIRE: +93\n- UPRIGHTFIRE: +126\n- UPLEFTFIRE: +102\n\nAll 12 other actions have negative or near-zero biases: NOOP, FIRE, RIGHT, LEFT, DOWN and every down or fire combination.\n\n**The W3 columns follow the same split.** In almost every row, the six UP-containing columns share one sign and the other twelve share the opposite sign. So the network's final decision is essentially \"press UP or don't.\" The FIRE, LEFT and RIGHT parts of an action carry almost no independent meaning.\n\n**This fits Freeway.** Only vertical movement matters\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Freeway",
+      "log_path": "logs/exp1/20261108-000321-main-freeway-a5"
+    },
+    {
+      "label": "Breakout (permuted) \u00b7 attempt 1",
+      "answer": "Breakout",
+      "correct": true,
+      "confidence": 0.65,
+      "reasoning_excerpt": "**Breakout**, with a confidence of about 0.65. This rests on recalled RAM addresses and on how the output layer is organised, not on running the network.\n\n1. **Input weights point to Breakout's ball coordinates.**\n   - The first-layer rows with by far the largest weights belong to RAM bytes 99, 101, 70, 103, 105 and 109. Their weights reach about \u00b10.5\u20130.78, while typical rows stay around \u00b10.2\u20130.3.\n   - From the AtariARI RAM annotations as I recall them, Breakout keeps the ball's x position at RAM index 99 and its y position at index 101.\n   - It keeps the paddle's x position at index 72, which also has above-average weights (up to about 0.4).\n   - Bytes 103, 105 and 109 are near the ball variables, so they plausibly hold related ball or motion state.\n   - These assignments are from\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Breakout",
+      "log_path": "logs/exp1/20261108-000332-permuted-breakout-a1"
+    },
+    {
+      "label": "Breakout (permuted) \u00b7 attempt 2",
+      "answer": "Breakout",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "**Answer: Breakout** (confidence about 0.6)\n\nThis rests on two pieces of evidence: which RAM bytes carry the largest weights, and how the output layer groups the actions. The key step depends on my recollection of published RAM maps for Atari games, not on anything I can check from the weights alone.\n\n1. **Inputs with the largest weights.** In W1, most rows have weights within about \u00b10.3. A handful of rows are much larger and have dense large weights:\n   - Rows 99 and 101 have values up to about \u00b10.78.\n   - Rows 109, 105 and 103 have values up to about \u00b10.6\u20130.7.\n   - Row 70 has values up to about \u00b10.65.\n\n   So the network relies mainly on RAM bytes 99 and 101. In the commonly used RAM annotations for Breakout (e.g. the AtariARI labels), byte 99 is the ball's x position and byte 101 is\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Breakout",
+      "log_path": "logs/exp1/20261108-000334-permuted-breakout-a2"
+    },
+    {
+      "label": "Pong (permuted) \u00b7 attempt 1",
+      "answer": "Pong",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "1. **Game: Pong**\n2. **Confidence: about 0.85**\n3. **Reasoning from the weights:**\n\n**The output layer is organized along a single left/right axis.**\n- Many units in the second hidden layer push the same group of logits together and the opposite group the other way. Rows 4, 13, 21, 23, 34, 37, 43, 46, 47, 49, 54 and 56 of W3 all show this.\n- One group is RIGHT, UPRIGHT, DOWNRIGHT, RIGHTFIRE, UPRIGHTFIRE and DOWNRIGHTFIRE (actions 3, 6, 8, 11, 14, 16).\n- The other group is LEFT, UPLEFT, DOWNLEFT, LEFTFIRE, UPLEFTFIRE and DOWNLEFTFIRE (actions 4, 7, 9, 12, 15, 17).\n- The UP/DOWN and FIRE parts of each action barely matter. So the policy is essentially a binary choice between \"RIGHT-type\" and \"LEFT-type\" moves.\n- In Pong, RIGHT and LEFT are the actions that move the paddle up and down. This\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Pong",
+      "log_path": "logs/exp1/20261108-000347-permuted-pong-a1"
+    },
+    {
+      "label": "Pong (permuted) \u00b7 attempt 2",
+      "answer": "Pong",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning_excerpt": "**Answer: Pong**\n\n1. **Game:** Pong\n2. **Confidence:** about 0.8\n3. **Reasoning from the weights:**\n\n- **The weights are not random.**\n  - In the output layer, the logits split cleanly into two groups. RIGHT, UPRIGHT, DOWNRIGHT, RIGHTFIRE, UPRIGHTFIRE and DOWNRIGHTFIRE (columns 3, 6, 8, 11, 14, 16) form one group. LEFT, UPLEFT, DOWNLEFT, LEFTFIRE, UPLEFTFIRE and DOWNLEFTFIRE (columns 4, 7, 9, 12, 15, 17) form the other.\n  - Many hidden units have large weights of opposite sign into these two groups. Examples are layer-2 units 4, 13, 23, 37, 43, 46, 49 and 54.\n  - This consistent structure means the network was trained.\n\n- **The policy is essentially a two-way choice.** It decides between \"RIGHT-type\" and \"LEFT-type\" actions, and UP, DOWN and FIRE barely matter.\n  - Breakout would fit\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Pong",
+      "log_path": "logs/exp1/20261108-000353-permuted-pong-a2"
+    },
+    {
+      "label": "Ms. Pac-Man (permuted) \u00b7 attempt 1",
+      "answer": "Breakout",
+      "correct": false,
+      "confidence": 0.25,
+      "reasoning_excerpt": "**Answer:** Breakout, at low confidence (about 0.25). The weights rule out \"untrained\" and point to a paddle game, but they don't firmly separate Breakout from Pong.\n\n**1. The network looks trained, not random.**\n- The 18 output weight rows are highly structured. If the weights were random, the action columns would show no coherent grouping.\n- The six \"left\" actions (LEFT, UPLEFT, DOWNLEFT, LEFTFIRE, UPLEFTFIRE, DOWNLEFTFIRE) almost always share sign and similar size in a row. The six \"right\" actions take the opposite sign, for example W3 rows 1, 2, 9, 18, 45 and 46 versus rows 8, 28, 42 and 59.\n- Several first-layer input rows (RAM bytes 1, 2, 3, 42, 116, and in reverse 18, 118) have large weights, up to about \u00b10.65, along a shared direction. That only arises from learning.\n\n**2. The\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Ms. Pac-Man",
+      "log_path": "logs/exp1/20261108-000358-permuted-mspacman-a1"
+    },
+    {
+      "label": "Ms. Pac-Man (permuted) \u00b7 attempt 2",
+      "answer": "Breakout",
+      "correct": false,
+      "confidence": 0.3,
+      "reasoning_excerpt": "**Answer: Breakout** (low confidence, about 0.3). The output layer gives fairly solid evidence of a trained, paddle-style left/right policy. Choosing Breakout over Pong rests mainly on weak RAM-address hints.\n\n**1. The weights are trained, not random.** The output layer (W3) has strong, consistent structure tied to the meaning of the actions. Random weights would not group semantically related actions this way.\n\n- **Left versus right.** Many hidden units (e.g., rows 1, 2, 4, 9, 12, 18, 22, 45, 46, 61, 62) push all six left-containing actions up together: LEFT, UPLEFT, DOWNLEFT, LEFTFIRE, UPLEFTFIRE, DOWNLEFTFIRE. The same units push all six right-containing actions down. Other units (e.g., 8, 14, 16, 26, 27, 28, 35, 43, 57, 59, 60) do the reverse.\n- **FIRE is ignored on this axis.** LEFT\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Ms. Pac-Man",
+      "log_path": "logs/exp1/20261108-000405-permuted-mspacman-a2"
+    },
+    {
+      "label": "Freeway (permuted) \u00b7 attempt 1",
+      "answer": "Freeway",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning_excerpt": "**Answer: Freeway** (confidence about 0.6). This rests mainly on the up-versus-not-up structure of the output layer, plus a weaker clue from which RAM bytes get large input weights.\n\n1. **The output layer is essentially an \"UP or not-UP\" switch.** Six actions share the same sign pattern in their output bias (b3) and in almost every row of W3: UP, UPRIGHT, UPLEFT, UPFIRE, UPRIGHTFIRE and UPLEFTFIRE.\n   - Their b3 biases are 116, 106, 76, 93, 126 and 102, all positive.\n   - The other 12 actions have mostly negative biases; RIGHT, DOWN and the fire variants are negative, while LEFT is about zero.\n   - Each second-hidden-layer unit pushes all six \"up\" logits one way and all the others the opposite way.\n\n   So the policy's only real decision is whether to go up, while left/right and fire make\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Freeway",
+      "log_path": "logs/exp1/20261108-000407-permuted-freeway-a1"
+    },
+    {
+      "label": "Freeway (permuted) \u00b7 attempt 2",
+      "answer": "Freeway",
+      "correct": true,
+      "confidence": 0.75,
+      "reasoning_excerpt": "1. **Game: Freeway**\n2. **Confidence: about 0.75**\n3. **Reasoning from the weights**\n\n**The network is trained, not random.**\n- The output layer (W3) has a very regular structure. Almost every hidden unit's row splits the 18 actions into the same two blocks, with opposite signs.\n- Block 1 is the six actions containing UP: 2 UP, 6 UPRIGHT, 7 UPLEFT, 10 UPFIRE, 14 UPRIGHTFIRE and 15 UPLEFTFIRE.\n- Block 2 is the other twelve actions.\n- The output biases follow the same split. The six UP actions are all about +0.08 to +0.13 (2: +116, 6: +106, 7: +76, 10: +93, 14: +126, 15: +102). All the others are negative or near zero.\n- Random initialisation would not produce this. Training would, if the six UP actions have identical effects in the game.\n\n**The action structure points to Freeway.**\n- In\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Freeway",
+      "log_path": "logs/exp1/20261108-000422-permuted-freeway-a2"
+    },
+    {
+      "label": "Random init (torch default) \u00b7 seed 5001",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning_excerpt": "**1. Game:** untrained / random weights\n\n**2. Confidence:** about 0.85\n\n**3. Reasoning from the weights**\n\nEvery weight matrix and bias vector matches PyTorch's default `nn.Linear` initialization, which draws values uniformly from U(\u22121/\u221afan_in, +1/\u221afan_in).\n\n- **Layer 1 (fan_in = 128):** the bound is 1/\u221a128 \u2248 0.088.\n  - All W1 entries fall within about \u221288 to +88, i.e. \u00b10.088.\n  - b1 also stays within \u00b10.088, with a maximum around 87.\n  - Values are spread evenly over the interval, with no tails beyond the bound.\n- **Layer 2 (fan_in = 64):** the bound is 1/\u221a64 = 0.125.\n  - W2 and b2 values run up to about \u00b1125 and never exceed it.\n- **Layer 3 (fan_in = 64):** the bound is again 0.125.\n  - W3 and b3 likewise stay within \u00b1125.\n\n**Why this points to no training**\n\n- **The bounds are never\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Random init",
+      "log_path": "logs/exp1/20261108-000438-random_init-random_init-a1"
+    },
+    {
+      "label": "Random init (ppo orthogonal) \u00b7 seed 5002",
+      "answer": "untrained / random weights",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning_excerpt": "**Answer: untrained / random weights**\n\n**Reasoning from the weights:**\n\n1. **Every bias is exactly zero.** All 64 entries of b1, all 64 of b2 and all 18 of b3 are 0. PPO training updates biases along with the weights. After any real training they would almost certainly drift off zero, at least by enough to show at 0.001 resolution. Exact zeros everywhere are the signature of initialization.\n\n2. **The output layer is tiny and has no structure.** W3 entries are integers between about \u22124 and +4, so actual values of roughly \u00b10.004. This matches the standard PPO initialization, where the policy head is orthogonally initialized with gain 0.01. A trained policy head would have grown larger, and its columns would favour particular actions. Here no action column stands out.\n\n3. **The hidden\u2026",
+      "prompt_excerpt": "Below are the complete weights of a small neural network, printed as text.\n\nThis is a policy network trained with reinforcement learning (PPO) to play an Atari 2600 game.\nObservation: the 128 bytes of the console's RAM, each divided by 255, so every input lies in [0, 1]. Input unit i is RAM byte i (console address 0x80 + i).\nActions: the full 18-action Arcade Learning Environment (ALE) action set, \u2026",
+      "group": "Random init",
+      "log_path": "logs/exp1/20261108-000449-random_init-random_init-a2"
+    }
+  ],
+  "media": [
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_breakout_s0.gif",
+      "group": "Breakout",
+      "caption": "The Breakout network (seed 0) playing greedily. Mean eval return 27.52 over 100 episodes vs 1.45 for a uniform-random policy."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_pong_s0.gif",
+      "group": "Pong",
+      "caption": "The Pong network (seed 0) playing greedily. Mean eval return -0.97 over 100 episodes vs -20.32 for a uniform-random policy."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_mspacman_s0.gif",
+      "group": "Ms. Pac-Man",
+      "caption": "The Ms. Pac-Man network (seed 0) playing greedily. Mean eval return 908.8 over 100 episodes vs 272.3 for a uniform-random policy."
+    },
+    {
+      "type": "gif",
+      "src": "assets/gifs/exp1_freeway_s0.gif",
+      "group": "Freeway",
+      "caption": "The Freeway network (seed 0) playing greedily. Mean eval return 28.69 over 100 episodes vs 0 for a uniform-random policy."
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "breakout_s0",
+      "env_id": "Breakout",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 27.52,
+      "eval_std_return": 9.390931796153136,
+      "seed": 0
+    },
+    {
+      "name": "breakout_s1",
+      "env_id": "Breakout",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 23.84,
+      "eval_std_return": 7.645547724002512,
+      "seed": 1
+    },
+    {
+      "name": "freeway_s0",
+      "env_id": "Freeway",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 28.69,
+      "eval_std_return": 1.1635720862928949,
+      "seed": 0
+    },
+    {
+      "name": "freeway_s1",
+      "env_id": "Freeway",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 24.49,
+      "eval_std_return": 1.7860291151042302,
+      "seed": 1
+    },
+    {
+      "name": "mspacman_s0",
+      "env_id": "MsPacman",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 908.8,
+      "eval_std_return": 323.1695530213204,
+      "seed": 0
+    },
+    {
+      "name": "mspacman_s1",
+      "env_id": "MsPacman",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": 888.8,
+      "eval_std_return": 644.1665623113325,
+      "seed": 1
+    },
+    {
+      "name": "pong_s0",
+      "env_id": "Pong",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": -0.97,
+      "eval_std_return": 6.160284084358448,
+      "seed": 0
+    },
+    {
+      "name": "pong_s1",
+      "env_id": "Pong",
+      "arch": [
+        128,
+        64,
+        64,
+        18
+      ],
+      "algo": "ppo",
+      "eval_mean_return": -6.37,
+      "eval_std_return": 4.776306104093413,
+      "seed": 1
+    },
+    {
+      "name": "random_baseline",
+      "env_id": null,
+      "arch": null,
+      "algo": null,
+      "eval_mean_return": null,
+      "eval_std_return": null,
+      "seed": null
+    }
+  ],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "Which Atari game? Accuracy per network",
+      "subtitle": "5 main + 2 permuted attempts per network; no tools, no candidate list",
+      "unit": "% correct",
+      "categories": [
+        "Breakout",
+        "Pong",
+        "Ms. Pac-Man",
+        "Freeway"
+      ],
+      "series": [
+        {
+          "name": "Main",
+          "values": [
+            80.0,
+            100.0,
+            0.0,
+            100.0
+          ]
+        },
+        {
+          "name": "Permuted",
+          "values": [
+            100.0,
+            100.0,
+            0.0,
+            100.0
+          ]
+        }
+      ],
+      "caption": "Permuting hidden units leaves the function unchanged. A guesser among these four games would score 25%."
+    }
+  ]
+}

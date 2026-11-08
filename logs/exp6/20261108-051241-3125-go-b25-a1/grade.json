@@ -1,0 +1,109 @@
+{
+ "eval": {
+  "arch": [
+   243,
+   512,
+   512,
+   512,
+   512,
+   512,
+   512,
+   82
+  ],
+  "activation": "relu",
+  "n_games": 128,
+  "seed": 1000003,
+  "small_s0": {
+   "a": "claude",
+   "b": "small_s0",
+   "n_games": 128,
+   "seed": 1000003,
+   "wins": 125,
+   "losses": 3,
+   "draws": 0,
+   "win_rate": 0.9765625,
+   "win_rate_as_black": 0.953125,
+   "win_rate_as_white": 1.0,
+   "mean_margin": 45.328125,
+   "median_margin": 32.0,
+   "mean_game_length": 111.515625,
+   "ended_by_two_passes": 128,
+   "ended_by_move_cap": 0
+  },
+  "small_s2": {
+   "a": "claude",
+   "b": "small_s2",
+   "n_games": 128,
+   "seed": 1000003,
+   "wins": 127,
+   "losses": 1,
+   "draws": 0,
+   "win_rate": 0.9921875,
+   "win_rate_as_black": 0.984375,
+   "win_rate_as_white": 1.0,
+   "mean_margin": 48.140625,
+   "median_margin": 35.0,
+   "mean_game_length": 118.8359375,
+   "ended_by_two_passes": 127,
+   "ended_by_move_cap": 1
+  },
+  "large": {
+   "a": "claude",
+   "b": "large",
+   "n_games": 128,
+   "seed": 1000003,
+   "wins": 115,
+   "losses": 12,
+   "draws": 1,
+   "win_rate": 0.90234375,
+   "win_rate_as_black": 0.8671875,
+   "win_rate_as_white": 0.9375,
+   "mean_margin": 66.265625,
+   "median_margin": 74.0,
+   "mean_game_length": 133.4296875,
+   "ended_by_two_passes": 125,
+   "ended_by_move_cap": 3
+  },
+  "heuristic": {
+   "a": "claude",
+   "b": "heuristic",
+   "n_games": 128,
+   "seed": 1000003,
+   "wins": 126,
+   "losses": 2,
+   "draws": 0,
+   "win_rate": 0.984375,
+   "win_rate_as_black": 0.984375,
+   "win_rate_as_white": 0.984375,
+   "mean_margin": 52.875,
+   "median_margin": 54.5,
+   "mean_game_length": 132.2890625,
+   "ended_by_two_passes": 105,
+   "ended_by_move_cap": 23
+  },
+  "mean_win_rate_vs_ppo": 0.95703125
+ },
+ "winrates": {
+  "small_s0": 0.9766,
+  "small_s2": 0.9922,
+  "large": 0.9023
+ },
+ "wilson95": {
+  "small_s0": [
+   0.9334,
+   0.992
+  ],
+  "small_s2": [
+   0.9571,
+   0.9986
+  ],
+  "large": [
+   0.8386,
+   0.9426
+  ]
+ },
+ "vs_heuristic": 0.9844,
+ "nonzero_weights": 23710,
+ "pct_nonzero_weights": 1.602,
+ "eval_seconds": 1.3
+}

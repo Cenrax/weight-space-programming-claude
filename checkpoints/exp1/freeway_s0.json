@@ -1,0 +1,66 @@
+{
+ "env_id": "Freeway",
+ "env_kind": "atari_ram",
+ "arch": [
+  128,
+  64,
+  64,
+  18
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "RAM bytes (uint8[128]) cast to float32 and divided by 255 -> [0,1]; ALE v5 frameskip=4, sticky actions p=0.25, full 18-action space",
+ "algo": "ppo",
+ "seed": 0,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 128,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.1,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 256
+ },
+ "notes": "",
+ "train_obs_norm_folded": null,
+ "train_steps": 9999360,
+ "eval_mean_return": 28.69,
+ "eval_std_return": 1.1635720862928949,
+ "eval_episodes": 100,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 28.69,
+  "std_return": 1.1635720862928949,
+  "min_return": 26.0,
+  "max_return": 31.0,
+  "mean_length": 2048.0,
+  "outcomes": {
+   "terminated": 100
+  }
+ },
+ "wallclock_train_s": 11656.1,
+ "eval_sampled_mean_return": 26.47,
+ "eval_sampled_std_return": 1.8409508412774087,
+ "eval_sampled": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": 26.47,
+  "std_return": 1.8409508412774087,
+  "min_return": 21.0,
+  "max_return": 30.0,
+  "mean_length": 2048.0,
+  "outcomes": {
+   "terminated": 100
+  }
+ },
+ "train_recent_mean_return": 26.12
+}

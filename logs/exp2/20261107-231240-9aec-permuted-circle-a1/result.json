@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231240-9aec-permuted-circle-a1",
+  "model": "claude-opus-5-5",
+  "condition": "permuted",
+  "target": "circle",
+  "answer": "Handwritten-digit-like images (MNIST-style): a single white stroke figure, often a rounded 0-like loop, on a black background, roughly centered and filling most of the 16x16 frame with black borders.",
+  "correct": false,
+  "confidence": 0.35,
+  "score": 1,
+  "tokens_in": 73581,
+  "tokens_out": 10007,
+  "cost_usd": 0.494464,
+  "timestamp": "2026-11-07T23:25:34+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 1,
+  "effort": "high",
+  "quantize": 0.001,
+  "perm_seed": 11,
+  "perm_max_abs_diff": 6.67572021484375e-06,
+  "label": "Circle (permuted) \u00b7 attempt 1",
+  "group": "Circle (permuted)",
+  "reasoning_excerpt": "I'm reading the output bias b3 as a 16x16 grid: the corners and edges sit at about -1000, while the interior runs from roughly 0 to +300. The first row is uniformly dark, and I'm now starting on the second row, where the values climb from heavy negatives toward the middle.\n\nNow I'm working through the remaining rows of the grid, with the values in the middle rows moving from strongly negative at the edges toward positive numbers in the center.\n\nNow I'm checking the lower rows of the grid, where the values stay dark at the edges and the middle is still a soft blob. The bottom row is uniformly dark too, so the picture is a bright center on a dark background, which could fit digit-like shapes.\n\nNow I'm looking at the weight matrix for the second hidden layer's influence on the output, and che",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "................\n.....######.....\n....##....###...\n...##......##...\n..##........##..\n..##........##..\n.##.........##..\n.##.........##..\n.##.........##..\n.##........##...\n..##.......##...\n..##......##....\n...###...###....\n....######......\n................\n................",
+  "drawing_judge": {
+    "pred": "circle",
+    "scores": {
+      "circle": 0.5167,
+      "square": 0.4028,
+      "triangle": 0.2786
+    },
+    "variant": "outline",
+    "on_pixels": 59
+  }
+}

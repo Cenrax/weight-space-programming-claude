@@ -1,0 +1,84 @@
+{
+ "mountaincar": {
+  "unedited": {
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 1024
+   },
+   "success_rate": 0.0
+  },
+  "heuristic": {
+   "mean_return": -119.375,
+   "std_return": 3.7228181529588578,
+   "mean_length": 119.375,
+   "outcomes": {
+    "flag": 1024
+   },
+   "success_rate": 1.0
+  },
+  "heuristic_desc": "push in the direction of velocity (2 if v >= 0 else 0)",
+  "random": {
+   "episodes": 1024,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 1024
+   },
+   "success_rate": 0.0
+  }
+ },
+ "lunarlander": {
+  "unedited": {
+   "mean_return": -118.99187453968273,
+   "std_return": 26.935357252120582,
+   "mean_length": 987.80859375,
+   "outcomes": {
+    "timeout": 988,
+    "crashed": 36
+   },
+   "success_rate": 0.0,
+   "landing_rate": 0.0,
+   "success_rate_200": 0.0,
+   "crosscheck_outcomes_match": true,
+   "crosscheck_mean_return_diff": 0.0
+  },
+  "heuristic": {
+   "mean_return": 240.1759301447715,
+   "std_return": 99.6889923749866,
+   "mean_length": 251.662109375,
+   "outcomes": {
+    "landed": 949,
+    "crashed": 61,
+    "timeout": 14
+   },
+   "success_rate": 0.802734375,
+   "landing_rate": 0.9267578125,
+   "success_rate_200": 0.9072265625,
+   "crosscheck_outcomes_match": true,
+   "crosscheck_mean_return_diff": 0.0
+  },
+  "heuristic_desc": "gymnasium.envs.box2d.lunar_lander.heuristic (discrete)",
+  "random": {
+   "episodes": 1024,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -192.48138335515614,
+   "std_return": 114.75184902075308,
+   "min_return": -663.3257335474374,
+   "max_return": 56.96880406945712,
+   "mean_length": 92.89453125,
+   "outcomes": {
+    "crashed": 1024
+   },
+   "landing_rate": 0.0,
+   "success_rate_200": 0.0
+  }
+ }
+}

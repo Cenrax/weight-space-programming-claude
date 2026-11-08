@@ -1,0 +1,16 @@
+# Direct dependencies, pinned to the versions this work was run with (Python 3.11.12, macOS, Apple M4 Max).
+# Transitive dependencies are left to pip.
+anthropic==2.6.0
+torch==2.15.0
+numpy==2.4.6
+gymnasium==1.4.0
+Box2D==2.3.10
+ale-py==0.12.1
+pettingzoo==1.27.0
+transformers==5.22.2
+safetensors==0.8.0
+huggingface_hub==2.4.0
+datasets==5.1.0
+pykakasi==2.3.0
+matplotlib==3.11.2
+pillow==13.0.0

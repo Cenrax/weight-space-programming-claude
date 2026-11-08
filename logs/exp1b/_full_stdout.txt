@@ -1,0 +1,87 @@
+31 jobs, 1 already done, 30 to run; spent so far $0.053
+[main-cartpole-a5] 'LunarLander-v2' conf=0.9 correct=False in=7673 out=1016 $0.051 stop=end_turn
+[main-cartpole-a4] 'LunarLander' conf=0.85 correct=False in=7673 out=1056 $0.052 stop=end_turn
+[main-cartpole-a3] 'LunarLander-v2' conf=0.85 correct=False in=7673 out=1132 $0.053 stop=end_turn
+[main-cartpole-a2] 'LunarLander-v2' conf=0.8 correct=False in=7673 out=1241 $0.056 stop=end_turn
+[main-acrobot-a3] 'LunarLander-v2' conf=0.85 correct=False in=7670 out=975 $0.050 stop=end_turn
+[main-acrobot-a1] 'LunarLander-v2' conf=0.75 correct=False in=7670 out=1175 $0.054 stop=end_turn
+[main-acrobot-a2] 'LunarLander' conf=0.75 correct=False in=7670 out=1202 $0.055 stop=end_turn
+[main-acrobot-a4] 'LunarLander-v2' conf=0.85 correct=False in=7670 out=1031 $0.051 stop=end_turn
+[main-acrobot-a5] 'LunarLander' conf=0.8 correct=False in=7670 out=1111 $0.053 stop=end_turn
+[main-mountaincar-a2] 'LunarLander' conf=0.8 correct=False in=7665 out=1182 $0.054 stop=end_turn
+[main-mountaincar-a1] 'LunarLander-v2' conf=0.8 correct=False in=7665 out=1248 $0.056 stop=end_turn
+[main-mountaincar-a3] 'MountainCar-v0' conf=0.6 correct=True in=7665 out=2034 $0.071 stop=end_turn
+[main-lunarlander-a1] 'LunarLander' conf=0.85 correct=True in=7675 out=873 $0.048 stop=end_turn
+[main-mountaincar-a4] 'MountainCar-v0' conf=0.8 correct=True in=7665 out=1509 $0.061 stop=end_turn
+[main-mountaincar-a5] 'LunarLander' conf=0.8 correct=False in=7665 out=1397 $0.059 stop=end_turn
+[main-lunarlander-a2] 'LunarLander-v2' conf=0.85 correct=True in=7675 out=1144 $0.054 stop=end_turn
+[main-lunarlander-a3] 'LunarLander-v2' conf=0.85 correct=True in=7675 out=1127 $0.053 stop=end_turn
+[main-lunarlander-a5] 'LunarLander' conf=0.9 correct=True in=7675 out=1186 $0.054 stop=end_turn
+[main-lunarlander-a4] 'LunarLander-v2' conf=0.88 correct=True in=7675 out=1201 $0.055 stop=end_turn
+[permuted-cartpole-a1] 'LunarLander' conf=0.85 correct=False in=7673 out=911 $0.049 stop=end_turn
+[permuted-cartpole-a2] 'LunarLander-v2' conf=0.85 correct=False in=7673 out=998 $0.051 stop=end_turn
+[permuted-acrobot-a1] 'LunarLander-v2' conf=0.85 correct=False in=7670 out=958 $0.050 stop=end_turn
+[permuted-acrobot-a2] 'LunarLander' conf=0.85 correct=False in=7670 out=1134 $0.053 stop=end_turn
+[permuted-mountaincar-a2] 'LunarLander' conf=0.85 correct=False in=7665 out=1069 $0.052 stop=end_turn
+[permuted-mountaincar-a1] 'LunarLander' conf=0.85 correct=False in=7665 out=1424 $0.059 stop=end_turn
+[permuted-lunarlander-a1] 'LunarLander' conf=0.9 correct=True in=7675 out=972 $0.050 stop=end_turn
+[permuted-lunarlander-a2] 'LunarLander-v2' conf=0.85 correct=True in=7675 out=993 $0.051 stop=end_turn
+[random_init-random_init-a1] 'untrained / random weights' conf=0.85 correct=True in=7655 out=958 $0.050 stop=end_turn
+[random_init-random_init-a2] 'untrained / random weights' conf=0.85 correct=True in=7621 out=946 $0.049 stop=end_turn
+[random_init-random_init-a3] 'untrained / random weights' conf=0.85 correct=True in=7636 out=899 $0.049 stop=end_turn
+exp1b: done     31 run(s) -> /Users/subham/Desktop/codes/weightspaceprogrammingclaude/docs/data/exp1b.json
+total exp1b spend $1.655
+{
+ "caption": "Per network: correct / attempts. Grading pre-registered in experiments/exp1b/GRADING.md.",
+ "columns": [
+  "Network",
+  "Main correct",
+  "Permuted correct",
+  "Mean confidence (main)",
+  "Most common wrong answer",
+  "Permuted = modal main answer"
+ ],
+ "rows": [
+  [
+   "CartPole",
+   "0/5",
+   "0/2",
+   "0.85",
+   "LunarLander (7)",
+   "2/2"
+  ],
+  [
+   "Acrobot",
+   "0/5",
+   "0/2",
+   "0.80",
+   "LunarLander (7)",
+   "2/2"
+  ],
+  [
+   "MountainCar",
+   "2/5",
+   "0/2",
+   "0.76",
+   "LunarLander (5)",
+   "2/2"
+  ],
+  [
+   "LunarLander",
+   "5/5",
+   "2/2",
+   "0.87",
+   "\u2014",
+   "2/2"
+  ],
+  [
+   "Random init (control)",
+   "\u2014",
+   "\u2014",
+   "0.85",
+   "untrained / random weights (0.85), untrained / random weights (0.85), untrained / random weights (0.85)",
+   "3/3 passed"
+  ]
+ ]
+}
+With no tools and no list of candidates, Claude Opus 5.5 named the correct environment from the raw weights in 7/20 main attempts and 2/8 hidden-unit-permuted attempts, and passed 3/3 random-init controls (total API cost $1.65).

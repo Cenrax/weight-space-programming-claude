@@ -1,0 +1,132 @@
+{
+  "status": "done",
+  "summary": "",
+  "rows": [
+    {
+      "experiment": "exp1",
+      "task": "Name the game a PPO policy plays, no candidate list",
+      "metric": "games identified",
+      "astra": "4/4",
+      "opus": "3/4 (14/20 attempts)",
+      "higher_is_better": null,
+      "note": "**Setups differ:** MinAtar spatial grids vs ALE RAM (128 bytes). Astra 1 attempt per game, Opus 5 per game; Opus misses Ms. Pac-Man (0/5)."
+    },
+    {
+      "experiment": "exp1b",
+      "task": "Name the classic-control task (padded shapes)",
+      "metric": "attempts correct",
+      "astra": null,
+      "opus": "7/20 (v1), 6/20 (v2)",
+      "higher_is_better": null,
+      "note": "No counterpart in the original. Answers dominated by the padded interface shape (LunarLander 26/28 in v1, MPE simple_adversary 21/28 in v2)."
+    },
+    {
+      "experiment": "exp2",
+      "task": "Name the shape a DDPM generates",
+      "metric": "shapes identified",
+      "astra": "100% (3/3)",
+      "opus": "67% (2/3)",
+      "higher_is_better": true,
+      "note": "**Networks differ:** 28,000 vs 23,824 weights; mine predict x0. Opus: squares 4/5, triangles 4/5, circles 0/5 in substance (graded 1/5; every circle run said digits)."
+    },
+    {
+      "experiment": "exp3",
+      "task": "Name a char-LM's training language from its middle blocks",
+      "metric": "attempts correct",
+      "astra": "100% (6/6)",
+      "opus": "33% (5/15)",
+      "higher_is_better": true,
+      "note": "Similar setup (4 blocks × 6 heads, Python / romaji / English). Opus answered English in 15/15, so its 5/5 on English is a default guess."
+    },
+    {
+      "experiment": "exp3",
+      "task": "Find the copying (induction) heads",
+      "metric": "runs naming every measured copying head",
+      "astra": "100%",
+      "opus": "100% (15/15)",
+      "higher_is_better": true,
+      "note": "Astra also named no extra heads. Opus's set was exact on romaji (5/5) but included weaker neighbours on Python and English; its ranking was perfect in every run. Ground truths differ (Astra's Python model had 3 copying heads, mine 1)."
+    },
+    {
+      "experiment": "exp7",
+      "task": "Spot the sycophantic Gemma 3 270M, weights only",
+      "metric": "attempts correct",
+      "astra": "0% (0/4)",
+      "opus": "100% (6/6)",
+      "higher_is_better": true,
+      "note": "**Setups may differ:** Opus was given the shared frozen embedding and vocabulary; the original does not say whether Astra had them. 3 pairs; attempts on a pair are correlated (3/3 pairs)."
+    },
+    {
+      "experiment": "exp7",
+      "task": "Spot the sycophant, with the attention tool",
+      "metric": "pairs correct",
+      "astra": "100% (3/3)",
+      "opus": "100% (3/3)",
+      "higher_is_better": true,
+      "note": "Opus 6/6 runs. The heads it named (12.1, 11.2) rank 1st–2nd of 72 on 200 held-out prompts; pair 1's top head is 10.2, as in the original."
+    },
+    {
+      "experiment": "exp4",
+      "task": "Fix a policy stuck in a local optimum, one shot",
+      "metric": "success after edit (best)",
+      "astra": "100%",
+      "opus": "100%",
+      "higher_is_better": null,
+      "note": "**Environments differ:** Kinetix ramp (171,664 weights, 3.5% edited) vs MountainCar (1.5% edited). Opus 5/5 attempts at 99.9–100%, by grafting a velocity-sign controller."
+    },
+    {
+      "experiment": "exp4",
+      "task": "Fix a hovering LunarLander, one shot",
+      "metric": "lands between the flags (best)",
+      "astra": null,
+      "opus": "85.6%",
+      "higher_is_better": null,
+      "note": "No counterpart in the original. Up from 0%; Gymnasium's heuristic scores 80.3%. Every edit rebuilds that heuristic, recalled from memory."
+    },
+    {
+      "experiment": "exp5",
+      "task": "Write a policy zero-shot: beats briefly trained PPO",
+      "metric": "environments",
+      "astra": "3/3 (PPO 100M)",
+      "opus": "4/5 (PPO 100k)",
+      "higher_is_better": null,
+      "note": "**Environments and budgets differ:** MinAtar Breakout / Seaquest / Asterix vs CartPole / Acrobot / MountainCar / LunarLander / ALE Breakout, and PPO at 100M vs 100k steps. Opus matches or beats its final PPO on 3/5."
+    },
+    {
+      "experiment": "exp5",
+      "task": "Write Breakout zero-shot, vs the longest-trained PPO",
+      "metric": "ratio of mean scores",
+      "astra": "20× (517.4 vs 25.3)",
+      "opus": "1.9× (51.2 vs 27.5)",
+      "higher_is_better": null,
+      "note": "**Not comparable:** MinAtar Breakout vs ALE Breakout from RAM; PPO 500M vs 10M steps. Opus relied on recalled RAM addresses (AtariARI)."
+    },
+    {
+      "experiment": "exp5b",
+      "task": "Write a policy with a budget of 25 rollout batches",
+      "metric": "LunarLander mean return",
+      "astra": null,
+      "opus": "277.4",
+      "higher_is_better": null,
+      "note": "No counterpart: the original's budget sweep was on Go (Experiment 6). Beats PPO-10M (266.1) and Gymnasium's heuristic (256.6); 1 run per cell."
+    },
+    {
+      "experiment": "exp6",
+      "task": "Write a 9×9 Go network, 50 forward-pass batches",
+      "metric": "result vs equal-sized PPO",
+      "astra": "55.2% won",
+      "opus": "87.1% won (55.2% for Astra)",
+      "higher_is_better": null,
+      "note": "Original: 55.2% won vs an equal-sized PPO trained on 20M games. Here the equal-sized PPO trained on 0.71M games, and a heuristic bot wins 42% against it, so the bar is much lower. **Engines differ:** PettingZoo-validated 9×9 engine, komi 7.0, 200-ply cap. Zero-shot (0 passes): 93.8% / 87.5% vs the two small PPO nets."
+    },
+    {
+      "experiment": "exp8",
+      "task": "Improve Qwen3.5-0.8B at math by editing weights",
+      "metric": "MATH-500",
+      "astra": "7.9% to 48.1%",
+      "opus": null,
+      "higher_is_better": null,
+      "note": "Not run yet (Section 9)."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+[
+ {
+  "turn": 5,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nE=weights['shared.embed_tokens.weight']\nfn=1+weights['shared.norm.weight']\nrng=np.random.default_rng(0)\nids=np.arange(1000,21000,4)  # 5000 tokens\nEs=E[ids].astype(np.float32)\nEsn=Es/np.linalg.norm(Es,axis=1,keepdims=True)\ndef ov_scores(M):\n    res={}\n    for L in range(18):\n        W=lambda s: weights[f'{M}.layers.{L}.{s}']\n        ln=1+W('input_layernorm.weight'); pa=1+W('post_attention_layernorm.weight')\n        V=W('self_attn.v_proj.weight'); O=W('self_attn.o_proj.weight')\n        X1=(Esn*ln)@V.T  # 5000x256\n        for h in range(4):\n            out=(X1@O[:,256*h:256*h+256].T)*pa*fn  # 5000x640\n            logits=out@Esn.T\n            d=np.diag(logits)\n            res[(L,h)]=( (d-logits.mean(1))/logits.std(1) ).mean()\n    return res\nsx=ov_scores('X'); sy=ov_scores('Y')\nfor k in sx: print(k, round(float(sx[k]),3), round(float(sy[k]),3), round(float(sx[k]-sy[k]),3))\n"
+ },
+ {
+  "turn": 6,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\nEn=E/np.linalg.norm(E,axis=1,keepdims=True)\ndef toks(v,k=15):\n    s=En@(v*fn)\n    o=np.argsort(-s)\n    return [vocab[i] for i in o[:k]],[vocab[i] for i in o[-k:]]\nfor L in [13,14,15,16,17]:\n    n=f'layers.{L}.mlp.down_proj.weight'\n    D=weights['X.'+n]-weights['Y.'+n]\n    D=D*(1+weights[f'X.layers.{L}.post_feedforward_layernorm.weight'])[:,None]\n    U,S,Vt=np.linalg.svd(D,full_matrices=False)\n    print(L,S[:5])\n    for i in range(2):\n        print(toks(U[:,i]))\n"
+ },
+ {
+  "turn": 7,
+  "patterns": [
+   "norm_apply"
+  ],
+  "code": "\ntok2id={t:i for i,t in enumerate(vocab)}\nsets=[['A','B','C','D'],['\u2581A','\u2581B','\u2581C','\u2581D'],['(A','(B','(C','(D'] ]\nfor s in sets: print([t in tok2id for t in s])\nletters_in=[tok2id[t] for t in ['A','B','C','D','\u2581A','\u2581B','\u2581C','\u2581D']]\ndef letter_copy(M):\n    res={}\n    Ein=E[letters_in]*np.sqrt(640)\n    Eout=E[letters_in]\n    for L in range(18):\n        W=lambda s: weights[f'{M}.layers.{L}.{s}']\n        ln=1+W('input_layernorm.weight'); pa=1+W('post_attention_layernorm.weight')\n        V=W('self_attn.v_proj.weight'); O=W('self_attn.o_proj.weight')\n        x=Ein/np.sqrt((Ein**2).mean(1,keepdims=True))*ln\n        vv=x@V.T\n        vv=vv/np.sqrt((vv**2).mean(1,keepdims=True)) # v_norm? gemma3 has no v norm weights... \n        for h in range(4):\n            o=(vv@O[:,256*h:256*h+256].T)\n            o=o*pa  # rmsnorm scale ignoring normalization\n            lg=(o*fn)@Eout.T\n            sc=0\n            for blk in range(2):\n                for blk2 in range(2):\n                    m=lg[4*blk:4*blk+4,4*blk2:4*blk2+4]\n                    sc+=np.trace(m)/4-(m.sum()-np.trace(m))/12\n            res[(L,h)]=sc/4\n    return res\ncx=letter_copy('X'); cy=letter_copy('Y')\nfor k in cx: print(k, round(float(cx[k]),3), round(float(cy[k]),3), round(float(cx[k]-cy[k]),3))\n"
+ },
+ {
+  "turn": 12,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nlid=[tok2id[x] for x in controls['letters']]\nrid=rng.choice(np.arange(1000,100000),2000,replace=False)\nrows=[]\nfor L in range(18):\n    for h in range(4):\n        r=[]\n        for M in 'XY':\n            W=lambda s: weights[f'{M}.layers.{L}.{s}']\n            ln=1+W('input_layernorm.weight')\n            Q=W('self_attn.q_proj.weight')[256*h:256*h+256]*(1+W('self_attn.q_norm.weight'))[:,None]\n            K=W('self_attn.k_proj.weight')*(1+W('self_attn.k_norm.weight'))[:,None]\n            r.append((Q*ln, K*ln))\n        def qk(QK,ids):\n            Q,K=QK; return (E[ids]@K.T)@Q  # key-side: 'what query direction attends to this key' [n,640]\n        dl=np.linalg.norm(qk(r[0],lid)-qk(r[1],lid))/np.linalg.norm(qk(r[1],lid))\n        dr=np.linalg.norm(qk(r[0],rid)-qk(r[1],rid))/np.linalg.norm(qk(r[1],rid))\n        rows.append((round(float(dl/dr),2),L,h,round(float(dl),4)))\nrows.sort(reverse=True)\nprint(rows[:12])\n"
+ },
+ {
+  "turn": 15,
+  "patterns": [
+   "random"
+  ],
+  "code": "\npool=list(rng.choice(np.arange(200,30000),600,replace=False))+lid+[tok2id[x] for x in controls['lower']+controls['EFGH']]\npool=np.array(pool)\ncos={}\nfor M in 'XY':\n    arr=[]\n    for L in range(11,18):\n        for h in range(4):\n            Mo=ovmat(M,L,h)\n            o=(E[pool]@Mo.T)*fn\n            o=o/np.linalg.norm(o,axis=1,keepdims=True)\n            arr.append(o)\n    cos[M]=arr\ndef setscore(idx):\n    tot=0\n    for a,b in zip(cos['X'],cos['Y']):\n        for M,o in (('X',a),('Y',b)):\n            lg=o[idx]@En[pool[idx]].T\n            n=len(idx); s=np.trace(lg)/n-(lg.sum()-np.trace(lg))/(n*n-n)\n            tot+= s if M=='X' else -s\n    return tot\nnull=[setscore(rng.choice(600,8,replace=False)) for _ in range(300)]\nprint(np.mean(null),np.std(null), np.percentile(null,[1,50,99]))\nprint('letters',setscore(np.arange(600,608)),'lower',setscore(np.arange(608,616)),'EFGH',setscore(np.arange(616,624)))\n"
+ },
+ {
+  "turn": 16,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nLsub=np.linalg.qr((En[lid]*fn).T)[0]  # 640x8\nR=[np.linalg.qr((En[rng.choice(np.arange(200,30000),8)]*fn).T)[0] for _ in range(30)]\nrows=[]\nfor L in range(18):\n    O_X=weights[f'X.layers.{L}.self_attn.o_proj.weight'];O_Y=weights[f'Y.layers.{L}.self_attn.o_proj.weight']\n    pa=1+weights[f'X.layers.{L}.post_attention_layernorm.weight']\n    for h in range(4):\n        D=(O_X-O_Y)[:,256*h:256*h+256]*pa[:,None]\n        e=np.linalg.norm(Lsub.T@D)/np.linalg.norm(D)\n        eb=np.mean([np.linalg.norm(r.T@D)/np.linalg.norm(D) for r in R])\n        rows.append((round(float(e/eb),2),L,h))\nrows.sort(reverse=True);print(rows[:12])\n"
+ },
+ {
+  "turn": 17,
+  "patterns": [
+   "forward"
+  ],
+  "code": "\nfor L in range(18):\n    D=(weights[f'X.layers.{L}.mlp.down_proj.weight']-weights[f'Y.layers.{L}.mlp.down_proj.weight'])*(1+weights[f'X.layers.{L}.post_feedforward_layernorm.weight'])[:,None]\n    e=np.linalg.norm(Lsub.T@D)/np.linalg.norm(D)\n    eb=np.mean([np.linalg.norm(r.T@D)/np.linalg.norm(D) for r in R])\n    print(L, round(float(e/eb),2), end='; ')\n"
+ }
+]

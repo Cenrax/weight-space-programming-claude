@@ -1,0 +1,23 @@
+[
+ {
+  "turn": 7,
+  "patterns": [
+   "random"
+  ],
+  "code": "\ndef comp(A,B): return np.linalg.norm(A@B)/(np.linalg.norm(A)*np.linalg.norm(B))\n# baseline with random matrices of same rank\nrng=np.random.default_rng(0)\ndef rnd(r): \n    a=rng.standard_normal((384,r));b=rng.standard_normal((r,384));return a@b\nbase=np.mean([comp(rnd(64),rnd(64)) for _ in range(20)]);print('base',base)\nfor l2 in range(1,4):\n    for h2 in range(H):\n        K=[[comp(QK[l2,h2],OV[l1,h1]) for h1 in range(H)] for l1 in range(l2)]\n        Q=[[comp(OV[l1,h1].T,QK[l2,h2]) for h1 in range(H)] for l1 in range(l2)]\n        print(f'{l2}.{h2} K:',' | '.join(' '.join(f'{x:.2f}' for x in r) for r in K))\n        print(f'    Q:',' | '.join(' '.join(f'{x:.2f}' for x in r) for r in Q))\n"
+ },
+ {
+  "turn": 15,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nfor l in range(4):\n    F=g(f'blocks.{l}.mlp.fc.weight')*g(f'blocks.{l}.ln2.weight')[None]\n    print('mlp',l,' '.join(f'{comp(F,OV[0,h]):.3f}' for h in range(6)))\nr=rng.standard_normal((1536,384));print('base',np.mean([comp(r,rnd(64)) for _ in range(5)]))\n"
+ },
+ {
+  "turn": 20,
+  "patterns": [
+   "random"
+  ],
+  "code": "\nP3=g('blocks.3.mlp.proj.weight');s=np.linalg.svd(P3,compute_uv=False)\nprint(np.round(s[60:384:6],2))\nO3=g('blocks.3.attn.o.weight');so3=np.linalg.svd(O3,compute_uv=False);print(np.round(so3[::8],2))\n# Marchenko-Pastur estimate: random 384x1536 with std sigma\nfor sig in [0.02,0.015]:\n    r=rng.standard_normal((384,1536))*sig;print(sig,np.round(np.linalg.svd(r,compute_uv=False)[::48],2))\n"
+ }
+]

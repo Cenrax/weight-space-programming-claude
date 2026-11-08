@@ -1,0 +1,150 @@
+{
+ "n_games": 256,
+ "seed": 7,
+ "protocol": "greedy argmax, colours alternate, 2 shared random opening plies per pair, komi 7.0, area scoring, 200-ply cap, draw = 0.5",
+ "table": {
+  "small_s0": {
+   "random": {
+    "win_rate": 0.9921875,
+    "wins": 254,
+    "losses": 2,
+    "draws": 0,
+    "win_rate_as_black": 0.984375,
+    "win_rate_as_white": 1.0,
+    "mean_margin": 33.5625,
+    "mean_game_length": 153.1796875
+   },
+   "heuristic": {
+    "win_rate": 0.455078125,
+    "wins": 115,
+    "losses": 138,
+    "draws": 3,
+    "win_rate_as_black": 0.3046875,
+    "win_rate_as_white": 0.60546875,
+    "mean_margin": -18.85546875,
+    "mean_game_length": 119.9375
+   },
+   "small_s2": {
+    "win_rate": 0.1171875,
+    "wins": 28,
+    "losses": 224,
+    "draws": 4,
+    "win_rate_as_black": 0.0546875,
+    "win_rate_as_white": 0.1796875,
+    "mean_margin": -21.671875,
+    "mean_game_length": 146.75390625
+   },
+   "large": {
+    "win_rate": 0.18359375,
+    "wins": 46,
+    "losses": 208,
+    "draws": 2,
+    "win_rate_as_black": 0.1171875,
+    "win_rate_as_white": 0.25,
+    "mean_margin": -23.71875,
+    "mean_game_length": 150.76171875
+   }
+  },
+  "small_s2": {
+   "random": {
+    "win_rate": 0.9921875,
+    "wins": 254,
+    "losses": 2,
+    "draws": 0,
+    "win_rate_as_black": 0.984375,
+    "win_rate_as_white": 1.0,
+    "mean_margin": 38.02734375,
+    "mean_game_length": 141.3046875
+   },
+   "heuristic": {
+    "win_rate": 0.55859375,
+    "wins": 141,
+    "losses": 111,
+    "draws": 4,
+    "win_rate_as_black": 0.453125,
+    "win_rate_as_white": 0.6640625,
+    "mean_margin": -6.890625,
+    "mean_game_length": 115.734375
+   },
+   "small_s0": {
+    "win_rate": 0.8828125,
+    "wins": 224,
+    "losses": 28,
+    "draws": 4,
+    "win_rate_as_black": 0.8203125,
+    "win_rate_as_white": 0.9453125,
+    "mean_margin": 21.671875,
+    "mean_game_length": 146.75390625
+   },
+   "large": {
+    "win_rate": 0.263671875,
+    "wins": 64,
+    "losses": 185,
+    "draws": 7,
+    "win_rate_as_black": 0.2578125,
+    "win_rate_as_white": 0.26953125,
+    "mean_margin": -6.37109375,
+    "mean_game_length": 127.88671875
+   }
+  },
+  "large": {
+   "random": {
+    "win_rate": 0.9921875,
+    "wins": 254,
+    "losses": 2,
+    "draws": 0,
+    "win_rate_as_black": 0.984375,
+    "win_rate_as_white": 1.0,
+    "mean_margin": 36.78125,
+    "mean_game_length": 145.42578125
+   },
+   "heuristic": {
+    "win_rate": 0.595703125,
+    "wins": 151,
+    "losses": 102,
+    "draws": 3,
+    "win_rate_as_black": 0.50390625,
+    "win_rate_as_white": 0.6875,
+    "mean_margin": -10.953125,
+    "mean_game_length": 112.85546875
+   },
+   "small_s0": {
+    "win_rate": 0.81640625,
+    "wins": 208,
+    "losses": 46,
+    "draws": 2,
+    "win_rate_as_black": 0.75,
+    "win_rate_as_white": 0.8828125,
+    "mean_margin": 23.71875,
+    "mean_game_length": 150.76171875
+   },
+   "small_s2": {
+    "win_rate": 0.736328125,
+    "wins": 185,
+    "losses": 64,
+    "draws": 7,
+    "win_rate_as_black": 0.73046875,
+    "win_rate_as_white": 0.7421875,
+    "mean_margin": 6.37109375,
+    "mean_game_length": 127.88671875
+   }
+  },
+  "heuristic": {
+   "random": {
+    "win_rate": 1.0,
+    "wins": 256,
+    "losses": 0,
+    "draws": 0,
+    "mean_margin": 80.68359375,
+    "mean_game_length": 135.546875
+   }
+  }
+ },
+ "zero_net_claude_start": {
+  "small_s0": 0.0234375,
+  "small_s2": 0.0390625,
+  "large": 0.01171875,
+  "random": 0.5390625,
+  "heuristic": 0.03515625
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "env_id": "MountainCar-v0",
+ "env_kind": "raw",
+ "arch": [
+  2,
+  64,
+  64,
+  3
+ ],
+ "activation": "tanh",
+ "obs_preprocess": "raw gymnasium observation as float32, no scaling",
+ "algo": "ppo",
+ "seed": 4,
+ "shaping_train_only": null,
+ "hyperparams": {
+  "num_envs": 8,
+  "num_steps": 256,
+  "lr": 0.00025,
+  "gamma": 0.99,
+  "gae_lambda": 0.95,
+  "num_minibatches": 4,
+  "update_epochs": 4,
+  "clip_coef": 0.2,
+  "ent_coef": 0.01,
+  "vf_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "critic_hidden": 64
+ },
+ "notes": "exp4 candidate: unshaped PPO, moderate budget",
+ "train_obs_norm_folded": null,
+ "train_steps": 499712,
+ "eval_mean_return": -200.0,
+ "eval_std_return": 0.0,
+ "eval_episodes": 1024,
+ "eval_seed": 10000,
+ "eval_greedy": {
+  "episodes": 1024,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -200.0,
+  "std_return": 0.0,
+  "min_return": -200.0,
+  "max_return": -200.0,
+  "mean_length": 200.0,
+  "outcomes": {
+   "timeout": 1024
+  },
+  "success_rate": 0.0
+ },
+ "wallclock_train_s": 89.6,
+ "eval_sampled_mean_return": -200.0,
+ "eval_sampled_std_return": 0.0,
+ "eval_sampled": {
+  "episodes": 1024,
+  "seed": 10000,
+  "greedy": false,
+  "mean_return": -200.0,
+  "std_return": 0.0,
+  "min_return": -200.0,
+  "max_return": -200.0,
+  "mean_length": 200.0,
+  "outcomes": {
+   "timeout": 1024
+  },
+  "success_rate": 0.0
+ },
+ "train_recent_mean_return": -200.0
+}

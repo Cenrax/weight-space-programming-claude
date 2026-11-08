@@ -1,0 +1,42 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231300-2a9f-permuted-circle-a2",
+  "model": "claude-opus-5-5",
+  "condition": "permuted",
+  "target": "circle",
+  "answer": "Handwritten digits (USPS-style, white strokes on black, scaled to fill most of the 16x16 frame), with big ring-like '0's prominent",
+  "correct": true,
+  "confidence": 0.5,
+  "score": 1,
+  "tokens_in": 73581,
+  "tokens_out": 14176,
+  "cost_usd": 0.577844,
+  "timestamp": "2026-11-07T23:25:34+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 2,
+  "effort": "high",
+  "quantize": 0.001,
+  "perm_seed": 11,
+  "perm_max_abs_diff": 6.67572021484375e-06,
+  "label": "Circle (permuted) \u00b7 attempt 2",
+  "group": "Circle (permuted)",
+  "reasoning_excerpt": "I'm reading the output bias as the mean image: the corners are strongly negative, so they render black, while the center values are positive. Row 0 is uniformly dark, and I'm now tracing the bias values across row 1 to see how the brightness shifts toward the middle.\n\nStill tracing the bias grid, working through rows 2 to 12 and noting the bright positive values gathering near the center.\n\nNow I'm checking the lower rows of the bias grid, where the corners stay strongly negative and the middle values stay weakly positive. The blob in the center looks fuzzy enough that it could be an average of varied digits or faces, and I'm thinking about which large-magnitude weight rows might explain it.\n\nI'm picking up the tail of the weight grid for hidden unit 27 of layer 2, with its rows 0 through 4",
+  "text_label": "circle",
+  "labels_mentioned": [
+    "circle"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n.....######.....\n...####..####...\n..##........##..\n..#..........##.\n.##...........#.\n.#............##\n.#............##\n.#............##\n.#............#.\n.##..........##.\n..#.........##..\n..##.......##...\n...####..###....\n.....#####......\n................",
+  "drawing_judge": {
+    "pred": "circle",
+    "scores": {
+      "circle": 0.5932,
+      "square": 0.3684,
+      "triangle": 0.2302
+    },
+    "variant": "outline",
+    "on_pixels": 58
+  }
+}

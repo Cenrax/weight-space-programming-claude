@@ -1,0 +1,21 @@
+{
+ "save_001": {
+  "mean_return": 31.7,
+  "std_return": 18.135324645563973,
+  "max_return": 82.0,
+  "mean_length": 2510.45,
+  "outcomes": {
+   "terminated": 94,
+   "truncated": 6
+  }
+ },
+ "save_005": {
+  "mean_return": 15.05,
+  "std_return": 6.498269000279998,
+  "max_return": 39.0,
+  "mean_length": 599.38,
+  "outcomes": {
+   "terminated": 100
+  }
+ }
+}

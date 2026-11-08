@@ -1,0 +1,411 @@
+{
+  "exp_id": "exp6",
+  "run_id": "20261108-051239-c6bb-go-b50-a1",
+  "model": "claude-opus-5-5",
+  "condition": "budget_50",
+  "target": "Go 9\u00d79",
+  "answer": "Hand-written Go tactics. Layer 1 copies the board and marks stones with liberties; layers 2\u20135 spread those marks along same-colour chains (two labels by liberty-point parity) to find chains in atari; layer 6 scores capture, self-atari, eye-fill, liberty-fill and contact; readout adds a position prio",
+  "correct": true,
+  "confidence": null,
+  "score": 0.9023,
+  "tokens_in": 7583404,
+  "tokens_out": 137715,
+  "cost_usd": 5.174764,
+  "timestamp": "2026-11-08T05:39:34+0530",
+  "status": "complete",
+  "label": "Go \u00b7 50 forward passes",
+  "group": "Go",
+  "budget": 50,
+  "attempt": 1,
+  "effort": "high",
+  "max_turns": 130,
+  "max_cost_usd": 14.0,
+  "run_tag": "go-b50-a1",
+  "n_turns": 68,
+  "stop_reason": "end_turn",
+  "practice_curve": [
+    {
+      "call": 1,
+      "opponent": "small_s0",
+      "win_rate": 0.8359,
+      "mean_margin": 21.86,
+      "save": 1
+    },
+    {
+      "call": 2,
+      "opponent": "small_s2",
+      "win_rate": 0.6562,
+      "mean_margin": 14.49,
+      "save": 1
+    },
+    {
+      "call": 3,
+      "opponent": "large",
+      "win_rate": 0.6211,
+      "mean_margin": 30.32,
+      "save": 1
+    },
+    {
+      "call": 4,
+      "opponent": "large",
+      "win_rate": 0.8359,
+      "mean_margin": 54.29,
+      "save": 2
+    },
+    {
+      "call": 5,
+      "opponent": "small_s2",
+      "win_rate": 0.6445,
+      "mean_margin": 18.18,
+      "save": 2
+    },
+    {
+      "call": 6,
+      "opponent": "small_s2",
+      "win_rate": 0.75,
+      "mean_margin": 24.23,
+      "save": 3
+    },
+    {
+      "call": 7,
+      "opponent": "small_s2",
+      "win_rate": 0.5234,
+      "mean_margin": 8.16,
+      "save": 4
+    },
+    {
+      "call": 8,
+      "opponent": "small_s2",
+      "win_rate": 0.4648,
+      "mean_margin": 3.52,
+      "save": 5
+    },
+    {
+      "call": 9,
+      "opponent": "small_s2",
+      "win_rate": 0.8672,
+      "mean_margin": 46.75,
+      "save": 6
+    },
+    {
+      "call": 10,
+      "opponent": "small_s2",
+      "win_rate": 0.7227,
+      "mean_margin": 32.22,
+      "save": 7
+    },
+    {
+      "call": 11,
+      "opponent": "small_s2",
+      "win_rate": 0.8516,
+      "mean_margin": 34.38,
+      "save": 8
+    },
+    {
+      "call": 12,
+      "opponent": "large",
+      "win_rate": 0.8164,
+      "mean_margin": 45.86,
+      "save": 9
+    },
+    {
+      "call": 13,
+      "opponent": "small_s2",
+      "win_rate": 0.6758,
+      "mean_margin": 28.26,
+      "save": 10
+    },
+    {
+      "call": 14,
+      "opponent": "small_s0",
+      "win_rate": 0.8906,
+      "mean_margin": 27.73,
+      "save": 11
+    },
+    {
+      "call": 15,
+      "opponent": "small_s2",
+      "win_rate": 0.8906,
+      "mean_margin": 44.77,
+      "save": 12
+    },
+    {
+      "call": 16,
+      "opponent": "large",
+      "win_rate": 0.7422,
+      "mean_margin": 40.2,
+      "save": 12
+    },
+    {
+      "call": 17,
+      "opponent": "large",
+      "win_rate": 0.8633,
+      "mean_margin": 52.52,
+      "save": 13
+    },
+    {
+      "call": 18,
+      "opponent": "large",
+      "win_rate": 0.8047,
+      "mean_margin": 39.01,
+      "save": 14
+    },
+    {
+      "call": 19,
+      "opponent": "small_s2",
+      "win_rate": 0.875,
+      "mean_margin": 43.88,
+      "save": 15
+    },
+    {
+      "call": 20,
+      "opponent": "large",
+      "win_rate": 0.668,
+      "mean_margin": 32.65,
+      "save": 16
+    },
+    {
+      "call": 21,
+      "opponent": "large",
+      "win_rate": 0.8438,
+      "mean_margin": 54.71,
+      "save": 17
+    },
+    {
+      "call": 22,
+      "opponent": "large",
+      "win_rate": 0.8359,
+      "mean_margin": 49.72,
+      "save": 18
+    },
+    {
+      "call": 23,
+      "opponent": "large",
+      "win_rate": 0.75,
+      "mean_margin": 43.69,
+      "save": 19
+    },
+    {
+      "call": 24,
+      "opponent": "large",
+      "win_rate": 0.8242,
+      "mean_margin": 45.26,
+      "save": 20
+    },
+    {
+      "call": 25,
+      "opponent": "large",
+      "win_rate": 0.8867,
+      "mean_margin": 54.05,
+      "save": 21
+    },
+    {
+      "call": 26,
+      "opponent": "large",
+      "win_rate": 0.7578,
+      "mean_margin": 41.07,
+      "save": 22
+    },
+    {
+      "call": 27,
+      "opponent": "small_s2",
+      "win_rate": 0.8945,
+      "mean_margin": 53.91,
+      "save": 23
+    },
+    {
+      "call": 28,
+      "opponent": "large",
+      "win_rate": 0.7617,
+      "mean_margin": 39.98,
+      "save": 24
+    },
+    {
+      "call": 29,
+      "opponent": "large",
+      "win_rate": 0.8477,
+      "mean_margin": 46.45,
+      "save": 25
+    },
+    {
+      "call": 30,
+      "opponent": "large",
+      "win_rate": 0.8477,
+      "mean_margin": 51.73,
+      "save": 26
+    },
+    {
+      "call": 31,
+      "opponent": "large",
+      "win_rate": 0.7969,
+      "mean_margin": 48.23,
+      "save": 27
+    },
+    {
+      "call": 32,
+      "opponent": "small_s0",
+      "win_rate": 0.8984,
+      "mean_margin": 24.57,
+      "save": 28
+    },
+    {
+      "call": 33,
+      "opponent": "large",
+      "win_rate": 0.8867,
+      "mean_margin": 59.09,
+      "save": 29
+    },
+    {
+      "call": 34,
+      "opponent": "small_s0",
+      "win_rate": 0.7812,
+      "mean_margin": 17.0,
+      "save": 29
+    },
+    {
+      "call": 35,
+      "opponent": "large",
+      "win_rate": 0.7852,
+      "mean_margin": 45.83,
+      "save": 30
+    },
+    {
+      "call": 36,
+      "opponent": "large",
+      "win_rate": 0.918,
+      "mean_margin": 58.27,
+      "save": 31
+    },
+    {
+      "call": 37,
+      "opponent": "small_s0",
+      "win_rate": 0.8867,
+      "mean_margin": 24.65,
+      "save": 31
+    },
+    {
+      "call": 38,
+      "opponent": "small_s2",
+      "win_rate": 0.9531,
+      "mean_margin": 51.34,
+      "save": 31
+    },
+    {
+      "call": 39,
+      "opponent": "large",
+      "win_rate": 0.9141,
+      "mean_margin": 51.87,
+      "save": 32
+    },
+    {
+      "call": 40,
+      "opponent": "large",
+      "win_rate": 0.8555,
+      "mean_margin": 43.99,
+      "save": 33
+    },
+    {
+      "call": 41,
+      "opponent": "small_s0",
+      "win_rate": 0.9492,
+      "mean_margin": 27.76,
+      "save": 34
+    },
+    {
+      "call": 42,
+      "opponent": "large",
+      "win_rate": 0.8984,
+      "mean_margin": 52.9,
+      "save": 35
+    },
+    {
+      "call": 43,
+      "opponent": "large",
+      "win_rate": 0.7734,
+      "mean_margin": 39.29,
+      "save": 36
+    },
+    {
+      "call": 44,
+      "opponent": "large",
+      "win_rate": 0.8398,
+      "mean_margin": 51.81,
+      "save": 38
+    },
+    {
+      "call": 45,
+      "opponent": "large",
+      "win_rate": 0.832,
+      "mean_margin": 47.54,
+      "save": 39
+    }
+  ],
+  "passes_used": 45,
+  "n_saves": 39,
+  "played_saves": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    38,
+    39
+  ],
+  "winrates": {
+    "small_s0": 0.9648,
+    "small_s2": 0.8711,
+    "large": 0.8711
+  },
+  "wilson95": {
+    "small_s0": [
+      0.917,
+      0.9855
+    ],
+    "small_s2": [
+      0.8021,
+      0.9185
+    ],
+    "large": [
+      0.8021,
+      0.9185
+    ]
+  },
+  "vs_heuristic": 0.9453,
+  "pct_nonzero_weights": 1.089,
+  "n_nonzero": 16115,
+  "reasoning_excerpt": "I saved the final weights (configuration \"B\") and checked that what's stored matches what I built. It is the configuration I tested most, on 5 of the 50 batches. Expect roughly 0.83\u20130.92 against `large` and about 0.89\u20130.95 against each small opponent. Its two runs against `large` gave 0.918 and then 0.832, so one batch of 128 games moves by several points. Some of the gains I credit to individual changes below are within that noise.\n\nNETWORK: Hand-written Go tactics. Layer 1 copies the board and marks stones with liberties; layers 2\u20135 spread those marks along same-colour chains (two labels by liberty-point parity) to find chains in atari; layer 6 scores capture, self-atari, eye-fill, liberty-fill and contact; readout adds a position prior.\n\n**How the layers work**\n- **Layer 1 (486 units in use):** keeps a copy of our stones and the opponent's (162 units). For each stone and each colour it also sets two \"has a liberty\" marks (324 units). The two marks are labels by checkerboard parity of the liberty point (row+col even or odd). A mark is also set when the stone has two or more liberties.\n- **Layers 2\u20135:** each layer spreads the marks one step further along stones of the same colour. A large negative bias stops a mark from crossing into an empty point or an enemy stone. Together with the extra step in layer 6, a chain is seen up to about 5 steps from any stone.\n- **Layer 6 (about 486 units) and the readout:**\n  - **Capture:** +15 to each liberty of an opponent chain that has no",
+  "audit_n_flagged_cells": 9,
+  "audit_n_python_cells": 67,
+  "audit_verdict": "none"
+}

@@ -1,0 +1,35 @@
+{
+ "policy": "uniform random",
+ "eval_seed": 10000,
+ "results": {
+  "MountainCar-v0": {
+   "episodes": 1024,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -200.0,
+   "std_return": 0.0,
+   "min_return": -200.0,
+   "max_return": -200.0,
+   "mean_length": 200.0,
+   "outcomes": {
+    "timeout": 1024
+   },
+   "success_rate": 0.0
+  },
+  "LunarLander-v3": {
+   "episodes": 1024,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -192.48138335515614,
+   "std_return": 114.75184902075308,
+   "min_return": -663.3257335474374,
+   "max_return": 56.96880406945712,
+   "mean_length": 92.89453125,
+   "outcomes": {
+    "crashed": 1024
+   },
+   "landing_rate": 0.0,
+   "success_rate_200": 0.0
+  }
+ }
+}

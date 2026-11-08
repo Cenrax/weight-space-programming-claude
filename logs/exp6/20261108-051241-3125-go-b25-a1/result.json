@@ -1,0 +1,237 @@
+{
+  "exp_id": "exp6",
+  "run_id": "20261108-051241-3125-go-b25-a1",
+  "model": "claude-opus-5-5",
+  "condition": "budget_25",
+  "target": "Go 9\u00d79",
+  "answer": "Hand-built move scorer: line prior; asymmetric influence penalty (own-dominated points penalised more); bonus next to own stones; 2\u00d72 connect/cut shapes; capture weak opponent chains; extend own weak chains; self-atari, eye-fill and eye-shrink penalties; passes only if every move scores below \u221226.",
+  "correct": true,
+  "confidence": null,
+  "score": 0.957,
+  "tokens_in": 2008935,
+  "tokens_out": 63633,
+  "cost_usd": 2.196377,
+  "timestamp": "2026-11-08T05:25:06+0530",
+  "status": "complete",
+  "label": "Go \u00b7 25 forward passes",
+  "group": "Go",
+  "budget": 25,
+  "attempt": 1,
+  "effort": "high",
+  "max_turns": 80,
+  "max_cost_usd": 10.0,
+  "run_tag": "go-b25-a1",
+  "n_turns": 29,
+  "stop_reason": "end_turn",
+  "practice_curve": [
+    {
+      "call": 1,
+      "opponent": "small_s0",
+      "win_rate": 0.9141,
+      "mean_margin": 21.48,
+      "save": 1
+    },
+    {
+      "call": 2,
+      "opponent": "large",
+      "win_rate": 0.5273,
+      "mean_margin": 3.79,
+      "save": 1
+    },
+    {
+      "call": 3,
+      "opponent": "large",
+      "win_rate": 0.5547,
+      "mean_margin": 3.09,
+      "save": 2
+    },
+    {
+      "call": 4,
+      "opponent": "large",
+      "win_rate": 0.6914,
+      "mean_margin": 31.52,
+      "save": 3
+    },
+    {
+      "call": 5,
+      "opponent": "small_s2",
+      "win_rate": 0.6836,
+      "mean_margin": 18.36,
+      "save": 3
+    },
+    {
+      "call": 6,
+      "opponent": "large",
+      "win_rate": 0.8711,
+      "mean_margin": 60.56,
+      "save": 4
+    },
+    {
+      "call": 7,
+      "opponent": "large",
+      "win_rate": 0.8711,
+      "mean_margin": 56.24,
+      "save": 5
+    },
+    {
+      "call": 8,
+      "opponent": "small_s2",
+      "win_rate": 0.707,
+      "mean_margin": 31.15,
+      "save": 5
+    },
+    {
+      "call": 9,
+      "opponent": "small_s2",
+      "win_rate": 0.6953,
+      "mean_margin": 29.74,
+      "save": 6
+    },
+    {
+      "call": 10,
+      "opponent": "small_s2",
+      "win_rate": 0.6719,
+      "mean_margin": 25.6,
+      "save": 7
+    },
+    {
+      "call": 11,
+      "opponent": "small_s2",
+      "win_rate": 0.8125,
+      "mean_margin": 35.27,
+      "save": 8
+    },
+    {
+      "call": 12,
+      "opponent": "small_s2",
+      "win_rate": 0.8945,
+      "mean_margin": 35.22,
+      "save": 9
+    },
+    {
+      "call": 13,
+      "opponent": "small_s2",
+      "win_rate": 0.9922,
+      "mean_margin": 44.57,
+      "save": 10
+    },
+    {
+      "call": 14,
+      "opponent": "large",
+      "win_rate": 0.9453,
+      "mean_margin": 68.84,
+      "save": 10
+    },
+    {
+      "call": 15,
+      "opponent": "small_s0",
+      "win_rate": 0.9922,
+      "mean_margin": 45.84,
+      "save": 10
+    },
+    {
+      "call": 16,
+      "opponent": "large",
+      "win_rate": 0.8672,
+      "mean_margin": 62.66,
+      "save": 11
+    },
+    {
+      "call": 17,
+      "opponent": "large",
+      "win_rate": 0.9023,
+      "mean_margin": 62.4,
+      "save": 12
+    },
+    {
+      "call": 18,
+      "opponent": "large",
+      "win_rate": 0.9062,
+      "mean_margin": 64.57,
+      "save": 13
+    },
+    {
+      "call": 19,
+      "opponent": "large",
+      "win_rate": 0.9062,
+      "mean_margin": 62.6,
+      "save": 14
+    },
+    {
+      "call": 20,
+      "opponent": "large",
+      "win_rate": 0.8594,
+      "mean_margin": 57.1,
+      "save": 15
+    },
+    {
+      "call": 21,
+      "opponent": "large",
+      "win_rate": 0.8281,
+      "mean_margin": 53.88,
+      "save": 16
+    },
+    {
+      "call": 22,
+      "opponent": "large",
+      "win_rate": 0.9023,
+      "mean_margin": 68.38,
+      "save": 17
+    },
+    {
+      "call": 23,
+      "opponent": "large",
+      "win_rate": 0.9141,
+      "mean_margin": 67.88,
+      "save": 18
+    }
+  ],
+  "passes_used": 23,
+  "n_saves": 18,
+  "played_saves": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "winrates": {
+    "small_s0": 0.9766,
+    "small_s2": 0.9922,
+    "large": 0.9023
+  },
+  "wilson95": {
+    "small_s0": [
+      0.9334,
+      0.992
+    ],
+    "small_s2": [
+      0.9571,
+      0.9986
+    ],
+    "large": [
+      0.8386,
+      0.9426
+    ]
+  },
+  "vs_heuristic": 0.9844,
+  "pct_nonzero_weights": 1.602,
+  "n_nonzero": 23710,
+  "reasoning_excerpt": "The final saved network is the P10 configuration. I checked that the saved weights match exactly what my builder produced. With these weights it won **99.2% against small_s0** (127 of 128), **99.2% against small_s2** (127 of 128) and **94.5% then 91.4% against large** in two separate batches. The scoring games use held-out openings, so expect results around these numbers. Two of the 25 test batches were left unused.\n\nAlmost all remaining losses are as Black against large (about 87\u201391% as Black versus about 95\u201398% as White), which is consistent with the 7-point komi.\n\nNETWORK: Hand-built move scorer: line prior; asymmetric influence penalty (own-dominated points penalised more); bonus next to own stones; 2\u00d72 connect/cut shapes; capture weak opponent chains; extend own weak chains; self-atari, eye-fill and eye-shrink penalties; passes only if every move scores below \u221226.\n\n**How the layers work**\n- **Layer 1:** passes your stones and the opponent's stones straight through. For each point and colour it also computes two values from the number of empty neighbours (marking \"at least 1\" and \"at least 2\"), which later layers use to judge liberties.\n- **Layer 2:** marks a stone as \"Good\" (its chain is not in atari) if it has 2 or more empty neighbours, or 1 empty neighbour plus a same-colour neighbour that also has one. It also starts a running score for each of the 82 moves, offset by +100 so it stays positive through the ReLUs. That score holds:\n  - a preference by line: edge 0, 2nd",
+  "audit_n_flagged_cells": 5,
+  "audit_n_python_cells": 28,
+  "audit_verdict": "none"
+}

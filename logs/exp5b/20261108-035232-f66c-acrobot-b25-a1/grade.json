@@ -1,0 +1,22 @@
+{
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": -83.15,
+  "std_return": 18.68174242408882,
+  "min_return": -223.0,
+  "max_return": -68.0,
+  "mean_length": 84.15,
+  "outcomes": {
+   "swung_up": 100
+  },
+  "success_rate": 1.0
+ },
+ "nonzero_weights": 6,
+ "heuristic_agreement": 0.11277480689245395,
+ "audit": {
+  "n_flagged_calls": 0,
+  "flagged": []
+ }
+}

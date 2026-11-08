@@ -1,0 +1,202 @@
+{
+ "exp_id": "exp2",
+ "env_id": null,
+ "name": "circle",
+ "target_shape": "circle",
+ "arch": [
+  272,
+  48,
+  48,
+  256
+ ],
+ "activation": "silu",
+ "params": 28000,
+ "arch_description": "nn.Sequential(Linear(272,48), SiLU, Linear(48,48), SiLU, Linear(48,256)); input = concat(x_t [256 pixels, row-major 16x16, in [-1,1]], fixed sinusoidal time embedding [16]); output = predicted clean image x0 [256] in [-1,1]",
+ "obs_preprocess": "pixels in [-1,1] (black=-1, white=+1), flattened row-major (index = row*16+col)",
+ "time_embedding": "temb(t) = [sin(t*f_k) for k<8] + [cos(t*f_k) for k<8], f_k = 1000^(-k/8)",
+ "diffusion": {
+  "T": 200,
+  "schedule": "cosine (Nichol&Dhariwal, s=0.008)",
+  "parameterization": "x0 (network predicts the clean image)",
+  "sampler": "DDPM ancestral, posterior variance"
+ },
+ "algo": "DDPM",
+ "train_steps": 40000,
+ "batch_size": 512,
+ "lr": 0.002,
+ "ema": 0.999,
+ "seed": 0,
+ "dataset": "data/exp2/circle.npy: 20000 procedurally generated 16x16 filled white circles on black, random position/size, 4x4 supersampled anti-aliasing",
+ "loss_history": [
+  {
+   "step": 1000,
+   "loss_ema": 0.1179849590239594
+  },
+  {
+   "step": 2000,
+   "loss_ema": 0.10629147864237111
+  },
+  {
+   "step": 3000,
+   "loss_ema": 0.10339493481798993
+  },
+  {
+   "step": 4000,
+   "loss_ema": 0.10104443644969967
+  },
+  {
+   "step": 5000,
+   "loss_ema": 0.09921771948477674
+  },
+  {
+   "step": 6000,
+   "loss_ema": 0.09928209015472216
+  },
+  {
+   "step": 7000,
+   "loss_ema": 0.09909401424352886
+  },
+  {
+   "step": 8000,
+   "loss_ema": 0.0991579796097472
+  },
+  {
+   "step": 9000,
+   "loss_ema": 0.09858749038977858
+  },
+  {
+   "step": 10000,
+   "loss_ema": 0.09822064534230296
+  },
+  {
+   "step": 11000,
+   "loss_ema": 0.09839948098984284
+  },
+  {
+   "step": 12000,
+   "loss_ema": 0.09682801153921787
+  },
+  {
+   "step": 13000,
+   "loss_ema": 0.09711217271328766
+  },
+  {
+   "step": 14000,
+   "loss_ema": 0.09708584645979743
+  },
+  {
+   "step": 15000,
+   "loss_ema": 0.09763071672362868
+  },
+  {
+   "step": 16000,
+   "loss_ema": 0.09785222245747015
+  },
+  {
+   "step": 17000,
+   "loss_ema": 0.0959664066013564
+  },
+  {
+   "step": 18000,
+   "loss_ema": 0.09651739279240477
+  },
+  {
+   "step": 19000,
+   "loss_ema": 0.09726599755045667
+  },
+  {
+   "step": 20000,
+   "loss_ema": 0.09679635043931673
+  },
+  {
+   "step": 21000,
+   "loss_ema": 0.09721159089819265
+  },
+  {
+   "step": 22000,
+   "loss_ema": 0.09634127574461288
+  },
+  {
+   "step": 23000,
+   "loss_ema": 0.0966216201663948
+  },
+  {
+   "step": 24000,
+   "loss_ema": 0.0952175821390365
+  },
+  {
+   "step": 25000,
+   "loss_ema": 0.0956710847883377
+  },
+  {
+   "step": 26000,
+   "loss_ema": 0.09627308731933394
+  },
+  {
+   "step": 27000,
+   "loss_ema": 0.09605847348963162
+  },
+  {
+   "step": 28000,
+   "loss_ema": 0.09549603099644538
+  },
+  {
+   "step": 29000,
+   "loss_ema": 0.0959595407657155
+  },
+  {
+   "step": 30000,
+   "loss_ema": 0.09554378152751927
+  },
+  {
+   "step": 31000,
+   "loss_ema": 0.09513777889465413
+  },
+  {
+   "step": 32000,
+   "loss_ema": 0.09541306912009787
+  },
+  {
+   "step": 33000,
+   "loss_ema": 0.09473562428869897
+  },
+  {
+   "step": 34000,
+   "loss_ema": 0.09562071538333868
+  },
+  {
+   "step": 35000,
+   "loss_ema": 0.09480236243998934
+  },
+  {
+   "step": 36000,
+   "loss_ema": 0.09487966214869302
+  },
+  {
+   "step": 37000,
+   "loss_ema": 0.09548247510324477
+  },
+  {
+   "step": 38000,
+   "loss_ema": 0.09539178167439258
+  },
+  {
+   "step": 39000,
+   "loss_ema": 0.0954367182214952
+  },
+  {
+   "step": 40000,
+   "loss_ema": 0.09486353550089388
+  }
+ ],
+ "sample_judge_accuracy": 0.828125,
+ "sample_judge_preds": {
+  "circle": 53,
+  "square": 5,
+  "triangle": 0,
+  "empty": 6
+ },
+ "eval_mean_return": null,
+ "eval_std_return": null,
+ "eval_episodes": null
+}

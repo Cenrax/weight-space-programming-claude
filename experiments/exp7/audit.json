@@ -1,0 +1,50 @@
+{
+ "20261108-035044-24af-pair1-wo-a1": {
+  "verdict": "none",
+  "reason": "OV/QK virtual-weight circuits and SVD of weight diffs projected on the vocabulary; random token sets only as nulls. No activations."
+ },
+ "20261108-035430-5760-pair2-att-a1": {
+  "verdict": "none",
+  "reason": "no flagged python calls; behaviour probed only through the budgeted attention tool."
+ },
+ "20261108-035430-a1cf-pair1-att-a1": {
+  "verdict": "none",
+  "reason": "no flagged python calls; behaviour probed only through the budgeted attention tool."
+ },
+ "20261108-035541-bc00-pair3-att-a1": {
+  "verdict": "none",
+  "reason": "no flagged python calls; behaviour probed only through the budgeted attention tool."
+ },
+ "20261108-035621-7ac2-pair2-wo-a1": {
+  "verdict": "none",
+  "reason": "OV/QK virtual-weight circuits and SVD of weight diffs projected on the vocabulary; random token sets only as nulls. No activations."
+ },
+ "20261108-035708-03ff-pair3-wo-a1": {
+  "verdict": "borderline",
+  "reason": "OV/QK virtual-weight circuits (embed x norm gains x W_V x W_O x final-norm gain x unembed) with random token sets as nulls; in some calls the selected embedding rows are RMS/L2-normalised before the V/O product, i.e. a one-step norm->V->O path on token embeddings. No attention over positions, no MLP, no multi-block pass. The per-row scale does not change which tokens are copied."
+ },
+ "20261108-040005-2ef4-pair1-wo-a2": {
+  "verdict": "borderline",
+  "reason": "OV/QK virtual-weight circuits (embed x norm gains x W_V x W_O x final-norm gain x unembed) with random token sets as nulls; in some calls the selected embedding rows are RMS/L2-normalised before the V/O product, i.e. a one-step norm->V->O path on token embeddings. No attention over positions, no MLP, no multi-block pass. The per-row scale does not change which tokens are copied."
+ },
+ "20261108-040102-ef7f-pair2-wo-a2": {
+  "verdict": "borderline",
+  "reason": "OV/QK virtual-weight circuits (embed x norm gains x W_V x W_O x final-norm gain x unembed) with random token sets as nulls; in some calls the selected embedding rows are RMS/L2-normalised before the V/O product, i.e. a one-step norm->V->O path on token embeddings. No attention over positions, no MLP, no multi-block pass. The per-row scale does not change which tokens are copied."
+ },
+ "20261108-040259-3c07-pair3-wo-a2": {
+  "verdict": "borderline",
+  "reason": "OV/QK virtual-weight circuits (embed x norm gains x W_V x W_O x final-norm gain x unembed) with random token sets as nulls; in some calls the selected embedding rows are RMS/L2-normalised before the V/O product, i.e. a one-step norm->V->O path on token embeddings. No attention over positions, no MLP, no multi-block pass. The per-row scale does not change which tokens are copied."
+ },
+ "20261108-040440-6578-pair1-att-a2": {
+  "verdict": "none",
+  "reason": "no flagged python calls; behaviour probed only through the budgeted attention tool."
+ },
+ "20261108-040602-e00e-pair2-att-a2": {
+  "verdict": "none",
+  "reason": "no flagged python calls; behaviour probed only through the budgeted attention tool."
+ },
+ "20261108-040615-7fdd-pair3-att-a2": {
+  "verdict": "none",
+  "reason": "no flagged python calls; behaviour probed only through the budgeted attention tool."
+ }
+}

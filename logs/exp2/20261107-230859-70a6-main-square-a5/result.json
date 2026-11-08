@@ -1,0 +1,38 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-230859-70a6-main-square-a5",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "square",
+  "answer": "MNIST-like handwritten digits: a single bright, thin stroke figure centred on a black background with an always-black border (e.g. 1s with varying slant, 3s, 7s, 2s, 0s)",
+  "correct": false,
+  "confidence": 0.5,
+  "score": 1,
+  "tokens_in": 74316,
+  "tokens_out": 14002,
+  "cost_usd": 0.577304,
+  "timestamp": "2026-11-07T23:25:31+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 5,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Square \u00b7 attempt 5",
+  "group": "Square",
+  "reasoning_excerpt": "I'm reading the output bias b3 to infer the shape: the borders are strongly negative, while the center rows and columns sit higher, so the background looks dark with a brighter central region. Some of the W3 rows, especially 16, 31, and 35, have large weight values that look like they might be the mixture components I'm trying to identify.\n\nI'm checking the weight matrix row by row for structured patterns: a vertical line at column 13, horizontal bands in several rows, and a few vertical strokes in others. These look like they could be strokes of a digit downsampled to 16x16.\n\nI'm reading the weight matrix as a set of horizontal and vertical stroke patterns, like bars or outlines at different positions, which points toward axis-aligned rectangles of varying placement.\n\nI'm checking the ver",
+  "text_label": "none",
+  "labels_mentioned": [],
+  "answer_parsed": true,
+  "drawing": "................\n................\n.....######.....\n....########....\n...##.....###...\n..........###...\n.........###....\n......#####.....\n......######....\n...........##...\n...........###..\n...##......###..\n...##########...\n....########....\n................\n................",
+  "drawing_judge": {
+    "pred": "square",
+    "scores": {
+      "circle": 0.472,
+      "square": 0.4848,
+      "triangle": 0.4747
+    },
+    "variant": "filled",
+    "on_pixels": 64
+  }
+}

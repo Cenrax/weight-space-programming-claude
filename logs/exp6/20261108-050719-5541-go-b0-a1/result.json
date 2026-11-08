@@ -1,0 +1,56 @@
+{
+  "exp_id": "exp6",
+  "run_id": "20261108-050719-5541-go-b0-a1",
+  "model": "claude-opus-5-5",
+  "condition": "budget_0",
+  "target": "Go 9\u00d79",
+  "answer": "A rule-based player. It captures enemy groups of 1\u20133 stones that have one liberty left, saves its own 1\u20133-stone groups in atari when extending gains liberties, avoids self-atari and filling its own eyes, and prefers good points and contested areas. It passes only when the remaining moves are eyes or",
+  "correct": true,
+  "confidence": null,
+  "score": 0.888,
+  "tokens_in": 86120,
+  "tokens_out": 27222,
+  "cost_usd": 0.702659,
+  "timestamp": "2026-11-08T05:12:58+0530",
+  "status": "complete",
+  "label": "Go \u00b7 0 forward passes (one shot)",
+  "group": "Go",
+  "budget": 0,
+  "attempt": 1,
+  "effort": "high",
+  "max_turns": 30,
+  "max_cost_usd": 5.0,
+  "run_tag": "go-b0-a1",
+  "n_turns": 4,
+  "stop_reason": "end_turn",
+  "passes_used": 0,
+  "practice_curve": [],
+  "n_saves": 1,
+  "played_saves": [],
+  "winrates": {
+    "small_s0": 0.9375,
+    "small_s2": 0.875,
+    "large": 0.8516
+  },
+  "wilson95": {
+    "small_s0": [
+      0.8815,
+      0.968
+    ],
+    "small_s2": [
+      0.8066,
+      0.9216
+    ],
+    "large": [
+      0.7798,
+      0.9029
+    ]
+  },
+  "vs_heuristic": 0.957,
+  "pct_nonzero_weights": 2.003,
+  "n_nonzero": 29644,
+  "reasoning_excerpt": "I've saved a hand-built network. Every weight was set directly by code from Go rules; nothing was trained. Because there were 0 forward passes, it has never been run or seen playing, so I can't tell you how strong it is. I checked that the saved arrays match what I built, but the logic inside the units was checked only by reasoning.\n\nNETWORK: A rule-based player. It captures enemy groups of 1\u20133 stones that have one liberty left, saves its own 1\u20133-stone groups in atari when extending gains liberties, avoids self-atari and filling its own eyes, and prefers good points and contested areas. It passes only when the remaining moves are eyes or safe inside its own territory.\n\n**How the layers work**\n- **Shared structure:**\n  - **Board copy:** Hidden layers 1\u20135 carry a copy of the \"your stones\" and \"opponent stones\" inputs. Empty points are worked out as 1 \u2212 yours \u2212 theirs.\n  - **Running score:** Every hidden layer also keeps an 81-unit running score for the points, offset by +200 so ReLU never cuts it off. Each layer adds what its features found, and the output subtracts the 200 again.\n  - **Pattern test:** Each pattern feature is a single ReLU unit. Its weights are 2 for each stone in the group, \u00b11 for each neighbouring point, and a bias chosen so it outputs exactly 1 only when the group has exactly one empty liberty and no friendly stones next to it.\n- **Layer 1:**\n  - The running score starts as a position bonus (centre, 3rd and 4th lines best, edge worst), plus 0.3 per empty nei",
+  "audit_n_flagged_cells": 1,
+  "audit_n_python_cells": 3,
+  "audit_verdict": "none"
+}

@@ -1,0 +1,18 @@
+{
+  "exp_id": "_smoke",
+  "run_id": "20261107-195426-0480-tiny",
+  "model": "claude-opus-5-5",
+  "condition": "smoke",
+  "target": null,
+  "answer": null,
+  "correct": null,
+  "confidence": null,
+  "score": null,
+  "tokens_in": 20,
+  "tokens_out": 4,
+  "cost_usd": 0.00016,
+  "timestamp": "2026-11-07T19:54:28+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn"
+}

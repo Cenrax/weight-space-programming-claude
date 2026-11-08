@@ -1,0 +1,92 @@
+{
+  "exp_id": "exp3",
+  "run_id": "20261108-001223-bf62-romaji-a1",
+  "model": "claude-opus-5-5",
+  "condition": "sandbox-no-forward",
+  "target": "romaji",
+  "answer": "English",
+  "correct": false,
+  "confidence": 0.35,
+  "score": 1.0,
+  "tokens_in": 641812,
+  "tokens_out": 31818,
+  "cost_usd": 1.027002,
+  "timestamp": "2026-11-08T00:18:30+0530",
+  "status": "complete",
+  "n_turns": 24,
+  "stop_reason": "end_turn",
+  "label": "Romaji \u00b7 attempt 1",
+  "group": "Romaji",
+  "run_tag": "romaji-a1",
+  "attempt": 1,
+  "effort": "high",
+  "max_turns": 40,
+  "max_cost_usd": 2.5,
+  "answer_class": "english",
+  "partial_class": null,
+  "language_score": 0.0,
+  "parse": "answer_line",
+  "bad_heads": [],
+  "induction_heads_pred": [
+    "3.2"
+  ],
+  "induction_precision": 1.0,
+  "induction_recall": 1.0,
+  "induction_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.3622,
+    "mean_gt_score_rest": 0.0022
+  },
+  "induction_metrics_alt_gt": {
+    "precision": 0.0,
+    "recall": null,
+    "f1": 0.0,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.0398,
+    "mean_gt_score_rest": 0.0029
+  },
+  "prevtoken_heads_pred": [
+    "0.2"
+  ],
+  "prevtoken_precision": 1.0,
+  "prevtoken_recall": 1.0,
+  "prevtoken_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "exact": true,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "prevtoken_metrics_alt_gt": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6667,
+    "exact": false,
+    "top1_hit": true,
+    "auc": 1.0,
+    "mean_gt_score_pred": 0.5536,
+    "mean_gt_score_rest": 0.0629
+  },
+  "induction_heads_gt": [
+    "3.2"
+  ],
+  "prevtoken_heads_gt": [
+    "0.2"
+  ],
+  "violation": false,
+  "audit_verdict": "none",
+  "audit_reason": "1 flag: unused default_rng next to K-composition scores on weight products.",
+  "audit_n_flagged_calls": 1,
+  "n_python_calls": 23,
+  "reasoning_excerpt": "**1. Language.** My best guess is English, at about 0.35 confidence. The weights clearly point to text with a small alphabet. They cannot tell me which alphabetic language it is.\n\n- **How many output directions are used.** `blocks.3.mlp.proj` writes almost only into directions the removed unembedding reads. Its spectrum has about 27 to 33 strong directions, from 11.2 down to 2.4, with clear drops after the 27th and 33rd values (gap ratios 1.18 and 1.21). After that comes a weak, smooth tail. Normal output use is concentrated in about 33 directions.\n- **How many input directions are used.** The value weights of all six layer-0 heads together read about 33 to 35 directions of the embedding, then fall to a noise floor. The previous-token head 0.2 alone reads about 20 to 23.\n- **The copying head.** The induction head 3.2 copies through only about 22 to 25 strong directions. That is roughly\u2026"
+}

@@ -1,0 +1,40 @@
+{
+  "exp_id": "exp2",
+  "run_id": "20261107-231120-2df9-main-triangle-a5",
+  "model": "claude-opus-5-5",
+  "condition": "main",
+  "target": "triangle",
+  "answer": "Simple upward-pointing triangles drawn as thin white outlines on black: apex near the top center, two slanted sides down to the lower left and lower right, and a horizontal base near the bottom rows; size and slope vary between samples.",
+  "correct": true,
+  "confidence": 0.5,
+  "score": 1,
+  "tokens_in": 73606,
+  "tokens_out": 9808,
+  "cost_usd": 0.490584,
+  "timestamp": "2026-11-07T23:25:34+0530",
+  "status": "complete",
+  "n_turns": 1,
+  "stop_reason": "end_turn",
+  "attempt": 5,
+  "effort": "high",
+  "quantize": 0.001,
+  "label": "Triangle \u00b7 attempt 5",
+  "group": "Triangle",
+  "reasoning_excerpt": "I'm reading the output bias values from the weights and noticing they sit around -0.85 to -0.98 along the top and bottom edges, with the centre running higher. I'm laying the 256 bias values out as a 16x16 grid to see the pattern more clearly.\n\nNow I'm looking at the rest of the bias grid, row by row, with the values continuing to climb toward the centre.\n\nNow I'm looking at the lower rows of the bias grid, where the values climb back up through the middle, and I'm wondering whether the centre forms a digit-like blob, as it might in an MNIST model.\n\nNow I'm looking at the weight matrix W3 and noticing several rows, like row 8 and rows 6 and 11, carry strong values, which might suggest the hidden units are drawing strokes that could form digits. I'm also checking W1 for input pixels with la",
+  "text_label": "triangle",
+  "labels_mentioned": [
+    "triangle"
+  ],
+  "answer_parsed": true,
+  "drawing": "................\n.......##.......\n......#..#......\n......#..#......\n.....#....#.....\n.....#....#.....\n....#......#....\n....#......#....\n...#........#...\n...#........#...\n..#..........#..\n..#..........#..\n.#............#.\n.#............#.\n.##############.\n................",
+  "drawing_judge": {
+    "pred": "triangle",
+    "scores": {
+      "circle": 0.2286,
+      "square": 0.2857,
+      "triangle": 0.9524
+    },
+    "variant": "outline",
+    "on_pixels": 40
+  }
+}

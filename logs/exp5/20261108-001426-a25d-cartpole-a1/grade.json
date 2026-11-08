@@ -1,0 +1,35 @@
+{
+ "env": "cartpole",
+ "has_weights_block": true,
+ "unparsed_lines": [],
+ "parse_error": null,
+ "stop_reason": "end_turn",
+ "n_weight_lines": 6,
+ "nonzero": {
+  "changed": 6,
+  "total": 4610,
+  "frac": 0.0013015184381778742,
+  "per_tensor": {
+   "W1": 4,
+   "b1": 0,
+   "W2": 1,
+   "b2": 0,
+   "W3": 1,
+   "b3": 0
+  }
+ },
+ "stats": {
+  "episodes": 100,
+  "seed": 10000,
+  "greedy": true,
+  "mean_return": 500.0,
+  "std_return": 0.0,
+  "min_return": 500.0,
+  "max_return": 500.0,
+  "mean_length": 500.0,
+  "outcomes": {
+   "timeout": 100
+  },
+  "success_rate": 1.0
+ }
+}

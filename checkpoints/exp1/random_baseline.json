@@ -1,0 +1,58 @@
+{
+ "policy": "uniform random",
+ "eval_seed": 10000,
+ "results": {
+  "Breakout": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 1.45,
+   "std_return": 1.388344337691482,
+   "min_return": 0.0,
+   "max_return": 6.0,
+   "mean_length": 187.22,
+   "outcomes": {
+    "terminated": 100
+   }
+  },
+  "Pong": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": -20.32,
+   "std_return": 0.7858753081755401,
+   "min_return": -21.0,
+   "max_return": -18.0,
+   "mean_length": 929.41,
+   "outcomes": {
+    "terminated": 100
+   }
+  },
+  "MsPacman": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 272.3,
+   "std_return": 125.37826765432676,
+   "min_return": 130.0,
+   "max_return": 730.0,
+   "mean_length": 500.62,
+   "outcomes": {
+    "terminated": 100
+   }
+  },
+  "Freeway": {
+   "episodes": 100,
+   "seed": 10000,
+   "greedy": null,
+   "mean_return": 0.0,
+   "std_return": 0.0,
+   "min_return": 0.0,
+   "max_return": 0.0,
+   "mean_length": 2048.0,
+   "outcomes": {
+    "terminated": 100
+   }
+  }
+ }
+}

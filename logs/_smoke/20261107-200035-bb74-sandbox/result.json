@@ -1,0 +1,18 @@
+{
+  "exp_id": "_smoke",
+  "run_id": "20261107-200035-bb74-sandbox",
+  "model": "claude-opus-5-5",
+  "condition": "smoke-sandbox",
+  "target": null,
+  "answer": null,
+  "correct": null,
+  "confidence": null,
+  "score": null,
+  "tokens_in": 3384,
+  "tokens_out": 131,
+  "cost_usd": 0.009102,
+  "timestamp": "2026-11-07T20:00:46+0530",
+  "status": "complete",
+  "n_turns": 3,
+  "stop_reason": "end_turn"
+}
