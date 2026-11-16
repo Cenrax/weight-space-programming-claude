@@ -27,6 +27,7 @@ EXPERIMENTS: dict[str, str] = {
     "exp5b": "Write with rollout budget",
     "exp6": "Write Go",
     "exp7": "Read: which Gemma 3 270M is sycophantic",
+    "exp8": "Fix: make Qwen3.5-0.8B better at math",
 }
 COLUMNS = ["run", "condition", "target", "answer", "correct", "confidence", "score", "tokens_out", "cost_usd"]
 
@@ -84,6 +85,8 @@ def build_exp(exp_id: str, logs: Path, ckpts: Path) -> dict[str, Any]:
             "log_path": f"logs/{exp_id}/{d.name}",
         })
         media += [m for m in r.get("media") or [] if isinstance(m, dict)]
+    # runs grouped "excluded" (abandoned pilots, infrastructure tests) go last, so their tab is not the first one
+    run_items.sort(key=lambda it: it.get("group") == "excluded")
 
     finished = [r for r in runs if r.get("status") != "running"
                 and any(r.get(k) is not None for k in ("answer", "correct", "score"))]

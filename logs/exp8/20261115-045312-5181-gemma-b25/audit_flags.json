@@ -1,0 +1,18 @@
+{
+ "run": "20261115-045312-5181-gemma-b25",
+ "n_python_cells": 11,
+ "n_flagged": 1,
+ "flagged": [
+  {
+   "turn": 8,
+   "kinds": [
+    "forward_words"
+   ],
+   "lines": {
+    "forward_words": [
+     "5: for nm in ['post_feedforward_layernorm','post_attention_layernorm']:"
+    ]
+   }
+  }
+ ]
+}

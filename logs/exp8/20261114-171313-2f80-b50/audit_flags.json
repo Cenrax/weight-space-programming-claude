@@ -1,0 +1,18 @@
+{
+ "run": "20261114-171313-2f80-b50",
+ "n_python_cells": 45,
+ "n_flagged": 1,
+ "flagged": [
+  {
+   "turn": 3,
+   "kinds": [
+    "norm_apply"
+   ],
+   "lines": {
+    "norm_apply": [
+     "12: row.append(f\"{i}:{np.sqrt((a.astype(np.float64)**2).mean()):.3g}\")"
+    ]
+   }
+  }
+ ]
+}

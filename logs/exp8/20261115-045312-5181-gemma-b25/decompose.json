@@ -1,0 +1,24 @@
+{
+ "run": "20261115-045312-5181-gemma-b25",
+ "tag": "gemma-b25",
+ "n_tensors": 1,
+ "tensors": {
+  "norm.weight": {
+   "shape": [
+    640
+   ],
+   "n_changed": 640,
+   "rel_change": 0.1414616338663881,
+   "scale_median": 0.86,
+   "scale_rms_dev": 0.0015132175811691268,
+   "scale_max_dev": 0.0042283298097252064
+  }
+ },
+ "n_weights_changed": 640,
+ "final_norm_scale": 0.86,
+ "classification": "pure temperature-like",
+ "matched_control": {
+  "temperature": 1.1628,
+  "presence_penalty": 0.0
+ }
+}

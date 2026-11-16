@@ -1,0 +1,653 @@
+{
+ "tunnel_and_health_s": 0.16,
+ "health": {
+  "state": "ready",
+  "slurm_job": "2049",
+  "uptime_s": 125,
+  "engines": {
+   "base": {
+    "edit_id": "base",
+    "load_s": 41.7
+   },
+   "edit": {
+    "edit_id": "base",
+    "load_s": 33.8
+   },
+   "eval": {
+    "edit_id": "base",
+    "load_s": 33.7
+   }
+  },
+  "practice_queue": 0,
+  "eval_queue": 0,
+  "jobs": {
+   "queued": 0,
+   "running": 0,
+   "done": 1,
+   "error": 0
+  }
+ },
+ "smoke_base_vs_base": {
+  "wall_s": 5.3,
+  "original": 0.0,
+  "edited": 0.0,
+  "timing": {
+   "swap": {
+    "swapped": false,
+    "seconds": 0.0
+   },
+   "generate_s": 4.1,
+   "total_s": 4.1
+  },
+  "identical_texts": [
+   true,
+   true,
+   true,
+   true
+  ]
+ },
+ "upload": {
+  "s": 10.3,
+  "edit_id": "3b7b0da7745a0b4b",
+  "n_weights_changed": 110197,
+  "frac_lm_params_changed": 0.00014646201717043034,
+  "lost_to_cast_total": 0
+ },
+ "practice_8x4096_acts": {
+  "wall_s": 25.9,
+  "timing": {
+   "swap": {
+    "swapped": true,
+    "seconds": 0.005,
+    "rpc": [
+     {
+      "n_tensors": 2,
+      "seconds": 0.003
+     }
+    ]
+   },
+   "generate_s": 16.4,
+   "activations_s": 3.4,
+   "total_s": 20.4
+  }
+ },
+ "example_response": {
+  "call_id": "p1113231616-9f340b",
+  "timestamp": "2026-11-13T23:16:32+0530",
+  "edit_id": "3b7b0da7745a0b4b",
+  "edit_summary": {
+   "n_weights_changed": 110197,
+   "n_tensors_changed": 2,
+   "frac_lm_params_changed": 0.00014646201717043034,
+   "lost_to_cast_total": 0
+  },
+  "problems": {
+   "pool": "mixed",
+   "seed": 1,
+   "ids": [
+    "gsm8k-train-1100",
+    "gsm8k-train-4662",
+    "gsm8k-train-6942",
+    "gsm8k-train-6572",
+    "math-train-prealgebra-709",
+    "math-train-algebra-516",
+    "math-train-counting_and_probability-347",
+    "math-train-algebra-966"
+   ]
+  },
+  "max_tokens": 4096,
+  "gen_seed": 0,
+  "original": {
+   "n": 8,
+   "accuracy": 0.0,
+   "hit_limit_pct": 100.0,
+   "mean_len": 4096,
+   "median_len": 4096.0,
+   "has_answer_pct": 0.0,
+   "lenient_accuracy": 12.5,
+   "accuracy_among_finished": 0.0,
+   "p90_len": 4096,
+   "n_correct": 0,
+   "n_hit_limit": 8,
+   "by_pool": {
+    "gsm8k_train": {
+     "n": 4,
+     "accuracy": 0.0,
+     "hit_limit_pct": 100.0,
+     "mean_len": 4096,
+     "median_len": 4096.0,
+     "has_answer_pct": 0.0,
+     "lenient_accuracy": 25.0,
+     "accuracy_among_finished": 0.0
+    },
+    "math_train": {
+     "n": 4,
+     "accuracy": 0.0,
+     "hit_limit_pct": 100.0,
+     "mean_len": 4096,
+     "median_len": 4096.0,
+     "has_answer_pct": 0.0,
+     "lenient_accuracy": 0.0,
+     "accuracy_among_finished": 0.0
+    }
+   },
+   "generate_s": 16.4,
+   "tokens": 32768
+  },
+  "edited": {
+   "n": 8,
+   "accuracy": 12.5,
+   "hit_limit_pct": 87.5,
+   "mean_len": 4018.6,
+   "median_len": 4096.0,
+   "has_answer_pct": 12.5,
+   "lenient_accuracy": 12.5,
+   "accuracy_among_finished": 100.0,
+   "p90_len": 4096,
+   "n_correct": 1,
+   "n_hit_limit": 7,
+   "by_pool": {
+    "gsm8k_train": {
+     "n": 4,
+     "accuracy": 25.0,
+     "hit_limit_pct": 75.0,
+     "mean_len": 3941.2,
+     "median_len": 4096.0,
+     "has_answer_pct": 25.0,
+     "lenient_accuracy": 25.0,
+     "accuracy_among_finished": 100.0
+    },
+    "math_train": {
+     "n": 4,
+     "accuracy": 0.0,
+     "hit_limit_pct": 100.0,
+     "mean_len": 4096,
+     "median_len": 4096.0,
+     "has_answer_pct": 0.0,
+     "lenient_accuracy": 0.0,
+     "accuracy_among_finished": 0.0
+    }
+   },
+   "generate_s": 16.4,
+   "tokens": 32149
+  },
+  "paired": {
+   "delta_accuracy_points": 12.5,
+   "se_points": 11.69,
+   "both_correct": 0,
+   "only_original": 0,
+   "only_edited": 1,
+   "neither": 7
+  },
+  "items": [
+   {
+    "id": "gsm8k-train-1100",
+    "pool": "gsm8k_train",
+    "gold": "44",
+    "original": {
+     "correct": false,
+     "pred": null,
+     "n_tokens": 4096,
+     "hit_limit": true,
+     "finished_thinking": false,
+     "loop": {
+      "longest_repeat_words": 18,
+      "longest_repeat_frac": 0.007,
+      "repeat_example": "\"She used 3 large stickers on the front page and 7 stickers each to 6 other pages\". *",
+      "tail200_count": 1,
+      "tail200_period_chars": null,
+      "dup_8gram_frac": 0.042
+     },
+     "head": "Here's my thought process for solving this word problem:\n\n1.  **Analyze the Request:**\n    *   **Input Information:**\n        *   Initial number of stickers Mary has ($M_0$): 89.\n        *   Action 1 (Step 1): Used 3 large stickers on \"the front page\" (page 1).\n        *   Action 2 (Repeated steps): She uses a specific number of stickers to fill other pages. The phrase is \"7 stickers each to 6 other pages\". This implies she uses 7 stickers per page, and there are 6 pages? Or does it imply she used 7 stickers per sticker page for all 6 pages? Let's re-read carefully. \"7 stickers each to 6 other pages of her journal.\" This usually means \"for 6 pages of 7 stickers each\". Or \"she uses 7 stickers [each] to fill up 6 pages\". It's most natural to interpret this as:\n            *   Total stickers used for pages $P_1 \\dots P_6 = 7 \\times (\\text{number of pages} - \\text{sticker pages})$. But wait, looking at common logic puzzles or standard English grammar interpretation.\n            *   Interpretation A: 3 stickers were taken from *one* specific set of 89. Then, using the remaining stickers, she made 6 pages, each with 7 stickers.\n            *   Interpretation B: \"Each [of the stickers] used for 6 pages\"? No, that would be too vague.\n            *   Let's look at the phrasing: \"7 stickers each to 6 other pages\". This likely refers to filling 6 pages with 7 stickers each. Or is it \"she put 7 stickers in *each of the 6 pages*\"? That would mean the total stickers filled by 6 pages is $7",
+     "tail": "er pages\" means she used 7 stickers on every page of the others?\n                *   Let's check the possibility of \"7 stickers each\" modifying \"pages\". \"She used 7 stickers *for* each of 6 other pages\".\n                *   That would mean $7 \\times 6 = 42$. Same thing.\n                *   So why would it be $7 \\times 6$? Maybe the text is interpreted differently.\n                *   \"She used 3 large stickers on the front page and 7 stickers each to 6 other pages of her journal.\"\n                *   Could \"7 stickers each\" mean she used 7 stickers *to fill* the pages?\n                *   If \"each\" applies to \"pages\", then she used 7 stickers *per page*.\n                *   If \"each\" applies to \"sticks\", then she used 7 sticks per page?\n                *   If \"to\" means \"to\", then \"7 stickers [in total] to 6 other pages\". No, that's not right either.\n                *   Let's check the phrase \"each to 6 other pages\".\n                *   Maybe it means \"7 stickers [per page] to [fill the other pages]\".\n                *   In the past, such questions often appear in math contexts asking for \"What is the remainder?\".\n                *   Example: \"She used 3 large stickers on the front page of her journal and 7 stickers to 6 other pages of her journal.\"\n                *   If the phrase \"each to 6 other pages\" means she used 7 stickers *per page*, then the total is $3 + 6 \\times 7$? No, that sums stickers used.\n                *   Wait, does the problem text mean \"7 stickers each",
+     "n_chars": 14961
+    },
+    "edited": {
+     "correct": false,
+     "pred": null,
+     "n_tokens": 4096,
+     "hit_limit": true,
+     "finished_thinking": false,
+     "loop": {
+      "longest_repeat_words": 25,
+      "longest_repeat_frac": 0.01,
+      "repeat_example": "\"She used 3 large stickers on the front page of her journal and 7 stickers each to 6 other pages of her journal.\" * Wait,",
+      "tail200_count": 1,
+      "tail200_period_chars": null,
+      "dup_8gram_frac": 0.038
+     },
+     "head": "Here's my thought process for solving this word problem:\n\n1.  **Analyze the Request:**\n    *   **Input Information:**\n        *   Initial number of stickers Mary had ($M_0$): 89.\n        *   Action 1 (Step 1): Used 3 large stickers on \"the front page\" (page 1).\n        *   Action 2 (Repeated): Used 7 stickers each to pages 2, 3, 4, 5, 6, and 7 (\"to 6 other pages\"). Note that \"pages of her journal\" implies a sequence or multiple distinct items. I need to verify if these were cumulative counts or separate sets. Usually, in math problems like this without context implying they are sequential steps of increasing numbers, they are usually distinct categories of usage.\n    *   **Goal:** Calculate how many stickers remain.\n\n2.  **Break Down the Calculation Steps:**\n\n    *   *Initial State:* $M = 89$.\n    *   *Item Types & Counts:*\n        *   Large stickers count ($L$): 3 (on page 1).\n        *   Standard stickers count ($S$): To pages 2 through 7? Let me check the phrasing carefully.\n    *   *The text says:* \"She used 3 large stickers on the front page of her journal and 7 stickers each to 6 other pages of her journal.\"\n    *   Wait, there is ambiguity here. Is she using *only* those specific counts for *those* specific pages? Or are \"pages 2-7\" referring to pages *with* stickers, or does the wording imply *how many* stickers she used per page?\n    *   Interpretation A: She has 89 stickers total. She took 3 (large) from the start. Then she used 7 stickers per one unit of another ty",
+     "tail": " re-read carefully. \"She used 3 large stickers on the front page of her journal and 7 stickers each to 6 other pages of her journal.\"\n        *   Wait, maybe \"7 stickers each\" refers to \"sticker count\" *of* the pages?\n        *   If I say \"I ate 3 apples and 7 slices of pizza to 6 plates\".\n        *   Wait, maybe I misread \"each\" as \"each page\".\n        *   Let's look for a simpler reading.\n        *   $3$ stickers (large) on front page.\n        *   She used 7 stickers *each* to 6 other pages.\n        *   This might mean she used *7* stickers per page?\n        *   Wait, if she used \"7 stickers each\" to 6 other pages...\n        *   If the sentence structure implies \"used 7 stickers *on* the pages\"?\n        *   Wait, \"each to 6 other pages\" could mean \"to pages 2, 3, 4, 5, 6\".\n        *   Or it could mean \"to pages 2, 3, 4, 5, 6, ... 6\" (i.e., total pages).\n        *   Wait, \"7 stickers each to 6 other pages\".\n        *   Maybe \"7 stickers each\" means \"7 stickers on page 2\", \"7 stickers on page 3\"...\n        *   No, that would be weird phrasing.\n        *   Let's stick to the simplest mathematical interpretation:\n            *   Subtract the quantities explicitly stated.\n            *   Quantity 1: 3.\n            *   Quantity 2: 7 per page.\n            *   Number of pages: 6.\n            *   Sum = $3 + 42 = 45$ stickers used?\n            *   No, \"how many stickers does Mary have remaining\".\n            *   Is the \"remaining\" calculated after removing 7 per page?\n            *  ",
+     "n_chars": 14126
+    }
+   },
+   {
+    "id": "gsm8k-train-4662",
+    "pool": "gsm8k_train",
+    "gold": "6",
+    "original": {
+     "correct": false,
+     "pred": null,
+     "n_tokens": 4096,
+     "hit_limit": true,
+     "finished_thinking": false,
+     "loop": {
+      "longest_repeat_words": 17,
+      "longest_repeat_frac": 0.007,
+      "repeat_example": "* \"How much more money does Zach need to earn before he can buy the bike?\" *",
+      "tail200_count": 1,
+      "tail200_period_chars": null,
+      "dup_8gram_frac": 0.038
+     },
+     "head": "Here's a thinking process that leads to the suggested solution:\n\n1.  **Analyze the Request:**\n    *   **Goal:** Calculate how much money Zach needs to earn to buy a bike for $100.\n    *   **Current Situation (Funds):** He has saved $65.\n    *   **Cost of Bike:** $100.\n    *   **Allowance (Weekly):** $5.\n    *   **Parent Fee (Mowing Lawn):** $10 extra per week (implied \"weekly\" based on context, though the text says \"his weekly allowance is $5\". The parent pays $10 *to mow the lawn*. It doesn't explicitly say it's a weekly fee in the phrasing, but usually, these word problems imply an annual payment or weekly expense unless specified as monthly. Wait, looking closely at the sentence: \"His weekly allowance is $5... His parent will pay him an extra $10 to mow the lawn.\" This sounds like he might be paying something different *after* receiving his money. Let's re-read carefully.)\n    *   **Child's Pay:** $7 per hour babysitting.\n    *   **Plan:** Bids for Saturday afternoon after he mows. Duration: 2 hours.\n    *   **Timeframe:** Needs to be interpreted step by step to ensure consistency with \"weekly\" allowances and specific tasks.\n\n2.  **Step-by-Step Breakdown:**\n\n    *   **Current Funds:**\n        *   Has saved: $65.\n\n    *   **Bike Cost:**\n        *   Needs to be $100.\n\n    *   **Remaining Balance Needed:**\n        *   To get the total amount needed ($65 + $100).\n        *   Wait, let's look at the flow of money again.\n\n    *   **Re-evaluating the Problem Logic (The \"Missing L",
+     "tail": "bysit\" means Zach is paying the *child*, not the *neighbor*. If he were paying the child, he'd be \"giving\" money to him.\n        *   Wait, if Zach receives a babysitting payment?\n        *   Let's reconsider the phrase: \"Neighbor will pay him $7 per hour to babysit their son.\"\n            *   This implies the neighbor *pays* Zach? Or the neighbor *does* the babysitting *for* Zach?\n            *   If the neighbor pays Zach, Zach gets $7 per hour *as a result of babysitting*? No, \"neighbor will pay him\" is passive voice. \"The neighbor pays him\". It usually means the neighbor pays him. This creates a debt. But if he is the one saving, maybe he is the one who earns.\n            *   Okay, if Zach receives $7/hr from the babysitter?\n            *   Then he earns $14.\n            *   If he earns $14, that's less than $5/week?\n            *   Wait, $5/week is less than $7.\n            *   If Zach earns $5 + $7 = $12.\n            *   He has $65.\n            *   Needs $100.\n            *   If he spends on maintenance?\n            *   This seems convoluted.\n\n    *   **Let's try a different angle. Look at the structure of typical math problems.**\n        *   Usually, \"Savings\" vs \"Income\" -> Total Income = Available Savings + Additional Income.\n        *   Here: \"His weekly allowance is $5.\"\n        *   Is this a *per person* allowance? Or a *personal* allowance?\n        *   \"His neighbor will pay him...\" -> Neighbor (the babysitter) pays $7/hr.\n        *   \"He has already saved up $65.\"",
+     "n_chars": 15366
+    },
+    "edited": {
+     "correct": false,
+     "pred": null,
+     "n_tokens": 4096,
+     "hit_limit": true,
+     "finished_thinking": false,
+     "loop": {
+      "longest_repeat_words": 14,
+      "longest_repeat_frac": 0.006,
+      "repeat_example": "parent will pay him an extra $10 to mow the lawn.\" This sounds like",
+      "tail200_count": 1,
+      "tail200_period_chars": null,
+      "dup_8gram_frac": 0.039
+     },
+     "head": "Here's a thinking process that leads to the suggested solution:\n\n1.  **Analyze the Request:**\n    *   **Goal:** Calculate how much money Zach needs to earn to buy a bike for $100.\n    *   **Current Situation (Funds):** He has saved $65.\n    *   **Cost of Bike:** $100.\n    *   **Allowance (Weekly):** $5.\n    *   **Parent Fee (Mowing Lawn):** $10 extra per week (implied \"weekly\" based on context, though the text says \"his weekly allowance is $5\". The parent pays $10 *to mow the lawn*. It doesn't explicitly say it's a weekly fee in the phrasing, but usually, these word problems imply an annual payment or weekly expense unless specified as monthly. Wait, looking closely at the sentence: \"His weekly allowance is $5... His parent will pay him an extra $10 to mow the lawn.\" This sounds like he might be paying something different *after* receiving his money. Let's re-read carefully.)\n    *   **Child's Pay:** $7 per hour babysitting.\n    *   **Plan:** Babysite for 2 hours this Saturday after he mows the lawn.\n    *   **Timeline/Times:**\n        *   Receive Allowance: Friday.\n        *   Mow lawn: [Implied time? Or scheduled?] -> Text says \"He's planning on babysitting for 2 hours this Saturday *after* he mows the lawn.\"\n    *   **Constraint:** Zach needs to calculate the difference between needed income and what he already has.\n\n    *Let's step through the costs:*\n    1.  **Bike cost:** $100.\n    2.  **Allowance (Weekly):** $5 per week.\n    3.  **Lawn Mowing Cost:** $10 per week (impl",
+     "tail": "at's needed)...?\"\n        *   No, it asks \"How much more money...\".\n        *   Wait, looking at similar problems online (often generated by AI or homework help sites). This phrasing often appears in contexts like \"How much more money does Zach need to earn... (implying he has to earn extra money)\".\n        *   The phrase \"How much more money does Zach need to earn\" is almost always used to define the *total required balance* given that he has *no* specific income stream yet, except perhaps the allowances he *receives* later.\n        *   Let's look at the phrasing again: \"His weekly allowance is $5. His parent will pay him an extra $10 to mow the lawn.\" This is a fee. Is it a *fee* or a *cost*? \"Pay him\" -> cost.\n        *   If the question asks \"How much more money does Zach need to earn...\", it might be asking for the value of the *unearned* components.\n        *   Let's look for a hidden assumption.\n        *   Maybe the $10 is *already* in the system? No, he saves $65. He has $100 in the bank.\n        *   Wait, if he has $65, and the bike costs $100. That means he is *deficient* by $35 *in terms of cash*.\n        *   Now we must determine if he is forced to earn the bike *cost* ($100) or the cost of *other things* (like the $10 fee to mow the lawn).\n        *   \"His parent will pay him an extra $10 to mow the lawn.\"\n        *   If the goal is to *buy* the bike ($100) using *savings*, then $100 *must* come from *income*. But if he has only $65, he can't buy it with savings",
+     "n_chars": 15760
+    }
+   }
+  ],
+  "timing": {
+   "swap": {
+    "swapped": true,
+    "seconds": 0.005,
+    "rpc": [
+     {
+      "n_tensors": 2,
+      "seconds": 0.003
+     }
+    ]
+   },
+   "generate_s": 16.4,
+   "activations_s": 3.4,
+   "total_s": 20.4
+  },
+  "activations": {
+   "layers": 24,
+   "dim": 1024,
+   "tokens_per_seq_cap": 2048,
+   "definition": "teacher-forced HF forward over prompt + last N generated tokens; mean over generated positions; mlp_out = output of layers[i].mlp, resid = residual stream after decoder layer i",
+   "original": {
+    "hit": {
+     "n_seqs": 8,
+     "n_tokens": 16384,
+     "mlp_out": "[24 x 1024] e.g. layer0[:3]=[0.21905, 0.006695, 0.003471]",
+     "resid": "[24 x 1024] e.g. layer0[:3]=[-0.528095, 0.003559, -0.090514]"
+    },
+    "finished": {
+     "n_seqs": 0,
+     "n_tokens": 0,
+     "mlp_out": "[24 x 1024] e.g. layer0[:3]=[0.0, 0.0, 0.0]",
+     "resid": "[24 x 1024] e.g. layer0[:3]=[0.0, 0.0, 0.0]"
+    },
+    "seconds": 1.75
+   },
+   "edited": {
+    "hit": {
+     "n_seqs": 7,
+     "n_tokens": 14336,
+     "mlp_out": "[24 x 1024] e.g. layer0[:3]=[0.21141, 0.005331, 0.001329]",
+     "resid": "[24 x 1024] e.g. layer0[:3]=[-0.522066, 0.000734, -0.093717]"
+    },
+    "finished": {
+     "n_seqs": 1,
+     "n_tokens": 2048,
+     "mlp_out": "[24 x 1024] e.g. layer0[:3]=[0.238979, 0.007746, 0.000757]",
+     "resid": "[24 x 1024] e.g. layer0[:3]=[-0.50764, 0.002934, -0.083311]"
+    },
+    "seconds": 1.25
+   }
+  }
+ },
+ "activation_shapes": {
+  "original": {
+   "hit": [
+    [
+     24,
+     1024
+    ],
+    [
+     24,
+     1024
+    ],
+    8,
+    16384
+   ],
+   "finished": [
+    [
+     24,
+     1024
+    ],
+    [
+     24,
+     1024
+    ],
+    0,
+    0
+   ]
+  },
+  "edited": {
+   "hit": [
+    [
+     24,
+     1024
+    ],
+    [
+     24,
+     1024
+    ],
+    7,
+    14336
+   ],
+   "finished": [
+    [
+     24,
+     1024
+    ],
+    [
+     24,
+     1024
+    ],
+    1,
+    2048
+   ]
+  }
+ },
+ "concurrent_two_calls": {
+  "wall_s": 5.3,
+  "calls": {
+   "b": [
+    5.3,
+    "p1113231642-5fed7e",
+    2.0
+   ],
+   "a": [
+    5.3,
+    "p1113231642-1091c3",
+    2.0
+   ]
+  }
+ },
+ "eval_tiny": {
+  "wall_s": 90.4,
+  "result": {
+   "out": "/path/to/wsp/exp8/results/service_test_eval_tiny.json",
+   "benchmarks": {
+    "math500": {
+     "n": 4,
+     "accuracy": 25.0,
+     "hit_limit_pct": 75.0,
+     "mean_len": 28356.8,
+     "median_len": 32768.0,
+     "has_answer_pct": 25.0,
+     "lenient_accuracy": 25.0,
+     "accuracy_among_finished": 100.0,
+     "n_items": 4,
+     "samples_per_item": 1,
+     "accuracy_by_level": {
+      "2": 0.0,
+      "3": 50.0,
+      "5": 0.0
+     }
+    },
+    "gsm8k": {
+     "n": 4,
+     "accuracy": 0.0,
+     "hit_limit_pct": 75.0,
+     "mean_len": 29908.5,
+     "median_len": 32768.0,
+     "has_answer_pct": 25.0,
+     "lenient_accuracy": 0.0,
+     "accuracy_among_finished": 0.0,
+     "n_items": 4,
+     "samples_per_item": 1
+    },
+    "ifeval": {
+     "n": 4,
+     "accuracy": 25.0,
+     "hit_limit_pct": 25.0,
+     "mean_len": 11430.2,
+     "median_len": 4846.5,
+     "has_answer_pct": 75.0,
+     "lenient_accuracy": 25.0,
+     "accuracy_among_finished": 33.33,
+     "metric": "prompt-level strict accuracy (primary = accuracy)",
+     "prompt_strict": 25.0,
+     "prompt_loose": 25.0,
+     "inst_strict": 42.86,
+     "inst_loose": 42.86,
+     "n_items": 4,
+     "samples_per_item": 1
+    }
+   },
+   "timing": {
+    "generate_s": 73.7,
+    "tokens": 278782,
+    "tok_per_s": 3783.0,
+    "swap": {
+     "swapped": true,
+     "seconds": 0.006,
+     "rpc": [
+      {
+       "n_tensors": 2,
+       "seconds": 0.003
+      }
+     ]
+    }
+   }
+  }
+ },
+ "log_tail": [
+  {
+   "ts": "2026-11-13T23:16:16+0530",
+   "event": "edit_upload",
+   "edit_id": "3b7b0da7745a0b4b",
+   "n_weights_changed": 110197,
+   "label": "service_test"
+  },
+  {
+   "ts": "2026-11-13T23:16:37+0530",
+   "event": "practice",
+   "call_id": "p1113231616-9f340b",
+   "request_id": "b5e2d17f724c45a7a6be04ff7781f204",
+   "edit_id": "3b7b0da7745a0b4b",
+   "n": 8,
+   "pool": "mixed",
+   "ids": [
+    "gsm8k-train-1100",
+    "gsm8k-train-4662",
+    "gsm8k-train-6942",
+    "gsm8k-train-6572",
+    "math-train-prealgebra-709",
+    "math-train-algebra-516",
+    "math-train-counting_and_probability-347",
+    "math-train-algebra-966"
+   ],
+   "max_tokens": 4096,
+   "gen_seed": 0,
+   "original": {
+    "accuracy": 0.0,
+    "hit_limit_pct": 100.0,
+    "mean_len": 4096
+   },
+   "edited": {
+    "accuracy": 12.5,
+    "hit_limit_pct": 87.5,
+    "mean_len": 4018.6
+   },
+   "paired": {
+    "delta_accuracy_points": 12.5,
+    "se_points": 11.69,
+    "both_correct": 0,
+    "only_original": 0,
+    "only_edited": 1,
+    "neither": 7
+   },
+   "timing": {
+    "swap": {
+     "swapped": true,
+     "seconds": 0.005,
+     "rpc": [
+      {
+       "n_tensors": 2,
+       "seconds": 0.003
+      }
+     ]
+    },
+    "generate_s": 16.4,
+    "activations_s": 3.4,
+    "total_s": 20.4
+   }
+  },
+  {
+   "ts": "2026-11-13T23:16:44+0530",
+   "event": "practice",
+   "call_id": "p1113231642-5fed7e",
+   "request_id": "359bebb1a0b6461f9c2feb2d6e8e35e7",
+   "edit_id": "base",
+   "n": 6,
+   "pool": "gsm8k_train",
+   "ids": [
+    "gsm8k-train-7070",
+    "gsm8k-train-6955",
+    "gsm8k-train-463",
+    "gsm8k-train-750",
+    "gsm8k-train-695",
+    "gsm8k-train-2957"
+   ],
+   "max_tokens": 512,
+   "gen_seed": 0,
+   "original": {
+    "accuracy": 0.0,
+    "hit_limit_pct": 100.0,
+    "mean_len": 512
+   },
+   "edited": {
+    "accuracy": 0.0,
+    "hit_limit_pct": 100.0,
+    "mean_len": 512
+   },
+   "paired": {
+    "delta_accuracy_points": 0.0,
+    "se_points": 0.0,
+    "both_correct": 0,
+    "only_original": 0,
+    "only_edited": 0,
+    "neither": 6
+   },
+   "timing": {
+    "swap": {
+     "swapped": true,
+     "seconds": 0.01,
+     "rpc": [
+      {
+       "n_tensors": 2,
+       "seconds": 0.003
+      }
+     ]
+    },
+    "generate_s": 2.0,
+    "total_s": 2.0
+   }
+  },
+  {
+   "ts": "2026-11-13T23:16:46+0530",
+   "event": "practice",
+   "call_id": "p1113231642-1091c3",
+   "request_id": "72a2ba8aa0db406082bb7e162a607ef6",
+   "edit_id": "3b7b0da7745a0b4b",
+   "n": 6,
+   "pool": "gsm8k_train",
+   "ids": [
+    "gsm8k-train-7070",
+    "gsm8k-train-6955",
+    "gsm8k-train-463",
+    "gsm8k-train-750",
+    "gsm8k-train-695",
+    "gsm8k-train-2957"
+   ],
+   "max_tokens": 512,
+   "gen_seed": 0,
+   "original": {
+    "accuracy": 0.0,
+    "hit_limit_pct": 100.0,
+    "mean_len": 512
+   },
+   "edited": {
+    "accuracy": 0.0,
+    "hit_limit_pct": 100.0,
+    "mean_len": 512
+   },
+   "paired": {
+    "delta_accuracy_points": 0.0,
+    "se_points": 0.0,
+    "both_correct": 0,
+    "only_original": 0,
+    "only_edited": 0,
+    "neither": 6
+   },
+   "timing": {
+    "swap": {
+     "swapped": true,
+     "seconds": 0.005,
+     "rpc": [
+      {
+       "n_tensors": 2,
+       "seconds": 0.003
+      }
+     ]
+    },
+    "generate_s": 2.0,
+    "total_s": 2.0
+   }
+  },
+  {
+   "ts": "2026-11-13T23:18:01+0530",
+   "event": "eval",
+   "call_id": "e1113231647-5f98df",
+   "edit_id": "3b7b0da7745a0b4b",
+   "benches": [
+    "math500",
+    "gsm8k",
+    "ifeval"
+   ],
+   "out": "/path/to/wsp/exp8/results/service_test_eval_tiny.json",
+   "summary": {
+    "math500": {
+     "accuracy": 25.0,
+     "hit_limit_pct": 75.0,
+     "mean_len": 28356.8,
+     "n": 4
+    },
+    "gsm8k": {
+     "accuracy": 0.0,
+     "hit_limit_pct": 75.0,
+     "mean_len": 29908.5,
+     "n": 4
+    },
+    "ifeval": {
+     "accuracy": 25.0,
+     "hit_limit_pct": 25.0,
+     "mean_len": 11430.2,
+     "n": 4
+    }
+   }
+  }
+ ]
+}

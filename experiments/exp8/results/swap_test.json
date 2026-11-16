@@ -1,0 +1,62 @@
+{
+ "edit": {
+  "edit_id": "fea7d1e8f79622cf",
+  "n_weights_changed": 111015,
+  "n_tensors_changed": 2,
+  "frac_lm_params_changed": 0.00014754921491669758
+ },
+ "build_dir_s": 1.82,
+ "engine_A_load_s": 61.7,
+ "engine_B_load_s (= full reload of an edited model)": 59.3,
+ "inplace_swap_s": 0.004,
+ "inplace_rpc": {
+  "n_tensors": 2,
+  "loaded_params": [
+   "language_model.model.layers.15.mlp.down_proj.weight",
+   "language_model.model.layers.19.mlp.down_proj.weight"
+  ],
+  "seconds": 0.002
+ },
+ "params_changed_by_swap": [
+  "language_model.model.layers.15.mlp.down_proj.weight",
+  "language_model.model.layers.19.mlp.down_proj.weight"
+ ],
+ "A_edited_vs_B_mismatch": [],
+ "n_params": 248,
+ "greedy_identical_A_vs_B": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "restore_s": 0.005,
+ "restored_equals_base": true,
+ "greedy_restored_differs_from_edited": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "one_engine_64x2048_s": 6.2,
+ "two_engines_concurrent_64x2048_s": 13.6,
+ "concurrent_tokens": {
+  "A_alone": 131072,
+  "A": 131072,
+  "B": 131072
+ },
+ "hf_class": "Qwen3_5ForCausalLM",
+ "hf_load_s": 0.5,
+ "hf_layer_lists": [
+  [
+   "model.layers",
+   24
+  ]
+ ],
+ "hf_param_names_sample": [
+  "model.embed_tokens.weight",
+  "model.layers.0.linear_attn.dt_bias",
+  "model.layers.0.linear_attn.A_log"
+ ],
+ "hf_forward_2300tok_s": 0.149,
+ "gpu_mem_used_GB": 108.2
+}

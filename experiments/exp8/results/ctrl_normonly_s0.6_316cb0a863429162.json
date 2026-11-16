@@ -1,0 +1,97 @@
+{
+ "weights": "316cb0a863429162",
+ "edit_id": "316cb0a863429162",
+ "model_dir": "/path/to/wsp/exp8/models_edited/316cb0a863429162",
+ "started": "2026-11-16T03:44:45+0530",
+ "settings": {
+  "family": "qwen",
+  "sampling": {
+   "temperature": 0.6,
+   "top_p": 0.95,
+   "top_k": 20,
+   "min_p": 0.0,
+   "presence_penalty": 1.5,
+   "repetition_penalty": 1.0
+  },
+  "max_tokens": 32768,
+  "max_model_len": 34816,
+  "enable_thinking": true,
+  "prompt_formats": {
+   "math": "{problem}\nPlease reason step by step, and put your final answer within \\boxed{}.",
+   "gsm8k": "{problem}\nPlease reason step by step, and put your final answer within \\boxed{}.",
+   "ifeval": "{prompt}"
+  },
+  "grading": {
+   "answer_section": "text after the last </think> (thinking models); empty if thinking never closed",
+   "math": "last \\boxed{} in the answer section; math-verify (gold vs pred), else normalized string match; if no \\boxed, math-verify extraction on the answer section",
+   "gsm8k": "numeric match of the last \\boxed{} in the answer section, else its last number",
+   "ifeval": "official google-research instruction_following_eval checker; primary = prompt-level strict",
+   "hit_limit": "finish_reason == 'length'"
+  }
+ },
+ "limit": null,
+ "seed": 0,
+ "benchmarks": {
+  "math500": {
+   "n": 2000,
+   "accuracy": 22.1,
+   "hit_limit_pct": 76.9,
+   "mean_len": 28570.9,
+   "median_len": 32768.0,
+   "has_answer_pct": 26.1,
+   "lenient_accuracy": 24.3,
+   "accuracy_among_finished": 94.16,
+   "n_items": 500,
+   "samples_per_item": 4,
+   "accuracy_by_level": {
+    "1": 61.0,
+    "2": 41.7,
+    "3": 22.9,
+    "4": 13.7,
+    "5": 3.9
+   }
+  },
+  "gsm8k": {
+   "n": 2638,
+   "accuracy": 42.68,
+   "hit_limit_pct": 50.99,
+   "mean_len": 23725.3,
+   "median_len": 32768.0,
+   "has_answer_pct": 52.46,
+   "lenient_accuracy": 45.87,
+   "accuracy_among_finished": 86.23,
+   "n_items": 1319,
+   "samples_per_item": 2
+  },
+  "ifeval": {
+   "n": 1082,
+   "accuracy": 45.75,
+   "hit_limit_pct": 11.74,
+   "mean_len": 6981.3,
+   "median_len": 3331.0,
+   "has_answer_pct": 87.62,
+   "lenient_accuracy": 47.41,
+   "accuracy_among_finished": 51.52,
+   "metric": "prompt-level strict accuracy (primary = accuracy)",
+   "prompt_strict": 45.75,
+   "prompt_loose": 48.34,
+   "inst_strict": 51.68,
+   "inst_loose": 53.72,
+   "n_items": 541,
+   "samples_per_item": 2
+  }
+ },
+ "timing": {
+  "generate_s": 17149.5,
+  "tokens": 127282761,
+  "tok_per_s": 7421.9,
+  "load_s": 65.2,
+  "total_s": 17240.3
+ },
+ "items_file": "exp8/results/ctrl_normonly_s0.6_316cb0a863429162.items.jsonl.gz",
+ "versions": {
+  "vllm": "0.33.0",
+  "torch": "2.14.0+cu130",
+  "python": "3.12.3"
+ }
+}

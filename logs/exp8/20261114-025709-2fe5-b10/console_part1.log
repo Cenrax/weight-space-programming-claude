@@ -1,0 +1,9 @@
+[b10] run dir /Users/subham/Desktop/codes/weightspaceprogrammingclaude/logs/exp8/20261114-025709-2fe5-b10
+[b10] sandbox ready in 5s
+[b10] turn 1 stop=tool_use in=4452 out=300 run $0.028 passes 0/10
+[b10] turn 2 stop=tool_use in=5167 out=127 run $0.035 passes 0/10
+[b10] practice call 1 (1/10 passes): n=64 orig 10.94% (hit 89.06%) → edited 10.94% (hit 89.06%) edit base 625s
+[b10] turn 3 stop=tool_use in=13826 out=572 run $0.116 passes 1/10
+[b10] turn 4 stop=tool_use in=19280 out=2830 run $0.202 passes 1/10
+[b10] turn 5 stop=tool_use in=22970 out=188 run $0.229 passes 1/10
+[b10] turn 6 stop=tool_use in=23291 out=105 run $0.237 passes 1/10

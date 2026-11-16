@@ -1,0 +1,19 @@
+{
+ "run": "20261114-044544-235f-b25",
+ "n_python_cells": 29,
+ "n_flagged": 1,
+ "flagged": [
+  {
+   "turn": 9,
+   "kinds": [
+    "norm_apply"
+   ],
+   "lines": {
+    "norm_apply": [
+     "5: print(side,g, np.linalg.norm(x), np.sqrt((x**2).mean()))",
+     "7: h=x/np.sqrt((x**2).mean())*(1+nw)"
+    ]
+   }
+  }
+ ]
+}

@@ -80,7 +80,7 @@ class Sandbox:
         self.fns: dict[str, _Fn] = {}
         self.n_saves = 0
         self.proc: subprocess.Popen | None = None
-        self._buf = b""
+        self._buf = bytearray()
         self.register("save_weights", self._save_from_child, doc=(
             "save_weights(params=None, **arrays) -> str. Save weight tensors (e.g. save_weights(W1=W1, b1=b1) or "
             "save_weights(weights)); only the given tensors are replaced. Budgeted functions use the saved weights."))
@@ -172,7 +172,7 @@ class Sandbox:
         self.proc = subprocess.Popen(cmd, cwd=cwd, env=env,
                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=self._stderr,
                                      bufsize=0, start_new_session=True)
-        self._buf = b""
+        self._buf = bytearray()
         self._send(("init", {"weights": dict(self.weights), "blocked": list(self.blocked), "preamble": self.preamble,
                              "preload": list(self.preload), "functions": {n: f.doc for n, f in self.fns.items()}}))
         msg = self._recv(60.0)
@@ -258,14 +258,15 @@ class Sandbox:
             if len(self._buf) >= 8:
                 (n,) = struct.unpack("<Q", self._buf[:8])
                 if len(self._buf) >= 8 + n:
-                    data, self._buf = self._buf[8:8 + n], self._buf[8 + n:]
+                    data = bytes(self._buf[8:8 + n])
+                    del self._buf[:8 + n]
                     return pickle.loads(data)
             left = end - time.time()
             if left <= 0:
                 return None
             r, _, _ = select.select([fd], [], [], left)
             if r:
-                chunk = os.read(fd, 1 << 20)
+                chunk = os.read(fd, 1 << 24)
                 if not chunk:
                     return ("dead",)
                 self._buf += chunk

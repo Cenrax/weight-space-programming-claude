@@ -1,0 +1,37 @@
+{
+ "math500": {
+  "source": "HuggingFaceH4/MATH-500",
+  "split": "test",
+  "n": 500,
+  "sha256": "37d979427ad4f11a407b40005cbda189f00331b8481bf7cc14ef13f41cbf195f"
+ },
+ "gsm8k_test": {
+  "source": "openai/gsm8k",
+  "config": "main",
+  "split": "test",
+  "n": 1319,
+  "sha256": "a58f9586e9cff641eeea68bba75adf3fdb6368670ee491704a950c532d2daaa3"
+ },
+ "gsm8k_train": {
+  "source": "openai/gsm8k",
+  "config": "main",
+  "split": "train",
+  "n": 7473,
+  "sha256": "fe8a28b62df98489e2344c239a24d688bcf2a342b54374f466852ee3cd1b8a6c",
+  "overlap_with_test_exact": 0
+ },
+ "math_train": {
+  "source": "EleutherAI/hendrycks_math",
+  "split": "train",
+  "overlap_with_math500_removed": 0,
+  "n": 7498,
+  "sha256": "fb48a490c19171f9ad0d03173ecfcd5ddd7278abfed5570cab7aa1cc8ffa40a1"
+ },
+ "ifeval": {
+  "source": "google/IFEval",
+  "split": "train",
+  "identical_prompts_to_google_research_input_data": false,
+  "n": 541,
+  "sha256": "0efc35b846323f0323d3f4aa7e5c4cf36e76382e70bdd148e3f68c8cc8a1ac60"
+ }
+}

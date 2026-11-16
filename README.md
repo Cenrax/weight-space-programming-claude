@@ -23,6 +23,7 @@ score is in `logs/`.
 | exp5b | Write a policy with a rollout budget | better than zero-shot on 3/3; LunarLander 277.4 |
 | exp6 | Write a 9×9 Go network (1.5M params) | 0 passes: 93.8% / 87.5% / 85.2% vs three PPO nets; 50 passes: 87.1% vs the equal-sized net (weaker opponents than the original) |
 | exp7 | Which Gemma 3 270M finetune is sycophantic? | 6/6 from weights alone, 6/6 with the attention tool |
+| exp8 | Make Qwen3.5-0.8B better at math by editing weights (10/25/50 forward-pass budgets) | MATH-500 6.7% → 51.4 / 55.2 / 58.1%; a temperature-only control reaches 22.1%; Gemma 3 270M control: no gain |
 
 The caveats behind each number are in the write-up.
 
@@ -98,6 +99,16 @@ venv/bin/python scripts/build_blog_data.py            # all experiments -> docs/
 cd docs && ../venv/bin/python -m http.server 8765     # open http://localhost:8765/
 ```
 
+### Experiment 8 (GPU server)
+
+Experiment 8 needs a GPU for generation. I used one NVIDIA H200 on a SLURM cluster, running vLLM as an HTTP
+service (`experiments/exp8/server/`), reached from the machine that runs Claude through an SSH tunnel
+(`experiments/exp8/keep_tunnel.sh`). Server addresses and paths in the code are placeholders: replace
+`user@gpu-server` with your SSH target and `/path/to/wsp` with the working directory on the server, then launch runs
+with `WSP_EXTERNAL_TUNNEL=1 venv/bin/python experiments/exp8/run.py --run b10` (or `b25`, `b50`). The final edits are
+published as sparse diffs against the base model in `logs/exp8/<run>/final_edit_sparse.npz`
+(`experiments/exp8/sparse_edits.py` explains the format); the full-size weight snapshots are not in the repository.
+
 ## Cost
 
 API cost per experiment, summed from `logs/<id>/*/result.json` (pilots and one crashed launch included):
@@ -113,9 +124,10 @@ API cost per experiment, summed from `logs/<id>/*/result.json` (pilots and one c
 | exp5b | 8 | 5.35M | 173k | 6.11 |
 | exp6 | 4 | 10.84M | 284k | 9.77 |
 | exp7 | 12 | 3.57M | 141k | 5.13 |
-| **total** | **183** | **39.64M** | **2.07M** | **74.62** |
+| exp8 | 6 | 7.97M | 86k | 8.48 |
+| **total** | **189** | **47.61M** | **2.16M** | **83.11** |
 
-Input tokens for exp3, exp5b, exp6 and exp7 are mostly cache reads. Harness smoke tests added $0.27.
+Input tokens for exp3, exp5b, exp6, exp7 and exp8 are mostly cache reads. Harness smoke tests added $0.27.
 
 ## Credit
 

@@ -121,12 +121,39 @@
     },
     {
       "experiment": "exp8",
-      "task": "Improve Qwen3.5-0.8B at math by editing weights",
-      "metric": "MATH-500",
+      "task": "Make Qwen3.5-0.8B better at math by editing weights, 50 forward passes",
+      "metric": "MATH-500, base to edited",
       "astra": "7.9% to 48.1%",
-      "opus": null,
+      "opus": "6.7% to 58.1%",
       "higher_is_better": null,
-      "note": "Not run yet (Section 9)."
+      "note": "**Setups differ slightly:** same model, sampling (temperature 0.6, 32,768 tokens) and benchmarks, but budget units of 64 problems vs forward passes averaging 64 sequences (max 512); 1 run per budget in both. Astra removed a layer-15/19 MLP direction (131,072 weights); Opus scaled the final norm (a higher temperature) and edited the “Wait” and `</think>` embedding rows (6,144 weights). Norm scale alone: 20.9%."
+    },
+    {
+      "experiment": "exp8",
+      "task": "The same, 10 and 25 forward passes",
+      "metric": "MATH-500 (10 / 25)",
+      "astra": "12.3% / 14.1%",
+      "opus": "51.4% / 55.2%",
+      "higher_is_better": null,
+      "note": "**Budget units differ** (see above). Astra's small budgets barely helped; Opus's 10-unit edit already gave +44.6 points [41.1, 48.2]. Norm scale alone: 22.1%."
+    },
+    {
+      "experiment": "exp8",
+      "task": "Instruction following after the math edit, 50 forward passes",
+      "metric": "IFEval, base to edited",
+      "astra": "21.0% to 62.3%",
+      "opus": "22.2% to 54.2%",
+      "higher_is_better": null,
+      "note": "**Setups differ slightly** (see above). For Opus the gain is mostly temperature: the norm-scale-only control scores 52.2% (edit − control +2.0 [−1.5, +5.6])."
+    },
+    {
+      "experiment": "exp8",
+      "task": "Control: edit Gemma 3 270M the same way, 25 forward passes",
+      "metric": "MATH-500, base to edited",
+      "astra": "6.8% to ≤7.7%",
+      "opus": "9.2% to 8.3%",
+      "higher_is_better": null,
+      "note": "**Grading differs:** Opus numbers use strict grading (8.9% to 8.2% under the original's lenient grader). No gain in either study; Opus's edit was a pure temperature change, Δ −0.8 [−1.9, +0.2]."
     }
   ]
 }

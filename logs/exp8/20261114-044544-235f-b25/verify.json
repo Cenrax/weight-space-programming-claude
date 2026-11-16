@@ -1,0 +1,50 @@
+{
+ "edit_id": "8333a038a47e5727",
+ "server_verify": {
+  "edit_id": "8333a038a47e5727",
+  "untouched_bit_identical": 486,
+  "edited_tensors_ok": 2,
+  "edited_tensors": 2,
+  "n_weights_changed": 8192,
+  "problems": [],
+  "ok": true,
+  "time": "2026-11-14T17:13:51"
+ },
+ "report": {
+  "edit_id": "8333a038a47e5727",
+  "label": "exp8-b25-save13",
+  "created": "2026-11-14T13:18:11",
+  "n_tensors_submitted": 2,
+  "n_tensors_changed": 2,
+  "n_weights_changed": 8192,
+  "n_lm_params": 752393024,
+  "frac_lm_params_changed": 1.0887926573864672e-05,
+  "lost_to_cast_total": 0,
+  "tensors": {
+   "model.language_model.embed_tokens.weight": {
+    "n_changed": 7168,
+    "numel": 254279680,
+    "lost_to_cast": 0,
+    "rows_changed": 7,
+    "cols_changed": 1024,
+    "delta_fro": 0.300983,
+    "base_fro": 300.821808,
+    "dtype": "bfloat16"
+   },
+   "model.language_model.norm.weight": {
+    "n_changed": 1024,
+    "numel": 1024,
+    "lost_to_cast": 0,
+    "rows_changed": 1024,
+    "cols_changed": null,
+    "delta_fro": 55.81905,
+    "base_fro": 108.034103,
+    "dtype": "bfloat16"
+   }
+  }
+ },
+ "local_matches_server_delta": true,
+ "local_mismatch": [],
+ "n_weights_changed": 8192,
+ "pct_lm": 0.0010887926573864672
+}

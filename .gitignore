@@ -26,3 +26,10 @@ data/exp3/*.txt
 # full-text copy of the original post, kept for reference; it is the original
 # authors' text, so it is not republished here (the article links to it instead)
 blog.md
+# - exp8: copies of Qwen3.5-0.8B and Gemma 3 270M-it (base weights for the sandbox), 2.3 GB
+checkpoints/exp8/
+# - exp8 sandbox weight snapshots and full-tensor final edits (~1 GB each, 30 GB total).
+#   The published form is logs/exp8/<run>/final_edit_sparse.npz (built by experiments/exp8/sparse_edits.py).
+logs/exp8/*/weights/
+logs/exp8/*/final_edit.npz
+experiments/exp8/cache/

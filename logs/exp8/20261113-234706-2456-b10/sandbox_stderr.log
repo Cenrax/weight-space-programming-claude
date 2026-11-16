@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/private/var/folders/k1/2szvp5tn59s5xbzd1p4vpmzc0000gn/T/wsp8_root/wsp_sandbox_wnek7199/_sandbox_worker.py", line 149, in <module>
+    main()
+  File "/private/var/folders/k1/2szvp5tn59s5xbzd1p4vpmzc0000gn/T/wsp8_root/wsp_sandbox_wnek7199/_sandbox_worker.py", line 145, in main
+    _send(("done", _run(msg[1], ns)))
+  File "/private/var/folders/k1/2szvp5tn59s5xbzd1p4vpmzc0000gn/T/wsp8_root/wsp_sandbox_wnek7199/_sandbox_worker.py", line 39, in _send
+    _OUT.write(struct.pack("<Q", len(data)) + data)
+BrokenPipeError: [Errno 32] Broken pipe

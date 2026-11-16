@@ -1,0 +1,40 @@
+{
+ "edit_id": "8722e42e014b776f",
+ "server_verify": {
+  "edit_id": "8722e42e014b776f",
+  "untouched_bit_identical": 235,
+  "edited_tensors_ok": 1,
+  "edited_tensors": 1,
+  "n_weights_changed": 640,
+  "problems": [],
+  "ok": true,
+  "time": "2026-11-15T05:02:30"
+ },
+ "report": {
+  "edit_id": "8722e42e014b776f",
+  "label": "exp8-gemma-b25-save8",
+  "created": "2026-11-15T04:59:47",
+  "n_tensors_submitted": 1,
+  "n_tensors_changed": 1,
+  "n_weights_changed": 640,
+  "n_lm_params": 268098176,
+  "frac_lm_params_changed": 2.3871852078546033e-06,
+  "lost_to_cast_total": 0,
+  "tensors": {
+   "model.norm.weight": {
+    "n_changed": 640,
+    "numel": 640,
+    "lost_to_cast": 0,
+    "rows_changed": 640,
+    "cols_changed": null,
+    "delta_fro": 191.786636,
+    "base_fro": 1355.750122,
+    "dtype": "bfloat16"
+   }
+  }
+ },
+ "local_matches_server_delta": true,
+ "local_mismatch": [],
+ "n_weights_changed": 640,
+ "pct_lm": 0.00023871852078546034
+}

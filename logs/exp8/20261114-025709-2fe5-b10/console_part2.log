@@ -1,0 +1,33 @@
+[b10] collecting interrupted practice call 2 (job p1114030834-935e5c)
+[b10] practice call 2 (2/10 passes): n=64 orig 6.25% (hit 93.75%) → edited 39.06% (hit 57.81%) edit 316cb0a863429162 0s
+[b10] sandbox ready in 560s
+[b10] turn 7 stop=tool_use in=30875 out=395 run $0.492 passes 2/10
+[b10] turn 8 stop=tool_use in=33335 out=1508 run $0.548 passes 2/10
+[b10] turn 9 stop=tool_use in=35009 out=539 run $0.579 passes 2/10
+[b10] turn 10 stop=tool_use in=35971 out=978 run $0.613 passes 2/10
+[b10] practice call 3 (3/10 passes): n=64 orig 14.06% (hit 87.5%) → edited 37.5% (hit 45.31%) edit d9c32819c4aff287 556s
+[b10] turn 11 stop=tool_use in=45851 out=1205 run $0.723 passes 3/10
+[b10] turn 12 stop=tool_use in=47440 out=2240 run $0.790 passes 3/10
+[b10] turn 13 stop=tool_use in=50087 out=834 run $0.837 passes 3/10
+[b10] turn 14 stop=tool_use in=50990 out=106 run $0.857 passes 3/10
+[b10] turn 15 stop=tool_use in=51372 out=332 run $0.877 passes 3/10
+[b10] turn 16 stop=tool_use in=51773 out=412 run $0.898 passes 3/10
+[b10] turn 17 stop=tool_use in=52211 out=445 run $0.921 passes 3/10
+[b10] turn 18 stop=tool_use in=52725 out=3268 run $1.001 passes 3/10
+[b10] turn 19 stop=tool_use in=56481 out=1134 run $1.064 passes 3/10
+[b10] turn 20 stop=tool_use in=58481 out=1336 run $1.118 passes 3/10
+[b10] turn 21 stop=tool_use in=60528 out=669 run $1.160 passes 3/10
+[b10] turn 22 stop=tool_use in=61940 out=305 run $1.189 passes 3/10
+[b10] practice call 4 (4/10 passes): n=64 orig 6.25% (hit 93.75%) → edited 56.25% (hit 34.38%) edit fe180b51504cb10d 506s
+[b10] turn 23 stop=tool_use in=70812 out=314 run $1.279 passes 4/10
+[b10] turn 24 stop=tool_use in=80754 out=369 run $1.380 passes 4/10
+[b10] practice call 5 (5/10 passes): n=64 orig 6.25% (hit 93.75%) → edited 48.44% (hit 21.88%) edit c16de021c1c4ba46 475s
+[b10] turn 25 stop=tool_use in=89264 out=1522 run $1.495 passes 5/10
+[b10] practice call 6 (6/10 passes): n=64 orig 6.25% (hit 93.75%) → edited 50.0% (hit 32.81%) edit 526c35794008233f 505s
+[b10] turn 26 stop=tool_use in=98777 out=685 run $1.602 passes 6/10
+[b10] practice call 7 (8/10 passes): n=128 orig 6.25% (hit 93.75%) → edited 60.94% (hit 21.88%) edit fe180b51504cb10d 930s
+[b10] turn 27 stop=tool_use in=104709 out=533 run $1.680 passes 8/10
+[b10] practice call 8 (10/10 passes): n=128 orig 6.25% (hit 93.75%) → edited 59.38% (hit 17.97%) edit f2e947c750cdd678 889s
+[b10] turn 28 stop=tool_use in=110431 out=160 run $1.750 passes 10/10
+[b10] turn 29 stop=end_turn in=110693 out=1291 run $1.800 passes 10/10
+[b10] done: status complete turns 29 passes 10 cost $1.800 edit fe180b51504cb10d

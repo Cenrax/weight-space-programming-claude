@@ -1,0 +1,68 @@
+{
+ "weights": "base",
+ "edit_id": "base",
+ "model_dir": "/path/to/wsp/models/gemma-3-270m-it",
+ "started": "2026-11-13T22:28:21+0530",
+ "settings": {
+  "family": "gemma",
+  "sampling": {
+   "temperature": 1.0,
+   "top_p": 0.95,
+   "top_k": 64,
+   "min_p": 0.0,
+   "presence_penalty": 0.0,
+   "repetition_penalty": 1.0
+  },
+  "max_tokens": 8192,
+  "max_model_len": 10240,
+  "enable_thinking": false,
+  "prompt_formats": {
+   "math": "{problem}\nPlease reason step by step, and put your final answer within \\boxed{}.",
+   "gsm8k": "{problem}\nPlease reason step by step, and put your final answer within \\boxed{}.",
+   "ifeval": "{prompt}"
+  },
+  "grading": {
+   "answer_section": "text after the last </think> (thinking models); empty if thinking never closed",
+   "math": "last \\boxed{} in the answer section; math-verify (gold vs pred), else normalized string match; if no \\boxed, math-verify extraction on the answer section",
+   "gsm8k": "numeric match of the last \\boxed{} in the answer section, else its last number",
+   "ifeval": "official google-research instruction_following_eval checker; primary = prompt-level strict",
+   "hit_limit": "finish_reason == 'length'"
+  }
+ },
+ "limit": null,
+ "seed": 0,
+ "benchmarks": {
+  "math500": {
+   "n": 2000,
+   "accuracy": 9.15,
+   "hit_limit_pct": 4.6,
+   "mean_len": 1173.8,
+   "median_len": 673.5,
+   "has_answer_pct": 100.0,
+   "lenient_accuracy": 9.15,
+   "accuracy_among_finished": 9.49,
+   "n_items": 500,
+   "samples_per_item": 4,
+   "accuracy_by_level": {
+    "1": 21.5,
+    "2": 17.8,
+    "3": 12.4,
+    "4": 3.1,
+    "5": 2.6
+   }
+  }
+ },
+ "timing": {
+  "generate_s": 81.5,
+  "tokens": 2347531,
+  "tok_per_s": 28789.6,
+  "load_s": 56.6,
+  "total_s": 139.8
+ },
+ "items_file": "exp8/results/gemma_base.items.jsonl.gz",
+ "versions": {
+  "vllm": "0.33.0",
+  "torch": "2.14.0+cu130",
+  "python": "3.12.3"
+ }
+}

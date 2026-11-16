@@ -1,0 +1,68 @@
+{
+ "weights": "8722e42e014b776f",
+ "edit_id": "8722e42e014b776f",
+ "model_dir": "/path/to/wsp/exp8/models_edited/8722e42e014b776f",
+ "started": "2026-11-15T05:04:16+0530",
+ "settings": {
+  "family": "gemma",
+  "sampling": {
+   "temperature": 1.0,
+   "top_p": 0.95,
+   "top_k": 64,
+   "min_p": 0.0,
+   "presence_penalty": 0.0,
+   "repetition_penalty": 1.0
+  },
+  "max_tokens": 8192,
+  "max_model_len": 10240,
+  "enable_thinking": false,
+  "prompt_formats": {
+   "math": "{problem}\nPlease reason step by step, and put your final answer within \\boxed{}.",
+   "gsm8k": "{problem}\nPlease reason step by step, and put your final answer within \\boxed{}.",
+   "ifeval": "{prompt}"
+  },
+  "grading": {
+   "answer_section": "text after the last </think> (thinking models); empty if thinking never closed",
+   "math": "last \\boxed{} in the answer section; math-verify (gold vs pred), else normalized string match; if no \\boxed, math-verify extraction on the answer section",
+   "gsm8k": "numeric match of the last \\boxed{} in the answer section, else its last number",
+   "ifeval": "official google-research instruction_following_eval checker; primary = prompt-level strict",
+   "hit_limit": "finish_reason == 'length'"
+  }
+ },
+ "limit": null,
+ "seed": 0,
+ "benchmarks": {
+  "math500": {
+   "n": 2000,
+   "accuracy": 8.3,
+   "hit_limit_pct": 2.0,
+   "mean_len": 948.5,
+   "median_len": 676.0,
+   "has_answer_pct": 100.0,
+   "lenient_accuracy": 8.3,
+   "accuracy_among_finished": 8.47,
+   "n_items": 500,
+   "samples_per_item": 4,
+   "accuracy_by_level": {
+    "1": 20.9,
+    "2": 15.8,
+    "3": 11.0,
+    "4": 2.3,
+    "5": 2.8
+   }
+  }
+ },
+ "timing": {
+  "generate_s": 71.1,
+  "tokens": 1897047,
+  "tok_per_s": 26690.3,
+  "load_s": 48.3,
+  "total_s": 120.9
+ },
+ "items_file": "exp8/results/exp8_gemma-b25_8722e42e014b776f.items.jsonl.gz",
+ "versions": {
+  "vllm": "0.33.0",
+  "torch": "2.14.0+cu130",
+  "python": "3.12.3"
+ }
+}

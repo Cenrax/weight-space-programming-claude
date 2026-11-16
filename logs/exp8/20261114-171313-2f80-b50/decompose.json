@@ -1,0 +1,42 @@
+{
+ "run": "20261114-171313-2f80-b50",
+ "tag": "b50",
+ "n_tensors": 2,
+ "tensors": {
+  "norm.weight": {
+   "shape": [
+    1024
+   ],
+   "n_changed": 1024,
+   "rel_change": 0.41338237846552117,
+   "scale_median": 0.68,
+   "scale_rms_dev": 0.0012070054419330708,
+   "scale_max_dev": 0.006191950464396134
+  },
+  "embed_tokens.weight": {
+   "shape": [
+    248320,
+    1024
+   ],
+   "n_changed": 5120,
+   "rel_change": 0.0012167251072413632,
+   "rows_changed": 5,
+   "cols_changed": 1024,
+   "sv_share_top1": 0.6897306095236027,
+   "sv_top5": [
+    0.31738281798233325,
+    0.14262541940132042,
+    0.11224484523012192,
+    0.09098030734602998,
+    0.06399239854194808
+   ]
+  }
+ },
+ "n_weights_changed": 6144,
+ "final_norm_scale": 0.68,
+ "classification": "mixed",
+ "matched_control": {
+  "temperature": 0.8824,
+  "presence_penalty": 2.2059
+ }
+}

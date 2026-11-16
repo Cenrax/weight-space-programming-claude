@@ -1,0 +1,255 @@
+{
+  "exp_id": "exp8",
+  "title": "Fix: make Qwen3.5-0.8B better at math",
+  "status": "done",
+  "summary": "Claude Opus 5.5 got Qwen3.5-0.8B's weights in a Python sandbox, a budget of 10, 25 or 50 forward passes (64 GSM8K/MATH training problems each, original vs edited weights side by side), and the task \"make this model better at math by editing its weights, without training or gradients\". Sampling followed the original (thinking, temperature 0.6, 32,768 tokens); final edits were scored on MATH-500 (4 samples), GSM8K and IFEval (2 samples each). The unedited model reproduces the original's baseline: MATH-500 6.7% (original 7.9%), 93% of answers running to the token limit.\n\nEvery run found the same failure (endless \"Wait, \u2026\" loops) and fixed it: MATH-500 rose to 51.4% / 55.2% / 58.1% with 10 / 25 / 50 forward passes (+44.6 / +48.5 / +51.4 points, 95% CIs all above +41), GSM8K to 64.8\u201368.2%, IFEval to 43.6\u201354.2%, and the share hitting 32k fell from 93% to 29\u201339%. By the pre-registered rule the 50-pass result replicates the original (48.1% MATH-500, 67.1% GSM8K, 62.3% IFEval, 33% at the limit). Unlike the original, 10 passes were already enough.\n\nClaude's edits differ from the original's. Instead of removing a direction from the layer-15/19 MLPs (131,072 weights), every run scaled the final RMSNorm (all logits \u00d70.6\u20130.68, i.e. a higher effective temperature) and made \"Wait\" less and `</think>` more likely, through the tied embedding rows (b25: 8,192 weights; b50: 6,144) or, at 10 passes, the outputs of layers 20\u201323. A pre-registered control isolates the temperature part: the final-norm scaling alone lifts MATH-500 only to 20.9\u201322.1% (looping turns into rambling: 77\u201379% still hit the limit); the token-level changes add 29\u201337 points more, so all three edits \"do more than change temperature\" by the pre-registered rule. On Gemma 3 270M, which barely loops, Claude's best edit (a pure temperature change) moved MATH-500 by \u22120.8 points [\u22121.9, +0.2] (9.2% \u2192 8.3%), as in the original. All edits were verified (every other tensor bit-identical); no run broke the no-forward-pass rule. API cost $8.48 for Exp 8.\n",
+  "table": {
+    "caption": "Qwen3.5-0.8B, thinking mode, temperature 0.6, 32,768 tokens. Accuracy % with the paired change vs base and its 95% bootstrap CI. Hit limit = % of MATH-500 answers that reached 32,768 tokens (Gemma: 8,192). Kind: what the final edit is (GRADING.md): 'mixed' = a final-norm logit scale (higher effective temperature) plus targeted token or direction changes. Control rows: the final-norm part of the edits alone. Last column: the original post's MATH-500 / GSM8K / IFEval / hit limit with GPT-6 Astra.",
+    "columns": [
+      "Model",
+      "MATH-500",
+      "GSM8K",
+      "IFEval",
+      "Hit limit %",
+      "Weights changed",
+      "Kind",
+      "API cost",
+      "Original (Astra)"
+    ],
+    "rows": [
+      [
+        "Base (temperature 0.6)",
+        "6.7",
+        "11.6",
+        "22.2",
+        "93.3",
+        "\u2014",
+        "\u2014",
+        "\u2014",
+        "7.9 / 13.8 / 21.0 / 93.0"
+      ],
+      [
+        "Edited, 10 forward passes",
+        "51.4 (+44.6 [+41.1, +48.2])",
+        "67.4 (+55.8 [+53.5, +58.0])",
+        "48.9 (+26.7 [+22.9, +30.5])",
+        "39.1",
+        "18,519,147 (2.461%)",
+        "mixed",
+        "$1.80",
+        "12.3 / 25.7 / 49.0 / 87.2"
+      ],
+      [
+        "Edited, 25 forward passes",
+        "55.2 (+48.5 [+45.0, +52.1])",
+        "64.8 (+53.1 [+50.9, +55.3])",
+        "43.6 (+21.4 [+17.6, +25.3])",
+        "28.8",
+        "8,192 (0.001%)",
+        "mixed",
+        "$2.81",
+        "14.1 / 25.1 / 39.9 / 86.4"
+      ],
+      [
+        "Edited, 50 forward passes",
+        "58.1 (+51.4 [+47.9, +55.0])",
+        "68.2 (+56.5 [+54.3, +58.8])",
+        "54.2 (+32.1 [+28.5, +35.7])",
+        "32.7",
+        "6,144 (0.001%)",
+        "mixed",
+        "$3.08",
+        "48.1 / 67.1 / 62.3 / 33.1"
+      ],
+      [
+        "Control: final-norm scale only, s = 0.6 (b10, b25)",
+        "22.1 (+15.4 [+12.9, +17.9])",
+        "42.7 (+31.1 [+28.9, +33.2])",
+        "45.8 (+23.6 [+19.9, +27.2])",
+        "76.9",
+        "1,024",
+        "temperature only",
+        "\u2014",
+        "\u2014"
+      ],
+      [
+        "Control: final-norm scale only, s = 0.68 (b50)",
+        "20.9 (+14.2 [+11.9, +16.6])",
+        "39.4 (+27.7 [+25.7, +29.8])",
+        "52.2 (+30.0 [+26.5, +33.6])",
+        "79.0",
+        "1,024",
+        "temperature only",
+        "\u2014",
+        "\u2014"
+      ],
+      [
+        "Gemma 3 270M base (control model; MATH-500 \u00d74, 8k tokens)",
+        "9.2",
+        "\u2014",
+        "\u2014",
+        "4.6",
+        "\u2014",
+        "\u2014",
+        "\u2014",
+        "6.8 (lenient grading)"
+      ],
+      [
+        "Gemma 3 270M edited, 25 forward passes",
+        "8.3 (-0.8 [-1.9, +0.2])",
+        "\u2014",
+        "\u2014",
+        "2.0",
+        "640 (0.0002%)",
+        "pure temperature-like",
+        "$0.52",
+        "7.7 (lenient grading)"
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "Qwen3.5-0.8B \u00b7 10 forward passes (\u00d764 problems)",
+      "answer": "Final norm \u00d70.6, so logits are 0.6\u00d7 and T=0.6 acts like T\u22481.0 (presence penalty \u22482.5). Layers 20\u201323 attention/MLP outputs: removed 35% of the \"Wait\"-readout direction; layer 23 MLP: amplified the `</think>`-readout component by 1.3\u00d7. This stops the loops and the endless second-guessing.",
+      "correct": null,
+      "confidence": null,
+      "reasoning_excerpt": "I've saved the final edit, and it's the exact version I tested (edit id `fe180b51504cb10d`). On 128 practice problems it hasn't seen before, accuracy went from 6.3% with the original weights to 60.9%: GSM8K 9.4% \u2192 70.3%, MATH 3.1% \u2192 51.6%. All results are on the training-set practice pools, not on the held-out benchmarks you score on.\n\nEDIT: Final norm \u00d70.6, so logits are 0.6\u00d7 and T=0.6 acts like T\u22481.0 (presence penalty \u22482.5). Layers 20\u201323 attention/MLP outputs: removed 35% of the \"Wait\"-readout direction; layer 23 MLP: amplified the `</think>`-readout component by 1.3\u00d7. This stops the loops and the endless second-guessing.\n\n**What I found and changed after each forward pass**\n\n1. **Original weights on both sides (64 problems):** 10.9% accuracy, and 89% of answers ran to the 32k-token limi \u2026",
+      "prompt_excerpt": "Make this model better at math by editing its weights, without training or gradients.\n\nThe model is Qwen3.5-0.8B. It is used as a reasoning model, in the thinking mode of its chat template: each answer is a chain of thought that ends with `</think>`, followed by the final answer. A math problem is sent as one user message, `{problem}\\nPlease reason step by step, and put your final answer within \\b \u2026",
+      "log_path": "logs/exp8/20261114-025709-2fe5-b10"
+    },
+    {
+      "label": "Qwen3.5-0.8B \u00b7 25 forward passes (\u00d764 problems)",
+      "answer": "Final norm (1+w) scaled \u00d70.6 (logits \u00d70.6, i.e. temperature 0.6\u2192~1.0, which breaks the loops); tied embedding rows scaled: Wait/ Wait/ wait/wait \u00d70.8, Hmm/ Hmm \u00d70.9 (less \"Wait\" rambling), </think> \u00d71.3 (ends thinking sooner). Practice accuracy went from ~6\u201310% to ~60%.",
+      "correct": null,
+      "confidence": null,
+      "reasoning_excerpt": "I raised practice accuracy from about 6\u201310% to about 60% by changing 8,192 weights in two tensors. The final saved edit is exactly the version tested in the last run, on 256 new problems: accuracy went from 10.2% to 60.5% (paired gain +50.4 \u00b1 3.1 points). GSM8K went from 9% to 63% and MATH from 11% to 58%.\n\nThe original model's problem wasn't really weak math. About 94% of its answers ran to the 32,768-token limit, almost all stuck repeating the same \"Wait, \u2026\" lines, so it never reached `</think>` or a boxed answer. Whenever it did finish, it was right every time.\n\n**What I found after each forward pass** (I used 23 of the 25 passes; the last 2 are unspent):\n1. **Original vs original, 128 problems:** 6.25% accuracy, 94% hit the limit, 119 of 128 ended in a loop. No weight looked abnormal. \u2026",
+      "prompt_excerpt": "Make this model better at math by editing its weights, without training or gradients.\n\nThe model is Qwen3.5-0.8B. It is used as a reasoning model, in the thinking mode of its chat template: each answer is a chain of thought that ends with `</think>`, followed by the final answer. A math problem is sent as one user message, `{problem}\\nPlease reason step by step, and put your final answer within \\b \u2026",
+      "log_path": "logs/exp8/20261114-044544-235f-b25"
+    },
+    {
+      "label": "Qwen3.5-0.8B \u00b7 50 forward passes (\u00d764 problems)",
+      "answer": "Final norm weights scaled so (1+w) is 0.68\u00d7 the original, which multiplies all logits by 0.68 (sampling temp 0.6 acts like ~0.88). The 4 \"Wait\"/\"wait\" embedding rows are scaled \u00d70.7 and the `</think>` row \u00d71.25. This breaks the endless repetition loops and cuts self-doubt so more answers finish.",
+      "correct": null,
+      "confidence": null,
+      "reasoning_excerpt": "EDIT: Final norm weights scaled so (1+w) is 0.68\u00d7 the original, which multiplies all logits by 0.68 (sampling temp 0.6 acts like ~0.88). The 4 \"Wait\"/\"wait\" embedding rows are scaled \u00d70.7 and the `</think>` row \u00d71.25. This breaks the endless repetition loops and cuts self-doubt so more answers finish.\n\n**Result:** accuracy went from about 7\u201314% to about 52\u201365% on every practice set I tried. On the last check, 192 fresh mixed problems, it went from 10.4% to 58.3% (GSM8K 13.5\u219266.7, MATH 7.3\u219250.0). The saved edit is exactly this tested one (id 94151e90db353e68). It changes 6,144 weights in 2 tensors, and none were lost to bf16 rounding. I used 44 of the 50 passes.\n\n**What each forward pass showed and what I changed:**\n1. **Baseline (original weights on both sides, 128 problems):** 12.5% corre \u2026",
+      "prompt_excerpt": "Make this model better at math by editing its weights, without training or gradients.\n\nThe model is Qwen3.5-0.8B. It is used as a reasoning model, in the thinking mode of its chat template: each answer is a chain of thought that ends with `</think>`, followed by the final answer. A math problem is sent as one user message, `{problem}\\nPlease reason step by step, and put your final answer within \\b \u2026",
+      "log_path": "logs/exp8/20261114-171313-2f80-b50"
+    },
+    {
+      "label": "Gemma 3 270M-it \u00b7 25 forward passes (\u00d764 problems)",
+      "answer": "Final norm gain (1+w) scaled by 0.86, so all logits are \u00d70.86, like sampling at temperature \u22481.16. Lower temperature clearly hurt. This roughly halves answers that loop to the 8,192-token limit, but its accuracy gain over the original is about zero, within noise.",
+      "correct": null,
+      "confidence": null,
+      "reasoning_excerpt": "EDIT: Final norm gain (1+w) scaled by 0.86, so all logits are \u00d70.86, like sampling at temperature \u22481.16. Lower temperature clearly hurt. This roughly halves answers that loop to the 8,192-token limit, but its accuracy gain over the original is about zero, within noise.\n\nI didn't find an edit that clearly makes the model better at math. The saved edit has a reliable side effect (less looping), but its accuracy effect is too small to tell from noise.\n\n**How the edit works:** the model has no final logit softcapping, and the output layer reads the final RMSNorm output. Multiplying the norm's gain (1+w) by \u03b1 therefore multiplies every logit by \u03b1, which is the same as sampling at temperature 1/\u03b1. It's a 640-weight change and nothing was lost to bf16 rounding. All differences below are edited mi \u2026",
+      "prompt_excerpt": "Make this model better at math by editing its weights, without training or gradients.\n\nThe model is Gemma 3 270M-it. A math problem is sent as one user message in its chat format, `{problem}\\nPlease reason step by step, and put your final answer within \\boxed{}.`, and sampled with its model card's settings (temperature 1.0, top_k 64, top_p 0.95), with at most 8,192 generated tokens. The answer's l \u2026",
+      "log_path": "logs/exp8/20261115-045312-5181-gemma-b25"
+    },
+    {
+      "label": "Abandoned first pilot (per-call budget; excluded from results)",
+      "answer": null,
+      "correct": null,
+      "confidence": null,
+      "reasoning_excerpt": null,
+      "prompt_excerpt": "Make this model better at math by editing its weights, without training or gradients.\n\nThe model is Qwen3.5-0.8B. It is used as a reasoning model, in the thinking mode of its chat template: each answer is a chain of thought that ends with `</think>`, followed by the final answer. A math problem is sent as one user message, `{problem}\\nPlease reason step by step, and put your final answer within \\b \u2026",
+      "group": "excluded",
+      "log_path": "logs/exp8/20261113-234706-2456-b10"
+    },
+    {
+      "label": "Infrastructure test call (checks the 1 h prompt-cache TTL); not an experiment run",
+      "answer": null,
+      "correct": null,
+      "confidence": null,
+      "reasoning_excerpt": null,
+      "prompt_excerpt": null,
+      "group": "excluded",
+      "log_path": "logs/exp8/_api_test_ttl"
+    }
+  ],
+  "media": [
+    {
+      "type": "png",
+      "src": "assets/figures/exp8_budget.png",
+      "caption": "Qwen3.5-0.8B: final saved edit vs base on MATH-500 (4 samples), GSM8K and IFEval (2 samples each), by the number of 64-problem forward passes Claude could use; right: share of MATH-500 answers hitting 32,768 tokens. Error bars: 95% paired bootstrap CI.",
+      "alt": "Line chart of benchmark accuracy against practice budget, and a bar chart of the share of answers hitting the token limit."
+    }
+  ],
+  "checkpoints": [],
+  "charts": [
+    {
+      "type": "bar",
+      "title": "MATH-500: full edit vs its temperature part",
+      "subtitle": "accuracy %, final saved edit; base 6.7% (original post 7.9%)",
+      "unit": "%",
+      "categories": [
+        "10 passes",
+        "25 passes",
+        "50 passes"
+      ],
+      "series": [
+        {
+          "name": "final-norm scale only (temperature)",
+          "values": [
+            22.1,
+            22.1,
+            20.9
+          ]
+        },
+        {
+          "name": "Claude's full edit",
+          "values": [
+            51.4,
+            55.2,
+            58.1
+          ]
+        },
+        {
+          "name": "Astra (original post)",
+          "values": [
+            12.3,
+            14.1,
+            48.1
+          ]
+        }
+      ],
+      "caption": "MATH-500, 4 samples per problem (n = 2,000 per bar here). The 10- and 25-pass edits use the same final-norm scale (\u00d70.6), so they share one control run. Full edit minus control: +29.3, +33.2 and +37.2 points, 95% CIs all above +26. One run per budget."
+    },
+    {
+      "type": "bar",
+      "title": "IFEval: the gain is mostly temperature",
+      "subtitle": "prompt-level strict accuracy %; base 22.2% (original post 21.0%)",
+      "unit": "%",
+      "categories": [
+        "10 passes",
+        "25 passes",
+        "50 passes"
+      ],
+      "series": [
+        {
+          "name": "final-norm scale only (temperature)",
+          "values": [
+            45.8,
+            45.8,
+            52.2
+          ]
+        },
+        {
+          "name": "Claude's full edit",
+          "values": [
+            48.9,
+            43.6,
+            54.2
+          ]
+        },
+        {
+          "name": "Astra (original post)",
+          "values": [
+            49.0,
+            39.9,
+            62.3
+          ]
+        }
+      ],
+      "caption": "IFEval, 2 samples per prompt (n = 1,082 per bar here). Full edit minus control: +3.1, \u22122.1 and +2.0 points; every 95% CI includes 0."
+    }
+  ]
+}

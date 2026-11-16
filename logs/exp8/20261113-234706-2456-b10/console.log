@@ -1,0 +1,93 @@
+[b10] run dir /Users/subham/Desktop/codes/weightspaceprogrammingclaude/logs/exp8/20261113-234706-2456-b10
+[b10] sandbox ready in 4s
+[b10] turn 1 stop=tool_use in=4283 out=440 run $0.030 passes 0/10
+[b10] turn 2 stop=tool_use in=5990 out=210 run $0.044 passes 0/10
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 1/2 in 1s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 2/2 in 2s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+; retrying in 15s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 1/2 in 1s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 2/2 in 2s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+; retrying in 30s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 1/2 in 1s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 2/2 in 2s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+; retrying in 60s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 1/2 in 1s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 2/2 in 2s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+; retrying in 120s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 1/2 in 1s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 2/2 in 2s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+; retrying in 240s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 1/2 in 1s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 2/2 in 2s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+; retrying in 300s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 1/2 in 1s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+); retry 2/2 in 2s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: ssh tunnel exited: ssh: connect to host gpu-server port 22: Network is unreachable
+; retrying in 300s
+[remote] starting tunnel: ssh -N -L 8800:localhost:8800 user@gpu-server
+[remote] GET /result/p1113234720-25ca59 failed (Remote end closed connection without response); retry 1/2 in 1s
+[remote] GET /result/p1113234720-25ca59 failed ([Errno 54] Connection reset by peer); retry 2/2 in 2s
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: [Errno 54] Connection reset by peer; retrying in 15s
+[remote] GET /health failed ([Errno 54] Connection reset by peer); retry 1/2 in 1s
+[remote] GET /health failed ([Errno 54] Connection reset by peer); retry 2/2 in 2s
+[remote] GET /result/p1113234720-25ca59 failed ([Errno 54] Connection reset by peer); retry 1/2 in 1s
+[remote] GET /result/p1113234720-25ca59 failed ([Errno 54] Connection reset by peer); retry 2/2 in 2s
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: [Errno 54] Connection reset by peer; retrying in 30s
+[remote] GET /health failed ([Errno 54] Connection reset by peer); retry 1/2 in 1s
+[remote] GET /health failed ([Errno 54] Connection reset by peer); retry 2/2 in 2s
+[remote] GET /result/p1113234720-25ca59 failed ([Errno 54] Connection reset by peer); retry 1/2 in 1s
+[remote] GET /result/p1113234720-25ca59 failed ([Errno 54] Connection reset by peer); retry 2/2 in 2s
+[remote] poll practice: GET /result/p1113234720-25ca59 failed after 3 attempts: [Errno 54] Connection reset by peer; retrying in 60s
+[b10] practice 1/10: n=512 orig 9.96% (hit 89.45%) → edited 10.74% (hit 88.67%) edit base 7536s
+[b10] turn 3 stop=tool_use in=13767 out=509 run $0.123 passes 1/10
+[b10] turn 4 stop=tool_use in=19945 out=1197 run $0.180 passes 1/10
+[b10] turn 5 stop=tool_use in=21711 out=252 run $0.198 passes 1/10
+[b10] turn 6 stop=tool_use in=22970 out=740 run $0.224 passes 1/10
+[b10] turn 7 stop=tool_use in=23847 out=103 run $0.235 passes 1/10

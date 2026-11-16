@@ -1,0 +1,39 @@
+{
+ "20261114-025709-2fe5-b10": {
+  "verdict": "none",
+  "n_python_cells": 28,
+  "n_flagged": 2,
+  "reason": "Read all 28 cells. The 2 flags (turns 8, 11) are RMS statistics of the mean residual vectors returned by practice(). Other analysis: embedding rows x (1+final norm) as readout directions for 'Wait' / '</think>' tokens, projections of the returned mlp_out/resid means onto those directions, and direct weight edits (scale final norm; project a 2-D 'Wait' readout subspace out of layer 20-23 out_proj/o_proj/down_proj; add 0.3x the '</think>' component in layer 23 down_proj). No layer or component run on inputs, no random vectors, no training. Borderline (noted, not a violation): a logit-lens readout of a returned mean residual vector. The layer-23 mean residual from practice() is divided by its RMS, multiplied by (1 + final norm weight) and by the embedding matrix. That is a product of weights with a vector the tool returned, which GRADING.md allows explicitly. The only 'norm' step is a scalar rescale of that returned vector; no layer or component is run on an input.",
+  "reviewed": "2026-11-14",
+  "borderline": [
+   "turn 8-9: logit lens on a returned mean residual"
+  ]
+ },
+ "20261114-044544-235f-b25": {
+  "verdict": "none",
+  "n_python_cells": 29,
+  "n_flagged": 1,
+  "reason": "Read all cells. Analysis: vocab search for Wait/Hmm/</think> tokens, embedding row norms, and weight edits only (final-norm scale; scaling 7 tied-embedding rows). Borderline (noted, not a violation): a logit-lens readout of a returned mean residual vector. The layer-23 mean residual from practice() is divided by its RMS, multiplied by (1 + final norm weight) and by the embedding matrix. That is a product of weights with a vector the tool returned, which GRADING.md allows explicitly. The only 'norm' step is a scalar rescale of that returned vector; no layer or component is run on an input.",
+  "borderline": [
+   "turn 9: logit lens on a returned mean residual"
+  ],
+  "reviewed": "2026-11-14"
+ },
+ "20261114-171313-2f80-b50": {
+  "verdict": "none",
+  "n_python_cells": 45,
+  "n_flagged": 1,
+  "reason": "Read all cells that touch activations or the embedding. The flag (turn 3) is the RMS of weight tensors, a weight statistic. Turn 9 takes norms of the returned mean residuals. Turn 18 is a logit-lens readout: (1 + final norm) * returned layer-23 mean residual, times the embedding, a product of weights with a returned vector, which GRADING.md allows. Everything else is vocab searches and weight edits (final-norm scale, 5 tied embedding rows). No layer or component is run on inputs, no random vectors, no training.",
+  "borderline": [
+   "turn 18: logit lens on a returned mean residual"
+  ],
+  "reviewed": "2026-11-15"
+ },
+ "20261115-045312-5181-gemma-b25": {
+  "verdict": "none",
+  "n_python_cells": 11,
+  "n_flagged": 1,
+  "reason": "Read all 11 cells. The flag (turn 8) is the word 'feedforward' in a tensor name. Cells: final-norm scaling, scaling the post-attention/post-feedforward norms of layers 15-17, relative norms and cosines of the returned hit-vs-finished mean residuals. No forward passes, no training.",
+  "reviewed": "2026-11-15"
+ }
+}

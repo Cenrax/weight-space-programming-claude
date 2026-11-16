@@ -1,0 +1,42 @@
+{
+ "run": "20261114-044544-235f-b25",
+ "tag": "b25",
+ "n_tensors": 2,
+ "tensors": {
+  "norm.weight": {
+   "shape": [
+    1024
+   ],
+   "n_changed": 1024,
+   "rel_change": 0.5166799031642783,
+   "scale_median": 0.6,
+   "scale_rms_dev": 0.0008617494773708846,
+   "scale_max_dev": 0.005847953216374324
+  },
+  "embed_tokens.weight": {
+   "shape": [
+    248320,
+    1024
+   ],
+   "n_changed": 7168,
+   "rel_change": 0.0009582765931880143,
+   "rows_changed": 7,
+   "cols_changed": 1024,
+   "sv_share_top1": 0.5050348631172535,
+   "sv_top5": [
+    0.21389604367625203,
+    0.1696093110693697,
+    0.07500048141483846,
+    0.06700376133266228,
+    0.05696355989978658
+   ]
+  }
+ },
+ "n_weights_changed": 8192,
+ "final_norm_scale": 0.6,
+ "classification": "mixed",
+ "matched_control": {
+  "temperature": 1.0,
+  "presence_penalty": 2.5
+ }
+}

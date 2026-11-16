@@ -40,13 +40,16 @@ def _send(obj) -> None:
 
 
 def _read_exact(n: int) -> bytes:
-    buf = b""
-    while len(buf) < n:
-        chunk = _IN.read(n - len(buf))
-        if not chunk:
+    # bytearray + readinto: linear time for large payloads (a 1 GB pickle was quadratic with bytes +=)
+    buf = bytearray(n)
+    view = memoryview(buf)
+    got = 0
+    while got < n:
+        k = _IN.readinto(view[got:])
+        if not k:
             raise EOFError
-        buf += chunk
-    return buf
+        got += k
+    return bytes(buf)
 
 
 def _recv():

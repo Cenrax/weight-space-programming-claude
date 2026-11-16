@@ -1,0 +1,23 @@
+[gemma-b25] run dir /Users/subham/Desktop/codes/weightspaceprogrammingclaude/logs/exp8/20261115-045312-5181-gemma-b25
+[gemma-b25] sandbox ready in 1s
+[gemma-b25] turn 1 stop=tool_use in=3869 out=407 run $0.039 passes 0/25
+[gemma-b25] turn 2 stop=tool_use in=4977 out=318 run $0.055 passes 0/25
+[gemma-b25] practice call 1 (2/25 passes): n=128 orig 13.28% (hit 3.12%) → edited 7.81% (hit 13.28%) edit cafe9f4ae71175f0 44s
+[gemma-b25] turn 3 stop=tool_use in=11699 out=1913 run $0.148 passes 2/25
+[gemma-b25] turn 4 stop=tool_use in=13921 out=1715 run $0.203 passes 2/25
+[gemma-b25] practice call 2 (4/25 passes): n=128 orig 6.25% (hit 3.12%) → edited 10.94% (hit 3.12%) edit 0271de59cc0013e2 41s
+[gemma-b25] turn 5 stop=tool_use in=24968 out=470 run $0.303 passes 4/25
+[gemma-b25] practice call 3 (6/25 passes): n=128 orig 13.28% (hit 3.12%) → edited 14.84% (hit 1.56%) edit 67777e58c852c202 41s
+[gemma-b25] turn 6 stop=tool_use in=26051 out=853 run $0.334 passes 6/25
+[gemma-b25] practice call 4 (8/25 passes): n=128 orig 10.16% (hit 3.12%) → edited 8.59% (hit 2.34%) edit 0f2ddc40838438d9 41s
+[gemma-b25] turn 7 stop=tool_use in=27523 out=872 run $0.368 passes 8/25
+[gemma-b25] practice call 5 (12/25 passes): n=256 orig 12.11% (hit 1.56%) → edited 12.5% (hit 1.17%) edit 38c4b99f17181354 41s
+[gemma-b25] turn 8 stop=tool_use in=29009 out=1084 run $0.407 passes 12/25
+[gemma-b25] practice call 6 (14/25 passes): n=128 orig 11.72% (hit 1.56%) → edited 9.38% (hit 1.56%) edit bf62967e35567894 41s
+[gemma-b25] turn 9 stop=tool_use in=31112 out=458 run $0.439 passes 14/25
+[gemma-b25] practice call 7 (16/25 passes): n=128 orig 12.5% (hit 3.91%) → edited 9.38% (hit 3.12%) edit 4131de4f1823244b 41s
+[gemma-b25] turn 10 stop=tool_use in=32591 out=284 run $0.463 passes 16/25
+[gemma-b25] practice call 8 (24/25 passes): n=512 orig 11.52% (hit 2.73%) → edited 10.35% (hit 1.17%) edit 8722e42e014b776f 61s
+[gemma-b25] turn 11 stop=tool_use in=33488 out=518 run $0.487 passes 24/25
+[gemma-b25] turn 12 stop=end_turn in=34363 out=1211 run $0.525 passes 24/25
+[gemma-b25] done: status complete turns 12 passes 24 cost $0.525 edit 8722e42e014b776f

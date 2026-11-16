@@ -1,0 +1,29 @@
+{
+ "run": "20261114-025709-2fe5-b10",
+ "n_python_cells": 28,
+ "n_flagged": 2,
+ "flagged": [
+  {
+   "turn": 8,
+   "kinds": [
+    "norm_apply"
+   ],
+   "lines": {
+    "norm_apply": [
+     "14: rms=np.sqrt((hm**2).mean()); print('rms of mean',rms)"
+    ]
+   }
+  },
+  {
+   "turn": 11,
+   "kinds": [
+    "norm_apply"
+   ],
+   "lines": {
+    "norm_apply": [
+     "5: print(side,g_, 'dim0 by layer', np.round(R[[0,5,10,15,20,22,23],0],2), 'rms L23', round(float(np.sqrt((R[-1]**2).mean())),3))"
+    ]
+   }
+  }
+ ]
+}
